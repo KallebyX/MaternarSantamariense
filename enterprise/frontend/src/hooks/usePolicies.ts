@@ -1,7 +1,7 @@
 import { useQuery, useMutation } from '@apollo/client'
 import { GET_POLICIES, GET_POLICY } from '../graphql/queries'
 import { MARK_POLICY_AS_READ, ACKNOWLEDGE_POLICY } from '../graphql/mutations'
-import { useToast } from '../components/providers/ToastProvider'
+import { useToast } from '../components/ui/Toast'
 import { useState } from 'react'
 
 export const usePolicies = () => {

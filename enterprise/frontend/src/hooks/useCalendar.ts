@@ -1,7 +1,7 @@
 import { useQuery, useMutation } from '@apollo/client'
 import { GET_EVENTS, GET_EVENT } from '../graphql/queries'
 import { CREATE_EVENT, UPDATE_EVENT_ATTENDANCE } from '../graphql/mutations'
-import { useToast } from '../components/providers/ToastProvider'
+import { useToast } from '../components/ui/Toast'
 import { useState } from 'react'
 
 export const useCalendar = (startDate?: Date, endDate?: Date) => {

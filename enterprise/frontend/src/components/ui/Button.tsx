@@ -1,10 +1,10 @@
 import React from 'react'
 import { Loader2 } from 'lucide-react'
 
-interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
-  variant?: 'primary' | 'secondary' | 'outline' | 'ghost' | 'danger' | 'success' | 'warning' | 'info' | 'link'
+export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+  variant?: 'primary' | 'secondary' | 'outline' | 'ghost' | 'danger' | 'success' | 'warning' | 'info' | 'link' | 'default'
   size?: 'xs' | 'sm' | 'md' | 'lg' | 'xl'
-  children: React.ReactNode
+  children?: React.ReactNode
   loading?: boolean
   icon?: React.ReactNode
   iconPosition?: 'left' | 'right'
@@ -34,7 +34,8 @@ export const Button: React.FC<ButtonProps> = ({
     success: 'bg-green-600 text-white hover:bg-green-700 shadow-sm hover:shadow-md focus:ring-green-500/50 dark:bg-green-700 dark:hover:bg-green-800',
     warning: 'bg-amber-500 text-white hover:bg-amber-600 shadow-sm hover:shadow-md focus:ring-amber-500/50',
     info: 'bg-blue-500 text-white hover:bg-blue-600 shadow-sm hover:shadow-md focus:ring-blue-500/50',
-    link: 'text-primary underline-offset-4 hover:underline focus:ring-0'
+    link: 'text-primary underline-offset-4 hover:underline focus:ring-0',
+    default: 'bg-secondary text-secondary-foreground hover:bg-secondary/80 shadow-sm hover:shadow-md focus:ring-secondary/50'
   }
 
   const sizes = {

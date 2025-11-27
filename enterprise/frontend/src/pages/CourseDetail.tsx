@@ -23,6 +23,18 @@ import { LoadingSpinner } from '../components/ui/LoadingSpinner'
 import { useCourse } from '../hooks/useCourses'
 import { useCourses } from '../hooks/useCourses'
 
+interface Lesson {
+  id: string
+  title: string
+  type: string
+  duration: number
+  order: number
+  isCompleted: boolean
+  content?: string
+  videoUrl?: string
+  xpReward?: number
+}
+
 const CourseDetail: React.FC = () => {
   const { id } = useParams<{ id: string }>()
   const navigate = useNavigate()
@@ -90,9 +102,9 @@ const CourseDetail: React.FC = () => {
   }
 
   const enrollment = course.enrollment
-  const lessons = course.lessons || []
+  const lessons: Lesson[] = course.lessons || []
   const progress = enrollment?.progress || 0
-  const completedLessons = lessons.filter(l => l.isCompleted).length
+  const completedLessons = lessons.filter((l: Lesson) => l.isCompleted).length
   const isCompleted = enrollment?.completedAt
 
   return (
@@ -185,7 +197,7 @@ const CourseDetail: React.FC = () => {
             </h2>
 
             <div className="space-y-3">
-              {lessons.map((lesson, index) => {
+              {lessons.map((lesson: Lesson, index: number) => {
                 const isLessonCompleted = lesson.isCompleted
                 const isLocked = !enrollment && index > 0
                 const isActive = selectedLesson?.id === lesson.id

@@ -25,6 +25,18 @@ export const useAuth = () => {
 
   const loading = loginLoading || registerLoading
 
+  // Get current user from localStorage
+  const getUserFromStorage = () => {
+    try {
+      const userStr = localStorage.getItem('user')
+      return userStr ? JSON.parse(userStr) : null
+    } catch {
+      return null
+    }
+  }
+
+  const user = getUserFromStorage()
+
   const login = async (email: string, password: string) => {
     try {
       const { data } = await loginMutation({
@@ -97,6 +109,7 @@ export const useAuth = () => {
   }
 
   return {
+    user,
     login,
     register,
     logout,

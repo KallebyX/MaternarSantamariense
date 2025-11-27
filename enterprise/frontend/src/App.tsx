@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-d
 import { ApolloProvider } from '@apollo/client'
 import { apolloClient } from './lib/apollo'
 import { ToastProvider } from './components/ui/Toast'
+import { ThemeProvider } from './components/providers/ThemeProvider'
 
 // Auth Pages
 import Login from './pages/auth/Login'
@@ -38,44 +39,46 @@ import { ProtectedRoute } from './components/auth/ProtectedRoute'
 function App() {
   return (
     <ApolloProvider client={apolloClient}>
-      <ToastProvider>
-        <AuthProvider>
-          <Router>
-          <Routes>
-            {/* Public Auth Routes */}
-            <Route path="/login" element={<Login />} />
-            <Route path="/register" element={<Register />} />
-            <Route path="/forgot-password" element={<ForgotPassword />} />
-            
-            {/* Protected Routes with Layout */}
-            <Route element={<ProtectedRoute><Layout /></ProtectedRoute>}>
-              <Route path="/" element={<Navigate to="/dashboard" replace />} />
-              <Route path="/dashboard" element={<Dashboard />} />
-              <Route path="/gamification" element={<Gamification />} />
-              <Route path="/training" element={<Training />} />
-              <Route path="/training/:id" element={<CourseDetail />} />
-              <Route path="/chat" element={<Chat />} />
-              <Route path="/calendar" element={<Calendar />} />
-              <Route path="/projects" element={<Projects />} />
-              <Route path="/projects/:id" element={<ProjectDetail />} />
-              <Route path="/policies" element={<Policies />} />
-              <Route path="/links" element={<Links />} />
-              <Route path="/profile" element={<Profile />} />
-              <Route path="/settings" element={<Settings />} />
-              
-              {/* Admin only routes */}
-              <Route path="/admin" element={<ProtectedRoute requiredRole={['ADMIN']}><Admin /></ProtectedRoute>} />
-              <Route path="/user-management" element={<ProtectedRoute requiredRole={['ADMIN', 'MANAGER']}><UserManagement /></ProtectedRoute>} />
-              <Route path="/analytics" element={<Analytics />} />
-              <Route path="/documents" element={<Documents />} />
-            </Route>
+      <ThemeProvider>
+        <ToastProvider>
+          <AuthProvider>
+            <Router>
+              <Routes>
+                {/* Public Auth Routes */}
+                <Route path="/login" element={<Login />} />
+                <Route path="/register" element={<Register />} />
+                <Route path="/forgot-password" element={<ForgotPassword />} />
 
-            {/* 404 */}
-            <Route path="*" element={<NotFound />} />
-          </Routes>
-          </Router>
-        </AuthProvider>
-      </ToastProvider>
+                {/* Protected Routes with Layout */}
+                <Route element={<ProtectedRoute><Layout /></ProtectedRoute>}>
+                  <Route path="/" element={<Navigate to="/dashboard" replace />} />
+                  <Route path="/dashboard" element={<Dashboard />} />
+                  <Route path="/gamification" element={<Gamification />} />
+                  <Route path="/training" element={<Training />} />
+                  <Route path="/training/:id" element={<CourseDetail />} />
+                  <Route path="/chat" element={<Chat />} />
+                  <Route path="/calendar" element={<Calendar />} />
+                  <Route path="/projects" element={<Projects />} />
+                  <Route path="/projects/:id" element={<ProjectDetail />} />
+                  <Route path="/policies" element={<Policies />} />
+                  <Route path="/links" element={<Links />} />
+                  <Route path="/profile" element={<Profile />} />
+                  <Route path="/settings" element={<Settings />} />
+
+                  {/* Admin only routes */}
+                  <Route path="/admin" element={<ProtectedRoute requiredRole={['ADMIN']}><Admin /></ProtectedRoute>} />
+                  <Route path="/user-management" element={<ProtectedRoute requiredRole={['ADMIN', 'MANAGER']}><UserManagement /></ProtectedRoute>} />
+                  <Route path="/analytics" element={<Analytics />} />
+                  <Route path="/documents" element={<Documents />} />
+                </Route>
+
+                {/* 404 */}
+                <Route path="*" element={<NotFound />} />
+              </Routes>
+            </Router>
+          </AuthProvider>
+        </ToastProvider>
+      </ThemeProvider>
     </ApolloProvider>
   )
 }

@@ -30,6 +30,37 @@ import { useCourses } from '../hooks/useCourses'
 import { useAuth } from '../hooks/useAuth'
 import { useGamification } from '../hooks/useGamification'
 
+interface Course {
+  id: string
+  title: string
+  description: string
+  category: string
+  difficulty: string
+  estimatedTime: string
+  progress: number
+  completedAt?: string
+  thumbnail?: string
+  totalLessons?: number
+  totalEnrollments?: number
+  xpReward?: number
+  enrollment?: {
+    id: string
+    progress: number
+    completedAt?: string
+  }
+  lessons?: Array<{ id: string; isCompleted: boolean }>
+}
+
+interface Achievement {
+  id: string
+  type: string
+  isUnlocked: boolean
+  title: string
+  description: string
+  icon?: string
+  condition?: string
+}
+
 const Training: React.FC = () => {
   const [activeFilter, setActiveFilter] = useState('all')
   const [searchTerm, setSearchTerm] = useState('')
@@ -39,12 +70,12 @@ const Training: React.FC = () => {
 
   // Contar cursos completos do usuário
   const completedCoursesCount = useMemo(() => {
-    return myCourses.filter(c => c.completedAt).length
+    return myCourses.filter((c: Course) => c.completedAt).length
   }, [myCourses])
 
   // Calcular total de horas de estudo
   const totalHoursStudied = useMemo(() => {
-    return myCourses.reduce((acc, course) => {
+    return myCourses.reduce((acc: number, course: Course) => {
       const hours = parseInt(course.estimatedTime) || 0
       if (course.completedAt) {
         return acc + hours
@@ -65,7 +96,7 @@ const Training: React.FC = () => {
 
   // Extrair categorias únicas dos cursos
   const categories = useMemo(() => {
-    const categoryCounts = courses.reduce((acc, course) => {
+    const categoryCounts = courses.reduce((acc: Record<string, number>, course: Course) => {
       acc[course.category] = (acc[course.category] || 0) + 1
       return acc
     }, {} as Record<string, number>)
@@ -82,14 +113,14 @@ const Training: React.FC = () => {
 
   // Filtrar conquistas relacionadas a cursos
   const courseAchievements = useMemo(() => {
-    return allAchievements.filter(a =>
+    return allAchievements.filter((a: Achievement) =>
       a.type === 'COURSE_COMPLETION' && !a.isUnlocked
     ).slice(0, 3)
   }, [allAchievements])
 
   // Filtrar cursos baseado no filtro ativo e busca
   const filteredCourses = useMemo(() => {
-    return courses.filter(course => {
+    return courses.filter((course: Course) => {
       const matchesFilter = activeFilter === 'all' || course.category === activeFilter
       const matchesSearch = course.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
                            course.description.toLowerCase().includes(searchTerm.toLowerCase())
@@ -134,7 +165,7 @@ const Training: React.FC = () => {
   const learningPaths = useMemo(() => {
     const paths: Record<string, { total: number; completed: number }> = {}
 
-    myCourses.forEach(course => {
+    myCourses.forEach((course: Course) => {
       const category = course.category || 'Outros'
       if (!paths[category]) {
         paths[category] = { total: 0, completed: 0 }
@@ -326,11 +357,11 @@ const Training: React.FC = () => {
             animate="show"
             className="grid grid-cols-1 md:grid-cols-2 gap-6"
           >
-            {filteredCourses.map((course, index) => {
+            {filteredCourses.map((course: Course, index: number) => {
               const enrollment = course.enrollment
               const isCompleted = enrollment?.completedAt
               const progress = enrollment?.progress || 0
-              const completedLessons = course.lessons?.filter(l => l.isCompleted).length || 0
+              const completedLessons = course.lessons?.filter((l: { id: string; isCompleted: boolean }) => l.isCompleted).length || 0
               const totalLessons = course.totalLessons || course.lessons?.length || 0
 
               return (
@@ -506,7 +537,7 @@ const Training: React.FC = () => {
                   </h3>
                 </CardHeader>
                 <CardContent className="space-y-4">
-                  {courseAchievements.map((achievement) => {
+                  {courseAchievements.map((achievement: Achievement) => {
                     const condition = JSON.parse(achievement.condition || '{}')
                     const currentProgress = condition.type === 'course_completion'
                       ? completedCoursesCount
@@ -562,7 +593,7 @@ const Training: React.FC = () => {
                 <div className="flex items-center justify-between p-3 rounded-lg bg-muted/30">
                   <span className="text-sm text-muted-foreground">Em Progresso</span>
                   <span className="text-lg font-bold text-foreground">
-                    {myCourses.filter(c => !c.completedAt && c.progress > 0).length}
+                    {myCourses.filter((c: Course) => !c.completedAt && c.progress > 0).length}
                   </span>
                 </div>
                 <div className="flex items-center justify-between p-3 rounded-lg bg-primary/10">

@@ -1,11 +1,12 @@
 import React from 'react'
 
-interface CardProps {
+export interface CardProps {
   children: React.ReactNode
   className?: string
   variant?: 'default' | 'bordered' | 'elevated' | 'ghost' | 'interactive'
   padding?: 'none' | 'sm' | 'md' | 'lg' | 'xl'
   hover?: boolean
+  onClick?: () => void
 }
 
 interface CardHeaderProps {
@@ -28,7 +29,8 @@ export const Card: React.FC<CardProps> = ({
   className = '',
   variant = 'default',
   padding = 'md',
-  hover = false
+  hover = false,
+  onClick
 }) => {
   const variants = {
     default: 'bg-card text-card-foreground border border-border shadow-sm',
@@ -55,8 +57,10 @@ export const Card: React.FC<CardProps> = ({
         ${variants[variant]}
         ${paddings[padding]}
         ${hoverClasses}
+        ${onClick ? 'cursor-pointer' : ''}
         ${className}
       `}
+      onClick={onClick}
     >
       {children}
     </div>
