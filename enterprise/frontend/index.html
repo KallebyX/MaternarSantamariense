@@ -31,6 +31,22 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet" />
     
     <title>Maternar Santa Mariense</title>
+    <script>
+      // Limpar dados antigos do localStorage para garantir atualização
+      (function() {
+        const userData = localStorage.getItem('userData');
+        if (userData) {
+          try {
+            const user = JSON.parse(userData);
+            if (user.position === 'Coordenadora de Enfermagem') {
+              // Limpar dados antigos para forçar recarregar com dados novos
+              localStorage.removeItem('userData');
+              localStorage.removeItem('authToken');
+            }
+          } catch (e) {}
+        }
+      })();
+    </script>
   </head>
   <body>
     <noscript>

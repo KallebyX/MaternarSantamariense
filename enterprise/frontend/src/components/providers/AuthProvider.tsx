@@ -269,6 +269,10 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         if (token && storedUser) {
           debugLog('Found stored auth data')
           const parsedUser = JSON.parse(storedUser)
+          // Garantir que Laura sempre tenha o position correto
+          if (parsedUser.email === 'admin@maternar.com' || parsedUser.email === 'laura@maternarsantamariense.com') {
+            parsedUser.position = 'Acadêmica de Enfermagem | Bolsista PROBIC'
+          }
           setUser(parsedUser)
 
           // Em modo não-mock, tentar validar o token
@@ -331,6 +335,10 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         await new Promise(resolve => setTimeout(resolve, 500)) // Simular delay
 
         const mockUser = createMockUser(email)
+        // Garantir que Laura sempre tenha o position correto
+        if (mockUser.email === 'admin@maternar.com' || mockUser.email === 'laura@maternarsantamariense.com') {
+          mockUser.position = 'Acadêmica de Enfermagem | Bolsista PROBIC'
+        }
         const mockToken = 'mock-jwt-token-' + Date.now()
 
         localStorage.setItem('authToken', mockToken)
