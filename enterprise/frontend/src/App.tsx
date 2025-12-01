@@ -15,6 +15,7 @@ import ForgotPassword from './pages/auth/ForgotPassword'
 const Dashboard = lazy(() => import('./pages/Dashboard'))
 const DashboardEnhanced = lazy(() => import('./pages/DashboardEnhanced'))
 const Gamification = lazy(() => import('./pages/Gamification'))
+const QualificaProfissional = lazy(() => import('./pages/QualificaProfissional'))
 const Training = lazy(() => import('./pages/Training'))
 const CourseDetail = lazy(() => import('./pages/CourseDetail'))
 const Chat = lazy(() => import('./pages/Chat'))
@@ -103,6 +104,7 @@ function App() {
                       <Route path="/" element={<Navigate to="/dashboard" replace />} />
                       <Route path="/dashboard" element={<DashboardEnhanced />} />
                       <Route path="/gamification" element={<Gamification />} />
+                      <Route path="/qualifica-profissional" element={<QualificaProfissional />} />
                       <Route path="/training" element={<Training />} />
                       <Route path="/training/:id" element={<CourseDetail />} />
                       <Route path="/chat" element={<Chat />} />

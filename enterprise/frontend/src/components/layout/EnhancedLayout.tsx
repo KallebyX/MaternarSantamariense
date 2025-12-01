@@ -40,7 +40,7 @@ export const EnhancedLayout: React.FC = () => {
   const navigation = [
     { name: 'Painel Principal', href: '/dashboard', icon: Home, color: 'text-pink-600' },
     { name: 'Gamificação', href: '/gamification', icon: Trophy, color: 'text-amber-600' },
-    { name: 'Treinamentos', href: '/training', icon: GraduationCap, color: 'text-blue-600' },
+    { name: 'Qualifica Profissional', href: '/qualifica-profissional', icon: GraduationCap, color: 'text-blue-600' },
     { name: 'Mensagens', href: '/chat', icon: MessageCircle, color: 'text-green-600' },
     { name: 'Agenda', href: '/calendar', icon: Calendar, color: 'text-purple-600' },
     { name: 'Projetos', href: '/projects', icon: FolderKanban, color: 'text-indigo-600' },

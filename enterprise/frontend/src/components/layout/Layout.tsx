@@ -36,7 +36,7 @@ export const Layout: React.FC = () => {
   const navigation = [
     { name: 'Dashboard', href: '/dashboard', icon: Home },
     { name: 'Gamificação', href: '/gamification', icon: Trophy },
-    { name: 'Treinamentos', href: '/training', icon: GraduationCap },
+    { name: 'Qualifica Profissional', href: '/qualifica-profissional', icon: GraduationCap },
     { name: 'Chat', href: '/chat', icon: MessageCircle },
     { name: 'Agenda', href: '/calendar', icon: Calendar },
     { name: 'Projetos', href: '/projects', icon: FolderKanban },
