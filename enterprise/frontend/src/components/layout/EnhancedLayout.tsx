@@ -84,7 +84,7 @@ export const EnhancedLayout: React.FC = () => {
                 <span className="text-xl font-bold bg-gradient-to-r from-pink-600 to-purple-600 bg-clip-text text-transparent">
                   Maternar
                 </span>
-                <p className="text-xs text-gray-600">Santa Maria</p>
+                <p className="text-xs text-gray-600">Santamariense</p>
               </div>
             </div>
             <nav className="mt-8 px-2 space-y-2">
@@ -142,7 +142,7 @@ export const EnhancedLayout: React.FC = () => {
                   <span className="text-2xl font-bold bg-gradient-to-r from-pink-600 to-purple-600 bg-clip-text text-transparent">
                     Maternar
                   </span>
-                  <p className="text-sm text-gray-600">Santa Maria, RS</p>
+                  <p className="text-sm text-gray-600">Santamariense</p>
                 </div>
               </div>
               
@@ -161,7 +161,7 @@ export const EnhancedLayout: React.FC = () => {
                       {user?.firstName || 'Laura'} {user?.lastName || 'Pellegrin'}
                     </p>
                     <p className="text-xs text-gray-600">
-                      {user?.position || 'Coordenadora'}
+                      {user?.position || 'Acadêmica de Enfermagem | Bolsista PROBIC'}
                     </p>
                   </div>
                 </div>
@@ -245,7 +245,7 @@ export const EnhancedLayout: React.FC = () => {
                     />
                     <div className="hidden md:block ml-3">
                       <p className="text-sm font-semibold text-gray-900">{user?.name || 'Laura Pellegrin'}</p>
-                      <p className="text-xs text-gray-600">{user?.position || 'Coordenadora de Enfermagem'}</p>
+                      <p className="text-xs text-gray-600">{user?.position || 'Acadêmica de Enfermagem | Bolsista PROBIC'}</p>
                     </div>
                     <ChevronDown className="hidden md:block ml-2 h-4 w-4 text-gray-500" />
                   </button>

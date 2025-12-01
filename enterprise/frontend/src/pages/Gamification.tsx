@@ -39,63 +39,63 @@ const Gamification: React.FC = () => {
   const achievements = [
     {
       id: 1,
-      title: 'First Steps',
-      description: 'Complete your first health assessment',
+      title: 'Primeiros Passos',
+      description: 'Complete sua primeira avaliação de saúde',
       icon: <CheckCircle className="w-6 h-6" />,
       points: 100,
       completed: true,
-      rarity: 'common'
+      rarity: 'comum'
     },
     {
       id: 2,
-      title: 'Consistency Champion',
-      description: 'Log activities for 30 consecutive days',
+      title: 'Campeão de Consistência',
+      description: 'Registre atividades por 30 dias consecutivos',
       icon: <Calendar className="w-6 h-6" />,
       points: 500,
       completed: true,
-      rarity: 'rare'
+      rarity: 'raro'
     },
     {
       id: 3,
-      title: 'Knowledge Seeker',
-      description: 'Complete 10 training courses',
+      title: 'Buscador de Conhecimento',
+      description: 'Complete 10 cursos de treinamento',
       icon: <Trophy className="w-6 h-6" />,
       points: 1000,
       completed: false,
       progress: 7,
       total: 10,
-      rarity: 'epic'
+      rarity: 'épico'
     },
     {
       id: 4,
-      title: 'Team Player',
-      description: 'Collaborate on 5 projects',
+      title: 'Trabalho em Equipe',
+      description: 'Colabore em 5 projetos',
       icon: <Users className="w-6 h-6" />,
       points: 750,
       completed: false,
       progress: 3,
       total: 5,
-      rarity: 'rare'
+      rarity: 'raro'
     },
     {
       id: 5,
-      title: 'Legendary Healer',
-      description: 'Complete 100 health assessments',
+      title: 'Cuidador Lendário',
+      description: 'Complete 100 avaliações de saúde',
       icon: <Crown className="w-6 h-6" />,
       points: 5000,
       completed: false,
       progress: 45,
       total: 100,
-      rarity: 'legendary'
+      rarity: 'lendário'
     },
     {
       id: 6,
-      title: 'Speed Runner',
-      description: 'Complete a course in under 1 hour',
+      title: 'Velocista',
+      description: 'Complete um curso em menos de 1 hora',
       icon: <Zap className="w-6 h-6" />,
       points: 300,
       completed: true,
-      rarity: 'rare'
+      rarity: 'raro'
     }
   ]
 
@@ -112,51 +112,51 @@ const Gamification: React.FC = () => {
   const challenges = [
     {
       id: 1,
-      title: 'Wellness Wednesday',
-      description: 'Complete 3 health activities this Wednesday',
+      title: 'Quarta do Bem-Estar',
+      description: 'Complete 3 atividades de saúde nesta quarta',
       reward: '200 XP + Wellness Badge',
       deadline: '2025-10-09',
       progress: 2,
       total: 3,
-      difficulty: 'easy'
+      difficulty: 'fácil'
     },
     {
       id: 2,
-      title: 'Training Master',
-      description: 'Finish 2 training modules this week',
+      title: 'Mestre do Treinamento',
+      description: 'Termine 2 módulos de treinamento esta semana',
       reward: '500 XP + Knowledge Badge',
       deadline: '2025-10-13',
       progress: 0,
       total: 2,
-      difficulty: 'medium'
+      difficulty: 'médio'
     },
     {
       id: 3,
-      title: 'Team Collaboration',
-      description: 'Work with 3 different colleagues on projects',
+      title: 'Colaboração em Equipe',
+      description: 'Trabalhe com 3 colegas diferentes em projetos',
       reward: '1000 XP + Teamwork Badge',
       deadline: '2025-10-15',
       progress: 1,
       total: 3,
-      difficulty: 'hard'
+      difficulty: 'difícil'
     }
   ]
 
   const getRarityColor = (rarity: string) => {
     switch (rarity) {
-      case 'common': return 'secondary'
-      case 'rare': return 'info'
-      case 'epic': return 'warning'
-      case 'legendary': return 'success'
+      case 'comum': return 'secondary'
+      case 'raro': return 'info'
+      case 'épico': return 'warning'
+      case 'lendário': return 'success'
       default: return 'default'
     }
   }
 
   const getDifficultyColor = (difficulty: string) => {
     switch (difficulty) {
-      case 'easy': return 'success'
-      case 'medium': return 'warning'
-      case 'hard': return 'danger'
+      case 'fácil': return 'success'
+      case 'médio': return 'warning'
+      case 'difícil': return 'danger'
       default: return 'default'
     }
   }
@@ -248,7 +248,7 @@ const Gamification: React.FC = () => {
               <div className="flex items-center justify-between mb-3">
                 <Flame className="w-8 h-8 opacity-80" />
                 <Badge variant="outline" className="border-white/30 text-white">
-                  {userStats.streak > 7 ? 'On Fire!' : 'Ativo'}
+                  {userStats.streak > 7 ? 'Em Chamas!' : 'Ativo'}
                 </Badge>
               </div>
               <p className="text-white/80 text-sm mb-1">Sequência</p>

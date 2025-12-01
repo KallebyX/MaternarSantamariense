@@ -172,7 +172,7 @@ export const Layout: React.FC = () => {
                     />
                     <div className="hidden md:block ml-3">
                       <p className="text-sm font-semibold text-gray-900">{user?.name || 'Laura Pellegrin'}</p>
-                      <p className="text-xs text-gray-600">{user?.position || 'Coordenadora de Enfermagem'}</p>
+                      <p className="text-xs text-gray-600">{user?.position || 'Acadêmica de Enfermagem | Bolsista PROBIC'}</p>
                     </div>
                     <ChevronDown className="hidden md:block ml-2 h-4 w-4 text-muted-foreground" />
                   </button>

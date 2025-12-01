@@ -40,7 +40,7 @@ export const GlobalSearch: React.FC = () => {
       id: '1',
       type: 'user',
       title: 'Laura Pellegrin',
-      subtitle: 'Coordenadora de Enfermagem - Santa Maria',
+      subtitle: 'Acadêmica de Enfermagem | Bolsista PROBIC - Santa Maria',
       url: '/profile/1',
       icon: Users
     },
