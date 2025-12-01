@@ -22,20 +22,20 @@ export const Alert: React.FC<AlertProps> = ({
       icon: <Info className="h-5 w-5" />
     },
     success: {
-      container: 'bg-green-50 border-green-200 text-green-900 dark:bg-green-900/20 dark:border-green-900/50 dark:text-green-400',
-      icon: <CheckCircle2 className="h-5 w-5 text-green-600 dark:text-green-400" />
+      container: 'bg-green-50 border-green-200 text-green-900',
+      icon: <CheckCircle2 className="h-5 w-5 text-green-600" />
     },
     warning: {
-      container: 'bg-amber-50 border-amber-200 text-amber-900 dark:bg-amber-900/20 dark:border-amber-900/50 dark:text-amber-400',
-      icon: <AlertTriangle className="h-5 w-5 text-amber-600 dark:text-amber-400" />
+      container: 'bg-amber-50 border-amber-200 text-amber-900',
+      icon: <AlertTriangle className="h-5 w-5 text-amber-600" />
     },
     error: {
-      container: 'bg-red-50 border-red-200 text-red-900 dark:bg-red-900/20 dark:border-red-900/50 dark:text-red-400',
-      icon: <AlertCircle className="h-5 w-5 text-red-600 dark:text-red-400" />
+      container: 'bg-red-50 border-red-200 text-red-900',
+      icon: <AlertCircle className="h-5 w-5 text-red-600" />
     },
     info: {
-      container: 'bg-blue-50 border-blue-200 text-blue-900 dark:bg-blue-900/20 dark:border-blue-900/50 dark:text-blue-400',
-      icon: <Info className="h-5 w-5 text-blue-600 dark:text-blue-400" />
+      container: 'bg-blue-50 border-blue-200 text-blue-900',
+      icon: <Info className="h-5 w-5 text-blue-600" />
     }
   }
 

@@ -18,9 +18,11 @@ import { Card } from '../components/ui/Card'
 import { Button } from '../components/ui/Button'
 import { Badge } from '../components/ui/Badge'
 import { useToast } from '../components/ui/Toast'
+import { useAuth } from '../components/providers/AuthProvider'
 
 const Settings: React.FC = () => {
   const { showToast } = useToast()
+  const { user } = useAuth()
   const [activeTab, setActiveTab] = useState('profile')
   const [loading, setLoading] = useState(false)
   const [hasChanges, setHasChanges] = useState(false)
@@ -217,7 +219,7 @@ const Settings: React.FC = () => {
                     <input
                       type="text"
                       className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500"
-                      defaultValue="Ana Costa"
+                      defaultValue={user?.name || 'Laura Pellegrin'}
                     />
                   </div>
                   
@@ -228,7 +230,7 @@ const Settings: React.FC = () => {
                     <input
                       type="email"
                       className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500"
-                      defaultValue="ana.costa@sms-sm.health"
+                      defaultValue={user?.email || 'laura@maternarsantamariense.com'}
                     />
                   </div>
                   
@@ -239,7 +241,18 @@ const Settings: React.FC = () => {
                     <input
                       type="tel"
                       className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500"
-                      defaultValue="+55 (11) 98765-4321"
+                      defaultValue="+55 (55) 99765-4321"
+                    />
+                  </div>
+                  
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                      Cargo
+                    </label>
+                    <input
+                      type="text"
+                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500"
+                      defaultValue={user?.position || "Acadêmica de Enfermagem | Bolsista PROBIC"}
                     />
                   </div>
                   
@@ -247,7 +260,10 @@ const Settings: React.FC = () => {
                     <label className="block text-sm font-medium text-gray-700 mb-2">
                       Departamento
                     </label>
-                    <select className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500">
+                    <select 
+                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500"
+                      defaultValue={user?.department || "Enfermagem"}
+                    >
                       <option>Enfermagem</option>
                       <option>Medicina</option>
                       <option>Administração</option>
@@ -263,7 +279,7 @@ const Settings: React.FC = () => {
                   <textarea
                     rows={4}
                     className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500"
-                    defaultValue="Enfermeira especializada em UTI com mais de 10 anos de experiência."
+                    defaultValue="Acadêmica do curso de Enfermagem da Universidade Franciscana (UFN), Santa Maria - RS. Bolsista PROBIC/UFN com projeto sobre Atenção Pré-Natal. Integrante do GESTAR e GEPESES/UFN."
                   />
                 </div>
               </div>

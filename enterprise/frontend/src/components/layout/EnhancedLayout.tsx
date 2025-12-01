@@ -60,7 +60,7 @@ export const EnhancedLayout: React.FC = () => {
   ]
 
   return (
-    <div className="h-screen flex overflow-hidden bg-gradient-to-br from-pink-50 via-white to-purple-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900">
+    <div className="h-screen flex overflow-hidden bg-gradient-to-br from-pink-50 via-white to-purple-50">
       {/* Mobile sidebar */}
       <div className={`fixed inset-0 flex z-40 md:hidden ${sidebarOpen ? 'block' : 'hidden'}`}>
         <div className="fixed inset-0 bg-black/50 backdrop-blur-sm" onClick={() => setSidebarOpen(false)} />
@@ -84,7 +84,7 @@ export const EnhancedLayout: React.FC = () => {
                 <span className="text-xl font-bold bg-gradient-to-r from-pink-600 to-purple-600 bg-clip-text text-transparent">
                   Maternar
                 </span>
-                <p className="text-xs text-gray-600 dark:text-gray-400">Santa Maria</p>
+                <p className="text-xs text-gray-600">Santa Maria</p>
               </div>
             </div>
             <nav className="mt-8 px-2 space-y-2">
@@ -110,7 +110,7 @@ export const EnhancedLayout: React.FC = () => {
             </nav>
           </div>
           {/* Quick Stats - Mobile */}
-          <div className="p-4 border-t border-gray-200 dark:border-gray-700">
+          <div className="p-4 border-t border-gray-200">
             <div className="grid grid-cols-2 gap-3">
               {quickStats.slice(0, 2).map((stat, index) => {
                 const Icon = stat.icon
@@ -142,12 +142,12 @@ export const EnhancedLayout: React.FC = () => {
                   <span className="text-2xl font-bold bg-gradient-to-r from-pink-600 to-purple-600 bg-clip-text text-transparent">
                     Maternar
                   </span>
-                  <p className="text-sm text-gray-600 dark:text-gray-400">Santa Maria, RS</p>
+                  <p className="text-sm text-gray-600">Santa Maria, RS</p>
                 </div>
               </div>
               
               {/* User Info Card */}
-              <div className="mx-4 mt-6 p-4 maternar-card bg-gradient-to-r from-pink-100 to-purple-100 dark:from-pink-900/20 dark:to-purple-900/20">
+              <div className="mx-4 mt-6 p-4 maternar-card bg-gradient-to-r from-pink-100 to-purple-100">
                 <div className="flex items-center space-x-3">
                   <Avatar
                     src={user?.avatar || '/avatars/laura.jpg'}
@@ -157,10 +157,10 @@ export const EnhancedLayout: React.FC = () => {
                     className="maternar-avatar"
                   />
                   <div>
-                    <p className="text-sm font-semibold text-gray-900 dark:text-white">
+                    <p className="text-sm font-semibold text-gray-900">
                       {user?.firstName || 'Laura'} {user?.lastName || 'Pellegrin'}
                     </p>
-                    <p className="text-xs text-gray-600 dark:text-gray-400">
+                    <p className="text-xs text-gray-600">
                       {user?.position || 'Coordenadora'}
                     </p>
                   </div>
@@ -191,17 +191,17 @@ export const EnhancedLayout: React.FC = () => {
 
               {/* Quick Stats - Desktop */}
               <div className="mx-4 mt-4 p-4 maternar-card">
-                <h3 className="text-xs font-semibold text-gray-600 dark:text-gray-400 uppercase mb-3">
+                <h3 className="text-xs font-semibold text-gray-600 uppercase mb-3">
                   Resumo do Dia
                 </h3>
                 <div className="grid grid-cols-2 gap-3">
                   {quickStats.map((stat, index) => {
                     const Icon = stat.icon
                     return (
-                      <div key={index} className="text-center p-2 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors">
+                      <div key={index} className="text-center p-2 rounded-lg hover:bg-gray-50 transition-colors">
                         <Icon className={`${stat.color} h-5 w-5 mx-auto mb-1`} />
                         <p className="text-lg font-bold">{stat.value}</p>
-                        <p className="text-xs text-gray-600 dark:text-gray-400">{stat.label}</p>
+                        <p className="text-xs text-gray-600">{stat.label}</p>
                       </div>
                     )
                   })}
@@ -216,7 +216,7 @@ export const EnhancedLayout: React.FC = () => {
         {/* Top header */}
         <div className="relative z-10 flex-shrink-0 flex h-16 maternar-header backdrop-blur-md">
           <button
-            className="px-4 border-r border-pink-200 dark:border-pink-800 text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-pink-500 md:hidden"
+            className="px-4 border-r border-pink-200 text-gray-600 hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-pink-500 md:hidden"
             onClick={() => setSidebarOpen(true)}
           >
             <Menu className="h-6 w-6" />
@@ -238,14 +238,15 @@ export const EnhancedLayout: React.FC = () => {
                   >
                     <Avatar
                       src={user?.avatar || '/avatars/laura.jpg'}
-                      alt={user?.firstName || 'Laura'}
+                      alt={user?.name || 'Laura Pellegrin'}
                       fallback={user?.firstName?.charAt(0) || 'L'}
                       size="sm"
                       className="maternar-avatar"
                     />
-                    <span className="hidden md:block ml-3 text-gray-900 dark:text-white text-sm font-medium">
-                      {user?.firstName || 'Laura'}
-                    </span>
+                    <div className="hidden md:block ml-3">
+                      <p className="text-sm font-semibold text-gray-900">{user?.name || 'Laura Pellegrin'}</p>
+                      <p className="text-xs text-gray-600">{user?.position || 'Coordenadora de Enfermagem'}</p>
+                    </div>
                     <ChevronDown className="hidden md:block ml-2 h-4 w-4 text-gray-500" />
                   </button>
                 </div>
@@ -253,7 +254,7 @@ export const EnhancedLayout: React.FC = () => {
                   <div className="origin-top-right absolute right-0 mt-2 w-48 rounded-xl shadow-lg py-1 maternar-card focus:outline-none">
                     <Link
                       to="/profile"
-                      className="flex items-center px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-pink-50 dark:hover:bg-gray-800 transition-colors"
+                      className="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-pink-50 transition-colors"
                       onClick={() => setUserMenuOpen(false)}
                     >
                       <User className="mr-3 h-4 w-4 text-pink-600" />
@@ -261,15 +262,15 @@ export const EnhancedLayout: React.FC = () => {
                     </Link>
                     <Link
                       to="/settings"
-                      className="flex items-center px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-pink-50 dark:hover:bg-gray-800 transition-colors"
+                      className="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-pink-50 transition-colors"
                       onClick={() => setUserMenuOpen(false)}
                     >
                       <Settings className="mr-3 h-4 w-4 text-gray-600" />
                       Configurações
                     </Link>
-                    <hr className="my-1 border-gray-200 dark:border-gray-700" />
+                    <hr className="my-1 border-gray-200" />
                     <button
-                      className="flex items-center w-full px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-pink-50 dark:hover:bg-gray-800 transition-colors"
+                      className="flex items-center w-full px-4 py-2 text-sm text-gray-700 hover:bg-pink-50 transition-colors"
                       onClick={() => {
                         logout()
                         setUserMenuOpen(false)
@@ -286,7 +287,7 @@ export const EnhancedLayout: React.FC = () => {
         </div>
 
         {/* Main content */}
-        <main className="flex-1 relative overflow-y-auto focus:outline-none bg-gradient-to-br from-white to-gray-50 dark:from-gray-900 dark:to-gray-800">
+        <main className="flex-1 relative overflow-y-auto focus:outline-none bg-gradient-to-br from-white to-gray-50">
           <div className="py-6">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8">
               <Outlet />

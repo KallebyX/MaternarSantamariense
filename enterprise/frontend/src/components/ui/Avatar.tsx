@@ -39,11 +39,11 @@ export const Avatar: React.FC<AvatarProps> = ({
   }
 
   const statusColors = {
-    online: 'bg-green-500 dark:bg-green-400',
-    offline: 'bg-gray-400 dark:bg-gray-500',
-    away: 'bg-amber-500 dark:bg-amber-400',
-    busy: 'bg-red-500 dark:bg-red-400',
-    dnd: 'bg-red-500 dark:bg-red-400'
+    online: 'bg-green-500',
+    offline: 'bg-gray-400',
+    away: 'bg-amber-500',
+    busy: 'bg-red-500',
+    dnd: 'bg-red-500'
   }
 
   const statusPositions = {
@@ -65,14 +65,14 @@ export const Avatar: React.FC<AvatarProps> = ({
   const getColorFromName = (name: string) => {
     // Generate consistent color based on name hash
     const colors = [
-      'bg-blue-500 text-white dark:bg-blue-600',
-      'bg-green-500 text-white dark:bg-green-600',
-      'bg-purple-500 text-white dark:bg-purple-600',
-      'bg-pink-500 text-white dark:bg-pink-600',
-      'bg-indigo-500 text-white dark:bg-indigo-600',
-      'bg-cyan-500 text-white dark:bg-cyan-600',
-      'bg-teal-500 text-white dark:bg-teal-600',
-      'bg-orange-500 text-white dark:bg-orange-600'
+      'bg-blue-500 text-white',
+      'bg-green-500 text-white',
+      'bg-purple-500 text-white',
+      'bg-pink-500 text-white',
+      'bg-indigo-500 text-white',
+      'bg-cyan-500 text-white',
+      'bg-teal-500 text-white',
+      'bg-orange-500 text-white'
     ]
 
     let hash = 0

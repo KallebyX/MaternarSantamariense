@@ -72,24 +72,24 @@ const ToastItem: React.FC<{
   const getColors = (type: ToastType) => {
     const colors = {
       success: {
-        container: 'bg-green-50 border-green-200 text-green-900 dark:bg-green-900/20 dark:border-green-900/50 dark:text-green-100',
-        icon: 'text-green-600 dark:text-green-400',
-        progress: 'bg-green-600 dark:bg-green-500'
+        container: 'bg-green-50 border-green-200 text-green-900',
+        icon: 'text-green-600',
+        progress: 'bg-green-600'
       },
       error: {
-        container: 'bg-red-50 border-red-200 text-red-900 dark:bg-red-900/20 dark:border-red-900/50 dark:text-red-100',
-        icon: 'text-red-600 dark:text-red-400',
-        progress: 'bg-red-600 dark:bg-red-500'
+        container: 'bg-red-50 border-red-200 text-red-900',
+        icon: 'text-red-600',
+        progress: 'bg-red-600'
       },
       warning: {
-        container: 'bg-amber-50 border-amber-200 text-amber-900 dark:bg-amber-900/20 dark:border-amber-900/50 dark:text-amber-100',
-        icon: 'text-amber-600 dark:text-amber-400',
-        progress: 'bg-amber-600 dark:bg-amber-500'
+        container: 'bg-amber-50 border-amber-200 text-amber-900',
+        icon: 'text-amber-600',
+        progress: 'bg-amber-600'
       },
       info: {
-        container: 'bg-blue-50 border-blue-200 text-blue-900 dark:bg-blue-900/20 dark:border-blue-900/50 dark:text-blue-100',
-        icon: 'text-blue-600 dark:text-blue-400',
-        progress: 'bg-blue-600 dark:bg-blue-500'
+        container: 'bg-blue-50 border-blue-200 text-blue-900',
+        icon: 'text-blue-600',
+        progress: 'bg-blue-600'
       }
     }
     return colors[type]
@@ -114,7 +114,7 @@ const ToastItem: React.FC<{
     >
       {/* Progress Bar */}
       {toast.progress && (
-        <div className="h-1 bg-black/10 dark:bg-white/10">
+        <div className="h-1 bg-black/10">
           <motion.div
             className={`h-full ${colors.progress}`}
             initial={{ width: '100%' }}
@@ -151,7 +151,7 @@ const ToastItem: React.FC<{
 
         <button
           onClick={() => onClose(toast.id)}
-          className="shrink-0 opacity-60 hover:opacity-100 transition-opacity rounded-md hover:bg-black/5 dark:hover:bg-white/10 p-1"
+          className="shrink-0 opacity-60 hover:opacity-100 transition-opacity rounded-md hover:bg-black/5 p-1"
           aria-label="Fechar notificação"
           title="Fechar"
         >

@@ -170,9 +170,10 @@ export const Layout: React.FC = () => {
                       size="sm"
                       className="maternar-avatar"
                     />
-                    <span className="hidden md:block ml-3 text-foreground text-sm font-medium">
-                      {user?.firstName || 'Laura'} {user?.lastName || 'Pellegrin'}
-                    </span>
+                    <div className="hidden md:block ml-3">
+                      <p className="text-sm font-semibold text-gray-900">{user?.name || 'Laura Pellegrin'}</p>
+                      <p className="text-xs text-gray-600">{user?.position || 'Coordenadora de Enfermagem'}</p>
+                    </div>
                     <ChevronDown className="hidden md:block ml-2 h-4 w-4 text-muted-foreground" />
                   </button>
                 </div>

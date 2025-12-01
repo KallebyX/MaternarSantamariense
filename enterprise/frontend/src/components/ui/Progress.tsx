@@ -23,8 +23,8 @@ export const Progress: React.FC<ProgressProps> = ({
 
   const variants = {
     default: 'bg-primary',
-    success: 'bg-green-600 dark:bg-green-500',
-    warning: 'bg-amber-500 dark:bg-amber-400',
+    success: 'bg-green-600',
+    warning: 'bg-amber-500',
     danger: 'bg-destructive'
   }
 

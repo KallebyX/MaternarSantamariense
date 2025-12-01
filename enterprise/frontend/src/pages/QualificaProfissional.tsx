@@ -18,8 +18,21 @@ import {
   Star,
   Trophy,
   Target,
-  Sparkles
+  Sparkles,
+  ExternalLink,
+  FileIcon,
+  Video,
+  Link2
 } from 'lucide-react'
+
+interface Resource {
+  id: string
+  title: string
+  type: 'PDF' | 'Video' | 'Website' | 'App' | 'Platform'
+  url: string
+  institution: string
+  description?: string
+}
 
 interface Module {
   id: number
@@ -33,6 +46,7 @@ interface Module {
   level: 'Introdutório' | 'Intermediário' | 'Avançado'
   progress?: number
   locked?: boolean
+  resources?: Resource[]
 }
 
 interface Trail {
@@ -59,7 +73,44 @@ const QualificaProfissional: React.FC = () => {
       lessons: 12,
       duration: '15h',
       level: 'Intermediário',
-      progress: 65
+      progress: 65,
+      resources: [
+        {
+          id: '1.1',
+          title: 'Guia do Pré-Natal RS 2024',
+          type: 'PDF',
+          url: 'https://atencaoprimaria.rs.gov.br/upload/arquivos/202404/25124004-guia-do-pre-natal-2024.pdf',
+          institution: 'Secretaria Estadual de Saúde do RS'
+        },
+        {
+          id: '1.2',
+          title: 'Guia do Pré-Natal para Profissionais',
+          type: 'PDF',
+          url: 'https://bvsms.saude.gov.br/bvs/publicacoes/guia_pre_natal_profissionais_saude_1ed.pdf',
+          institution: 'Ministério da Saúde'
+        },
+        {
+          id: '1.3',
+          title: 'Caderno de Atenção Básica 32 - Pré-Natal',
+          type: 'PDF',
+          url: 'https://bvsms.saude.gov.br/bvs/publicacoes/cadernos_atencao_basica_32_prenatal.pdf',
+          institution: 'Ministério da Saúde'
+        },
+        {
+          id: '1.4',
+          title: 'Protocolo de Enfermagem - Pré-Natal',
+          type: 'PDF',
+          url: 'https://www.portalcoren-rs.gov.br/docs/ProtocolosEnfermagem/ProtocoloEnfermagemPreNatalRiscoHabitual.pdf',
+          institution: 'COREN-RS'
+        },
+        {
+          id: '1.5',
+          title: 'Material Complementar UFN',
+          type: 'PDF',
+          url: 'https://pergamum.ufn.edu.br/pergamumweb/vinculos/0000c4/0000c48b.pdf',
+          institution: 'Universidade Franciscana'
+        }
+      ]
     },
     {
       id: 2,
@@ -71,7 +122,31 @@ const QualificaProfissional: React.FC = () => {
       lessons: 10,
       duration: '12h',
       level: 'Intermediário',
-      progress: 30
+      progress: 30,
+      resources: [
+        {
+          id: '2.1',
+          title: 'Tecnologias em Saúde - Puerpério',
+          type: 'PDF',
+          url: 'https://www.ufn.edu.br/Arquivos/vue/Portfolio/a53420f0-c96d-46e6-b42c-b62983720685.pdf',
+          institution: 'Universidade Franciscana'
+        },
+        {
+          id: '2.2',
+          title: 'Plataforma APOIARE',
+          type: 'Platform',
+          url: 'https://www.apoiare.lapinf.ufn.edu.br/',
+          institution: 'UFN/LAPINF',
+          description: 'Plataforma de apoio emocional e informacional'
+        },
+        {
+          id: '2.3',
+          title: 'Portfolio de Cuidados no Puerpério',
+          type: 'PDF',
+          url: 'https://www.ufn.edu.br/Arquivos/vue/Portfolio/a42d5374-983f-4131-b7f0-6d209cbcac6f.pdf',
+          institution: 'Universidade Franciscana'
+        }
+      ]
     },
     {
       id: 3,
@@ -83,7 +158,24 @@ const QualificaProfissional: React.FC = () => {
       lessons: 8,
       duration: '10h',
       level: 'Introdutório',
-      progress: 100
+      progress: 100,
+      resources: [
+        {
+          id: '3.1',
+          title: 'Plataforma AMAMOS',
+          type: 'Platform',
+          url: 'https://amamos.lapinf.ufn.edu.br/buscar/categoria',
+          institution: 'UFN/LAPINF',
+          description: 'Biblioteca virtual sobre aleitamento materno'
+        },
+        {
+          id: '3.2',
+          title: 'Materiais de Aleitamento Materno',
+          type: 'Website',
+          url: 'https://drive.google.com/drive/folders/1BDi76730bvskLibpQEWlJKk7VRIcIlKc',
+          institution: 'Google Drive - Recursos Compartilhados'
+        }
+      ]
     },
     {
       id: 4,
@@ -95,7 +187,38 @@ const QualificaProfissional: React.FC = () => {
       lessons: 15,
       duration: '18h',
       level: 'Avançado',
-      locked: true
+      locked: true,
+      resources: [
+        {
+          id: '4.1',
+          title: 'Primeiros Socorros em Bebês',
+          type: 'Video',
+          url: 'https://www.youtube.com/watch?v=PzqnC0paEA8',
+          institution: 'YouTube Educacional'
+        },
+        {
+          id: '4.2',
+          title: 'Cuidados com Recém-nascidos',
+          type: 'Video',
+          url: 'https://www.youtube.com/watch?v=Mr48F49Uqso',
+          institution: 'YouTube Educacional'
+        },
+        {
+          id: '4.3',
+          title: 'Urgências Pediátricas',
+          type: 'Video',
+          url: 'https://www.youtube.com/watch?v=lm6wJiCXJPY',
+          institution: 'YouTube Educacional'
+        },
+        {
+          id: '4.4',
+          title: 'App SOS Kids',
+          type: 'App',
+          url: 'https://play.google.com/store/apps/details?id=com.ufn.soskids&hl=pt_BR',
+          institution: 'UFN',
+          description: 'Aplicativo de urgências pediátricas'
+        }
+      ]
     },
     {
       id: 5,
@@ -106,7 +229,23 @@ const QualificaProfissional: React.FC = () => {
       bgColor: 'bg-emerald-50',
       lessons: 6,
       duration: '8h',
-      level: 'Introdutório'
+      level: 'Introdutório',
+      resources: [
+        {
+          id: '5.1',
+          title: 'Cartilha Saúde Bucal da Gestante',
+          type: 'PDF',
+          url: 'https://www.gov.br/saude/pt-br/centrais-de-conteudo/publicacoes/cartilhas/2022/cartilha-a-saude-bucal-da-gestante.pdf',
+          institution: 'Ministério da Saúde'
+        },
+        {
+          id: '5.2',
+          title: 'Material sobre Saúde Bucal UFN',
+          type: 'PDF',
+          url: 'https://pergamum.ufn.edu.br/pergamumweb/vinculos/0000c6/0000c608.pdf',
+          institution: 'Universidade Franciscana'
+        }
+      ]
     },
     {
       id: 6,
@@ -117,7 +256,23 @@ const QualificaProfissional: React.FC = () => {
       bgColor: 'bg-indigo-50',
       lessons: 20,
       duration: '25h',
-      level: 'Avançado'
+      level: 'Avançado',
+      resources: [
+        {
+          id: '6.1',
+          title: 'Protocolos de Enfermagem COREN-RS',
+          type: 'Website',
+          url: 'https://www.portalcoren-rs.gov.br/docs/ProtocolosEnfermagem/',
+          institution: 'COREN-RS'
+        },
+        {
+          id: '6.2',
+          title: 'Cadernos de Atenção Básica',
+          type: 'Website',
+          url: 'https://bvsms.saude.gov.br/bvs/publicacoes/',
+          institution: 'Ministério da Saúde'
+        }
+      ]
     },
     {
       id: 7,
@@ -128,7 +283,39 @@ const QualificaProfissional: React.FC = () => {
       bgColor: 'bg-cyan-50',
       lessons: 5,
       duration: '6h',
-      level: 'Introdutório'
+      level: 'Introdutório',
+      resources: [
+        {
+          id: '7.1',
+          title: 'App Fortalece',
+          type: 'App',
+          url: 'https://play.google.com/store/apps/details?id=io.kodular.miguelmachado0007.fortalece',
+          institution: 'Desenvolvimento Independente',
+          description: 'Acompanhamento da gestação'
+        },
+        {
+          id: '7.2',
+          title: 'App SOS Kids',
+          type: 'App',
+          url: 'https://play.google.com/store/apps/details?id=com.ufn.soskids',
+          institution: 'UFN',
+          description: 'Urgências pediátricas'
+        },
+        {
+          id: '7.3',
+          title: 'Plataforma AMAMOS',
+          type: 'Platform',
+          url: 'https://amamos.lapinf.ufn.edu.br/',
+          institution: 'UFN/LAPINF'
+        },
+        {
+          id: '7.4',
+          title: 'Plataforma APOIARE',
+          type: 'Platform',
+          url: 'https://www.apoiare.lapinf.ufn.edu.br/',
+          institution: 'UFN/LAPINF'
+        }
+      ]
     },
     {
       id: 8,
@@ -139,7 +326,37 @@ const QualificaProfissional: React.FC = () => {
       bgColor: 'bg-rose-50',
       lessons: 12,
       duration: '8h',
-      level: 'Introdutório'
+      level: 'Introdutório',
+      resources: [
+        {
+          id: '8.1',
+          title: 'Álbum Fotográfico - Maternidade Santa Maria',
+          type: 'Website',
+          url: 'https://www.flickr.com/photos/prefeituradesantamaria/52890420023/in/album-72177720307320784/',
+          institution: 'Prefeitura de Santa Maria'
+        },
+        {
+          id: '8.2',
+          title: 'Acervo Fotográfico Saúde',
+          type: 'Website',
+          url: 'https://www.flickr.com/photos/194124281@N02/albums',
+          institution: 'Flickr - Saúde'
+        },
+        {
+          id: '8.3',
+          title: 'Curso Introdutório Online',
+          type: 'Website',
+          url: 'https://sites.google.com/view/cursointrodutoriosm/',
+          institution: 'Secretaria Municipal de Saúde SM'
+        },
+        {
+          id: '8.4',
+          title: 'Conteúdo Pediátrico',
+          type: 'Website',
+          url: 'https://pediatraluisapinheiro.com.br/',
+          institution: 'Dra. Luisa Pinheiro'
+        }
+      ]
     },
     {
       id: 9,
@@ -150,7 +367,30 @@ const QualificaProfissional: React.FC = () => {
       bgColor: 'bg-teal-50',
       lessons: 10,
       duration: '15h',
-      level: 'Avançado'
+      level: 'Avançado',
+      resources: [
+        {
+          id: '9.1',
+          title: 'Produção Científica UFN - 1',
+          type: 'PDF',
+          url: 'https://pergamum.ufn.edu.br/pergamumweb/vinculos/0000c5/0000c57a.pdf',
+          institution: 'Universidade Franciscana'
+        },
+        {
+          id: '9.2',
+          title: 'Produção Científica UFN - 2',
+          type: 'PDF',
+          url: 'https://pergamum.ufn.edu.br/pergamumweb/vinculos/0000c5/0000c5fe.pdf',
+          institution: 'Universidade Franciscana'
+        },
+        {
+          id: '9.3',
+          title: 'Produção Científica UFN - 3',
+          type: 'PDF',
+          url: 'https://pergamum.ufn.edu.br/pergamumweb/vinculos/0000bf/0000bfec.pdf',
+          institution: 'Universidade Franciscana'
+        }
+      ]
     }
   ]
 
@@ -404,25 +644,66 @@ const QualificaProfissional: React.FC = () => {
                   exit={{ height: 0, opacity: 0 }}
                   className="border-t border-gray-100 p-6 bg-gray-50"
                 >
-                  <h4 className="font-medium text-gray-900 mb-3">Conteúdo do Módulo:</h4>
-                  <ul className="space-y-2">
-                    <li className="flex items-center gap-2 text-sm text-gray-600">
-                      <CheckCircle className="w-4 h-4 text-green-500" />
-                      Materiais didáticos atualizados
-                    </li>
-                    <li className="flex items-center gap-2 text-sm text-gray-600">
-                      <CheckCircle className="w-4 h-4 text-green-500" />
-                      Vídeos e demonstrações práticas
-                    </li>
-                    <li className="flex items-center gap-2 text-sm text-gray-600">
-                      <CheckCircle className="w-4 h-4 text-green-500" />
-                      Avaliações e exercícios
-                    </li>
-                    <li className="flex items-center gap-2 text-sm text-gray-600">
-                      <CheckCircle className="w-4 h-4 text-green-500" />
-                      Certificado de conclusão
-                    </li>
-                  </ul>
+                  <h4 className="font-medium text-gray-900 mb-4">Recursos Disponíveis:</h4>
+                  
+                  {module.resources && module.resources.length > 0 ? (
+                    <div className="space-y-3">
+                      {module.resources.map((resource) => {
+                        const getResourceIcon = () => {
+                          switch (resource.type) {
+                            case 'PDF': return <FileIcon className="w-5 h-5 text-red-500" />
+                            case 'Video': return <Video className="w-5 h-5 text-blue-500" />
+                            case 'App': return <Smartphone className="w-5 h-5 text-green-500" />
+                            case 'Platform': return <Link2 className="w-5 h-5 text-purple-500" />
+                            default: return <ExternalLink className="w-5 h-5 text-gray-500" />
+                          }
+                        }
+
+                        return (
+                          <a
+                            key={resource.id}
+                            href={resource.url}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="flex items-start gap-3 p-3 bg-white rounded-lg hover:shadow-md transition-all group"
+                          >
+                            <div className="flex-shrink-0 mt-0.5">
+                              {getResourceIcon()}
+                            </div>
+                            <div className="flex-1 min-w-0">
+                              <h5 className="font-medium text-gray-900 group-hover:text-blue-600 transition-colors">
+                                {resource.title}
+                              </h5>
+                              <p className="text-sm text-gray-500">{resource.institution}</p>
+                              {resource.description && (
+                                <p className="text-xs text-gray-400 mt-1">{resource.description}</p>
+                              )}
+                            </div>
+                            <ExternalLink className="w-4 h-4 text-gray-400 group-hover:text-blue-600 transition-colors flex-shrink-0" />
+                          </a>
+                        )
+                      })}
+                    </div>
+                  ) : (
+                    <ul className="space-y-2">
+                      <li className="flex items-center gap-2 text-sm text-gray-600">
+                        <CheckCircle className="w-4 h-4 text-green-500" />
+                        Materiais didáticos atualizados
+                      </li>
+                      <li className="flex items-center gap-2 text-sm text-gray-600">
+                        <CheckCircle className="w-4 h-4 text-green-500" />
+                        Vídeos e demonstrações práticas
+                      </li>
+                      <li className="flex items-center gap-2 text-sm text-gray-600">
+                        <CheckCircle className="w-4 h-4 text-green-500" />
+                        Avaliações e exercícios
+                      </li>
+                      <li className="flex items-center gap-2 text-sm text-gray-600">
+                        <CheckCircle className="w-4 h-4 text-green-500" />
+                        Certificado de conclusão
+                      </li>
+                    </ul>
+                  )}
                 </motion.div>
               )}
             </motion.div>

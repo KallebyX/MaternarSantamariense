@@ -5,7 +5,7 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "dev": "vite --mode local --host",
+    "dev": "vite --host",
     "dev:local": "vite --mode local --host",
     "dev:staging": "vite --mode development --host",
     "build": "tsc && vite build --mode production",
