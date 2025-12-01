@@ -117,6 +117,8 @@ export const ToastProvider: React.FC<ToastProviderProps> = ({ children }) => {
                     <button
                       className="rounded-md inline-flex text-gray-400 hover:text-gray-500 focus:outline-none"
                       onClick={() => removeToast(toast.id)}
+                      aria-label="Fechar notificação"
+                      title="Fechar"
                     >
                       <X className="w-5 h-5" />
                     </button>

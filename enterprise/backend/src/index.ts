@@ -30,9 +30,6 @@ class SMSEnterpriseServer {
     this.app = express()
     this.server = createServer(this.app)
     this.setupMiddleware()
-    this.setupRoutes()
-    this.setupApollo()
-    this.setupSocket()
   }
 
   private setupMiddleware() {
@@ -62,7 +59,7 @@ class SMSEnterpriseServer {
       },
       credentials: true,
       methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-      allowedHeaders: ['Content-Type', 'Authorization']
+      allowedHeaders: ['Content-Type', 'Authorization', 'x-app-env', 'x-app-version']
     }))
     
     // Compression
@@ -168,8 +165,11 @@ class SMSEnterpriseServer {
       }
     })
 
-    // 404 handler
-    this.app.use('*', (req, res) => {
+    // 404 handler - não aplicar ao GraphQL
+    this.app.use((req, res, next) => {
+      if (req.path === '/graphql') {
+        return next()
+      }
       res.status(404).json({
         error: 'Endpoint não encontrado',
         path: req.originalUrl
@@ -207,6 +207,15 @@ class SMSEnterpriseServer {
       await prisma.$connect()
       this.dbConnected = true
       logger.info('✅ Database connected successfully')
+
+      // Setup Apollo Server
+      await this.setupApollo()
+      
+      // Setup routes after Apollo
+      this.setupRoutes()
+      
+      // Setup Socket.IO
+      this.setupSocket()
 
       // Start server
       this.server.listen(config.PORT, () => {

@@ -23,41 +23,13 @@ interface ThemeProviderProps {
 }
 
 export const ThemeProvider: React.FC<ThemeProviderProps> = ({ children }) => {
-  const [theme, setTheme] = useState<Theme>(() => {
-    const stored = localStorage.getItem('theme') as Theme
-    return stored || 'light'
-  })
-
+  const [theme, setTheme] = useState<Theme>('light')
   const [isDark, setIsDark] = useState(false)
 
   useEffect(() => {
-    const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)')
-    
-    const updateTheme = () => {
-      if (theme === 'auto') {
-        setIsDark(mediaQuery.matches)
-      } else {
-        setIsDark(theme === 'dark')
-      }
-    }
-
-    updateTheme()
-    
-    if (theme === 'auto') {
-      mediaQuery.addEventListener('change', updateTheme)
-      return () => mediaQuery.removeEventListener('change', updateTheme)
-    }
-  }, [theme])
-
-  useEffect(() => {
-    localStorage.setItem('theme', theme)
-    
-    if (isDark) {
-      document.documentElement.classList.add('dark')
-    } else {
-      document.documentElement.classList.remove('dark')
-    }
-  }, [theme, isDark])
+    localStorage.setItem('theme', 'light')
+    document.documentElement.classList.remove('dark')
+  }, [])
 
   return (
     <ThemeContext.Provider value={{ theme, setTheme, isDark }}>

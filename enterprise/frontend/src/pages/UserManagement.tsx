@@ -45,10 +45,10 @@ const UserManagement: React.FC = () => {
   const [users, setUsers] = useState<User[]>([
     {
       id: '1',
-      name: 'Admin Sistema',
-      email: 'admin@maternarsm.com.br',
+      name: 'Laura Pellegrin',
+      email: 'laura@maternarsantamariense.com',
       role: 'ADMIN',
-      department: 'TI',
+      department: 'Enfermagem',
       status: 'active',
       lastActive: '2 min atrás',
       createdAt: '2024-01-15'
@@ -298,13 +298,25 @@ const UserManagement: React.FC = () => {
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                       <div className="flex items-center justify-end space-x-2">
-                        <button className="text-maternar-blue-600 hover:text-maternar-blue-900">
+                        <button 
+                          className="text-maternar-blue-600 hover:text-maternar-blue-900"
+                          aria-label="Editar usuário"
+                          title="Editar usuário"
+                        >
                           <Edit className="w-4 h-4" />
                         </button>
-                        <button className="text-red-600 hover:text-red-900">
+                        <button 
+                          className="text-red-600 hover:text-red-900"
+                          aria-label="Excluir usuário"
+                          title="Excluir usuário"
+                        >
                           <Trash2 className="w-4 h-4" />
                         </button>
-                        <button className="text-gray-600 hover:text-gray-900">
+                        <button 
+                          className="text-gray-600 hover:text-gray-900"
+                          aria-label="Mais opções"
+                          title="Mais opções"
+                        >
                           <MoreVertical className="w-4 h-4" />
                         </button>
                       </div>

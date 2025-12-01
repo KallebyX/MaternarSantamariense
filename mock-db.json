@@ -1,0 +1,88 @@
+{
+  "users": [
+    {
+      "id": "1",
+      "email": "laura@maternarsantamariense.com",
+      "password": "$2a$12$YourHashedPasswordHere",
+      "firstName": "Laura",
+      "lastName": "Pellegrin",
+      "username": "laurapellegrin",
+      "role": "ADMIN",
+      "department": "Enfermagem",
+      "position": "Coordenadora de Enfermagem",
+      "avatar": "/avatars/laura.jpg",
+      "totalXP": 5000,
+      "level": 10,
+      "weeklyXP": 250,
+      "currentStreak": 7,
+      "longestStreak": 30,
+      "isOnline": true,
+      "lastActive": "2025-12-01T20:00:00Z",
+      "createdAt": "2025-12-01T00:00:00Z"
+    },
+    {
+      "id": "2",
+      "email": "maria.oliveira@maternarsantamariense.com",
+      "password": "$2a$12$YourHashedPasswordHere",
+      "firstName": "Maria",
+      "lastName": "Oliveira",
+      "username": "mariaoliveira",
+      "role": "USER",
+      "department": "Enfermagem",
+      "position": "Enfermeira Obstetra",
+      "avatar": "/avatars/maria.jpg",
+      "totalXP": 3000,
+      "level": 7,
+      "weeklyXP": 150,
+      "currentStreak": 3,
+      "longestStreak": 14,
+      "isOnline": false,
+      "lastActive": "2025-12-01T19:00:00Z",
+      "createdAt": "2025-11-15T00:00:00Z"
+    }
+  ],
+  "courses": [
+    {
+      "id": "1",
+      "title": "Cuidados Neonatais Essenciais",
+      "description": "Aprenda os fundamentos dos cuidados com recém-nascidos",
+      "thumbnail": "/courses/neonatal.jpg",
+      "category": "Neonatologia",
+      "difficulty": "BEGINNER",
+      "xpReward": 100,
+      "estimatedTime": 120,
+      "isActive": true,
+      "createdAt": "2025-11-01T00:00:00Z"
+    },
+    {
+      "id": "2",
+      "title": "Aleitamento Materno",
+      "description": "Técnicas e orientações para apoio ao aleitamento",
+      "thumbnail": "/courses/aleitamento.jpg",
+      "category": "Nutrição",
+      "difficulty": "INTERMEDIATE",
+      "xpReward": 150,
+      "estimatedTime": 180,
+      "isActive": true,
+      "createdAt": "2025-11-15T00:00:00Z"
+    }
+  ],
+  "achievements": [
+    {
+      "id": "1",
+      "title": "Primeira Aula",
+      "description": "Complete sua primeira aula",
+      "icon": "🎓",
+      "xpReward": 50,
+      "type": "COURSE_COMPLETION"
+    },
+    {
+      "id": "2",
+      "title": "Semana de Fogo",
+      "description": "Mantenha uma sequência de 7 dias",
+      "icon": "🔥",
+      "xpReward": 100,
+      "type": "LOGIN_STREAK"
+    }
+  ]
+}

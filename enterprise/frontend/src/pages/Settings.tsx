@@ -39,7 +39,6 @@ const Settings: React.FC = () => {
       dataSharing: false
     },
     appearance: {
-      theme: 'light',
       language: 'pt-BR',
       timezone: 'America/Sao_Paulo',
       fontSize: 'medium'
@@ -109,8 +108,7 @@ const Settings: React.FC = () => {
         dataSharing: false
       },
       appearance: {
-        theme: 'light',
-        language: 'pt-BR',
+          language: 'pt-BR',
         timezone: 'America/Sao_Paulo',
         fontSize: 'medium'
       }
@@ -334,24 +332,6 @@ const Settings: React.FC = () => {
                 <h2 className="text-xl font-semibold text-gray-900">Aparência</h2>
                 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Tema
-                    </label>
-                    <select 
-                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500"
-                      value={settings.appearance.theme}
-                      onChange={(e) => setSettings({
-                        ...settings,
-                        appearance: { ...settings.appearance, theme: e.target.value }
-                      })}
-                    >
-                      <option value="light">Claro</option>
-                      <option value="dark">Escuro</option>
-                      <option value="auto">Automático</option>
-                    </select>
-                  </div>
-                  
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-2">
                       Idioma

@@ -119,6 +119,8 @@ export const NotificationCenter: React.FC = () => {
       <button
         onClick={() => setIsOpen(!isOpen)}
         className="relative p-2 text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded-lg transition-colors"
+        aria-label={`Notificações${unreadCount > 0 ? ` (${unreadCount} não lidas)` : ''}`}
+        title="Abrir central de notificações"
       >
         <Bell className="w-6 h-6" />
         {unreadCount > 0 && (
@@ -200,6 +202,8 @@ export const NotificationCenter: React.FC = () => {
                                     deleteNotification(notification.id)
                                   }}
                                   className="text-gray-400 hover:text-gray-600 ml-2"
+                                  aria-label="Excluir notificação"
+                                  title="Excluir notificação"
                                 >
                                   <X className="w-4 h-4" />
                                 </button>

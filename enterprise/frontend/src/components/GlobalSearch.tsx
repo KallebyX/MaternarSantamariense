@@ -26,9 +26,11 @@ export const GlobalSearch: React.FC = () => {
   const [query, setQuery] = useState('')
   const [results, setResults] = useState<SearchResult[]>([])
   const [recentSearches, setRecentSearches] = useState<string[]>([
-    'Reunião de equipe',
-    'Política de segurança',
-    'João Silva'
+    'Laura Pellegrin',
+    'Aleitamento Materno',
+    'Protocolo IHAC',
+    'Curso pré-natal',
+    'Santa Maria'
   ])
   const inputRef = useRef<HTMLInputElement>(null)
 
@@ -37,40 +39,48 @@ export const GlobalSearch: React.FC = () => {
     {
       id: '1',
       type: 'user',
-      title: 'João Silva',
-      subtitle: 'Enfermeiro - Enfermagem',
+      title: 'Laura Pellegrin',
+      subtitle: 'Coordenadora de Enfermagem - Santa Maria',
       url: '/profile/1',
       icon: Users
     },
     {
       id: '2',
-      type: 'project',
-      title: 'Implementação do Protocolo de Sepse',
-      subtitle: 'Projeto Ativo - 3 membros',
-      url: '/projects/1',
-      icon: FolderKanban
+      type: 'user',
+      title: 'Maria Oliveira',
+      subtitle: 'Enfermeira Obstetra - Santa Maria',
+      url: '/profile/2',
+      icon: Users
     },
     {
       id: '3',
+      type: 'project',
+      title: 'Programa de Aleitamento Materno',
+      subtitle: 'Projeto Ativo - 12 membros',
+      url: '/projects/p3',
+      icon: FolderKanban
+    },
+    {
+      id: '4',
       type: 'course',
-      title: 'Segurança do Paciente',
-      subtitle: 'Intermediário - 2 horas',
+      title: 'Cuidados Neonatais Essenciais',
+      subtitle: 'Básico - 2 horas',
       url: '/training/1',
       icon: BookOpen
     },
     {
-      id: '4',
+      id: '5',
       type: 'policy',
-      title: 'Política de Segurança da Informação',
-      subtitle: 'Versão 1.0 - Segurança',
+      title: 'Protocolo de Atendimento Pré-natal',
+      subtitle: 'Versão 2024 - Santa Maria',
       url: '/policies/1',
       icon: FileText
     },
     {
-      id: '5',
+      id: '6',
       type: 'event',
-      title: 'Reunião de Equipe',
-      subtitle: 'Amanhã às 14:00 - Sala A',
+      title: 'Reunião de Equipe de Enfermagem',
+      subtitle: 'Hoje às 14:00 - 3º andar',
       url: '/calendar',
       icon: Calendar
     }
@@ -153,7 +163,7 @@ export const GlobalSearch: React.FC = () => {
         className="flex items-center space-x-2 px-3 py-2 text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded-lg transition-colors border border-gray-200"
       >
         <Search className="w-4 h-4" />
-        <span className="text-sm">Buscar...</span>
+        <span className="text-sm">Pesquisar...</span>
         <kbd className="hidden sm:inline-block px-2 py-1 text-xs font-semibold text-gray-600 bg-gray-100 border border-gray-200 rounded">
           ⌘K
         </kbd>
@@ -190,7 +200,7 @@ export const GlobalSearch: React.FC = () => {
                       type="text"
                       value={query}
                       onChange={(e) => setQuery(e.target.value)}
-                      placeholder="Buscar em tudo..."
+                      placeholder="Pesquisar em tudo..."
                       className="flex-1 text-lg outline-none"
                       autoFocus
                     />

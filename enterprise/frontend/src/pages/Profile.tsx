@@ -107,72 +107,73 @@ const Profile: React.FC = () => {
 
   const user = {
     id: '1',
-    name: 'Ana Costa',
-    email: 'ana.costa@sms-sm.health',
-    phone: '+55 (11) 98765-4321',
-    role: 'Coordenadora de Enfermagem',
-    department: 'Enfermagem',
-    location: 'São Paulo, SP',
-    joinDate: '2023-03-15',
-    avatar: '/avatars/ana.jpg',
-    bio: 'Enfermeira especializada em UTI com mais de 10 anos de experiência. Apaixonada por cuidado ao paciente e desenvolvimento de equipes.',
-    skills: ['Gestão de Equipes', 'UTI', 'Emergência', 'Treinamento', 'Protocolos'],
+    name: 'Laura Pellegrin',
+    email: 'laura@maternarsantamariense.com',
+    phone: '+55 (55) 99765-4321',
+    role: 'Acadêmica de Enfermagem | Bolsista PROBIC',
+    department: 'Enfermagem - UFN',
+    location: 'Santa Maria, RS',
+    joinDate: '2025-12-01',
+    avatar: '/avatars/laura.jpg',
+    bio: 'Acadêmica do curso de Enfermagem da Universidade Franciscana (UFN), Santa Maria - RS. Bolsista PROBIC/UFN com projeto "Atenção Pré-Natal: Tecnologias indutoras de boas práticas obstétricas". Integrante do GESTAR e GEPESES/UFN. Vice-presidente do DAENF/UFN. Representante discente no colegiado do Curso de Enfermagem. Membro do COEST/RS - ABEn/RS. Interesse em pesquisa em Saúde Materno Infantil.',
+    skills: ['Pesquisa Científica', 'Saúde Materno-Infantil', 'Atenção Pré-Natal', 'Obstetrícia', 'Liderança Estudantil', 'Empreendedorismo Social'],
     certifications: [
-      { name: 'Especialização em UTI', date: '2020-12', institution: 'USP', status: 'valid' },
-      { name: 'Gestão em Saúde', date: '2021-06', institution: 'FGV', status: 'valid' },
-      { name: 'BLS Provider', date: '2023-01', institution: 'American Heart Association', status: 'valid' }
+      { name: 'Bolsista PROBIC/UFN', date: '2025-03', institution: 'Universidade Franciscana', status: 'valid' },
+      { name: 'Integrante GESTAR', date: '2024-08', institution: 'UFN', status: 'valid' },
+      { name: 'Vice-Presidente DAENF', date: '2025-02', institution: 'UFN', status: 'valid' },
+      { name: 'Membro COEST/RS', date: '2024-11', institution: 'ABEn/RS', status: 'valid' }
     ]
   }
 
   const stats = {
-    projects: 12,
-    completedTraining: 24,
-    teamSize: 15,
-    experience: 10,
-    achievements: 18,
-    gamificationPoints: 45230,
-    level: 15,
+    projects: 3,
+    completedTraining: 8,
+    teamSize: 12,
+    experience: 2,
+    achievements: 6,
+    gamificationPoints: 5250,
+    level: 10,
     streak: 12,
-    nextLevelPoints: 50000
+    nextLevelPoints: 6000
   }
 
   const recentActivity = [
     {
       id: 1,
       type: 'training',
-      title: 'Concluiu o curso "Protocolos de Segurança"',
-      date: '2025-10-07',
-      points: 500
+      title: 'Concluiu o curso "Cuidados Neonatais Essenciais"',
+      date: '2025-12-01',
+      points: 100
     },
     {
       id: 2,
       type: 'project',
-      title: 'Atualizou projeto "Implementação ANVISA 2024"',
-      date: '2025-10-06',
-      points: 200
+      title: 'Apresentou projeto "Tecnologias indutoras de boas práticas obstétricas"',
+      date: '2025-11-28',
+      points: 300
     },
     {
       id: 3,
       type: 'achievement',
-      title: 'Conquistou badge "Líder de Equipe"',
-      date: '2025-10-05',
-      points: 1000
+      title: 'Conquistou badge "Pesquisadora Iniciante"',
+      date: '2025-11-15',
+      points: 200
     },
     {
       id: 4,
       type: 'collaboration',
-      title: 'Colaborou no projeto de Telemedicina',
-      date: '2025-10-04',
-      points: 300
+      title: 'Participou da reunião do GESTAR',
+      date: '2025-11-10',
+      points: 50
     }
   ]
 
   const teamMembers = [
-    { name: 'João Silva', status: 'online' as const },
-    { name: 'Maria Santos', status: 'online' as const },
-    { name: 'Pedro Oliveira', status: 'away' as const },
-    { name: 'Carla Mendes', status: 'offline' as const },
-    { name: 'Lucas Ferreira', status: 'online' as const },
+    { name: 'Maria Oliveira', status: 'online' as const },
+    { name: 'Carolina Santos', status: 'online' as const },
+    { name: 'Ana Rodrigues', status: 'away' as const },
+    { name: 'Prof. Dr. Claudia', status: 'online' as const },
+    { name: 'Prof. Dr. Fernanda', status: 'offline' as const },
   ]
 
   const getActivityIcon = (type: string) => {
@@ -250,7 +251,11 @@ const Profile: React.FC = () => {
                 <div className="relative -m-6 mb-6 h-32 bg-gradient-to-br from-primary via-primary/80 to-primary/60 rounded-t-lg overflow-hidden">
                   <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGRlZnM+PHBhdHRlcm4gaWQ9ImdyaWQiIHdpZHRoPSI0MCIgaGVpZ2h0PSI0MCIgcGF0dGVyblVuaXRzPSJ1c2VyU3BhY2VPblVzZSI+PHBhdGggZD0iTSAwIDEwIEwgNDAgMTAgTSAxMCAwIEwgMTAgNDAgTSAwIDIwIEwgNDAgMjAgTSAyMCAwIEwgMjAgNDAgTSAwIDMwIEwgNDAgMzAgTSAzMCAwIEwgMzAgNDAiIGZpbGw9Im5vbmUiIHN0cm9rZT0id2hpdGUiIHN0cm9rZS1vcGFjaXR5PSIwLjEiIHN0cm9rZS13aWR0aD0iMSIvPjwvcGF0dGVybj48L2RlZnM+PHJlY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsbD0idXJsKCNncmlkKSIvPjwvc3ZnPg==')] opacity-30" />
                   {isEditing && (
-                    <button className="absolute top-2 right-2 p-2 bg-background/80 backdrop-blur-sm rounded-lg hover:bg-background transition-colors">
+                    <button 
+                      className="absolute top-2 right-2 p-2 bg-background/80 backdrop-blur-sm rounded-lg hover:bg-background transition-colors"
+                      aria-label="Alterar foto de capa"
+                      title="Alterar foto de capa"
+                    >
                       <Camera className="w-4 h-4 text-foreground" />
                     </button>
                   )}
@@ -268,7 +273,11 @@ const Profile: React.FC = () => {
                       ringColor="ring-background ring-4"
                     />
                     {isEditing && (
-                      <button className="absolute bottom-1 right-1 p-2 bg-primary text-primary-foreground rounded-full hover:bg-primary/90 transition-colors shadow-lg">
+                      <button 
+                        className="absolute bottom-1 right-1 p-2 bg-primary text-primary-foreground rounded-full hover:bg-primary/90 transition-colors shadow-lg"
+                        aria-label="Alterar foto de perfil"
+                        title="Alterar foto de perfil"
+                      >
                         <Camera className="w-4 h-4" />
                       </button>
                     )}
@@ -388,7 +397,11 @@ const Profile: React.FC = () => {
                     <Badge key={index} variant="default" className="group">
                       {skill}
                       {isEditing && (
-                        <button className="ml-1 opacity-0 group-hover:opacity-100">
+                        <button 
+                          className="ml-1 opacity-0 group-hover:opacity-100"
+                          aria-label={`Remover competência: ${skill}`}
+                          title="Remover"
+                        >
                           <X className="w-3 h-3" />
                         </button>
                       )}

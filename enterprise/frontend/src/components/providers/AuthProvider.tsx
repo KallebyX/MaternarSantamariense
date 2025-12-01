@@ -64,53 +64,110 @@ const mockUsers: Record<string, User> = {
   'admin@maternar.com': {
     id: '1',
     email: 'admin@maternar.com',
-    username: 'admin',
-    firstName: 'Ana',
-    lastName: 'Costa',
-    name: 'Ana Costa',
+    username: 'laurapellegrin',
+    firstName: 'Laura',
+    lastName: 'Pellegrin',
+    name: 'Laura Pellegrin',
     role: 'ADMIN',
-    department: 'Administracao',
-    position: 'Administradora',
-    avatar: '/avatars/ana.jpg',
+    department: 'Enfermagem',
+    position: 'Coordenadora de Enfermagem',
+    avatar: '/avatars/laura.jpg',
     totalXP: 5000,
     level: 10,
     weeklyXP: 250,
     currentStreak: 7,
-    longestStreak: 30
+    longestStreak: 30,
+    createdAt: '2025-12-01T00:00:00Z'
+  },
+  'laura@maternarsantamariense.com': {
+    id: '1',
+    email: 'laura@maternarsantamariense.com',
+    username: 'laurapellegrin',
+    firstName: 'Laura',
+    lastName: 'Pellegrin',
+    name: 'Laura Pellegrin',
+    role: 'ADMIN',
+    department: 'Enfermagem',
+    position: 'Coordenadora de Enfermagem',
+    avatar: '/avatars/laura.jpg',
+    totalXP: 5000,
+    level: 10,
+    weeklyXP: 250,
+    currentStreak: 7,
+    longestStreak: 30,
+    createdAt: '2025-12-01T00:00:00Z'
   },
   'enfermeira@maternar.com': {
     id: '2',
     email: 'enfermeira@maternar.com',
-    username: 'maria',
+    username: 'mariaoliveira',
     firstName: 'Maria',
-    lastName: 'Silva',
-    name: 'Maria Silva',
+    lastName: 'Oliveira',
+    name: 'Maria Oliveira',
     role: 'USER',
     department: 'Enfermagem',
-    position: 'Enfermeira Chefe',
+    position: 'Enfermeira Obstetra',
     avatar: '/avatars/maria.jpg',
     totalXP: 3000,
     level: 7,
     weeklyXP: 150,
     currentStreak: 3,
-    longestStreak: 14
+    longestStreak: 14,
+    createdAt: '2025-11-15T00:00:00Z'
   },
-  'manager@maternar.com': {
+  'medica@maternar.com': {
     id: '3',
-    email: 'manager@maternar.com',
-    username: 'joao',
-    firstName: 'Joao',
+    email: 'medica@maternar.com',
+    username: 'carolinasantos',
+    firstName: 'Carolina',
     lastName: 'Santos',
-    name: 'Joao Santos',
+    name: 'Carolina Santos',
     role: 'MANAGER',
-    department: 'Gestao',
-    position: 'Gerente',
-    avatar: '/avatars/joao.jpg',
-    totalXP: 4000,
+    department: 'Medicina',
+    position: 'Médica Pediatra',
+    avatar: '/avatars/carolina.jpg',
+    totalXP: 4200,
     level: 8,
     weeklyXP: 200,
     currentStreak: 5,
-    longestStreak: 21
+    longestStreak: 21,
+    createdAt: '2025-10-20T00:00:00Z'
+  },
+  'tecnica@maternar.com': {
+    id: '4',
+    email: 'tecnica@maternar.com',
+    username: 'anarodrigues',
+    firstName: 'Ana',
+    lastName: 'Rodrigues',
+    name: 'Ana Rodrigues',
+    role: 'USER',
+    department: 'Enfermagem',
+    position: 'Técnica de Enfermagem',
+    avatar: '/avatars/ana.jpg',
+    totalXP: 2500,
+    level: 6,
+    weeklyXP: 120,
+    currentStreak: 2,
+    longestStreak: 10,
+    createdAt: '2025-11-01T00:00:00Z'
+  },
+  'nutricionista@maternar.com': {
+    id: '5',
+    email: 'nutricionista@maternar.com',
+    username: 'fernandacosta',
+    firstName: 'Fernanda',
+    lastName: 'Costa',
+    name: 'Fernanda Costa',
+    role: 'USER',
+    department: 'Nutrição',
+    position: 'Nutricionista',
+    avatar: '/avatars/fernanda.jpg',
+    totalXP: 2800,
+    level: 6,
+    weeklyXP: 140,
+    currentStreak: 4,
+    longestStreak: 12,
+    createdAt: '2025-10-10T00:00:00Z'
   }
 }
 
@@ -118,18 +175,19 @@ const mockUsers: Record<string, User> = {
 const defaultMockUser: User = {
   id: '1',
   email: 'admin@maternar.com',
-  username: 'admin',
-  firstName: 'Ana',
-  lastName: 'Costa',
-  name: 'Ana Costa',
+  username: 'laurapellegrin',
+  firstName: 'Laura',
+  lastName: 'Pellegrin',
+  name: 'Laura Pellegrin',
   role: 'ADMIN',
-  department: 'Administracao',
-  position: 'Administradora',
+  department: 'Enfermagem',
+  position: 'Coordenadora de Enfermagem',
   totalXP: 5000,
   level: 10,
   weeklyXP: 250,
   currentStreak: 7,
-  longestStreak: 30
+  longestStreak: 30,
+  createdAt: '2025-12-01T00:00:00Z'
 }
 
 // Função para criar usuário mock a partir de email
@@ -137,6 +195,11 @@ const createMockUser = (email: string): User => {
   // Verificar se é um usuário mock conhecido
   if (mockUsers[email]) {
     return mockUsers[email]
+  }
+
+  // Se for admin, retornar os dados da Laura
+  if (email.toLowerCase().includes('admin')) {
+    return defaultMockUser
   }
 
   // Criar usuário genérico

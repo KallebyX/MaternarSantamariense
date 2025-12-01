@@ -13,6 +13,7 @@ import ForgotPassword from './pages/auth/ForgotPassword'
 
 // Lazy loaded pages para melhor performance
 const Dashboard = lazy(() => import('./pages/Dashboard'))
+const DashboardEnhanced = lazy(() => import('./pages/DashboardEnhanced'))
 const Gamification = lazy(() => import('./pages/Gamification'))
 const Training = lazy(() => import('./pages/Training'))
 const CourseDetail = lazy(() => import('./pages/CourseDetail'))
@@ -32,6 +33,7 @@ const NotFound = lazy(() => import('./pages/NotFound'))
 
 // Layout
 import { Layout } from './components/layout/Layout'
+import { EnhancedLayout } from './components/layout/EnhancedLayout'
 
 // Providers
 import { AuthProvider } from './components/providers/AuthProvider'
@@ -97,9 +99,9 @@ function App() {
                     <Route path="/forgot-password" element={<ForgotPassword />} />
 
                     {/* Protected Routes with Layout */}
-                    <Route element={<ProtectedRoute><Layout /></ProtectedRoute>}>
+                    <Route element={<ProtectedRoute><EnhancedLayout /></ProtectedRoute>}>
                       <Route path="/" element={<Navigate to="/dashboard" replace />} />
-                      <Route path="/dashboard" element={<Dashboard />} />
+                      <Route path="/dashboard" element={<DashboardEnhanced />} />
                       <Route path="/gamification" element={<Gamification />} />
                       <Route path="/training" element={<Training />} />
                       <Route path="/training/:id" element={<CourseDetail />} />

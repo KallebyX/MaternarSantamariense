@@ -19,8 +19,6 @@ import {
   Search,
   ChevronDown,
   LogOut,
-  Sun,
-  Moon
 } from 'lucide-react'
 
 import { Button } from '../ui/Button'
@@ -28,14 +26,12 @@ import { Avatar } from '../ui/Avatar'
 import { useAuth } from '../providers/AuthProvider'
 import { NotificationCenter } from '../NotificationCenter'
 import { GlobalSearch } from '../GlobalSearch'
-import { useTheme } from '../providers/ThemeProvider'
 
 export const Layout: React.FC = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false)
   const [userMenuOpen, setUserMenuOpen] = useState(false)
   const location = useLocation()
   const { user, logout } = useAuth()
-  const { theme, setTheme, isDark } = useTheme()
 
   const navigation = [
     { name: 'Dashboard', href: '/dashboard', icon: Home },
@@ -157,15 +153,6 @@ export const Layout: React.FC = () => {
               <GlobalSearch />
             </div>
             <div className="ml-4 flex items-center md:ml-6 space-x-2">
-              {/* Dark Mode Toggle */}
-              <button
-                onClick={() => setTheme(isDark ? 'light' : 'dark')}
-                className="p-2 rounded-lg text-muted-foreground hover:text-foreground hover:bg-accent transition-colors"
-                aria-label="Toggle theme"
-              >
-                {isDark ? <Sun className="h-5 w-5" /> : <Moon className="h-5 w-5" />}
-              </button>
-
               {/* Notifications */}
               <NotificationCenter />
 
@@ -177,13 +164,14 @@ export const Layout: React.FC = () => {
                     onClick={() => setUserMenuOpen(!userMenuOpen)}
                   >
                     <Avatar
-                      src={user?.avatar}
-                      alt={user?.name || 'User'}
-                      fallback={user?.name || 'U'}
+                      src={user?.avatar || '/avatars/laura.jpg'}
+                      alt={user?.name || 'Laura Pellegrin'}
+                      fallback={user?.firstName?.charAt(0) || 'L'}
                       size="sm"
+                      className="maternar-avatar"
                     />
                     <span className="hidden md:block ml-3 text-foreground text-sm font-medium">
-                      {user?.name}
+                      {user?.firstName || 'Laura'} {user?.lastName || 'Pellegrin'}
                     </span>
                     <ChevronDown className="hidden md:block ml-2 h-4 w-4 text-muted-foreground" />
                   </button>
