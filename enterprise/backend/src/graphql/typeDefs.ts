@@ -209,7 +209,41 @@ export const typeDefs = gql`
     createdAt: DateTime!
     updatedAt: DateTime!
   }
-  
+
+  type Notification {
+    id: ID!
+    title: String!
+    message: String!
+    type: NotificationType!
+    category: String
+    isRead: Boolean!
+    actionUrl: String
+    createdAt: DateTime!
+  }
+
+  type DashboardMetrics {
+    totalUsers: Int!
+    totalCourses: Int!
+    totalProjects: Int!
+    activeProjects: Int!
+    totalEvents: Int!
+    upcomingEvents: Int!
+  }
+
+  type LeaderboardUser {
+    id: ID!
+    username: String!
+    firstName: String!
+    lastName: String!
+    avatar: String
+    department: String
+    position: String
+    totalXP: Int!
+    level: Int!
+    weeklyXP: Int!
+    currentStreak: Int!
+  }
+
   # Enums
   enum UserRole {
     ADMIN
@@ -307,7 +341,18 @@ export const typeDefs = gql`
     SUPPORT
     EXTERNAL
   }
-  
+
+  enum NotificationType {
+    INFO
+    SUCCESS
+    WARNING
+    ERROR
+    ACHIEVEMENT
+    MESSAGE
+    EVENT
+    TASK
+  }
+
   # Input Types
   input LoginInput {
     email: String!
@@ -384,7 +429,49 @@ export const typeDefs = gql`
     dueDate: DateTime
     assigneeId: ID
   }
-  
+
+  input UpdateProfileInput {
+    firstName: String
+    lastName: String
+    avatar: String
+    department: String
+    position: String
+  }
+
+  input CreateChannelInput {
+    name: String!
+    description: String
+    type: ChannelType
+  }
+
+  input UpdateEventInput {
+    title: String
+    description: String
+    startDate: DateTime
+    endDate: DateTime
+    type: EventType
+    location: String
+    isAllDay: Boolean
+  }
+
+  input UpdateProjectInput {
+    name: String
+    description: String
+    status: ProjectStatus
+    priority: ProjectPriority
+    startDate: DateTime
+    dueDate: DateTime
+  }
+
+  input UpdateUserInput {
+    firstName: String
+    lastName: String
+    role: UserRole
+    department: String
+    position: String
+    avatar: String
+  }
+
   # Queries
   type Query {
     # Auth
@@ -416,9 +503,19 @@ export const typeDefs = gql`
     # Policies
     policies: [Policy!]!
     policy(id: ID!): Policy
-    
+
     # Links
     links: [Link!]!
+
+    # Admin
+    users: [User!]!
+
+    # Dashboard & Analytics
+    dashboardMetrics: DashboardMetrics!
+    leaderboard(limit: Int): [LeaderboardUser!]!
+
+    # Notifications
+    notifications(limit: Int, unreadOnly: Boolean): [Notification!]!
   }
   
   # Mutations
@@ -451,8 +548,31 @@ export const typeDefs = gql`
     # Policies
     markPolicyAsRead(policyId: ID!): PolicyRead!
     acknowledgPolicy(policyId: ID!): PolicyRead!
+
+    # Profile
+    updateProfile(input: UpdateProfileInput!): User!
+    changePassword(currentPassword: String!, newPassword: String!): Boolean!
+
+    # Channels
+    createChannel(input: CreateChannelInput!): Channel!
+
+    # Events Management
+    updateEvent(id: ID!, input: UpdateEventInput!): Event!
+    deleteEvent(id: ID!): Boolean!
+
+    # Projects Management
+    updateProject(id: ID!, input: UpdateProjectInput!): Project!
+    addProjectMember(projectId: ID!, userId: ID!, role: ProjectRole): ProjectMember!
+
+    # Notifications
+    markNotificationAsRead(id: ID!): Notification!
+    markAllNotificationsAsRead: Boolean!
+
+    # Admin
+    updateUser(id: ID!, input: UpdateUserInput!): User!
+    deleteUser(id: ID!): Boolean!
   }
-  
+
   # Subscriptions
   type Subscription {
     messageAdded(channelId: ID!): Message!

@@ -15,23 +15,25 @@ async function seedEnhanced() {
     const userPassword = await bcrypt.hash('user123', 12)
 
     const users = await Promise.all([
-      // Admin
+      // Admin Principal - Laura Pellegrin
       prisma.user.upsert({
-        where: { email: 'admin@maternarsm.com.br' },
+        where: { email: 'admin@maternarsantamariense.com' },
         update: {},
         create: {
-          email: 'admin@maternarsm.com.br',
-          username: 'admin',
+          email: 'admin@maternarsantamariense.com',
+          username: 'laura.pellegrin',
           password: adminPassword,
-          firstName: 'Admin',
-          lastName: 'Sistema',
+          firstName: 'Laura',
+          lastName: 'Pellegrin',
           role: 'ADMIN',
-          department: 'TI',
-          position: 'Administrador do Sistema',
-          avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Admin',
+          department: 'Enfermagem',
+          position: 'Acadêmica de Enfermagem | Bolsista PROBIC',
+          avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Laura&backgroundColor=b6e3f4',
           totalXP: 15000,
           level: 15,
-          weeklyXP: 1200
+          weeklyXP: 1200,
+          currentStreak: 7,
+          longestStreak: 30
         }
       }),
 
@@ -1388,7 +1390,7 @@ Incidentes não intencionais que causam dano ao paciente.
     logger.info(`   🔗 Links: ${linksData.length}`)
     logger.info('')
     logger.info('🔐 Default credentials:')
-    logger.info('   Admin: admin@maternarsm.com.br / admin123')
+    logger.info('   Admin: admin@maternarsantamariense.com / admin123')
     logger.info('   Users: [email] / user123')
     logger.info('')
     logger.info('✨ Database is ready for use!')

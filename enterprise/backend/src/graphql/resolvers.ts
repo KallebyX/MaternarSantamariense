@@ -1,4 +1,5 @@
 import { AuthenticationError, ForbiddenError, UserInputError } from 'apollo-server-express'
+import bcrypt from 'bcryptjs'
 import { authService } from '../services/auth.service.js'
 import { courseService } from '../services/course.service.js'
 import { logger } from '../utils/logger.js'
@@ -361,6 +362,109 @@ export const resolvers = {
         where: { isActive: true },
         orderBy: [{ category: 'asc' }, { title: 'asc' }]
       })
+    },
+
+    // Admin - Users List
+    users: async (_: any, __: any, context: Context) => {
+      if (!context.user || context.user.role !== 'ADMIN') {
+        throw new ForbiddenError('Acesso negado - apenas administradores')
+      }
+
+      return await prisma.user.findMany({
+        orderBy: { createdAt: 'desc' },
+        select: {
+          id: true,
+          email: true,
+          username: true,
+          firstName: true,
+          lastName: true,
+          role: true,
+          avatar: true,
+          department: true,
+          position: true,
+          totalXP: true,
+          level: true,
+          weeklyXP: true,
+          currentStreak: true,
+          longestStreak: true,
+          lastActive: true,
+          isOnline: true,
+          createdAt: true
+        }
+      })
+    },
+
+    // Dashboard Metrics
+    dashboardMetrics: async (_: any, __: any, context: Context) => {
+      if (!context.user) {
+        throw new AuthenticationError('Usuário não autenticado')
+      }
+
+      const [
+        totalUsers,
+        totalCourses,
+        totalProjects,
+        activeProjects,
+        totalEvents,
+        upcomingEvents
+      ] = await Promise.all([
+        prisma.user.count(),
+        prisma.course.count({ where: { isActive: true } }),
+        prisma.project.count(),
+        prisma.project.count({ where: { status: 'ACTIVE' } }),
+        prisma.event.count(),
+        prisma.event.count({
+          where: {
+            startDate: { gte: new Date() }
+          }
+        })
+      ])
+
+      return {
+        totalUsers,
+        totalCourses,
+        totalProjects,
+        activeProjects,
+        totalEvents,
+        upcomingEvents
+      }
+    },
+
+    // Leaderboard - Top users by XP
+    leaderboard: async (_: any, { limit = 10 }: { limit?: number }) => {
+      return await prisma.user.findMany({
+        take: limit,
+        orderBy: { totalXP: 'desc' },
+        select: {
+          id: true,
+          username: true,
+          firstName: true,
+          lastName: true,
+          avatar: true,
+          department: true,
+          position: true,
+          totalXP: true,
+          level: true,
+          weeklyXP: true,
+          currentStreak: true
+        }
+      })
+    },
+
+    // Notifications
+    notifications: async (_: any, { limit = 20, unreadOnly = false }: { limit?: number, unreadOnly?: boolean }, context: Context) => {
+      if (!context.user) {
+        throw new AuthenticationError('Usuário não autenticado')
+      }
+
+      return await prisma.notification.findMany({
+        where: {
+          userId: context.user.userId,
+          ...(unreadOnly ? { isRead: false } : {})
+        },
+        take: limit,
+        orderBy: { createdAt: 'desc' }
+      })
     }
   },
 
@@ -638,7 +742,7 @@ export const resolvers = {
       if (!context.user) {
         throw new AuthenticationError('Usuário não autenticado')
       }
-      
+
       return await prisma.policyRead.upsert({
         where: {
           userId_policyId: {
@@ -660,6 +764,308 @@ export const resolvers = {
           policy: true
         }
       })
+    },
+
+    // Profile Update
+    updateProfile: async (_: any, { input }: { input: any }, context: Context) => {
+      if (!context.user) {
+        throw new AuthenticationError('Usuário não autenticado')
+      }
+
+      const { firstName, lastName, avatar, department, position } = input
+
+      return await prisma.user.update({
+        where: { id: context.user.userId },
+        data: {
+          ...(firstName && { firstName }),
+          ...(lastName && { lastName }),
+          ...(avatar && { avatar }),
+          ...(department && { department }),
+          ...(position && { position })
+        },
+        select: {
+          id: true,
+          email: true,
+          username: true,
+          firstName: true,
+          lastName: true,
+          role: true,
+          avatar: true,
+          department: true,
+          position: true,
+          totalXP: true,
+          level: true
+        }
+      })
+    },
+
+    // Create Channel (for admins/managers)
+    createChannel: async (_: any, { input }: { input: any }, context: Context) => {
+      if (!context.user) {
+        throw new AuthenticationError('Usuário não autenticado')
+      }
+
+      if (context.user.role !== 'ADMIN' && context.user.role !== 'MANAGER') {
+        throw new ForbiddenError('Acesso negado - permissões insuficientes')
+      }
+
+      const channel = await prisma.channel.create({
+        data: {
+          name: input.name,
+          description: input.description,
+          type: input.type || 'PUBLIC'
+        }
+      })
+
+      // Add creator as admin member
+      await prisma.channelMember.create({
+        data: {
+          userId: context.user.userId,
+          channelId: channel.id,
+          role: 'ADMIN'
+        }
+      })
+
+      return await prisma.channel.findUnique({
+        where: { id: channel.id },
+        include: {
+          members: {
+            include: { user: true }
+          },
+          messages: {
+            include: { sender: true },
+            take: 10
+          }
+        }
+      })
+    },
+
+    // Update Event
+    updateEvent: async (_: any, { id, input }: { id: string, input: any }, context: Context) => {
+      if (!context.user) {
+        throw new AuthenticationError('Usuário não autenticado')
+      }
+
+      const event = await prisma.event.findUnique({
+        where: { id }
+      })
+
+      if (!event) {
+        throw new UserInputError('Evento não encontrado')
+      }
+
+      if (event.organizerId !== context.user.userId && context.user.role !== 'ADMIN') {
+        throw new ForbiddenError('Apenas o organizador pode editar este evento')
+      }
+
+      return await prisma.event.update({
+        where: { id },
+        data: input,
+        include: {
+          organizer: true,
+          attendees: {
+            include: { user: true }
+          }
+        }
+      })
+    },
+
+    // Delete Event
+    deleteEvent: async (_: any, { id }: { id: string }, context: Context) => {
+      if (!context.user) {
+        throw new AuthenticationError('Usuário não autenticado')
+      }
+
+      const event = await prisma.event.findUnique({
+        where: { id }
+      })
+
+      if (!event) {
+        throw new UserInputError('Evento não encontrado')
+      }
+
+      if (event.organizerId !== context.user.userId && context.user.role !== 'ADMIN') {
+        throw new ForbiddenError('Apenas o organizador pode deletar este evento')
+      }
+
+      await prisma.event.delete({
+        where: { id }
+      })
+
+      return true
+    },
+
+    // Update Project
+    updateProject: async (_: any, { id, input }: { id: string, input: any }, context: Context) => {
+      if (!context.user) {
+        throw new AuthenticationError('Usuário não autenticado')
+      }
+
+      // Check if user is member of project
+      const membership = await prisma.projectMember.findUnique({
+        where: {
+          userId_projectId: {
+            userId: context.user.userId,
+            projectId: id
+          }
+        }
+      })
+
+      if (!membership && context.user.role !== 'ADMIN') {
+        throw new ForbiddenError('Você não é membro deste projeto')
+      }
+
+      if (membership && membership.role === 'VIEWER') {
+        throw new ForbiddenError('Viewers não podem editar projetos')
+      }
+
+      return await prisma.project.update({
+        where: { id },
+        data: input,
+        include: {
+          members: {
+            include: { user: true }
+          },
+          tasks: {
+            include: { assignee: true }
+          }
+        }
+      })
+    },
+
+    // Add Project Member
+    addProjectMember: async (_: any, { projectId, userId, role }: { projectId: string, userId: string, role?: string }, context: Context) => {
+      if (!context.user) {
+        throw new AuthenticationError('Usuário não autenticado')
+      }
+
+      // Check if requester is admin/owner of project
+      const membership = await prisma.projectMember.findUnique({
+        where: {
+          userId_projectId: {
+            userId: context.user.userId,
+            projectId
+          }
+        }
+      })
+
+      if (!membership || (membership.role !== 'OWNER' && membership.role !== 'ADMIN')) {
+        throw new ForbiddenError('Apenas owners e admins podem adicionar membros')
+      }
+
+      return await prisma.projectMember.create({
+        data: {
+          userId,
+          projectId,
+          role: role as any || 'MEMBER'
+        },
+        include: {
+          user: true,
+          project: true
+        }
+      })
+    },
+
+    // Mark notification as read
+    markNotificationAsRead: async (_: any, { id }: { id: string }, context: Context) => {
+      if (!context.user) {
+        throw new AuthenticationError('Usuário não autenticado')
+      }
+
+      return await prisma.notification.update({
+        where: { id },
+        data: { isRead: true }
+      })
+    },
+
+    // Mark all notifications as read
+    markAllNotificationsAsRead: async (_: any, __: any, context: Context) => {
+      if (!context.user) {
+        throw new AuthenticationError('Usuário não autenticado')
+      }
+
+      await prisma.notification.updateMany({
+        where: {
+          userId: context.user.userId,
+          isRead: false
+        },
+        data: { isRead: true }
+      })
+
+      return true
+    },
+
+    // Admin: Update User
+    updateUser: async (_: any, { id, input }: { id: string, input: any }, context: Context) => {
+      if (!context.user || context.user.role !== 'ADMIN') {
+        throw new ForbiddenError('Acesso negado - apenas administradores')
+      }
+
+      return await prisma.user.update({
+        where: { id },
+        data: input,
+        select: {
+          id: true,
+          email: true,
+          username: true,
+          firstName: true,
+          lastName: true,
+          role: true,
+          avatar: true,
+          department: true,
+          position: true,
+          totalXP: true,
+          level: true,
+          isOnline: true,
+          createdAt: true
+        }
+      })
+    },
+
+    // Admin: Delete User
+    deleteUser: async (_: any, { id }: { id: string }, context: Context) => {
+      if (!context.user || context.user.role !== 'ADMIN') {
+        throw new ForbiddenError('Acesso negado - apenas administradores')
+      }
+
+      if (id === context.user.userId) {
+        throw new UserInputError('Você não pode deletar sua própria conta')
+      }
+
+      await prisma.user.delete({
+        where: { id }
+      })
+
+      return true
+    },
+
+    // Change Password
+    changePassword: async (_: any, { currentPassword, newPassword }: { currentPassword: string, newPassword: string }, context: Context) => {
+      if (!context.user) {
+        throw new AuthenticationError('Usuário não autenticado')
+      }
+
+      const user = await prisma.user.findUnique({
+        where: { id: context.user.userId }
+      })
+
+      if (!user) {
+        throw new UserInputError('Usuário não encontrado')
+      }
+
+      const isValidPassword = await bcrypt.compare(currentPassword, user.password)
+      if (!isValidPassword) {
+        throw new UserInputError('Senha atual incorreta')
+      }
+
+      const hashedPassword = await bcrypt.hash(newPassword, 12)
+
+      await prisma.user.update({
+        where: { id: context.user.userId },
+        data: { password: hashedPassword }
+      })
+
+      return true
     }
   }
 }

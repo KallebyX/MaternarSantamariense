@@ -46,7 +46,9 @@ model User {
   tasks         Task[]
   projects      ProjectMember[]
   readPolicies  PolicyRead[]
-  
+  notifications Notification[]
+  auditLogs     AuditLog[]
+
   @@map("users")
 }
 
@@ -330,12 +332,54 @@ model Link {
   description   String?
   category      LinkCategory
   isActive      Boolean    @default(true)
-  
+
   // Timestamps
   createdAt     DateTime   @default(now())
   updatedAt     DateTime   @updatedAt
-  
+
   @@map("links")
+}
+
+model Notification {
+  id            String           @id @default(cuid())
+  title         String
+  message       String
+  type          NotificationType @default(INFO)
+  category      String?
+  isRead        Boolean          @default(false)
+  actionUrl     String?
+
+  // Relations
+  userId        String
+  user          User             @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  // Timestamps
+  createdAt     DateTime         @default(now())
+
+  @@index([userId])
+  @@map("notifications")
+}
+
+model AuditLog {
+  id            String   @id @default(cuid())
+  action        String
+  resource      String
+  resourceId    String?
+  oldValues     String?  // JSON
+  newValues     String?  // JSON
+  ipAddress     String?
+  userAgent     String?
+
+  // Relations
+  userId        String
+  user          User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  // Timestamps
+  createdAt     DateTime @default(now())
+
+  @@index([userId])
+  @@index([resource])
+  @@map("audit_logs")
 }
 
 // Enums
@@ -434,4 +478,15 @@ enum LinkCategory {
   TRAINING
   SUPPORT
   EXTERNAL
+}
+
+enum NotificationType {
+  INFO
+  SUCCESS
+  WARNING
+  ERROR
+  ACHIEVEMENT
+  MESSAGE
+  EVENT
+  TASK
 }

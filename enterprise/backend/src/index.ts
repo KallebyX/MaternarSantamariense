@@ -15,6 +15,7 @@ import { createContext } from './graphql/context.js'
 import { SocketService } from './services/socket.service.js'
 import { authMiddleware } from './middleware/auth.middleware.js'
 import { authService } from './services/auth.service.js'
+import { uploadAvatar, uploadDocument, uploadChatFile, uploadService } from './services/upload.service.js'
 
 // Initialize Prisma
 const prisma = new PrismaClient()
@@ -164,6 +165,78 @@ class SMSEnterpriseServer {
         res.status(404).json({ error: error.message })
       }
     })
+
+    // Upload routes
+    this.app.post('/api/upload/avatar', authMiddleware, uploadAvatar, async (req: any, res) => {
+      try {
+        if (!req.file) {
+          return res.status(400).json({ error: 'Nenhum arquivo enviado' })
+        }
+
+        const fileUrl = uploadService.getFileUrl(req.file.filename, 'avatar')
+
+        // Update user avatar in database
+        await prisma.user.update({
+          where: { id: req.user.userId },
+          data: { avatar: fileUrl }
+        })
+
+        res.json({
+          success: true,
+          url: fileUrl,
+          filename: req.file.filename
+        })
+      } catch (error: any) {
+        logger.error('Avatar upload failed:', error)
+        res.status(500).json({ error: error.message })
+      }
+    })
+
+    this.app.post('/api/upload/document', authMiddleware, uploadDocument, async (req: any, res) => {
+      try {
+        if (!req.file) {
+          return res.status(400).json({ error: 'Nenhum arquivo enviado' })
+        }
+
+        const fileUrl = uploadService.getFileUrl(req.file.filename, 'document')
+
+        res.json({
+          success: true,
+          url: fileUrl,
+          filename: req.file.filename,
+          originalName: req.file.originalname,
+          size: req.file.size
+        })
+      } catch (error: any) {
+        logger.error('Document upload failed:', error)
+        res.status(500).json({ error: error.message })
+      }
+    })
+
+    this.app.post('/api/upload/chat', authMiddleware, uploadChatFile, async (req: any, res) => {
+      try {
+        if (!req.file) {
+          return res.status(400).json({ error: 'Nenhum arquivo enviado' })
+        }
+
+        const fileUrl = uploadService.getFileUrl(req.file.filename, 'chat')
+
+        res.json({
+          success: true,
+          url: fileUrl,
+          filename: req.file.filename,
+          originalName: req.file.originalname,
+          size: req.file.size,
+          type: req.file.mimetype
+        })
+      } catch (error: any) {
+        logger.error('Chat file upload failed:', error)
+        res.status(500).json({ error: error.message })
+      }
+    })
+
+    // Serve uploaded files
+    this.app.use('/uploads', express.static('uploads'))
 
     // 404 handler - não aplicar ao GraphQL
     this.app.use((req, res, next) => {

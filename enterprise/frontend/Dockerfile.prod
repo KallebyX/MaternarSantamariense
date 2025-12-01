@@ -1,0 +1,51 @@
+# ==================================================
+# MATERNAR SANTA MARIENSE - FRONTEND PRODUCTION BUILD
+# ==================================================
+
+# Stage 1: Build
+FROM node:20-alpine AS builder
+
+WORKDIR /app
+
+# Install dependencies
+COPY package*.json ./
+RUN npm ci --only=production=false
+
+# Copy source code
+COPY . .
+
+# Build arguments for environment
+ARG VITE_API_URL=https://api.maternarsantamariense.com
+ARG VITE_GRAPHQL_URL=https://api.maternarsantamariense.com/graphql
+ARG VITE_WS_URL=wss://api.maternarsantamariense.com
+ARG VITE_APP_NAME="Maternar Santa Mariense"
+ARG VITE_APP_VERSION=2.0.0
+
+# Set environment variables for build
+ENV VITE_API_URL=$VITE_API_URL
+ENV VITE_GRAPHQL_URL=$VITE_GRAPHQL_URL
+ENV VITE_WS_URL=$VITE_WS_URL
+ENV VITE_APP_NAME=$VITE_APP_NAME
+ENV VITE_APP_VERSION=$VITE_APP_VERSION
+
+# Build the application
+RUN npm run build
+
+# Stage 2: Production
+FROM nginx:alpine
+
+# Copy custom nginx config
+COPY nginx.conf /etc/nginx/nginx.conf
+
+# Copy built files
+COPY --from=builder /app/dist /usr/share/nginx/html
+
+# Health check
+HEALTHCHECK --interval=30s --timeout=3s --start-period=5s --retries=3 \
+  CMD wget --no-verbose --tries=1 --spider http://localhost:80/ || exit 1
+
+# Expose port
+EXPOSE 80
+
+# Start nginx
+CMD ["nginx", "-g", "daemon off;"]
