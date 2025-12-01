@@ -19,6 +19,21 @@ import { usePolicies } from '../hooks/usePolicies'
 import { format } from 'date-fns'
 import { ptBR } from 'date-fns/locale'
 
+interface Policy {
+  id: string
+  title: string
+  content?: string
+  category: string
+  isActive: boolean
+  requiresAcknowledgment: boolean
+  version: string
+  updatedAt?: string
+  readStatus?: {
+    readAt?: string
+    acknowledged?: boolean
+  }
+}
+
 const Policies: React.FC = () => {
   const [activeCategory, setActiveCategory] = useState('all')
   const [searchTerm, setSearchTerm] = useState('')
@@ -27,7 +42,7 @@ const Policies: React.FC = () => {
 
   // Extrair categorias únicas
   const categories = useMemo(() => {
-    const categoryCounts = policies.reduce((acc, policy) => {
+    const categoryCounts = policies.reduce((acc: Record<string, number>, policy: Policy) => {
       acc[policy.category] = (acc[policy.category] || 0) + 1
       return acc
     }, {} as Record<string, number>)
@@ -44,7 +59,7 @@ const Policies: React.FC = () => {
 
   // Filtrar políticas
   const filteredPolicies = useMemo(() => {
-    return policies.filter(policy => {
+    return policies.filter((policy: Policy) => {
       const matchesCategory = activeCategory === 'all' || policy.category === activeCategory
       const matchesSearch = policy.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
                            policy.content?.toLowerCase().includes(searchTerm.toLowerCase())
@@ -54,10 +69,10 @@ const Policies: React.FC = () => {
 
   // Estatísticas
   const stats = useMemo(() => {
-    const activePolicies = policies.filter(p => p.isActive)
-    const requireAck = activePolicies.filter(p => p.requiresAcknowledgment)
-    const read = policies.filter(p => p.readStatus?.readAt)
-    const acknowledged = policies.filter(p => p.readStatus?.acknowledged)
+    const activePolicies = policies.filter((p: Policy) => p.isActive)
+    const requireAck = activePolicies.filter((p: Policy) => p.requiresAcknowledgment)
+    const read = policies.filter((p: Policy) => p.readStatus?.readAt)
+    const acknowledged = policies.filter((p: Policy) => p.readStatus?.acknowledged)
 
     return {
       total: activePolicies.length,
@@ -227,7 +242,7 @@ const Policies: React.FC = () => {
       {/* Policies List */}
       {!selectedPolicy ? (
         <div className="space-y-4">
-          {filteredPolicies.map((policy, index) => {
+          {filteredPolicies.map((policy: Policy, index: number) => {
             const isRead = !!policy.readStatus?.readAt
             const isAcknowledged = !!policy.readStatus?.acknowledged
             const needsAcknowledgment = policy.requiresAcknowledgment && !isAcknowledged
@@ -279,10 +294,12 @@ const Policies: React.FC = () => {
                       </p>
 
                       <div className="flex items-center text-xs text-gray-500 space-x-4">
-                        <span className="flex items-center">
-                          <Clock className="w-3 h-3 mr-1" />
-                          Atualizada em {format(new Date(policy.updatedAt), 'dd/MM/yyyy', { locale: ptBR })}
-                        </span>
+                        {policy.updatedAt && (
+                          <span className="flex items-center">
+                            <Clock className="w-3 h-3 mr-1" />
+                            Atualizada em {format(new Date(policy.updatedAt), 'dd/MM/yyyy', { locale: ptBR })}
+                          </span>
+                        )}
                       </div>
                     </div>
 

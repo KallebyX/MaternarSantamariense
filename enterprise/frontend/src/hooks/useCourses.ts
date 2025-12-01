@@ -1,7 +1,7 @@
 import { useQuery, useMutation } from '@apollo/client'
 import { GET_COURSES, GET_MY_COURSES, GET_COURSE } from '../graphql/queries'
 import { ENROLL_IN_COURSE, COMPLETE_LESSON } from '../graphql/mutations'
-import { useToast } from '../components/providers/ToastProvider'
+import { useToast } from '../components/ui/Toast'
 import { useEffect, useState } from 'react'
 
 export const useCourses = () => {

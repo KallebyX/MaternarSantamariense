@@ -16,8 +16,8 @@ const useTabsContext = () => {
   return context
 }
 
-interface TabsProps {
-  defaultValue: string
+export interface TabsProps {
+  defaultValue?: string
   value?: string
   onValueChange?: (value: string) => void
   children: React.ReactNode
@@ -25,7 +25,7 @@ interface TabsProps {
 }
 
 export const Tabs: React.FC<TabsProps> = ({
-  defaultValue,
+  defaultValue = '',
   value: controlledValue,
   onValueChange,
   children,

@@ -16,6 +16,16 @@ import { Badge } from '../components/ui/Badge'
 import { LoadingSpinner } from '../components/ui/LoadingSpinner'
 import { useLinks } from '../hooks/useLinks'
 
+interface Link {
+  id: string
+  title: string
+  url: string
+  description?: string
+  category: string
+  isActive: boolean
+  icon?: string
+}
+
 const Links: React.FC = () => {
   const [activeCategory, setActiveCategory] = useState('all')
   const [searchTerm, setSearchTerm] = useState('')
@@ -31,7 +41,7 @@ const Links: React.FC = () => {
 
   // Contar links por categoria
   const categories = useMemo(() => {
-    const counts = links.reduce((acc, link) => {
+    const counts = links.reduce((acc: Record<string, number>, link: Link) => {
       acc[link.category] = (acc[link.category] || 0) + 1
       return acc
     }, {} as Record<string, number>)
@@ -49,7 +59,7 @@ const Links: React.FC = () => {
 
   // Filtrar links
   const filteredLinks = useMemo(() => {
-    return links.filter(link => {
+    return links.filter((link: Link) => {
       const matchesCategory = activeCategory === 'all' || link.category === activeCategory
       const matchesSearch = link.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
                            (link.description && link.description.toLowerCase().includes(searchTerm.toLowerCase()))
@@ -152,7 +162,7 @@ const Links: React.FC = () => {
 
       {/* Links Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {filteredLinks.map((link, index) => (
+        {filteredLinks.map((link: Link, index: number) => (
           <motion.div
             key={link.id}
             initial={{ opacity: 0, y: 20 }}

@@ -136,8 +136,7 @@ export const CreateProjectModal: React.FC<CreateProjectModalProps> = ({
               Status
             </label>
             <select
-              value={formData.status}
-              onChange={(e) => setFormData({ ...formData, status: e.target.value })}
+              {...register('status')}
               className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-maternar-blue-500"
             >
               <option value="PLANNING">Planejamento</option>

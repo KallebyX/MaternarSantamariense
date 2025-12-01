@@ -3,7 +3,7 @@ import { useQuery, useMutation, useSubscription } from '@apollo/client'
 import { GET_CHANNELS, GET_CHANNEL, GET_MESSAGES } from '../graphql/queries'
 import { SEND_MESSAGE } from '../graphql/mutations'
 import { MESSAGE_ADDED } from '../graphql/subscriptions'
-import { useToast } from '../components/providers/ToastProvider'
+import { useToast } from '../components/ui/Toast'
 
 export const useChat = () => {
   const [selectedChannelId, setSelectedChannelId] = useState<string>('')

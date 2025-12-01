@@ -26,5 +26,14 @@ npm-debug.log*
 # Testing
 coverage
 
+# Database
+*.db
+*.sqlite
+prisma/migrations/*.sql
+
+# Uploads
+uploads/*
+!uploads/.gitkeep
+
 # Cache
 .cache

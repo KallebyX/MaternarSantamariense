@@ -1,7 +1,7 @@
 import { useQuery, useMutation } from '@apollo/client'
 import { GET_PROJECTS, GET_PROJECT, GET_MY_PROJECTS } from '../graphql/queries'
 import { CREATE_PROJECT, CREATE_TASK, UPDATE_TASK, DELETE_TASK } from '../graphql/mutations'
-import { useToast } from '../components/providers/ToastProvider'
+import { useToast } from '../components/ui/Toast'
 import { useState } from 'react'
 
 export const useProjects = () => {
