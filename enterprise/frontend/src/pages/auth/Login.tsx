@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { motion } from 'framer-motion'
-import { 
-  LogIn,
+import { useNavigate } from 'react-router-dom'
+import {
   Eye,
   EyeOff,
   Mail,
@@ -10,29 +10,48 @@ import {
   Shield,
   Globe,
   Users,
-  Award
+  Award,
+  AlertCircle
 } from 'lucide-react'
 
 import { Button } from '../../components/ui/Button'
 import { Card } from '../../components/ui/Card'
-import { useAuth } from '../../hooks/useAuth'
+import { useAuth } from '../../components/providers/AuthProvider'
 
 const Login: React.FC = () => {
+  const navigate = useNavigate()
   const [showPassword, setShowPassword] = useState(false)
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
-  const { login, loading } = useAuth()
+  const [localError, setLocalError] = useState<string | null>(null)
+  const { login, isLoading, error, clearError } = useAuth()
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    await login(email, password)
+    setLocalError(null)
+    clearError()
+
+    if (!email || !password) {
+      setLocalError('Por favor, preencha todos os campos')
+      return
+    }
+
+    const result = await login(email, password)
+
+    if (result.success) {
+      navigate('/dashboard')
+    } else {
+      setLocalError(result.error || 'Erro ao fazer login')
+    }
   }
+
+  const displayError = localError || error
 
   const features = [
     {
       icon: <Shield className="w-6 h-6 text-maternar-blue-600" />,
-      title: 'Segurança Enterprise',
-      description: 'Autenticação robusta e criptografia de ponta'
+      title: 'Seguranca Enterprise',
+      description: 'Autenticacao robusta e criptografia de ponta'
     },
     {
       icon: <Globe className="w-6 h-6 text-maternar-green-600" />,
@@ -41,13 +60,13 @@ const Login: React.FC = () => {
     },
     {
       icon: <Users className="w-6 h-6 text-maternar-pink-600" />,
-      title: 'Colaboração',
-      description: 'Trabalhe em equipe com profissionais de saúde'
+      title: 'Colaboracao',
+      description: 'Trabalhe em equipe com profissionais de saude'
     },
     {
       icon: <Award className="w-6 h-6 text-maternar-green-600" />,
-      title: 'Gamificação',
-      description: 'Sistema de XP, níveis e conquistas'
+      title: 'Gamificacao',
+      description: 'Sistema de XP, niveis e conquistas'
     }
   ]
 
@@ -60,10 +79,15 @@ const Login: React.FC = () => {
           className="text-center"
         >
           <div className="mx-auto h-20 w-20 mb-6">
-            <img 
-              src="/logo.png" 
-              alt="Maternar Santa Mariense" 
+            <img
+              src="/logo.png"
+              alt="Maternar Santa Mariense"
               className="w-full h-full object-contain"
+              onError={(e) => {
+                // Fallback para quando a imagem não carregar
+                const target = e.target as HTMLImageElement
+                target.style.display = 'none'
+              }}
             />
           </div>
           <h2 className="text-3xl font-bold text-maternar-blue-700">
@@ -82,6 +106,17 @@ const Login: React.FC = () => {
           transition={{ delay: 0.1 }}
         >
           <Card className="py-8 px-4 shadow-xl sm:rounded-lg sm:px-10">
+            {displayError && (
+              <motion.div
+                initial={{ opacity: 0, y: -10 }}
+                animate={{ opacity: 1, y: 0 }}
+                className="mb-4 p-3 bg-red-50 border border-red-200 rounded-md flex items-center gap-2 text-red-700"
+              >
+                <AlertCircle className="h-5 w-5 flex-shrink-0" />
+                <span className="text-sm">{displayError}</span>
+              </motion.div>
+            )}
+
             <form className="space-y-6" onSubmit={handleSubmit}>
               <div>
                 <label htmlFor="email" className="block text-sm font-medium text-gray-700">
@@ -101,6 +136,7 @@ const Login: React.FC = () => {
                     placeholder="seu@email.com"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
+                    disabled={isLoading}
                   />
                 </div>
               </div>
@@ -123,12 +159,14 @@ const Login: React.FC = () => {
                     placeholder="Sua senha"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
+                    disabled={isLoading}
                   />
                   <div className="absolute inset-y-0 right-0 pr-3 flex items-center">
                     <button
                       type="button"
                       className="text-gray-400 hover:text-gray-500 focus:outline-none"
                       onClick={() => setShowPassword(!showPassword)}
+                      disabled={isLoading}
                     >
                       {showPassword ? (
                         <EyeOff className="h-5 w-5" />
@@ -164,10 +202,13 @@ const Login: React.FC = () => {
                 <Button
                   type="submit"
                   className="w-full flex justify-center py-2 px-4 bg-gradient-to-r from-maternar-blue-600 to-maternar-green-600 hover:from-maternar-blue-700 hover:to-maternar-green-700"
-                  loading={loading}
+                  disabled={isLoading}
                 >
-                  {loading ? (
-                    'Entrando...'
+                  {isLoading ? (
+                    <>
+                      <span className="animate-spin mr-2">⏳</span>
+                      Entrando...
+                    </>
                   ) : (
                     <>
                       Entrar
@@ -189,7 +230,7 @@ const Login: React.FC = () => {
               </div>
 
               <div className="mt-6 grid grid-cols-2 gap-3">
-                <Button variant="outline" className="w-full">
+                <Button variant="outline" className="w-full" disabled={isLoading}>
                   <svg className="h-5 w-5" viewBox="0 0 24 24">
                     <path fill="currentColor" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
                     <path fill="currentColor" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
@@ -199,7 +240,7 @@ const Login: React.FC = () => {
                   <span className="ml-2">Google</span>
                 </Button>
 
-                <Button variant="outline" className="w-full">
+                <Button variant="outline" className="w-full" disabled={isLoading}>
                   <svg className="h-5 w-5" fill="currentColor" viewBox="0 0 24 24">
                     <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
                   </svg>
@@ -210,12 +251,22 @@ const Login: React.FC = () => {
 
             <div className="mt-6 text-center">
               <p className="text-sm text-gray-600">
-                Não tem uma conta?{' '}
+                Nao tem uma conta?{' '}
                 <a href="/register" className="font-medium text-maternar-blue-600 hover:text-maternar-blue-700">
                   Cadastre-se
                 </a>
               </p>
             </div>
+
+            {/* Info para desenvolvimento */}
+            {import.meta.env.VITE_MOCK_MODE === 'true' && (
+              <div className="mt-4 p-3 bg-yellow-50 border border-yellow-200 rounded-md">
+                <p className="text-xs text-yellow-700 text-center">
+                  <strong>Modo Mock Ativo</strong><br />
+                  Use qualquer email/senha para entrar
+                </p>
+              </div>
+            )}
           </Card>
         </motion.div>
       </div>
@@ -232,10 +283,10 @@ const Login: React.FC = () => {
             Maternar Santa Mariense
           </h3>
           <p className="text-maternar-gray-600">
-            Plataforma completa de gestão, educação e comunicação para saúde
+            Plataforma completa de gestao, educacao e comunicacao para saude
           </p>
         </div>
-        
+
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
           {features.map((feature, index) => (
             <motion.div
