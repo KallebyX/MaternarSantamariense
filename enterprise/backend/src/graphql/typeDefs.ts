@@ -578,5 +578,6 @@ export const typeDefs = gql`
     messageAdded(channelId: ID!): Message!
     userOnlineStatus: User!
     taskUpdated(projectId: ID!): Task!
+    notificationAdded: Notification!
   }
 `

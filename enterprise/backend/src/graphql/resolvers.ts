@@ -1,7 +1,9 @@
 import { AuthenticationError, ForbiddenError, UserInputError } from 'apollo-server-express'
 import bcrypt from 'bcryptjs'
+import { withFilter } from 'graphql-subscriptions'
 import { authService } from '../services/auth.service.js'
 import { courseService } from '../services/course.service.js'
+import { pubsub, EVENTS, publishMessage, publishTaskUpdate, publishUserStatus } from '../services/pubsub.service.js'
 import { logger } from '../utils/logger.js'
 import { Context } from './context.js'
 import { PrismaClient } from '@prisma/client'
@@ -525,7 +527,7 @@ export const resolvers = {
       if (!context.user) {
         throw new AuthenticationError('Usuário não autenticado')
       }
-      
+
       const message = await prisma.message.create({
         data: {
           ...input,
@@ -537,13 +539,16 @@ export const resolvers = {
           channel: true
         }
       })
-      
+
       // Update channel timestamp
       await prisma.channel.update({
         where: { id: input.channelId },
         data: { updatedAt: new Date() }
       })
-      
+
+      // Publish message to real-time subscribers
+      publishMessage(input.channelId, message)
+
       return message
     },
 
@@ -1066,6 +1071,48 @@ export const resolvers = {
       })
 
       return true
+    }
+  },
+
+  Subscription: {
+    messageAdded: {
+      subscribe: withFilter(
+        (_: any, { channelId }: { channelId: string }) => {
+          return pubsub.asyncIterator(`${EVENTS.MESSAGE_ADDED}.${channelId}`)
+        },
+        (payload, variables) => {
+          return payload.messageAdded.channel.id === variables.channelId
+        }
+      )
+    },
+
+    userOnlineStatus: {
+      subscribe: () => pubsub.asyncIterator(EVENTS.USER_ONLINE_STATUS)
+    },
+
+    taskUpdated: {
+      subscribe: withFilter(
+        (_: any, { projectId }: { projectId: string }) => {
+          return pubsub.asyncIterator(`${EVENTS.TASK_UPDATED}.${projectId}`)
+        },
+        (payload, variables) => {
+          return payload.taskUpdated.project.id === variables.projectId
+        }
+      )
+    },
+
+    notificationAdded: {
+      subscribe: withFilter(
+        (_: any, __: any, context: Context) => {
+          if (!context.user) {
+            throw new AuthenticationError('Usuário não autenticado')
+          }
+          return pubsub.asyncIterator(`${EVENTS.NOTIFICATION_ADDED}.${context.user.userId}`)
+        },
+        (payload, variables, context) => {
+          return context.user && payload.notificationAdded.userId === context.user.userId
+        }
+      )
     }
   }
 }
