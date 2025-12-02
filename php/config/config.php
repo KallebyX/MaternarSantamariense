@@ -42,7 +42,7 @@ define('ALLOWED_IMAGE_TYPES', ['image/jpeg', 'image/png', 'image/gif', 'image/we
 define('ALLOWED_DOC_TYPES', ['application/pdf', 'application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document']);
 
 // Gamification settings
-define('XP_PER_LEVEL', 1000);
+define('XP_PER_LEVEL', 100);
 define('XP_COURSE_COMPLETION', 100);
 define('XP_LESSON_COMPLETION', 20);
 define('XP_LOGIN_STREAK', 10);
@@ -67,6 +67,7 @@ function redirect($url) {
 }
 
 function sanitize($data) {
+    if ($data === null) return '';
     return htmlspecialchars(trim($data), ENT_QUOTES, 'UTF-8');
 }
 
@@ -81,15 +82,19 @@ function validateCSRFToken($token) {
     return isset($_SESSION[CSRF_TOKEN_NAME]) && hash_equals($_SESSION[CSRF_TOKEN_NAME], $token);
 }
 
-function formatDate($date, $format = 'd/m/Y') {
+function formatDate($date, $withTime = false) {
+    if (!$date) return '';
+    $format = $withTime ? 'd/m/Y H:i' : 'd/m/Y';
     return date($format, strtotime($date));
 }
 
 function formatDateTime($date) {
+    if (!$date) return '';
     return date('d/m/Y H:i', strtotime($date));
 }
 
 function timeAgo($datetime) {
+    if (!$datetime) return '';
     $time = strtotime($datetime);
     $now = time();
     $diff = $now - $time;
@@ -102,17 +107,29 @@ function timeAgo($datetime) {
 }
 
 function calculateLevel($xp) {
-    return floor($xp / XP_PER_LEVEL) + 1;
+    // Level = sqrt(xp / 100) + 1
+    // Level 1: 0-99 XP, Level 2: 100-399 XP, Level 3: 400-899 XP, etc.
+    return max(1, floor(sqrt($xp / XP_PER_LEVEL)) + 1);
 }
 
-function xpToNextLevel($xp) {
-    $currentLevel = calculateLevel($xp);
-    return ($currentLevel * XP_PER_LEVEL) - $xp;
+function xpForLevel($level) {
+    // XP needed to reach this level
+    return pow($level - 1, 2) * XP_PER_LEVEL;
 }
 
-function xpProgress($xp) {
-    $currentLevelXP = ($xp % XP_PER_LEVEL);
-    return ($currentLevelXP / XP_PER_LEVEL) * 100;
+function xpToNextLevel($currentXP) {
+    $currentLevel = calculateLevel($currentXP);
+    $nextLevelXP = xpForLevel($currentLevel + 1);
+    return $nextLevelXP - $currentXP;
+}
+
+function xpProgress($currentXP) {
+    $currentLevel = calculateLevel($currentXP);
+    $currentLevelXP = xpForLevel($currentLevel);
+    $nextLevelXP = xpForLevel($currentLevel + 1);
+    $progress = $nextLevelXP - $currentLevelXP;
+    if ($progress <= 0) return 100;
+    return min(100, (($currentXP - $currentLevelXP) / $progress) * 100);
 }
 
 // Flash messages
@@ -136,25 +153,118 @@ function isLoggedIn() {
 function requireLogin() {
     if (!isLoggedIn()) {
         setFlash('warning', 'Você precisa estar logado para acessar esta página.');
-        redirect(APP_URL . '/login.php');
+        redirect('login.php');
     }
 }
 
 function requireAdmin() {
     requireLogin();
-    if ($_SESSION['user_role'] !== 'ADMIN') {
+    $user = currentUser();
+    if ($user['role'] !== 'ADMIN') {
         setFlash('danger', 'Acesso negado. Você não tem permissão para acessar esta página.');
-        redirect(APP_URL . '/dashboard.php');
+        redirect('dashboard.php');
     }
 }
 
 function currentUser() {
     if (!isLoggedIn()) return null;
+
+    // Check if we have cached user data
+    if (isset($_SESSION['user_data']) && $_SESSION['user_data']['id'] == $_SESSION['user_id']) {
+        return $_SESSION['user_data'];
+    }
+
+    // Fetch fresh user data from database
+    try {
+        $db = Database::getInstance();
+        $user = $db->queryOne(
+            "SELECT id, email, username, first_name, last_name, role, department, position,
+                    avatar, total_xp, level, weekly_xp, current_streak, longest_streak,
+                    last_login, is_active, created_at
+             FROM users WHERE id = :id AND is_active = true",
+            ['id' => $_SESSION['user_id']]
+        );
+
+        if ($user) {
+            // Add computed fields
+            $user['name'] = $user['first_name'] . ' ' . $user['last_name'];
+            $user['level'] = calculateLevel($user['total_xp']);
+
+            // Cache in session
+            $_SESSION['user_data'] = $user;
+            return $user;
+        }
+    } catch (Exception $e) {
+        // Fallback to session data
+    }
+
+    // Fallback
     return [
         'id' => $_SESSION['user_id'],
-        'email' => $_SESSION['user_email'],
-        'name' => $_SESSION['user_name'],
-        'role' => $_SESSION['user_role'],
-        'avatar' => $_SESSION['user_avatar'] ?? null
+        'email' => $_SESSION['user_email'] ?? '',
+        'name' => $_SESSION['user_name'] ?? 'Usuário',
+        'first_name' => $_SESSION['user_name'] ?? 'Usuário',
+        'last_name' => '',
+        'role' => $_SESSION['user_role'] ?? 'EMPLOYEE',
+        'avatar' => $_SESSION['user_avatar'] ?? null,
+        'total_xp' => 0,
+        'level' => 1,
+        'weekly_xp' => 0,
+        'current_streak' => 0,
+        'department' => null,
+        'position' => null
     ];
+}
+
+function refreshUserData() {
+    unset($_SESSION['user_data']);
+    return currentUser();
+}
+
+function getRoleLabel($role) {
+    $roles = [
+        'ADMIN' => 'Administrador',
+        'MANAGER' => 'Gerente',
+        'EMPLOYEE' => 'Colaborador'
+    ];
+    return $roles[$role] ?? $role;
+}
+
+function getStatusColor($status) {
+    $colors = [
+        'ACTIVE' => 'bg-green-100 text-green-800',
+        'PENDING' => 'bg-yellow-100 text-yellow-800',
+        'COMPLETED' => 'bg-blue-100 text-blue-800',
+        'CANCELLED' => 'bg-red-100 text-red-800',
+        'ON_HOLD' => 'bg-gray-100 text-gray-800'
+    ];
+    return $colors[$status] ?? 'bg-gray-100 text-gray-800';
+}
+
+function getPriorityColor($priority) {
+    $colors = [
+        'URGENT' => 'text-red-600',
+        'HIGH' => 'text-orange-600',
+        'MEDIUM' => 'text-yellow-600',
+        'LOW' => 'text-green-600'
+    ];
+    return $colors[$priority] ?? 'text-gray-600';
+}
+
+function getDifficultyLabel($difficulty) {
+    $labels = [
+        'BEGINNER' => 'Iniciante',
+        'INTERMEDIATE' => 'Intermediário',
+        'ADVANCED' => 'Avançado'
+    ];
+    return $labels[$difficulty] ?? $difficulty;
+}
+
+function getDifficultyColor($difficulty) {
+    $colors = [
+        'BEGINNER' => 'bg-green-100 text-green-800',
+        'INTERMEDIATE' => 'bg-yellow-100 text-yellow-800',
+        'ADVANCED' => 'bg-red-100 text-red-800'
+    ];
+    return $colors[$difficulty] ?? 'bg-gray-100 text-gray-800';
 }
