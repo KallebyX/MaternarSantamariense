@@ -1,5 +1,6 @@
 import React from 'react'
 import { motion } from 'framer-motion'
+import { useQuery } from '@apollo/client'
 import {
   Trophy,
   Target,
@@ -22,125 +23,71 @@ import { Button } from '../components/ui/Button'
 import { Progress } from '../components/ui/Progress'
 import { Badge } from '../components/ui/Badge'
 import { Avatar } from '../components/ui/Avatar'
-import { Tabs, TabsList, TabsTrigger, TabsContent } from '../components/ui/Tabs'
+import { Spinner } from '../components/ui/Spinner'
+import { useGamification } from '../hooks/useGamification'
+import { useAuth } from '../hooks/useAuth'
+import { GET_LEADERBOARD } from '../graphql/queries'
 
 const Gamification: React.FC = () => {
-  const userStats = {
-    level: 15,
-    xp: 8750,
-    nextLevelXp: 10000,
-    totalPoints: 45230,
-    streak: 12,
-    badges: 24,
-    rank: 3,
-    completedChallenges: 89
+  const { user } = useAuth()
+  const { userStats, achievements, myAchievements, loading: gamificationLoading } = useGamification()
+
+  // Fetch leaderboard from backend
+  const { data: leaderboardData, loading: leaderboardLoading } = useQuery(GET_LEADERBOARD, {
+    variables: { limit: 10 },
+    errorPolicy: 'all'
+  })
+
+  const isLoading = gamificationLoading || leaderboardLoading
+
+  // Calculate XP to next level (every 1000 XP = new level)
+  const currentXP = userStats?.xp || 0
+  const currentLevel = userStats?.level || 1
+  const xpForCurrentLevel = (currentLevel - 1) * 1000
+  const xpForNextLevel = currentLevel * 1000
+  const xpProgress = currentXP - xpForCurrentLevel
+  const xpNeeded = xpForNextLevel - xpForCurrentLevel
+
+  // Map achievements to display format
+  const displayAchievements = achievements?.map((achievement: any) => {
+    const isUnlocked = myAchievements?.some((ua: any) => ua.achievement?.id === achievement.id || ua.achievementId === achievement.id)
+    return {
+      id: achievement.id,
+      title: achievement.title,
+      description: achievement.description,
+      icon: getAchievementIcon(achievement.type),
+      points: achievement.xpReward || 100,
+      completed: isUnlocked,
+      rarity: getRarityFromXP(achievement.xpReward)
+    }
+  }) || []
+
+  // Map leaderboard data
+  const leaderboard = leaderboardData?.leaderboard?.map((entry: any, index: number) => ({
+    rank: index + 1,
+    name: entry.name || `${entry.firstName} ${entry.lastName}`,
+    points: entry.totalXP || 0,
+    avatar: entry.avatar,
+    level: entry.level || 1,
+    isCurrentUser: entry.id === user?.id
+  })) || []
+
+  function getAchievementIcon(type: string) {
+    switch (type) {
+      case 'COURSE_COMPLETION': return <Trophy className="w-6 h-6" />
+      case 'XP_MILESTONE': return <Star className="w-6 h-6" />
+      case 'LOGIN_STREAK': return <Flame className="w-6 h-6" />
+      case 'COMMUNITY_PARTICIPATION': return <Users className="w-6 h-6" />
+      default: return <Award className="w-6 h-6" />
+    }
   }
 
-  const achievements = [
-    {
-      id: 1,
-      title: 'Primeiros Passos',
-      description: 'Complete sua primeira avaliação de saúde',
-      icon: <CheckCircle className="w-6 h-6" />,
-      points: 100,
-      completed: true,
-      rarity: 'comum'
-    },
-    {
-      id: 2,
-      title: 'Campeão de Consistência',
-      description: 'Registre atividades por 30 dias consecutivos',
-      icon: <Calendar className="w-6 h-6" />,
-      points: 500,
-      completed: true,
-      rarity: 'raro'
-    },
-    {
-      id: 3,
-      title: 'Buscador de Conhecimento',
-      description: 'Complete 10 cursos de treinamento',
-      icon: <Trophy className="w-6 h-6" />,
-      points: 1000,
-      completed: false,
-      progress: 7,
-      total: 10,
-      rarity: 'épico'
-    },
-    {
-      id: 4,
-      title: 'Trabalho em Equipe',
-      description: 'Colabore em 5 projetos',
-      icon: <Users className="w-6 h-6" />,
-      points: 750,
-      completed: false,
-      progress: 3,
-      total: 5,
-      rarity: 'raro'
-    },
-    {
-      id: 5,
-      title: 'Cuidador Lendário',
-      description: 'Complete 100 avaliações de saúde',
-      icon: <Crown className="w-6 h-6" />,
-      points: 5000,
-      completed: false,
-      progress: 45,
-      total: 100,
-      rarity: 'lendário'
-    },
-    {
-      id: 6,
-      title: 'Velocista',
-      description: 'Complete um curso em menos de 1 hora',
-      icon: <Zap className="w-6 h-6" />,
-      points: 300,
-      completed: true,
-      rarity: 'raro'
-    }
-  ]
-
-  const leaderboard = [
-    { rank: 1, name: 'Dr. Maria Silva', points: 52340, avatar: '/avatars/maria.jpg', level: 18 },
-    { rank: 2, name: 'João Santos', points: 48920, avatar: '/avatars/joao.jpg', level: 17 },
-    { rank: 3, name: 'Ana Costa', points: 45230, avatar: '/avatars/ana.jpg', level: 15, isCurrentUser: true },
-    { rank: 4, name: 'Pedro Lima', points: 43180, avatar: '/avatars/pedro.jpg', level: 15 },
-    { rank: 5, name: 'Sofia Oliveira', points: 41560, avatar: '/avatars/sofia.jpg', level: 14 },
-    { rank: 6, name: 'Carlos Mendes', points: 40120, avatar: '/avatars/carlos.jpg', level: 14 },
-    { rank: 7, name: 'Juliana Rocha', points: 38900, avatar: '/avatars/juliana.jpg', level: 13 }
-  ]
-
-  const challenges = [
-    {
-      id: 1,
-      title: 'Quarta do Bem-Estar',
-      description: 'Complete 3 atividades de saúde nesta quarta',
-      reward: '200 XP + Wellness Badge',
-      deadline: '2025-10-09',
-      progress: 2,
-      total: 3,
-      difficulty: 'fácil'
-    },
-    {
-      id: 2,
-      title: 'Mestre do Treinamento',
-      description: 'Termine 2 módulos de treinamento esta semana',
-      reward: '500 XP + Knowledge Badge',
-      deadline: '2025-10-13',
-      progress: 0,
-      total: 2,
-      difficulty: 'médio'
-    },
-    {
-      id: 3,
-      title: 'Colaboração em Equipe',
-      description: 'Trabalhe com 3 colegas diferentes em projetos',
-      reward: '1000 XP + Teamwork Badge',
-      deadline: '2025-10-15',
-      progress: 1,
-      total: 3,
-      difficulty: 'difícil'
-    }
-  ]
+  function getRarityFromXP(xp: number): string {
+    if (xp >= 1000) return 'lendário'
+    if (xp >= 500) return 'épico'
+    if (xp >= 200) return 'raro'
+    return 'comum'
+  }
 
   const getRarityColor = (rarity: string) => {
     switch (rarity) {
@@ -148,15 +95,6 @@ const Gamification: React.FC = () => {
       case 'raro': return 'info'
       case 'épico': return 'warning'
       case 'lendário': return 'success'
-      default: return 'default'
-    }
-  }
-
-  const getDifficultyColor = (difficulty: string) => {
-    switch (difficulty) {
-      case 'fácil': return 'success'
-      case 'médio': return 'warning'
-      case 'difícil': return 'danger'
       default: return 'default'
     }
   }
@@ -174,6 +112,17 @@ const Gamification: React.FC = () => {
   const item = {
     hidden: { opacity: 0, y: 20 },
     show: { opacity: 1, y: 0 }
+  }
+
+  if (isLoading) {
+    return (
+      <div className="min-h-screen bg-background flex items-center justify-center">
+        <div className="text-center">
+          <Spinner size="lg" />
+          <p className="mt-4 text-muted-foreground">Carregando gamificação...</p>
+        </div>
+      </div>
+    )
   }
 
   return (
@@ -200,9 +149,9 @@ const Gamification: React.FC = () => {
             className="flex items-center gap-4 p-4 bg-gradient-to-r from-primary to-secondary rounded-xl shadow-lg"
           >
             <div className="text-right">
-              <p className="text-sm text-primary-foreground/80">Nível {userStats.level}</p>
+              <p className="text-sm text-primary-foreground/80">Nível {currentLevel}</p>
               <p className="text-2xl font-bold text-primary-foreground">
-                {userStats.totalPoints.toLocaleString()} pts
+                {currentXP.toLocaleString()} XP
               </p>
             </div>
             <div className="w-16 h-16 bg-primary-foreground/20 backdrop-blur-sm rounded-full flex items-center justify-center">
@@ -225,18 +174,18 @@ const Gamification: React.FC = () => {
               <div className="flex items-center justify-between mb-3">
                 <Star className="w-8 h-8 opacity-80" />
                 <Badge variant="outline" className="border-white/30 text-white">
-                  Nível {userStats.level}
+                  Nível {currentLevel}
                 </Badge>
               </div>
               <p className="text-white/80 text-sm mb-1">Experiência</p>
-              <p className="text-3xl font-bold mb-3">{userStats.xp} XP</p>
+              <p className="text-3xl font-bold mb-3">{currentXP} XP</p>
               <Progress
-                value={(userStats.xp / userStats.nextLevelXp) * 100}
+                value={(xpProgress / xpNeeded) * 100}
                 className="bg-blue-400/30"
                 variant="default"
               />
               <p className="text-xs text-white/60 mt-2">
-                {userStats.nextLevelXp - userStats.xp} XP para próximo nível
+                {xpNeeded - xpProgress} XP para próximo nível
               </p>
             </div>
           </Card>
@@ -248,13 +197,13 @@ const Gamification: React.FC = () => {
               <div className="flex items-center justify-between mb-3">
                 <Flame className="w-8 h-8 opacity-80" />
                 <Badge variant="outline" className="border-white/30 text-white">
-                  {userStats.streak > 7 ? 'Em Chamas!' : 'Ativo'}
+                  {(userStats?.streak || 0) > 7 ? 'Em Chamas!' : 'Ativo'}
                 </Badge>
               </div>
               <p className="text-white/80 text-sm mb-1">Sequência</p>
-              <p className="text-3xl font-bold">{userStats.streak} dias</p>
+              <p className="text-3xl font-bold">{userStats?.streak || 0} dias</p>
               <p className="text-sm text-white/70 mt-2">
-                Continue assim! 🔥
+                {userStats?.streak > 0 ? 'Continue assim! 🔥' : 'Comece sua sequência!'}
               </p>
             </div>
           </Card>
@@ -266,13 +215,13 @@ const Gamification: React.FC = () => {
               <div className="flex items-center justify-between mb-3">
                 <Medal className="w-8 h-8 opacity-80" />
                 <Badge variant="outline" className="border-white/30 text-white">
-                  Top {userStats.rank}
+                  {userStats?.rank ? `Top ${userStats.rank}` : 'Ranqueado'}
                 </Badge>
               </div>
-              <p className="text-white/80 text-sm mb-1">Ranking</p>
-              <p className="text-3xl font-bold">#{userStats.rank}</p>
+              <p className="text-white/80 text-sm mb-1">XP Semanal</p>
+              <p className="text-3xl font-bold">{userStats?.weeklyXP || 0}</p>
               <p className="text-sm text-white/70 mt-2">
-                No ranking global
+                Pontos esta semana
               </p>
             </div>
           </Card>
@@ -284,13 +233,13 @@ const Gamification: React.FC = () => {
               <div className="flex items-center justify-between mb-3">
                 <Award className="w-8 h-8 opacity-80" />
                 <Badge variant="outline" className="border-white/30 text-white">
-                  {userStats.badges}
+                  {myAchievements?.length || 0}
                 </Badge>
               </div>
               <p className="text-white/80 text-sm mb-1">Conquistas</p>
-              <p className="text-3xl font-bold">{userStats.badges}</p>
+              <p className="text-3xl font-bold">{myAchievements?.length || 0}</p>
               <p className="text-sm text-white/70 mt-2">
-                Emblemas desbloqueados
+                de {achievements?.length || 0} disponíveis
               </p>
             </div>
           </Card>
@@ -313,74 +262,69 @@ const Gamification: React.FC = () => {
                   <Trophy className="w-5 h-5 text-yellow-600 dark:text-yellow-500" />
                   Conquistas
                 </h2>
-                <Button variant="outline" size="sm">
-                  Ver Todas
-                </Button>
+                <Badge variant="secondary">
+                  {myAchievements?.length || 0} / {achievements?.length || 0}
+                </Badge>
               </div>
             </CardHeader>
             <CardContent className="space-y-3">
-              {achievements.map((achievement) => (
-                <motion.div
-                  key={achievement.id}
-                  whileHover={{ scale: 1.02, x: 4 }}
-                  className={`
-                    p-4 rounded-lg border-2 transition-all duration-200
-                    ${achievement.completed
-                      ? 'border-green-200 bg-green-50/50 dark:border-green-800 dark:bg-green-900/20'
-                      : 'border-border bg-muted/30 hover:bg-muted/50'
-                    }
-                  `}
-                >
-                  <div className="flex items-start gap-3">
-                    <div className={`
-                      p-2 rounded-lg shrink-0
+              {displayAchievements.length === 0 ? (
+                <div className="text-center py-8 text-muted-foreground">
+                  <Trophy className="w-12 h-12 mx-auto mb-4 opacity-50" />
+                  <p>Nenhuma conquista disponível ainda.</p>
+                  <p className="text-sm">Continue usando o sistema para desbloquear conquistas!</p>
+                </div>
+              ) : (
+                displayAchievements.map((achievement: any) => (
+                  <motion.div
+                    key={achievement.id}
+                    whileHover={{ scale: 1.02, x: 4 }}
+                    className={`
+                      p-4 rounded-lg border-2 transition-all duration-200
                       ${achievement.completed
-                        ? 'bg-green-500 text-white'
-                        : 'bg-muted text-muted-foreground'
+                        ? 'border-green-200 bg-green-50/50 dark:border-green-800 dark:bg-green-900/20'
+                        : 'border-border bg-muted/30 hover:bg-muted/50'
                       }
-                    `}>
-                      {achievement.icon}
-                    </div>
-                    <div className="flex-1 min-w-0">
-                      <div className="flex items-start justify-between gap-2 mb-1">
-                        <h3 className="font-semibold text-foreground">
-                          {achievement.title}
-                        </h3>
-                        <div className="flex items-center gap-2 shrink-0">
-                          <Badge variant={getRarityColor(achievement.rarity) as any} size="sm">
-                            {achievement.rarity}
-                          </Badge>
-                        </div>
+                    `}
+                  >
+                    <div className="flex items-start gap-3">
+                      <div className={`
+                        p-2 rounded-lg shrink-0
+                        ${achievement.completed
+                          ? 'bg-green-500 text-white'
+                          : 'bg-muted text-muted-foreground'
+                        }
+                      `}>
+                        {achievement.icon}
                       </div>
-                      <p className="text-sm text-muted-foreground mb-2">
-                        {achievement.description}
-                      </p>
-                      {!achievement.completed && achievement.progress && (
-                        <div className="space-y-1">
-                          <Progress
-                            value={(achievement.progress / achievement.total) * 100}
-                            variant="success"
-                            size="sm"
-                          />
-                          <div className="flex items-center justify-between">
-                            <p className="text-xs text-muted-foreground">
-                              {achievement.progress}/{achievement.total} concluído
-                            </p>
-                            <p className="text-xs font-medium text-green-600 dark:text-green-400">
-                              +{achievement.points} pts
-                            </p>
+                      <div className="flex-1 min-w-0">
+                        <div className="flex items-start justify-between gap-2 mb-1">
+                          <h3 className="font-semibold text-foreground">
+                            {achievement.title}
+                          </h3>
+                          <div className="flex items-center gap-2 shrink-0">
+                            <Badge variant={getRarityColor(achievement.rarity) as any} size="sm">
+                              {achievement.rarity}
+                            </Badge>
                           </div>
                         </div>
-                      )}
-                      {achievement.completed && (
-                        <p className="text-sm font-medium text-green-600 dark:text-green-400">
-                          ✓ Concluído (+{achievement.points} pts)
+                        <p className="text-sm text-muted-foreground mb-2">
+                          {achievement.description}
                         </p>
-                      )}
+                        {achievement.completed ? (
+                          <p className="text-sm font-medium text-green-600 dark:text-green-400">
+                            ✓ Desbloqueado (+{achievement.points} XP)
+                          </p>
+                        ) : (
+                          <p className="text-sm text-muted-foreground">
+                            Recompensa: +{achievement.points} XP
+                          </p>
+                        )}
+                      </div>
                     </div>
-                  </div>
-                </motion.div>
-              ))}
+                  </motion.div>
+                ))
+              )}
             </CardContent>
           </Card>
         </motion.div>
@@ -399,62 +343,70 @@ const Gamification: React.FC = () => {
               </h2>
             </CardHeader>
             <CardContent className="space-y-2">
-              {leaderboard.map((user) => (
-                <motion.div
-                  key={user.rank}
-                  whileHover={{ scale: 1.02 }}
-                  className={`
-                    flex items-center gap-3 p-3 rounded-lg transition-all
-                    ${user.isCurrentUser
-                      ? 'bg-primary/10 border-2 border-primary/30 shadow-sm'
-                      : 'hover:bg-accent'
-                    }
-                  `}
-                >
-                  <div className={`
-                    flex items-center justify-center w-7 h-7 rounded-full text-xs font-bold shrink-0
-                    ${user.rank === 1 ? 'bg-yellow-500 text-white' :
-                      user.rank === 2 ? 'bg-gray-400 text-white' :
-                      user.rank === 3 ? 'bg-orange-500 text-white' :
-                      'bg-muted text-muted-foreground'
-                    }
-                  `}>
-                    {user.rank}
-                  </div>
-                  <Avatar
-                    src={user.avatar}
-                    alt={user.name}
-                    fallback={user.name.charAt(0)}
-                    size="sm"
-                  />
-                  <div className="flex-1 min-w-0">
-                    <p className={`
-                      text-sm font-medium truncate
-                      ${user.isCurrentUser ? 'text-primary' : 'text-foreground'}
+              {leaderboard.length === 0 ? (
+                <div className="text-center py-8 text-muted-foreground">
+                  <TrendingUp className="w-12 h-12 mx-auto mb-4 opacity-50" />
+                  <p>Ranking em construção.</p>
+                  <p className="text-sm">Os líderes aparecerão aqui em breve!</p>
+                </div>
+              ) : (
+                leaderboard.map((entry: any) => (
+                  <motion.div
+                    key={entry.rank}
+                    whileHover={{ scale: 1.02 }}
+                    className={`
+                      flex items-center gap-3 p-3 rounded-lg transition-all
+                      ${entry.isCurrentUser
+                        ? 'bg-primary/10 border-2 border-primary/30 shadow-sm'
+                        : 'hover:bg-accent'
+                      }
+                    `}
+                  >
+                    <div className={`
+                      flex items-center justify-center w-7 h-7 rounded-full text-xs font-bold shrink-0
+                      ${entry.rank === 1 ? 'bg-yellow-500 text-white' :
+                        entry.rank === 2 ? 'bg-gray-400 text-white' :
+                        entry.rank === 3 ? 'bg-orange-500 text-white' :
+                        'bg-muted text-muted-foreground'
+                      }
                     `}>
-                      {user.name}
-                      {user.isCurrentUser && (
-                        <span className="ml-1 text-xs text-primary">(você)</span>
-                      )}
-                    </p>
-                    <p className="text-xs text-muted-foreground">
-                      Nível {user.level}
-                    </p>
-                  </div>
-                  <div className="text-right shrink-0">
-                    <p className="text-sm font-semibold text-foreground">
-                      {user.points.toLocaleString()}
-                    </p>
-                    <p className="text-xs text-muted-foreground">pts</p>
-                  </div>
-                </motion.div>
-              ))}
+                      {entry.rank}
+                    </div>
+                    <Avatar
+                      src={entry.avatar}
+                      alt={entry.name}
+                      fallback={entry.name?.charAt(0) || '?'}
+                      size="sm"
+                    />
+                    <div className="flex-1 min-w-0">
+                      <p className={`
+                        text-sm font-medium truncate
+                        ${entry.isCurrentUser ? 'text-primary' : 'text-foreground'}
+                      `}>
+                        {entry.name}
+                        {entry.isCurrentUser && (
+                          <span className="ml-1 text-xs text-primary">(você)</span>
+                        )}
+                      </p>
+                      <p className="text-xs text-muted-foreground">
+                        Nível {entry.level}
+                      </p>
+                    </div>
+                    <div className="text-right shrink-0">
+                      <p className="text-sm font-semibold text-foreground">
+                        {entry.points.toLocaleString()}
+                      </p>
+                      <p className="text-xs text-muted-foreground">XP</p>
+                    </div>
+                  </motion.div>
+                ))
+              )}
             </CardContent>
           </Card>
         </motion.div>
       </div>
 
-      {/* Active Challenges */}
+      {/* Progress Summary */}
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
@@ -465,79 +417,35 @@ const Gamification: React.FC = () => {
             <div className="flex items-center justify-between">
               <h2 className="text-xl font-semibold flex items-center gap-2">
                 <Target className="w-5 h-5 text-red-600 dark:text-red-500" />
-                Desafios Ativos
+                Seu Progresso
               </h2>
-              <Button variant="outline" size="sm" icon={<Gift className="w-4 h-4" />}>
-                Explorar Mais
-              </Button>
             </div>
           </CardHeader>
           <CardContent>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-              {challenges.map((challenge, index) => (
-                <motion.div
-                  key={challenge.id}
-                  initial={{ opacity: 0, scale: 0.9 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  transition={{ delay: 0.6 + index * 0.1 }}
-                  whileHover={{ scale: 1.03, y: -4 }}
-                  className="group"
-                >
-                  <Card variant="bordered" className="h-full hover:border-primary/50 transition-all duration-200">
-                    <CardContent className="p-4">
-                      <div className="flex items-start justify-between mb-3">
-                        <Badge variant={getDifficultyColor(challenge.difficulty) as any}>
-                          {challenge.difficulty}
-                        </Badge>
-                        <div className="flex items-center gap-1 text-xs text-muted-foreground">
-                          <Calendar className="w-3 h-3" />
-                          {new Date(challenge.deadline).toLocaleDateString('pt-BR', {
-                            day: '2-digit',
-                            month: 'short'
-                          })}
-                        </div>
-                      </div>
-                      <h3 className="font-semibold text-foreground mb-2 group-hover:text-primary transition-colors">
-                        {challenge.title}
-                      </h3>
-                      <p className="text-sm text-muted-foreground mb-4">
-                        {challenge.description}
-                      </p>
-                      <div className="space-y-3">
-                        <div>
-                          <Progress
-                            value={(challenge.progress / challenge.total) * 100}
-                            variant={challenge.progress === challenge.total ? 'success' : 'default'}
-                          />
-                          <p className="text-xs text-muted-foreground mt-1">
-                            {challenge.progress}/{challenge.total} concluído
-                          </p>
-                        </div>
-                        <div className="flex items-center justify-between pt-3 border-t border-border">
-                          <div className="flex items-center gap-1 text-sm font-medium text-green-600 dark:text-green-400">
-                            <Sparkles className="w-4 h-4" />
-                            <span className="text-xs">{challenge.reward.split('+')[0].trim()}</span>
-                          </div>
-                          <Button
-                            size="sm"
-                            disabled={challenge.progress === challenge.total}
-                            variant={challenge.progress === challenge.total ? 'outline' : 'default'}
-                          >
-                            {challenge.progress === challenge.total ? (
-                              <>
-                                <CheckCircle className="w-4 h-4 mr-1" />
-                                Concluído
-                              </>
-                            ) : (
-                              'Participar'
-                            )}
-                          </Button>
-                        </div>
-                      </div>
-                    </CardContent>
-                  </Card>
-                </motion.div>
-              ))}
+              <div className="text-center p-6 rounded-lg bg-muted/50">
+                <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-blue-100 dark:bg-blue-900/30 flex items-center justify-center">
+                  <Star className="w-8 h-8 text-blue-600 dark:text-blue-400" />
+                </div>
+                <p className="text-3xl font-bold text-foreground">{currentLevel}</p>
+                <p className="text-sm text-muted-foreground">Nível Atual</p>
+              </div>
+
+              <div className="text-center p-6 rounded-lg bg-muted/50">
+                <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-green-100 dark:bg-green-900/30 flex items-center justify-center">
+                  <Award className="w-8 h-8 text-green-600 dark:text-green-400" />
+                </div>
+                <p className="text-3xl font-bold text-foreground">{myAchievements?.length || 0}</p>
+                <p className="text-sm text-muted-foreground">Conquistas</p>
+              </div>
+
+              <div className="text-center p-6 rounded-lg bg-muted/50">
+                <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-purple-100 dark:bg-purple-900/30 flex items-center justify-center">
+                  <Zap className="w-8 h-8 text-purple-600 dark:text-purple-400" />
+                </div>
+                <p className="text-3xl font-bold text-foreground">{currentXP.toLocaleString()}</p>
+                <p className="text-sm text-muted-foreground">XP Total</p>
+              </div>
             </div>
           </CardContent>
         </Card>

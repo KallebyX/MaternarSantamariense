@@ -169,6 +169,21 @@ export const GET_MY_ACHIEVEMENTS = gql`
   }
 `
 
+export const GET_LEADERBOARD = gql`
+  query GetLeaderboard($limit: Int) {
+    leaderboard(limit: $limit) {
+      id
+      firstName
+      lastName
+      username
+      avatar
+      totalXP
+      level
+      weeklyXP
+    }
+  }
+`
+
 // ============================================
 // CHAT QUERIES
 // ============================================
