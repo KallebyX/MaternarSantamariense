@@ -1,11 +1,15 @@
 import express from 'express'
 import { createServer } from 'http'
 import { ApolloServer } from 'apollo-server-express'
+import { WebSocketServer } from 'ws'
+import { useServer } from 'graphql-ws/lib/use/ws'
+import { makeExecutableSchema } from '@graphql-tools/schema'
 import cors from 'cors'
 import helmet from 'helmet'
 import compression from 'compression'
 import rateLimit from 'express-rate-limit'
 import { PrismaClient } from '@prisma/client'
+import jwt from 'jsonwebtoken'
 
 import { config } from './config/index.js'
 import { logger } from './utils/logger.js'
@@ -25,6 +29,7 @@ class SMSEnterpriseServer {
   private server: any
   private apolloServer: ApolloServer
   private socketService: SocketService
+  private wsServer: WebSocketServer
   private dbConnected: boolean = false
 
   constructor() {
@@ -251,11 +256,68 @@ class SMSEnterpriseServer {
   }
 
   private async setupApollo() {
+    // Create executable schema for both Apollo and WebSocket server
+    const schema = makeExecutableSchema({ typeDefs, resolvers })
+
+    // Create WebSocket server for subscriptions
+    this.wsServer = new WebSocketServer({
+      server: this.server,
+      path: '/graphql'
+    })
+
+    // Setup graphql-ws server for subscriptions
+    const serverCleanup = useServer(
+      {
+        schema,
+        context: async (ctx) => {
+          // Extract token from connection params
+          const token = ctx.connectionParams?.authorization as string
+
+          if (token) {
+            try {
+              const tokenValue = token.replace('Bearer ', '')
+              const decoded = jwt.verify(tokenValue, config.JWT_SECRET) as any
+              return {
+                user: {
+                  userId: decoded.userId,
+                  email: decoded.email,
+                  role: decoded.role
+                }
+              }
+            } catch (error) {
+              logger.warn('WebSocket auth failed:', error)
+              return {}
+            }
+          }
+          return {}
+        },
+        onConnect: async (ctx) => {
+          logger.info('[WS] Client connected')
+          return true
+        },
+        onDisconnect: async () => {
+          logger.info('[WS] Client disconnected')
+        }
+      },
+      this.wsServer
+    )
+
     this.apolloServer = new ApolloServer({
-      typeDefs,
-      resolvers,
+      schema,
       context: createContext,
       introspection: config.NODE_ENV === 'development',
+      plugins: [
+        // Proper shutdown for the WebSocket server
+        {
+          async serverWillStart() {
+            return {
+              async drainServer() {
+                await serverCleanup.dispose()
+              }
+            }
+          }
+        }
+      ],
       formatError: (error) => {
         logger.error('GraphQL Error:', error)
         return error
@@ -263,8 +325,8 @@ class SMSEnterpriseServer {
     })
 
     await this.apolloServer.start()
-    this.apolloServer.applyMiddleware({ 
-      app: this.app, 
+    this.apolloServer.applyMiddleware({
+      app: this.app,
       path: '/graphql',
       cors: false // Already handled by express cors
     })
