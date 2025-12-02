@@ -1,6 +1,6 @@
-import React, { useState } from 'react'
+import React, { useState, useMemo } from 'react'
 import { motion } from 'framer-motion'
-import { 
+import {
   FolderKanban,
   Plus,
   Search,
@@ -24,7 +24,9 @@ import { Button } from '../components/ui/Button'
 import { Badge } from '../components/ui/Badge'
 import { Avatar } from '../components/ui/Avatar'
 import { Progress } from '../components/ui/Progress'
+import { Spinner } from '../components/ui/Spinner'
 import { CreateProjectModal } from '../components/modals/CreateProjectModal'
+import { useProjects } from '../hooks/useProjects'
 
 const Projects: React.FC = () => {
   const [activeTab, setActiveTab] = useState('all')
@@ -32,105 +34,71 @@ const Projects: React.FC = () => {
   const [viewMode, setViewMode] = useState<'grid' | 'kanban'>('grid')
   const [showCreateModal, setShowCreateModal] = useState(false)
 
-  const projects = [
-    {
-      id: 1,
-      title: 'Implementação ANVISA 2024',
-      description: 'Adequação aos novos protocolos da ANVISA para estabelecimentos de saúde',
-      status: 'in-progress',
-      priority: 'high',
-      progress: 65,
-      startDate: '2025-09-01',
-      endDate: '2025-12-15',
-      team: [
-        { id: 1, name: 'Dr. Maria Silva', avatar: '/avatars/maria.jpg', role: 'Project Manager' },
-        { id: 2, name: 'Ana Costa', avatar: '/avatars/ana.jpg', role: 'Compliance Officer' },
-        { id: 3, name: 'João Santos', avatar: '/avatars/joao.jpg', role: 'Developer' }
-      ],
-      tasks: {
-        total: 24,
-        completed: 16,
-        pending: 8
-      },
-      category: 'compliance',
-      budget: 150000,
-      spent: 97500
-    },
-    {
-      id: 2,
-      title: 'Sistema de Telemedicina',
-      description: 'Desenvolvimento de plataforma para consultas remotas',
-      status: 'planning',
-      priority: 'medium',
-      progress: 15,
-      startDate: '2025-10-15',
-      endDate: '2026-03-30',
-      team: [
-        { id: 4, name: 'Dr. Pedro Lima', avatar: '/avatars/pedro.jpg', role: 'Tech Lead' },
-        { id: 5, name: 'Sofia Oliveira', avatar: '/avatars/sofia.jpg', role: 'UX Designer' }
-      ],
-      tasks: {
-        total: 45,
-        completed: 7,
-        pending: 38
-      },
-      category: 'technology',
-      budget: 300000,
-      spent: 45000
-    },
-    {
-      id: 3,
-      title: 'Treinamento Segurança',
-      description: 'Programa abrangente de treinamento em segurança do paciente',
-      status: 'completed',
-      priority: 'high',
-      progress: 100,
-      startDate: '2025-06-01',
-      endDate: '2025-09-30',
-      team: [
-        { id: 1, name: 'Dr. Maria Silva', avatar: '/avatars/maria.jpg', role: 'Lead Trainer' },
-        { id: 6, name: 'Carlos Santos', avatar: '/avatars/carlos.jpg', role: 'Content Creator' }
-      ],
-      tasks: {
-        total: 18,
-        completed: 18,
-        pending: 0
-      },
-      category: 'training',
-      budget: 80000,
-      spent: 75000
-    },
-    {
-      id: 4,
-      title: 'Modernização Infraestrutura',
-      description: 'Atualização da infraestrutura de TI do hospital',
-      status: 'on-hold',
-      priority: 'low',
-      progress: 30,
-      startDate: '2025-08-01',
-      endDate: '2025-11-30',
-      team: [
-        { id: 3, name: 'João Santos', avatar: '/avatars/joao.jpg', role: 'Infrastructure Manager' }
-      ],
-      tasks: {
-        total: 32,
-        completed: 10,
-        pending: 22
-      },
-      category: 'infrastructure',
-      budget: 200000,
-      spent: 60000
+  // Use real projects hook
+  const { projects, loading, createProject, refetch } = useProjects()
+
+  // Map backend status to frontend format
+  const mapStatus = (status: string) => {
+    switch (status) {
+      case 'PLANNING': return 'planning'
+      case 'ACTIVE': return 'in-progress'
+      case 'COMPLETED': return 'completed'
+      case 'ON_HOLD': return 'on-hold'
+      case 'CANCELLED': return 'cancelled'
+      default: return 'planning'
     }
-  ]
+  }
+
+  // Map priority
+  const mapPriority = (priority: string) => {
+    switch (priority) {
+      case 'HIGH': return 'high'
+      case 'MEDIUM': return 'medium'
+      case 'LOW': return 'low'
+      default: return 'medium'
+    }
+  }
+
+  // Calculate project progress from tasks
+  const calculateProgress = (tasks: any[]) => {
+    if (!tasks || tasks.length === 0) return 0
+    const completed = tasks.filter((t: any) => t.status === 'DONE').length
+    return Math.round((completed / tasks.length) * 100)
+  }
+
+  // Transform projects data
+  const transformedProjects = useMemo(() => {
+    return projects?.map((project: any) => ({
+      id: project.id,
+      title: project.name,
+      description: project.description || '',
+      status: mapStatus(project.status),
+      priority: mapPriority(project.priority),
+      progress: calculateProgress(project.tasks),
+      startDate: project.startDate,
+      endDate: project.dueDate,
+      team: project.members?.map((m: any) => ({
+        id: m.user?.id || m.id,
+        name: m.user ? `${m.user.firstName} ${m.user.lastName}` : 'Membro',
+        avatar: m.user?.avatar,
+        role: m.role || 'Member'
+      })) || [],
+      tasks: {
+        total: project.tasks?.length || 0,
+        completed: project.tasks?.filter((t: any) => t.status === 'DONE').length || 0,
+        pending: project.tasks?.filter((t: any) => t.status !== 'DONE').length || 0
+      }
+    })) || []
+  }, [projects])
 
   const getStatusColor = (status: string) => {
     switch (status) {
-      case 'planning': return 'bg-blue-100 text-blue-800'
-      case 'in-progress': return 'bg-yellow-100 text-yellow-800'
-      case 'completed': return 'bg-green-100 text-green-800'
-      case 'on-hold': return 'bg-gray-100 text-gray-800'
-      case 'cancelled': return 'bg-red-100 text-red-800'
-      default: return 'bg-gray-100 text-gray-800'
+      case 'planning': return 'bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-300'
+      case 'in-progress': return 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900/30 dark:text-yellow-300'
+      case 'completed': return 'bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-300'
+      case 'on-hold': return 'bg-gray-100 text-gray-800 dark:bg-gray-800 dark:text-gray-300'
+      case 'cancelled': return 'bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-300'
+      default: return 'bg-gray-100 text-gray-800 dark:bg-gray-800 dark:text-gray-300'
     }
   }
 
@@ -144,27 +112,64 @@ const Projects: React.FC = () => {
     }
   }
 
-  const getPriorityColor = (priority: string) => {
-    switch (priority) {
-      case 'high': return 'text-red-600'
-      case 'medium': return 'text-yellow-600'
-      case 'low': return 'text-maternar-green-600'
-      default: return 'text-gray-600'
+  const getStatusLabel = (status: string) => {
+    switch (status) {
+      case 'planning': return 'Planejamento'
+      case 'in-progress': return 'Em Andamento'
+      case 'completed': return 'Concluído'
+      case 'on-hold': return 'Pausado'
+      case 'cancelled': return 'Cancelado'
+      default: return status
     }
   }
 
-  const filteredProjects = projects.filter(project => {
-    const matchesTab = activeTab === 'all' || project.status === activeTab
-    const matchesSearch = project.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                         project.description.toLowerCase().includes(searchTerm.toLowerCase())
-    return matchesTab && matchesSearch
-  })
+  const getPriorityColor = (priority: string) => {
+    switch (priority) {
+      case 'high': return 'text-red-600 dark:text-red-400'
+      case 'medium': return 'text-yellow-600 dark:text-yellow-400'
+      case 'low': return 'text-green-600 dark:text-green-400'
+      default: return 'text-gray-600 dark:text-gray-400'
+    }
+  }
 
-  const stats = {
-    total: projects.length,
-    inProgress: projects.filter(p => p.status === 'in-progress').length,
-    completed: projects.filter(p => p.status === 'completed').length,
-    onHold: projects.filter(p => p.status === 'on-hold').length
+  const filteredProjects = useMemo(() => {
+    return transformedProjects.filter((project: any) => {
+      const matchesTab = activeTab === 'all' || project.status === activeTab
+      const matchesSearch = project.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                           project.description.toLowerCase().includes(searchTerm.toLowerCase())
+      return matchesTab && matchesSearch
+    })
+  }, [transformedProjects, activeTab, searchTerm])
+
+  const stats = useMemo(() => ({
+    total: transformedProjects.length,
+    inProgress: transformedProjects.filter((p: any) => p.status === 'in-progress').length,
+    completed: transformedProjects.filter((p: any) => p.status === 'completed').length,
+    onHold: transformedProjects.filter((p: any) => p.status === 'on-hold').length
+  }), [transformedProjects])
+
+  const handleCreateProject = async (projectData: any) => {
+    await createProject({
+      name: projectData.title || projectData.name,
+      description: projectData.description,
+      status: 'ACTIVE',
+      priority: projectData.priority?.toUpperCase() || 'MEDIUM',
+      startDate: projectData.startDate,
+      dueDate: projectData.endDate || projectData.dueDate
+    })
+    setShowCreateModal(false)
+    refetch()
+  }
+
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-background flex items-center justify-center">
+        <div className="text-center">
+          <Spinner size="lg" />
+          <p className="mt-4 text-muted-foreground">Carregando projetos...</p>
+        </div>
+      </div>
+    )
   }
 
   return (
@@ -175,8 +180,8 @@ const Projects: React.FC = () => {
         className="flex items-center justify-between"
       >
         <div>
-          <h1 className="text-3xl font-bold text-gray-900">Projetos</h1>
-          <p className="text-gray-600 mt-1">
+          <h1 className="text-3xl font-bold text-foreground">Projetos</h1>
+          <p className="text-muted-foreground mt-1">
             Gerencie e acompanhe todos os projetos da organização
           </p>
         </div>
@@ -185,7 +190,7 @@ const Projects: React.FC = () => {
             <Filter className="w-4 h-4 mr-2" />
             Filtros
           </Button>
-          <Button className="bg-maternar-blue-600" onClick={() => setShowCreateModal(true)}>
+          <Button onClick={() => setShowCreateModal(true)}>
             <Plus className="w-4 h-4 mr-2" />
             Novo Projeto
           </Button>
@@ -202,11 +207,11 @@ const Projects: React.FC = () => {
           <Card className="p-6">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm text-gray-600">Total</p>
-                <p className="text-2xl font-bold text-gray-900">{stats.total}</p>
+                <p className="text-sm text-muted-foreground">Total</p>
+                <p className="text-2xl font-bold text-foreground">{stats.total}</p>
               </div>
-              <div className="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center">
-                <FolderKanban className="w-6 h-6 text-maternar-blue-600" />
+              <div className="w-12 h-12 bg-blue-100 dark:bg-blue-900/30 rounded-full flex items-center justify-center">
+                <FolderKanban className="w-6 h-6 text-blue-600 dark:text-blue-400" />
               </div>
             </div>
           </Card>
@@ -220,11 +225,11 @@ const Projects: React.FC = () => {
           <Card className="p-6">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm text-gray-600">Em Andamento</p>
-                <p className="text-2xl font-bold text-gray-900">{stats.inProgress}</p>
+                <p className="text-sm text-muted-foreground">Em Andamento</p>
+                <p className="text-2xl font-bold text-foreground">{stats.inProgress}</p>
               </div>
-              <div className="w-12 h-12 bg-yellow-100 rounded-full flex items-center justify-center">
-                <AlertCircle className="w-6 h-6 text-yellow-600" />
+              <div className="w-12 h-12 bg-yellow-100 dark:bg-yellow-900/30 rounded-full flex items-center justify-center">
+                <AlertCircle className="w-6 h-6 text-yellow-600 dark:text-yellow-400" />
               </div>
             </div>
           </Card>
@@ -238,11 +243,11 @@ const Projects: React.FC = () => {
           <Card className="p-6">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm text-gray-600">Concluídos</p>
-                <p className="text-2xl font-bold text-gray-900">{stats.completed}</p>
+                <p className="text-sm text-muted-foreground">Concluídos</p>
+                <p className="text-2xl font-bold text-foreground">{stats.completed}</p>
               </div>
-              <div className="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center">
-                <CheckCircle className="w-6 h-6 text-maternar-green-600" />
+              <div className="w-12 h-12 bg-green-100 dark:bg-green-900/30 rounded-full flex items-center justify-center">
+                <CheckCircle className="w-6 h-6 text-green-600 dark:text-green-400" />
               </div>
             </div>
           </Card>
@@ -256,11 +261,11 @@ const Projects: React.FC = () => {
           <Card className="p-6">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm text-gray-600">Pausados</p>
-                <p className="text-2xl font-bold text-gray-900">{stats.onHold}</p>
+                <p className="text-sm text-muted-foreground">Pausados</p>
+                <p className="text-2xl font-bold text-foreground">{stats.onHold}</p>
               </div>
-              <div className="w-12 h-12 bg-gray-100 rounded-full flex items-center justify-center">
-                <XCircle className="w-6 h-6 text-gray-600" />
+              <div className="w-12 h-12 bg-gray-100 dark:bg-gray-800 rounded-full flex items-center justify-center">
+                <XCircle className="w-6 h-6 text-gray-600 dark:text-gray-400" />
               </div>
             </div>
           </Card>
@@ -271,18 +276,18 @@ const Projects: React.FC = () => {
       <Card className="p-6">
         <div className="flex flex-col md:flex-row md:items-center md:justify-between space-y-4 md:space-y-0">
           <div className="relative flex-1 md:mr-4">
-            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
+            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-5 h-5" />
             <input
               type="text"
               placeholder="Buscar projetos..."
-              className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-maternar-blue-500 focus:border-transparent"
+              className="w-full pl-10 pr-4 py-2 border border-border rounded-lg bg-background text-foreground focus:ring-2 focus:ring-primary focus:border-transparent"
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
             />
           </div>
-          
+
           <div className="flex items-center space-x-4">
-            <div className="flex space-x-2">
+            <div className="flex space-x-2 overflow-x-auto">
               {[
                 { id: 'all', label: 'Todos' },
                 { id: 'planning', label: 'Planejamento' },
@@ -293,27 +298,27 @@ const Projects: React.FC = () => {
                 <button
                   key={tab.id}
                   onClick={() => setActiveTab(tab.id)}
-                  className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
+                  className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors whitespace-nowrap ${
                     activeTab === tab.id
-                      ? 'bg-maternar-blue-600 text-white'
-                      : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                      ? 'bg-primary text-primary-foreground'
+                      : 'bg-muted text-muted-foreground hover:bg-accent'
                   }`}
                 >
                   {tab.label}
                 </button>
               ))}
             </div>
-            
+
             <div className="flex items-center space-x-2">
               <Button
-                variant={viewMode === 'grid' ? 'primary' : 'ghost'}
+                variant={viewMode === 'grid' ? 'default' : 'ghost'}
                 size="sm"
                 onClick={() => setViewMode('grid')}
               >
                 Grid
               </Button>
               <Button
-                variant={viewMode === 'kanban' ? 'primary' : 'ghost'}
+                variant={viewMode === 'kanban' ? 'default' : 'ghost'}
                 size="sm"
                 onClick={() => setViewMode('kanban')}
               >
@@ -324,10 +329,25 @@ const Projects: React.FC = () => {
         </div>
       </Card>
 
+      {/* Empty State */}
+      {filteredProjects.length === 0 && (
+        <Card className="p-12 text-center">
+          <FolderKanban className="w-16 h-16 mx-auto text-muted-foreground mb-4" />
+          <h3 className="text-lg font-semibold text-foreground mb-2">Nenhum projeto encontrado</h3>
+          <p className="text-muted-foreground mb-4">
+            {searchTerm ? 'Tente ajustar sua busca' : 'Crie seu primeiro projeto para começar'}
+          </p>
+          <Button onClick={() => setShowCreateModal(true)}>
+            <Plus className="w-4 h-4 mr-2" />
+            Criar Projeto
+          </Button>
+        </Card>
+      )}
+
       {/* Projects Grid */}
-      {viewMode === 'grid' && (
+      {viewMode === 'grid' && filteredProjects.length > 0 && (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {filteredProjects.map((project, index) => (
+          {filteredProjects.map((project: any, index: number) => (
             <motion.div
               key={project.id}
               initial={{ opacity: 0, y: 20 }}
@@ -339,7 +359,7 @@ const Projects: React.FC = () => {
                   <div className="flex items-center space-x-2">
                     <Badge className={getStatusColor(project.status)}>
                       {getStatusIcon(project.status)}
-                      <span className="ml-1 capitalize">{project.status.replace('-', ' ')}</span>
+                      <span className="ml-1">{getStatusLabel(project.status)}</span>
                     </Badge>
                     <Star className={`w-4 h-4 ${getPriorityColor(project.priority)}`} />
                   </div>
@@ -347,62 +367,62 @@ const Projects: React.FC = () => {
                     <MoreVertical className="w-4 h-4" />
                   </Button>
                 </div>
-                
-                <h3 className="text-lg font-semibold text-gray-900 mb-2">
+
+                <h3 className="text-lg font-semibold text-foreground mb-2">
                   {project.title}
                 </h3>
-                
-                <p className="text-sm text-gray-600 mb-4 line-clamp-2">
-                  {project.description}
+
+                <p className="text-sm text-muted-foreground mb-4 line-clamp-2">
+                  {project.description || 'Sem descrição'}
                 </p>
-                
+
                 <div className="mb-4">
-                  <div className="flex justify-between text-sm text-gray-600 mb-2">
+                  <div className="flex justify-between text-sm text-muted-foreground mb-2">
                     <span>Progresso</span>
                     <span>{project.progress}%</span>
                   </div>
                   <Progress value={project.progress} className="h-2" />
                 </div>
-                
-                <div className="flex items-center justify-between text-sm text-gray-600 mb-4">
+
+                <div className="flex items-center justify-between text-sm text-muted-foreground mb-4">
                   <div className="flex items-center">
                     <Calendar className="w-4 h-4 mr-1" />
-                    <span>{new Date(project.endDate).toLocaleDateString('pt-BR')}</span>
+                    <span>
+                      {project.endDate
+                        ? new Date(project.endDate).toLocaleDateString('pt-BR')
+                        : 'Sem prazo'}
+                    </span>
                   </div>
                   <div className="flex items-center">
                     <Target className="w-4 h-4 mr-1" />
                     <span>{project.tasks.completed}/{project.tasks.total} tarefas</span>
                   </div>
                 </div>
-                
+
                 <div className="flex items-center justify-between">
                   <div className="flex -space-x-2">
-                    {project.team.slice(0, 3).map((member) => (
+                    {project.team.slice(0, 3).map((member: any) => (
                       <Avatar
                         key={member.id}
                         src={member.avatar}
                         alt={member.name}
-                        fallback={member.name}
+                        fallback={member.name?.charAt(0) || '?'}
                         size="sm"
-                        className="border-2 border-white"
+                        className="border-2 border-background"
                       />
                     ))}
                     {project.team.length > 3 && (
-                      <div className="w-8 h-8 bg-gray-300 rounded-full flex items-center justify-center text-xs font-medium text-gray-600 border-2 border-white">
+                      <div className="w-8 h-8 bg-muted rounded-full flex items-center justify-center text-xs font-medium text-muted-foreground border-2 border-background">
                         +{project.team.length - 3}
                       </div>
                     )}
-                  </div>
-                  
-                  <div className="text-right">
-                    <p className="text-xs text-gray-500">Orçamento</p>
-                    <p className="text-sm font-medium text-gray-900">
-                      R$ {(project.spent / 1000).toFixed(0)}k / {(project.budget / 1000).toFixed(0)}k
-                    </p>
+                    {project.team.length === 0 && (
+                      <span className="text-sm text-muted-foreground">Sem membros</span>
+                    )}
                   </div>
                 </div>
-                
-                <div className="mt-4 pt-4 border-t border-gray-200 flex space-x-2">
+
+                <div className="mt-4 pt-4 border-t border-border flex space-x-2">
                   <Button variant="outline" size="sm" className="flex-1">
                     <Edit className="w-4 h-4 mr-1" />
                     Editar
@@ -421,45 +441,45 @@ const Projects: React.FC = () => {
       )}
 
       {/* Kanban View */}
-      {viewMode === 'kanban' && (
+      {viewMode === 'kanban' && filteredProjects.length > 0 && (
         <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
           {[
-            { id: 'planning', title: 'Planejamento', color: 'bg-blue-100' },
-            { id: 'in-progress', title: 'Em Andamento', color: 'bg-yellow-100' },
-            { id: 'completed', title: 'Concluídos', color: 'bg-green-100' },
-            { id: 'on-hold', title: 'Pausados', color: 'bg-gray-100' }
+            { id: 'planning', title: 'Planejamento', color: 'bg-blue-100 dark:bg-blue-900/30' },
+            { id: 'in-progress', title: 'Em Andamento', color: 'bg-yellow-100 dark:bg-yellow-900/30' },
+            { id: 'completed', title: 'Concluídos', color: 'bg-green-100 dark:bg-green-900/30' },
+            { id: 'on-hold', title: 'Pausados', color: 'bg-gray-100 dark:bg-gray-800' }
           ].map((column) => (
             <div key={column.id} className="space-y-4">
               <div className={`p-4 rounded-lg ${column.color}`}>
-                <h3 className="font-semibold text-gray-900 mb-2">{column.title}</h3>
-                <p className="text-sm text-gray-600">
-                  {filteredProjects.filter(p => p.status === column.id).length} projetos
+                <h3 className="font-semibold text-foreground mb-2">{column.title}</h3>
+                <p className="text-sm text-muted-foreground">
+                  {filteredProjects.filter((p: any) => p.status === column.id).length} projetos
                 </p>
               </div>
-              
+
               <div className="space-y-3">
                 {filteredProjects
-                  .filter(project => project.status === column.id)
-                  .map((project) => (
-                    <Card key={project.id} className="p-4 cursor-pointer hover:shadow-md">
-                      <h4 className="font-medium text-gray-900 mb-2">{project.title}</h4>
-                      <p className="text-sm text-gray-600 mb-3 line-clamp-2">
-                        {project.description}
+                  .filter((project: any) => project.status === column.id)
+                  .map((project: any) => (
+                    <Card key={project.id} className="p-4 cursor-pointer hover:shadow-md transition-shadow">
+                      <h4 className="font-medium text-foreground mb-2">{project.title}</h4>
+                      <p className="text-sm text-muted-foreground mb-3 line-clamp-2">
+                        {project.description || 'Sem descrição'}
                       </p>
                       <div className="flex items-center justify-between">
                         <div className="flex -space-x-2">
-                          {project.team.slice(0, 2).map((member) => (
+                          {project.team.slice(0, 2).map((member: any) => (
                             <Avatar
                               key={member.id}
                               src={member.avatar}
                               alt={member.name}
-                              fallback={member.name}
+                              fallback={member.name?.charAt(0) || '?'}
                               size="xs"
-                              className="border-2 border-white"
+                              className="border-2 border-background"
                             />
                           ))}
                         </div>
-                        <span className="text-xs text-gray-500">
+                        <span className="text-xs text-muted-foreground">
                           {project.progress}%
                         </span>
                       </div>
@@ -475,9 +495,7 @@ const Projects: React.FC = () => {
       <CreateProjectModal
         isOpen={showCreateModal}
         onClose={() => setShowCreateModal(false)}
-        onSuccess={(newProject) => {
-          // TODO: Add new project to list via GraphQL mutation
-        }}
+        onSuccess={handleCreateProject}
       />
     </div>
   )
