@@ -61,9 +61,9 @@ export const useAuth = () => {
 
 // Mock user data para desenvolvimento
 const mockUsers: Record<string, User> = {
-  'admin@maternar.com': {
+  'admin@maternarsantamariense.com': {
     id: '1',
-    email: 'admin@maternar.com',
+    email: 'admin@maternarsantamariense.com',
     username: 'laurapellegrin',
     firstName: 'Laura',
     lastName: 'Pellegrin',
@@ -97,9 +97,9 @@ const mockUsers: Record<string, User> = {
     longestStreak: 30,
     createdAt: '2025-12-01T00:00:00Z'
   },
-  'enfermeira@maternar.com': {
+  'maria@maternarsantamariense.com': {
     id: '2',
-    email: 'enfermeira@maternar.com',
+    email: 'maria@maternarsantamariense.com',
     username: 'mariaoliveira',
     firstName: 'Maria',
     lastName: 'Oliveira',
@@ -115,9 +115,9 @@ const mockUsers: Record<string, User> = {
     longestStreak: 14,
     createdAt: '2025-11-15T00:00:00Z'
   },
-  'medica@maternar.com': {
+  'carolina@maternarsantamariense.com': {
     id: '3',
-    email: 'medica@maternar.com',
+    email: 'carolina@maternarsantamariense.com',
     username: 'carolinasantos',
     firstName: 'Carolina',
     lastName: 'Santos',
@@ -133,9 +133,9 @@ const mockUsers: Record<string, User> = {
     longestStreak: 21,
     createdAt: '2025-10-20T00:00:00Z'
   },
-  'tecnica@maternar.com': {
+  'ana@maternarsantamariense.com': {
     id: '4',
-    email: 'tecnica@maternar.com',
+    email: 'ana@maternarsantamariense.com',
     username: 'anarodrigues',
     firstName: 'Ana',
     lastName: 'Rodrigues',
@@ -151,9 +151,9 @@ const mockUsers: Record<string, User> = {
     longestStreak: 10,
     createdAt: '2025-11-01T00:00:00Z'
   },
-  'nutricionista@maternar.com': {
+  'fernanda@maternarsantamariense.com': {
     id: '5',
-    email: 'nutricionista@maternar.com',
+    email: 'fernanda@maternarsantamariense.com',
     username: 'fernandacosta',
     firstName: 'Fernanda',
     lastName: 'Costa',
@@ -174,7 +174,7 @@ const mockUsers: Record<string, User> = {
 // Usuário padrão para desenvolvimento
 const defaultMockUser: User = {
   id: '1',
-  email: 'admin@maternar.com',
+  email: 'admin@maternarsantamariense.com',
   username: 'laurapellegrin',
   firstName: 'Laura',
   lastName: 'Pellegrin',
@@ -270,7 +270,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
           debugLog('Found stored auth data')
           const parsedUser = JSON.parse(storedUser)
           // Garantir que Laura sempre tenha o position correto
-          if (parsedUser.email === 'admin@maternar.com' || parsedUser.email === 'laura@maternarsantamariense.com') {
+          if (parsedUser.email === 'admin@maternarsantamariense.com' || parsedUser.email === 'laura@maternarsantamariense.com') {
             parsedUser.position = 'Acadêmica de Enfermagem | Bolsista PROBIC'
           }
           setUser(parsedUser)
@@ -336,7 +336,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
         const mockUser = createMockUser(email)
         // Garantir que Laura sempre tenha o position correto
-        if (mockUser.email === 'admin@maternar.com' || mockUser.email === 'laura@maternarsantamariense.com') {
+        if (mockUser.email === 'admin@maternarsantamariense.com' || mockUser.email === 'laura@maternarsantamariense.com') {
           mockUser.position = 'Acadêmica de Enfermagem | Bolsista PROBIC'
         }
         const mockToken = 'mock-jwt-token-' + Date.now()

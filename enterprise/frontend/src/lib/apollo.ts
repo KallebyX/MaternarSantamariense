@@ -4,48 +4,75 @@ import {
   createHttpLink,
   ApolloLink,
   from,
+  split,
 } from '@apollo/client'
 import { setContext } from '@apollo/client/link/context'
 import { onError } from '@apollo/client/link/error'
+import { GraphQLWsLink } from '@apollo/client/link/subscriptions'
+import { createClient } from 'graphql-ws'
+import { getMainDefinition } from '@apollo/client/utilities'
 
 // Environment configuration
 const getGraphQLUrl = (): string => {
-  // Check for environment variable first
   const envUrl = import.meta.env.VITE_GRAPHQL_URL
 
   if (envUrl) {
     return envUrl
   }
 
-  // Fallback based on current hostname
   const hostname = typeof window !== 'undefined' ? window.location.hostname : 'localhost'
 
-  // Production domains
   if (hostname.includes('maternarsantamariense.com.br')) {
     return 'https://api.maternarsantamariense.com.br/graphql'
   }
 
-  // Development/staging domains
   if (hostname.includes('dev-') || hostname.includes('staging')) {
     return 'https://dev-api.maternarsantamariense.com.br/graphql'
   }
 
-  // Vercel preview deployments
   if (hostname.includes('vercel.app')) {
     return 'https://dev-api.maternarsantamariense.com.br/graphql'
   }
 
-  // Local development
   return 'http://localhost:4000/graphql'
 }
 
-// Create HTTP link with dynamic URI
+const getWsUrl = (): string => {
+  const envUrl = import.meta.env.VITE_WS_URL
+
+  if (envUrl) {
+    return envUrl.replace('http', 'ws')
+  }
+
+  const httpUrl = getGraphQLUrl()
+  return httpUrl.replace('http', 'ws')
+}
+
+// Create HTTP link
 const httpLink = createHttpLink({
   uri: getGraphQLUrl(),
-  credentials: 'include', // Include cookies for authentication
+  credentials: 'include',
 })
 
-// Authentication link - adds token to headers
+// Create WebSocket link for subscriptions
+const wsLink = typeof window !== 'undefined' ? new GraphQLWsLink(createClient({
+  url: getWsUrl(),
+  connectionParams: () => {
+    const token = localStorage.getItem('authToken')
+    return {
+      authorization: token ? `Bearer ${token}` : '',
+    }
+  },
+  retryAttempts: 5,
+  shouldRetry: () => true,
+  on: {
+    connected: () => console.log('[WS] Connected'),
+    closed: () => console.log('[WS] Closed'),
+    error: (err) => console.error('[WS] Error:', err),
+  },
+})) : null
+
+// Authentication link
 const authLink = setContext((_, { headers }) => {
   const token = localStorage.getItem('authToken')
 
@@ -67,13 +94,10 @@ const errorLink = onError(({ graphQLErrors, networkError, operation }) => {
         `[GraphQL error]: Message: ${message}, Location: ${locations}, Path: ${path}`
       )
 
-      // Handle specific error codes
       if (extensions?.code === 'UNAUTHENTICATED') {
-        // Clear auth and redirect to login
         localStorage.removeItem('authToken')
         localStorage.removeItem('user')
 
-        // Only redirect if not already on login page
         if (typeof window !== 'undefined' && !window.location.pathname.includes('/login')) {
           window.location.href = '/login'
         }
@@ -84,7 +108,6 @@ const errorLink = onError(({ graphQLErrors, networkError, operation }) => {
   if (networkError) {
     console.error(`[Network error]: ${networkError}`)
 
-    // Log additional info in development
     if (import.meta.env.VITE_DEBUG_MODE === 'true') {
       console.error('Operation:', operation.operationName)
       console.error('Variables:', operation.variables)
@@ -92,25 +115,31 @@ const errorLink = onError(({ graphQLErrors, networkError, operation }) => {
   }
 })
 
-// Retry link for network failures (simple implementation)
-const retryLink = new ApolloLink((operation, forward) => {
-  return forward(operation)
-})
-
-// Compose all links
-const link = from([
+// Compose HTTP links
+const httpLinkWithAuth = from([
   errorLink,
-  retryLink,
   authLink,
   httpLink,
 ])
 
-// Cache configuration with type policies
+// Split link: WebSocket for subscriptions, HTTP for queries/mutations
+const splitLink = wsLink ? split(
+  ({ query }) => {
+    const definition = getMainDefinition(query)
+    return (
+      definition.kind === 'OperationDefinition' &&
+      definition.operation === 'subscription'
+    )
+  },
+  wsLink,
+  httpLinkWithAuth,
+) : httpLinkWithAuth
+
+// Cache configuration
 const cache = new InMemoryCache({
   typePolicies: {
     Query: {
       fields: {
-        // Merge paginated results
         users: {
           keyArgs: ['filter'],
           merge(existing = [], incoming) {
@@ -126,7 +155,15 @@ const cache = new InMemoryCache({
         messages: {
           keyArgs: ['channelId'],
           merge(existing = [], incoming) {
-            return [...incoming] // Messages should replace, not merge
+            // For messages, we want to append new ones
+            const existingIds = new Set(existing.map((m: any) => m.__ref || m.id))
+            const newMessages = incoming.filter((m: any) => !existingIds.has(m.__ref || m.id))
+            return [...existing, ...newMessages]
+          },
+        },
+        channels: {
+          merge(existing = [], incoming) {
+            return incoming // Channels should replace
           },
         },
       },
@@ -140,12 +177,15 @@ const cache = new InMemoryCache({
     Channel: {
       keyFields: ['id'],
     },
+    Message: {
+      keyFields: ['id'],
+    },
   },
 })
 
 // Create Apollo Client instance
 export const apolloClient = new ApolloClient({
-  link,
+  link: splitLink,
   cache,
   defaultOptions: {
     watchQuery: {
@@ -160,13 +200,12 @@ export const apolloClient = new ApolloClient({
       errorPolicy: 'all',
     },
   },
-  connectToDevTools: import.meta.env.VITE_DEBUG_MODE === 'true',
+  connectToDevTools: import.meta.env.VITE_DEBUG_MODE === 'true' || import.meta.env.DEV,
 })
 
-// Export helper to get current GraphQL URL (useful for debugging)
+// Export helpers
 export const getApiUrl = () => getGraphQLUrl()
 
-// Export helper to clear cache (useful for logout)
 export const clearApolloCache = () => {
   apolloClient.clearStore()
 }
