@@ -452,108 +452,108 @@ const QualificaProfissional: React.FC = () => {
   }
 
   return (
-    <div className="min-h-screen p-4 md:p-6 lg:p-8">
+    <div className="min-h-screen p-2 xs:p-3 sm:p-4 md:p-6 lg:p-8 xl:px-12">
       {/* Header */}
       <motion.div
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
-        className="mb-8"
+        className="mb-6 sm:mb-8"
       >
-        <div className="flex items-center gap-3 mb-4">
-          <div className="p-3 bg-gradient-to-br from-blue-500 to-purple-600 rounded-xl shadow-lg">
-            <GraduationCap className="w-8 h-8 text-white" />
+        <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3 mb-4">
+          <div className="p-2 sm:p-3 bg-gradient-to-br from-blue-500 to-purple-600 rounded-xl shadow-lg">
+            <GraduationCap className="w-6 h-6 sm:w-7 sm:h-7 md:w-8 md:h-8 text-white" />
           </div>
-          <div>
-            <h1 className="text-3xl font-bold text-gray-900">Qualifica Pré-natal</h1>
+          <div className="min-w-0 flex-1">
+            <h1 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold text-gray-900 truncate">Qualifica Pré-natal</h1>
           </div>
         </div>
 
         {/* Call to Action */}
-        <div className="bg-gradient-to-r from-blue-50 to-purple-50 rounded-xl p-6 mb-6">
-          <p className="text-lg text-gray-700 italic">
+        <div className="bg-gradient-to-r from-blue-50 to-purple-50 rounded-lg sm:rounded-xl p-4 sm:p-6 mb-4 sm:mb-6">
+          <p className="text-sm sm:text-base md:text-lg text-gray-700 italic leading-relaxed">
             "Transforme conhecimento em cuidado humanizado. Cada módulo concluído é um passo a mais na construção de um futuro saudável."
           </p>
         </div>
 
         {/* Stats */}
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4 mb-6 sm:mb-8">
           <motion.div
-            whileHover={{ scale: 1.05 }}
-            className="bg-white rounded-xl p-4 shadow-sm border border-gray-100"
+            whileHover={{ scale: 1.02 }}
+            className="bg-white rounded-lg sm:rounded-xl p-3 sm:p-4 shadow-sm border border-gray-100"
           >
             <div className="flex items-center justify-between">
-              <div>
-                <p className="text-sm text-gray-600">Módulos Disponíveis</p>
-                <p className="text-2xl font-bold text-gray-900">9</p>
+              <div className="min-w-0 flex-1">
+                <p className="text-xs sm:text-sm text-gray-600 truncate">Módulos Disponíveis</p>
+                <p className="text-lg sm:text-xl md:text-2xl font-bold text-gray-900">9</p>
               </div>
-              <BookOpen className="w-8 h-8 text-blue-500" />
+              <BookOpen className="w-6 h-6 sm:w-7 sm:h-7 md:w-8 md:h-8 text-blue-500 flex-shrink-0" />
             </div>
           </motion.div>
 
           <motion.div
-            whileHover={{ scale: 1.05 }}
-            className="bg-white rounded-xl p-4 shadow-sm border border-gray-100"
+            whileHover={{ scale: 1.02 }}
+            className="bg-white rounded-lg sm:rounded-xl p-3 sm:p-4 shadow-sm border border-gray-100"
           >
             <div className="flex items-center justify-between">
-              <div>
-                <p className="text-sm text-gray-600">Horas de Conteúdo</p>
-                <p className="text-2xl font-bold text-gray-900">120h</p>
+              <div className="min-w-0 flex-1">
+                <p className="text-xs sm:text-sm text-gray-600 truncate">Horas de Conteúdo</p>
+                <p className="text-lg sm:text-xl md:text-2xl font-bold text-gray-900">120h</p>
               </div>
-              <Clock className="w-8 h-8 text-purple-500" />
+              <Clock className="w-6 h-6 sm:w-7 sm:h-7 md:w-8 md:h-8 text-purple-500 flex-shrink-0" />
             </div>
           </motion.div>
 
           <motion.div
-            whileHover={{ scale: 1.05 }}
-            className="bg-white rounded-xl p-4 shadow-sm border border-gray-100"
+            whileHover={{ scale: 1.02 }}
+            className="bg-white rounded-lg sm:rounded-xl p-3 sm:p-4 shadow-sm border border-gray-100"
           >
             <div className="flex items-center justify-between">
-              <div>
-                <p className="text-sm text-gray-600">Profissionais Ativos</p>
-                <p className="text-2xl font-bold text-gray-900">2.450</p>
+              <div className="min-w-0 flex-1">
+                <p className="text-xs sm:text-sm text-gray-600 truncate">Profissionais Ativos</p>
+                <p className="text-lg sm:text-xl md:text-2xl font-bold text-gray-900">2.450</p>
               </div>
-              <Users className="w-8 h-8 text-green-500" />
+              <Users className="w-6 h-6 sm:w-7 sm:h-7 md:w-8 md:h-8 text-green-500 flex-shrink-0" />
             </div>
           </motion.div>
 
           <motion.div
-            whileHover={{ scale: 1.05 }}
-            className="bg-white rounded-xl p-4 shadow-sm border border-gray-100"
+            whileHover={{ scale: 1.02 }}
+            className="bg-white rounded-lg sm:rounded-xl p-3 sm:p-4 shadow-sm border border-gray-100"
           >
             <div className="flex items-center justify-between">
-              <div>
-                <p className="text-sm text-gray-600">Taxa de Conclusão</p>
-                <p className="text-2xl font-bold text-gray-900">78%</p>
+              <div className="min-w-0 flex-1">
+                <p className="text-xs sm:text-sm text-gray-600 truncate">Taxa de Conclusão</p>
+                <p className="text-lg sm:text-xl md:text-2xl font-bold text-gray-900">78%</p>
               </div>
-              <TrendingUp className="w-8 h-8 text-amber-500" />
+              <TrendingUp className="w-6 h-6 sm:w-7 sm:h-7 md:w-8 md:h-8 text-amber-500 flex-shrink-0" />
             </div>
           </motion.div>
         </div>
 
         {/* Trilhas Formativas */}
-        <div className="mb-8">
-          <h2 className="text-xl font-semibold text-gray-900 mb-4 flex items-center gap-2">
-            <Target className="w-5 h-5" />
+        <div className="mb-6 sm:mb-8">
+          <h2 className="text-lg sm:text-xl md:text-2xl font-semibold text-gray-900 mb-3 sm:mb-4 flex items-center gap-2">
+            <Target className="w-4 h-4 sm:w-5 sm:h-5" />
             Trilhas Formativas
           </h2>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4">
             {trails.map((trail) => (
               <motion.div
                 key={trail.id}
                 whileHover={{ scale: 1.02 }}
                 onClick={() => setSelectedTrail(trail.id)}
-                className={`p-4 rounded-xl cursor-pointer transition-all ${
+                className={`p-3 sm:p-4 rounded-lg sm:rounded-xl cursor-pointer transition-all ${
                   selectedTrail === trail.id
                     ? 'ring-2 ring-blue-500 shadow-lg'
                     : 'shadow-sm hover:shadow-md'
                 } bg-gradient-to-r ${trail.color}`}
               >
                 <div className="text-white">
-                  <h3 className="font-semibold text-lg mb-1">{trail.name}</h3>
-                  <p className="text-sm opacity-90 mb-2">{trail.description}</p>
+                  <h3 className="font-semibold text-base sm:text-lg mb-1 truncate">{trail.name}</h3>
+                  <p className="text-xs sm:text-sm opacity-90 mb-2 leading-relaxed">{trail.description}</p>
                   <div className="flex items-center justify-between">
-                    <span className="text-sm">{trail.totalHours}h de conteúdo</span>
-                    <Trophy className="w-5 h-5" />
+                    <span className="text-xs sm:text-sm truncate">{trail.totalHours}h de conteúdo</span>
+                    <Trophy className="w-4 h-4 sm:w-5 sm:h-5 flex-shrink-0" />
                   </div>
                 </div>
               </motion.div>
@@ -567,7 +567,7 @@ const QualificaProfissional: React.FC = () => {
         variants={container}
         initial="hidden"
         animate="show"
-        className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
+        className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 sm:gap-4 md:gap-6"
       >
         {modules.map((module) => {
           const Icon = module.icon
@@ -579,65 +579,65 @@ const QualificaProfissional: React.FC = () => {
               variants={item}
               whileHover={{ y: -5 }}
               onClick={() => !module.locked && setExpandedModule(expandedModule === module.id ? null : module.id)}
-              className={`bg-white rounded-xl shadow-sm hover:shadow-xl transition-all cursor-pointer ${
+              className={`bg-white rounded-lg sm:rounded-xl shadow-sm hover:shadow-xl transition-all cursor-pointer ${
                 module.locked ? 'opacity-60' : ''
-              } ${isHighlighted ? 'ring-2 ring-blue-500' : ''}`}
+              } ${isHighlighted ? 'ring-2 ring-blue-500' : ''} overflow-hidden`}
             >
-              <div className="p-6">
+              <div className="p-4 sm:p-5 md:p-6">
                 {/* Header */}
-                <div className="flex items-start justify-between mb-4">
-                  <div className={`p-3 rounded-xl ${module.bgColor}`}>
-                    <Icon className={`w-6 h-6 ${module.color}`} />
+                <div className="flex items-start justify-between mb-3 sm:mb-4 gap-2">
+                  <div className={`p-2 sm:p-3 rounded-lg sm:rounded-xl ${module.bgColor} flex-shrink-0`}>
+                    <Icon className={`w-5 h-5 sm:w-6 sm:h-6 ${module.color}`} />
                   </div>
-                  <span className={`px-3 py-1 rounded-full text-xs font-medium ${getLevelBadge(module.level)}`}>
+                  <span className={`px-2 sm:px-3 py-1 rounded-full text-[10px] sm:text-xs font-medium ${getLevelBadge(module.level)} whitespace-nowrap`}>
                     {module.level}
                   </span>
                 </div>
 
                 {/* Content */}
-                <h3 className="font-semibold text-lg text-gray-900 mb-2">
+                <h3 className="font-semibold text-sm sm:text-base md:text-lg text-gray-900 mb-2 leading-tight">
                   {module.title}
                 </h3>
-                <p className="text-sm text-gray-600 mb-4">
+                <p className="text-xs sm:text-sm text-gray-600 mb-3 sm:mb-4 leading-relaxed">
                   {module.description}
                 </p>
 
                 {/* Meta */}
-                <div className="flex items-center justify-between text-sm text-gray-500 mb-4">
-                  <span className="flex items-center gap-1">
-                    <BookOpen className="w-4 h-4" />
-                    {module.lessons} aulas
+                <div className="flex items-center justify-between text-xs sm:text-sm text-gray-500 mb-3 sm:mb-4 gap-2">
+                  <span className="flex items-center gap-1 min-w-0">
+                    <BookOpen className="w-3 h-3 sm:w-4 sm:h-4 flex-shrink-0" />
+                    <span className="truncate">{module.lessons} aulas</span>
                   </span>
-                  <span className="flex items-center gap-1">
-                    <Clock className="w-4 h-4" />
-                    {module.duration}
+                  <span className="flex items-center gap-1 min-w-0">
+                    <Clock className="w-3 h-3 sm:w-4 sm:h-4 flex-shrink-0" />
+                    <span className="truncate">{module.duration}</span>
                   </span>
                 </div>
 
                 {/* Progress or Lock */}
                 {module.locked ? (
-                  <div className="flex items-center justify-center py-3 bg-gray-100 rounded-lg">
-                    <Lock className="w-4 h-4 text-gray-400 mr-2" />
-                    <span className="text-sm text-gray-500">Módulo bloqueado</span>
+                  <div className="flex items-center justify-center py-2 sm:py-3 bg-gray-100 rounded-lg">
+                    <Lock className="w-3 h-3 sm:w-4 sm:h-4 text-gray-400 mr-2" />
+                    <span className="text-xs sm:text-sm text-gray-500">Módulo bloqueado</span>
                   </div>
                 ) : module.progress !== undefined ? (
                   <div>
                     <div className="flex items-center justify-between mb-2">
-                      <span className="text-xs text-gray-600">Progresso</span>
-                      <span className="text-xs font-semibold text-gray-900">{module.progress}%</span>
+                      <span className="text-[10px] sm:text-xs text-gray-600">Progresso</span>
+                      <span className="text-[10px] sm:text-xs font-semibold text-gray-900">{module.progress}%</span>
                     </div>
-                    <div className="w-full bg-gray-200 rounded-full h-2">
+                    <div className="w-full bg-gray-200 rounded-full h-1.5 sm:h-2">
                       <motion.div
                         initial={{ width: 0 }}
                         animate={{ width: `${module.progress}%` }}
-                        className={`h-2 rounded-full ${
+                        className={`h-1.5 sm:h-2 rounded-full ${
                           module.progress === 100 ? 'bg-green-500' : 'bg-blue-500'
                         }`}
                       />
                     </div>
                   </div>
                 ) : (
-                  <button className="w-full py-3 bg-gradient-to-r from-blue-500 to-purple-600 text-white rounded-lg font-medium hover:from-blue-600 hover:to-purple-700 transition-colors">
+                  <button className="w-full py-2 sm:py-3 bg-gradient-to-r from-blue-500 to-purple-600 text-white rounded-lg font-medium hover:from-blue-600 hover:to-purple-700 transition-colors text-xs sm:text-sm">
                     Começar Módulo
                   </button>
                 )}
@@ -649,12 +649,12 @@ const QualificaProfissional: React.FC = () => {
                   initial={{ height: 0, opacity: 0 }}
                   animate={{ height: 'auto', opacity: 1 }}
                   exit={{ height: 0, opacity: 0 }}
-                  className="border-t border-gray-100 p-6 bg-gray-50"
+                  className="border-t border-gray-100 p-4 sm:p-5 md:p-6 bg-gray-50"
                 >
-                  <h4 className="font-medium text-gray-900 mb-4">Recursos Disponíveis:</h4>
+                  <h4 className="font-medium text-sm sm:text-base text-gray-900 mb-3 sm:mb-4">Recursos Disponíveis:</h4>
                   
                   {module.resources && module.resources.length > 0 ? (
-                    <div className="space-y-3">
+                    <div className="space-y-2 sm:space-y-3">
                       {module.resources.map((resource) => {
                         const getResourceIcon = () => {
                           switch (resource.type) {
@@ -672,42 +672,42 @@ const QualificaProfissional: React.FC = () => {
                             href={resource.url}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="flex items-start gap-3 p-3 bg-white rounded-lg hover:shadow-md transition-all group"
+                            className="flex items-start gap-2 sm:gap-3 p-2 sm:p-3 bg-white rounded-lg hover:shadow-md transition-all group"
                           >
                             <div className="flex-shrink-0 mt-0.5">
                               {getResourceIcon()}
                             </div>
                             <div className="flex-1 min-w-0">
-                              <h5 className="font-medium text-gray-900 group-hover:text-blue-600 transition-colors">
+                              <h5 className="font-medium text-xs sm:text-sm md:text-base text-gray-900 group-hover:text-blue-600 transition-colors leading-tight">
                                 {resource.title}
                               </h5>
-                              <p className="text-sm text-gray-500">{resource.institution}</p>
+                              <p className="text-[10px] sm:text-xs md:text-sm text-gray-500 truncate">{resource.institution}</p>
                               {resource.description && (
-                                <p className="text-xs text-gray-400 mt-1">{resource.description}</p>
+                                <p className="text-[10px] sm:text-xs text-gray-400 mt-1 leading-relaxed">{resource.description}</p>
                               )}
                             </div>
-                            <ExternalLink className="w-4 h-4 text-gray-400 group-hover:text-blue-600 transition-colors flex-shrink-0" />
+                            <ExternalLink className="w-3 h-3 sm:w-4 sm:h-4 text-gray-400 group-hover:text-blue-600 transition-colors flex-shrink-0" />
                           </a>
                         )
                       })}
                     </div>
                   ) : (
-                    <ul className="space-y-2">
-                      <li className="flex items-center gap-2 text-sm text-gray-600">
-                        <CheckCircle className="w-4 h-4 text-green-500" />
-                        Materiais didáticos atualizados
+                    <ul className="space-y-1.5 sm:space-y-2">
+                      <li className="flex items-center gap-2 text-xs sm:text-sm text-gray-600">
+                        <CheckCircle className="w-3 h-3 sm:w-4 sm:h-4 text-green-500 flex-shrink-0" />
+                        <span>Materiais didáticos atualizados</span>
                       </li>
-                      <li className="flex items-center gap-2 text-sm text-gray-600">
-                        <CheckCircle className="w-4 h-4 text-green-500" />
-                        Vídeos e demonstrações práticas
+                      <li className="flex items-center gap-2 text-xs sm:text-sm text-gray-600">
+                        <CheckCircle className="w-3 h-3 sm:w-4 sm:h-4 text-green-500 flex-shrink-0" />
+                        <span>Vídeos e demonstrações práticas</span>
                       </li>
-                      <li className="flex items-center gap-2 text-sm text-gray-600">
-                        <CheckCircle className="w-4 h-4 text-green-500" />
-                        Avaliações e exercícios
+                      <li className="flex items-center gap-2 text-xs sm:text-sm text-gray-600">
+                        <CheckCircle className="w-3 h-3 sm:w-4 sm:h-4 text-green-500 flex-shrink-0" />
+                        <span>Avaliações e exercícios</span>
                       </li>
-                      <li className="flex items-center gap-2 text-sm text-gray-600">
-                        <CheckCircle className="w-4 h-4 text-green-500" />
-                        Certificado de conclusão
+                      <li className="flex items-center gap-2 text-xs sm:text-sm text-gray-600">
+                        <CheckCircle className="w-3 h-3 sm:w-4 sm:h-4 text-green-500 flex-shrink-0" />
+                        <span>Certificado de conclusão</span>
                       </li>
                     </ul>
                   )}
@@ -723,44 +723,44 @@ const QualificaProfissional: React.FC = () => {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.5 }}
-        className="mt-12 bg-gradient-to-r from-purple-50 to-pink-50 rounded-xl p-8"
+        className="mt-8 sm:mt-12 bg-gradient-to-r from-purple-50 to-pink-50 rounded-lg sm:rounded-xl p-4 sm:p-6 md:p-8"
       >
-        <h2 className="text-2xl font-semibold text-gray-900 mb-6 flex items-center gap-2">
-          <Trophy className="w-6 h-6 text-amber-500" />
+        <h2 className="text-lg sm:text-xl md:text-2xl font-semibold text-gray-900 mb-4 sm:mb-6 flex items-center gap-2">
+          <Trophy className="w-5 h-5 sm:w-6 sm:h-6 text-amber-500" />
           Sistema de Conquistas
         </h2>
         
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-          <div className="bg-white rounded-lg p-4 text-center">
-            <div className="inline-flex p-3 bg-amber-100 rounded-full mb-3">
-              <Star className="w-8 h-8 text-amber-600" />
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4">
+          <div className="bg-white rounded-lg p-3 sm:p-4 text-center">
+            <div className="inline-flex p-2 sm:p-3 bg-amber-100 rounded-full mb-2 sm:mb-3">
+              <Star className="w-6 h-6 sm:w-7 sm:h-7 md:w-8 md:h-8 text-amber-600" />
             </div>
-            <h3 className="font-semibold text-gray-900">Bronze</h3>
-            <p className="text-sm text-gray-600">3 módulos concluídos</p>
+            <h3 className="font-semibold text-sm sm:text-base text-gray-900">Bronze</h3>
+            <p className="text-xs sm:text-sm text-gray-600 leading-tight">3 módulos concluídos</p>
           </div>
           
-          <div className="bg-white rounded-lg p-4 text-center opacity-60">
-            <div className="inline-flex p-3 bg-gray-100 rounded-full mb-3">
-              <Star className="w-8 h-8 text-gray-400" />
+          <div className="bg-white rounded-lg p-3 sm:p-4 text-center opacity-60">
+            <div className="inline-flex p-2 sm:p-3 bg-gray-100 rounded-full mb-2 sm:mb-3">
+              <Star className="w-6 h-6 sm:w-7 sm:h-7 md:w-8 md:h-8 text-gray-400" />
             </div>
-            <h3 className="font-semibold text-gray-900">Prata</h3>
-            <p className="text-sm text-gray-600">1 trilha completa</p>
+            <h3 className="font-semibold text-sm sm:text-base text-gray-900">Prata</h3>
+            <p className="text-xs sm:text-sm text-gray-600 leading-tight">1 trilha completa</p>
           </div>
           
-          <div className="bg-white rounded-lg p-4 text-center opacity-60">
-            <div className="inline-flex p-3 bg-gray-100 rounded-full mb-3">
-              <Star className="w-8 h-8 text-gray-400" />
+          <div className="bg-white rounded-lg p-3 sm:p-4 text-center opacity-60">
+            <div className="inline-flex p-2 sm:p-3 bg-gray-100 rounded-full mb-2 sm:mb-3">
+              <Star className="w-6 h-6 sm:w-7 sm:h-7 md:w-8 md:h-8 text-gray-400" />
             </div>
-            <h3 className="font-semibold text-gray-900">Ouro</h3>
-            <p className="text-sm text-gray-600">2 trilhas completas</p>
+            <h3 className="font-semibold text-sm sm:text-base text-gray-900">Ouro</h3>
+            <p className="text-xs sm:text-sm text-gray-600 leading-tight">2 trilhas completas</p>
           </div>
           
-          <div className="bg-white rounded-lg p-4 text-center opacity-60">
-            <div className="inline-flex p-3 bg-gray-100 rounded-full mb-3">
-              <Star className="w-8 h-8 text-gray-400" />
+          <div className="bg-white rounded-lg p-3 sm:p-4 text-center opacity-60">
+            <div className="inline-flex p-2 sm:p-3 bg-gray-100 rounded-full mb-2 sm:mb-3">
+              <Star className="w-6 h-6 sm:w-7 sm:h-7 md:w-8 md:h-8 text-gray-400" />
             </div>
-            <h3 className="font-semibold text-gray-900">Diamante</h3>
-            <p className="text-sm text-gray-600">Especialista certificado</p>
+            <h3 className="font-semibold text-sm sm:text-base text-gray-900">Diamante</h3>
+            <p className="text-xs sm:text-sm text-gray-600 leading-tight">Especialista certificado</p>
           </div>
         </div>
       </motion.div>

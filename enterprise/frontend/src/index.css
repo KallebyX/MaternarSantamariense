@@ -252,6 +252,16 @@ body {
     text-wrap: balance;
   }
 
+  /* Word Breaking */
+  .break-words {
+    word-break: break-word;
+    overflow-wrap: break-word;
+  }
+
+  .overflow-wrap-anywhere {
+    overflow-wrap: anywhere;
+  }
+
   /* Truncate Multi-line */
   .line-clamp-2 {
     display: -webkit-box;
@@ -265,6 +275,17 @@ body {
     -webkit-line-clamp: 3;
     -webkit-box-orient: vertical;
     overflow: hidden;
+  }
+
+  /* Responsive text sizes */
+  .text-\[10px\] {
+    font-size: 10px;
+    line-height: 12px;
+  }
+
+  /* Flex utilities */
+  .shrink-0 {
+    flex-shrink: 0;
   }
 
   /* Safe Area Insets (for mobile) */

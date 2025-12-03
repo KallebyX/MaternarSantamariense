@@ -106,15 +106,15 @@ const Policies: React.FC = () => {
   }
 
   return (
-    <div className="p-6 space-y-6">
+    <div className="p-3 sm:p-4 md:p-6 space-y-4 sm:space-y-5 md:space-y-6 max-w-full overflow-x-hidden">
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        className="flex items-center justify-between"
+        className="flex flex-col sm:flex-row sm:items-center sm:justify-between"
       >
         <div>
-          <h1 className="text-3xl font-bold text-gray-900">Protocolos</h1>
-          <p className="text-gray-600 mt-1">
+          <h1 className="text-xl sm:text-2xl md:text-3xl font-bold text-gray-900 truncate">Protocolos</h1>
+          <p className="text-sm sm:text-base text-gray-600 mt-1">
             Acesse as políticas e protocolos vigentes
           </p>
         </div>
@@ -125,15 +125,15 @@ const Policies: React.FC = () => {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.05 }}
-        className="bg-white rounded-xl shadow-sm p-6 border border-gray-100"
+        className="bg-white rounded-xl shadow-sm p-3 sm:p-4 md:p-6 border border-gray-100"
       >
-        <div className="flex flex-col md:flex-row items-center md:items-start gap-6">
+        <div className="flex flex-col lg:flex-row items-center lg:items-start gap-3 sm:gap-4 md:gap-6">
           {/* Brasão */}
           <div className="flex-shrink-0">
             <img 
               src="/brasao-santa-maria.png" 
               alt="Brasão de Santa Maria" 
-              className="h-24 w-auto"
+              className="h-16 sm:h-20 md:h-24 w-auto"
               onError={(e) => {
                 e.currentTarget.style.display = 'none'
               }}
@@ -141,77 +141,77 @@ const Policies: React.FC = () => {
           </div>
           
           {/* Links */}
-          <div className="flex-1 space-y-4">
-            <h3 className="text-lg font-semibold text-gray-900 flex items-center gap-2">
-              <Shield className="w-5 h-5 text-blue-600" />
-              Protocolos e Documentos Oficiais
+          <div className="flex-1 space-y-3 sm:space-y-4 w-full min-w-0">
+            <h3 className="text-base sm:text-lg font-semibold text-gray-900 flex items-center gap-2 flex-wrap">
+              <Shield className="w-4 sm:w-5 h-4 sm:h-5 text-blue-600 flex-shrink-0" />
+              <span className="truncate">Protocolos e Documentos Oficiais</span>
             </h3>
             
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+            <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-2 sm:gap-3">
               <a
                 href="https://sites.google.com/view/cursointrodutoriosm/"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center gap-2 p-3 rounded-lg bg-blue-50 hover:bg-blue-100 transition-colors"
+                className="flex items-center gap-2 p-2 sm:p-3 rounded-lg bg-blue-50 hover:bg-blue-100 transition-colors min-w-0"
               >
-                <GraduationCap className="w-4 h-4 text-blue-600" />
-                <span className="text-sm font-medium text-blue-900">Curso Introdutório</span>
-                <ExternalLink className="w-3 h-3 text-blue-500 ml-auto" />
+                <GraduationCap className="w-4 h-4 text-blue-600 flex-shrink-0" />
+                <span className="text-xs sm:text-sm font-medium text-blue-900 truncate">Curso Introdutório</span>
+                <ExternalLink className="w-3 h-3 text-blue-500 ml-auto flex-shrink-0" />
               </a>
               
               <a
                 href="https://bvsms.saude.gov.br/bvs/publicacoes/cadernos_atencao_basica_32_prenatal.pdf"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center gap-2 p-3 rounded-lg bg-green-50 hover:bg-green-100 transition-colors"
+                className="flex items-center gap-2 p-2 sm:p-3 rounded-lg bg-green-50 hover:bg-green-100 transition-colors min-w-0"
               >
-                <FileText className="w-4 h-4 text-green-600" />
-                <span className="text-sm font-medium text-green-900">Caderno de Atenção Básica 32</span>
-                <ExternalLink className="w-3 h-3 text-green-500 ml-auto" />
+                <FileText className="w-4 h-4 text-green-600 flex-shrink-0" />
+                <span className="text-xs sm:text-sm font-medium text-green-900 truncate">Caderno de Atenção Básica 32</span>
+                <ExternalLink className="w-3 h-3 text-green-500 ml-auto flex-shrink-0" />
               </a>
               
               <a
                 href="https://www.portalcoren-rs.gov.br/docs/ProtocolosEnfermagem/ProtocoloEnfermagemPreNatalRiscoHabitual.pdf"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center gap-2 p-3 rounded-lg bg-purple-50 hover:bg-purple-100 transition-colors"
+                className="flex items-center gap-2 p-2 sm:p-3 rounded-lg bg-purple-50 hover:bg-purple-100 transition-colors min-w-0"
               >
-                <FileText className="w-4 h-4 text-purple-600" />
-                <span className="text-sm font-medium text-purple-900">Protocolo de Enfermagem - Pré-Natal</span>
-                <ExternalLink className="w-3 h-3 text-purple-500 ml-auto" />
+                <FileText className="w-4 h-4 text-purple-600 flex-shrink-0" />
+                <span className="text-xs sm:text-sm font-medium text-purple-900 truncate">Protocolo de Enfermagem - Pré-Natal</span>
+                <ExternalLink className="w-3 h-3 text-purple-500 ml-auto flex-shrink-0" />
               </a>
               
               <a
                 href="https://www.santamaria.rs.gov.br/arquivos/baixar-arquivo/conteudo/D29-3877.pdf"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center gap-2 p-3 rounded-lg bg-pink-50 hover:bg-pink-100 transition-colors"
+                className="flex items-center gap-2 p-2 sm:p-3 rounded-lg bg-pink-50 hover:bg-pink-100 transition-colors min-w-0"
               >
-                <FileText className="w-4 h-4 text-pink-600" />
-                <span className="text-sm font-medium text-pink-900">Protocolo Municipal 1</span>
-                <ExternalLink className="w-3 h-3 text-pink-500 ml-auto" />
+                <FileText className="w-4 h-4 text-pink-600 flex-shrink-0" />
+                <span className="text-xs sm:text-sm font-medium text-pink-900 truncate">Protocolo Municipal 1</span>
+                <ExternalLink className="w-3 h-3 text-pink-500 ml-auto flex-shrink-0" />
               </a>
               
               <a
                 href="https://www.santamaria.rs.gov.br/arquivos/baixar-arquivo/conteudo/D18-3328.pdf"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center gap-2 p-3 rounded-lg bg-amber-50 hover:bg-amber-100 transition-colors"
+                className="flex items-center gap-2 p-2 sm:p-3 rounded-lg bg-amber-50 hover:bg-amber-100 transition-colors min-w-0"
               >
-                <FileText className="w-4 h-4 text-amber-600" />
-                <span className="text-sm font-medium text-amber-900">Protocolo Municipal 2</span>
-                <ExternalLink className="w-3 h-3 text-amber-500 ml-auto" />
+                <FileText className="w-4 h-4 text-amber-600 flex-shrink-0" />
+                <span className="text-xs sm:text-sm font-medium text-amber-900 truncate">Protocolo Municipal 2</span>
+                <ExternalLink className="w-3 h-3 text-amber-500 ml-auto flex-shrink-0" />
               </a>
               
               <a
                 href="https://www.santamaria.rs.gov.br/arquivos/baixar-arquivo/conteudo/D14-2254.pdf"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center gap-2 p-3 rounded-lg bg-teal-50 hover:bg-teal-100 transition-colors"
+                className="flex items-center gap-2 p-2 sm:p-3 rounded-lg bg-teal-50 hover:bg-teal-100 transition-colors min-w-0"
               >
-                <FileText className="w-4 h-4 text-teal-600" />
-                <span className="text-sm font-medium text-teal-900">Protocolo Municipal 3</span>
-                <ExternalLink className="w-3 h-3 text-teal-500 ml-auto" />
+                <FileText className="w-4 h-4 text-teal-600 flex-shrink-0" />
+                <span className="text-xs sm:text-sm font-medium text-teal-900 truncate">Protocolo Municipal 3</span>
+                <ExternalLink className="w-3 h-3 text-teal-500 ml-auto flex-shrink-0" />
               </a>
             </div>
           </div>
@@ -219,19 +219,19 @@ const Policies: React.FC = () => {
       </motion.div>
 
       {/* Stats Overview */}
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 md:gap-6">
         <motion.div
           initial={{ opacity: 0, scale: 0.9 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ delay: 0.1 }}
         >
-          <Card className="p-6 bg-gradient-to-r from-maternar-blue-500 to-maternar-blue-600 text-white">
+          <Card className="p-3 sm:p-4 md:p-6 bg-gradient-to-r from-maternar-blue-500 to-maternar-blue-600 text-white">
             <div className="flex items-center justify-between">
-              <div>
-                <p className="text-blue-100">Total de Políticas</p>
-                <p className="text-2xl font-bold">{stats.total}</p>
+              <div className="min-w-0 flex-1">
+                <p className="text-blue-100 text-[10px] sm:text-xs md:text-sm truncate">Total de Políticas</p>
+                <p className="text-lg sm:text-xl md:text-2xl font-bold">{stats.total}</p>
               </div>
-              <FileText className="w-8 h-8 text-blue-200" />
+              <FileText className="w-5 sm:w-6 md:w-8 h-5 sm:h-6 md:h-8 text-blue-200 flex-shrink-0" />
             </div>
           </Card>
         </motion.div>
@@ -241,13 +241,13 @@ const Policies: React.FC = () => {
           animate={{ opacity: 1, scale: 1 }}
           transition={{ delay: 0.2 }}
         >
-          <Card className="p-6 bg-gradient-to-r from-yellow-500 to-yellow-600 text-white">
+          <Card className="p-3 sm:p-4 md:p-6 bg-gradient-to-r from-yellow-500 to-yellow-600 text-white">
             <div className="flex items-center justify-between">
-              <div>
-                <p className="text-yellow-100">Requerem Confirmação</p>
-                <p className="text-2xl font-bold">{stats.requireAcknowledgment}</p>
+              <div className="min-w-0 flex-1">
+                <p className="text-yellow-100 text-[10px] sm:text-xs md:text-sm truncate">Requerem Confirmação</p>
+                <p className="text-lg sm:text-xl md:text-2xl font-bold">{stats.requireAcknowledgment}</p>
               </div>
-              <AlertCircle className="w-8 h-8 text-yellow-200" />
+              <AlertCircle className="w-5 sm:w-6 md:w-8 h-5 sm:h-6 md:h-8 text-yellow-200 flex-shrink-0" />
             </div>
           </Card>
         </motion.div>
@@ -257,13 +257,13 @@ const Policies: React.FC = () => {
           animate={{ opacity: 1, scale: 1 }}
           transition={{ delay: 0.3 }}
         >
-          <Card className="p-6 bg-gradient-to-r from-green-500 to-green-600 text-white">
+          <Card className="p-3 sm:p-4 md:p-6 bg-gradient-to-r from-green-500 to-green-600 text-white">
             <div className="flex items-center justify-between">
-              <div>
-                <p className="text-green-100">Lidas</p>
-                <p className="text-2xl font-bold">{stats.read}</p>
+              <div className="min-w-0 flex-1">
+                <p className="text-green-100 text-[10px] sm:text-xs md:text-sm truncate">Lidas</p>
+                <p className="text-lg sm:text-xl md:text-2xl font-bold">{stats.read}</p>
               </div>
-              <Eye className="w-8 h-8 text-green-200" />
+              <Eye className="w-5 sm:w-6 md:w-8 h-5 sm:h-6 md:h-8 text-green-200 flex-shrink-0" />
             </div>
           </Card>
         </motion.div>
@@ -273,25 +273,25 @@ const Policies: React.FC = () => {
           animate={{ opacity: 1, scale: 1 }}
           transition={{ delay: 0.4 }}
         >
-          <Card className="p-6 bg-gradient-to-r from-maternar-pink-500 to-maternar-pink-600 text-white">
+          <Card className="p-3 sm:p-4 md:p-6 bg-gradient-to-r from-maternar-pink-500 to-maternar-pink-600 text-white">
             <div className="flex items-center justify-between">
-              <div>
-                <p className="text-purple-100">Confirmadas</p>
-                <p className="text-2xl font-bold">{stats.acknowledged}</p>
+              <div className="min-w-0 flex-1">
+                <p className="text-purple-100 text-[10px] sm:text-xs md:text-sm truncate">Confirmadas</p>
+                <p className="text-lg sm:text-xl md:text-2xl font-bold">{stats.acknowledged}</p>
               </div>
-              <CheckCircle className="w-8 h-8 text-purple-200" />
+              <CheckCircle className="w-5 sm:w-6 md:w-8 h-5 sm:h-6 md:h-8 text-purple-200 flex-shrink-0" />
             </div>
           </Card>
         </motion.div>
       </div>
 
       {/* Filters */}
-      <div className="flex space-x-2 overflow-x-auto pb-2">
+      <div className="flex gap-2 sm:gap-3 overflow-x-auto pb-2 scrollbar-thin">
         {categories.map((category) => (
           <button
             key={category.id}
             onClick={() => setActiveCategory(category.id)}
-            className={`px-4 py-2 rounded-lg text-sm font-medium whitespace-nowrap transition-colors ${
+            className={`px-3 sm:px-4 py-2 rounded-lg text-xs sm:text-sm font-medium whitespace-nowrap transition-colors flex-shrink-0 ${
               activeCategory === category.id
                 ? 'bg-maternar-blue-600 text-white'
                 : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
@@ -304,13 +304,13 @@ const Policies: React.FC = () => {
       </div>
 
       {/* Search */}
-      <Card className="p-4">
+      <Card className="p-3 sm:p-4">
         <div className="relative">
-          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
+          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 sm:w-5 h-4 sm:h-5" />
           <input
             type="text"
             placeholder="Buscar políticas..."
-            className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-maternar-blue-500 focus:border-transparent"
+            className="w-full pl-9 sm:pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-maternar-blue-500 focus:border-transparent text-sm"
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
             aria-label="Buscar políticas"
@@ -320,19 +320,19 @@ const Policies: React.FC = () => {
 
       {/* Loading State */}
       {loading && (
-        <div className="flex justify-center py-12">
-          <Loader2 className="w-8 h-8 animate-spin text-maternar-blue-600" />
+        <div className="flex justify-center py-8 sm:py-12">
+          <Loader2 className="w-6 sm:w-8 h-6 sm:h-8 animate-spin text-maternar-blue-600" />
         </div>
       )}
 
       {/* Empty State */}
       {!loading && filteredPolicies.length === 0 && (
-        <Card className="p-12 text-center">
-          <FileText className="w-16 h-16 mx-auto text-gray-400 mb-4" />
-          <h3 className="text-lg font-semibold text-gray-900 mb-2">
+        <Card className="p-6 sm:p-8 md:p-12 text-center">
+          <FileText className="w-12 sm:w-14 md:w-16 h-12 sm:h-14 md:h-16 mx-auto text-gray-400 mb-4" />
+          <h3 className="text-base sm:text-lg font-semibold text-gray-900 mb-2">
             Nenhuma política encontrada
           </h3>
-          <p className="text-gray-600">
+          <p className="text-sm sm:text-base text-gray-600">
             {searchTerm
               ? 'Tente ajustar sua busca ou filtros'
               : 'Novas políticas serão adicionadas em breve'}
@@ -342,7 +342,7 @@ const Policies: React.FC = () => {
 
       {/* Policies List */}
       {!selectedPolicy ? (
-        <div className="space-y-4">
+        <div className="space-y-3 sm:space-y-4">
           {filteredPolicies.map((policy: Policy, index: number) => {
             const isRead = !!policy.readStatus?.readAt
             const isAcknowledged = !!policy.readStatus?.acknowledged
@@ -355,50 +355,54 @@ const Policies: React.FC = () => {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: index * 0.05 }}
               >
-                <Card className={`p-6 hover:shadow-lg transition-shadow ${needsAcknowledgment ? 'border-l-4 border-yellow-500' : ''}`}>
-                  <div className="flex items-start justify-between">
-                    <div className="flex-1">
-                      <div className="flex items-center space-x-3 mb-2">
-                        <h3 className="text-lg font-semibold text-gray-900">
+                <Card className={`p-3 sm:p-4 md:p-6 hover:shadow-lg transition-shadow ${needsAcknowledgment ? 'border-l-4 border-yellow-500' : ''}`}>
+                  <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3">
+                    <div className="flex-1 min-w-0">
+                      <div className="flex flex-wrap items-center gap-2 mb-2">
+                        <h3 className="text-sm sm:text-base md:text-lg font-semibold text-gray-900 truncate">
                           {policy.title}
                         </h3>
-                        <Badge className="bg-blue-100 text-blue-800">
-                          v{policy.version}
-                        </Badge>
-                        {policy.category && (
-                          <Badge className="bg-gray-100 text-gray-800">
-                            {policy.category}
+                        <div className="flex flex-wrap items-center gap-2 text-[10px] sm:text-xs">
+                          <Badge className="bg-blue-100 text-blue-800">
+                            v{policy.version}
                           </Badge>
-                        )}
-                        {isRead && (
-                          <Badge className="bg-green-100 text-green-800 flex items-center">
-                            <Eye className="w-3 h-3 mr-1" />
-                            Lida
-                          </Badge>
-                        )}
-                        {isAcknowledged && (
-                          <Badge className="bg-purple-100 text-purple-800 flex items-center">
-                            <CheckCircle className="w-3 h-3 mr-1" />
-                            Confirmada
-                          </Badge>
-                        )}
-                        {needsAcknowledgment && (
-                          <Badge className="bg-yellow-100 text-yellow-800 flex items-center">
-                            <AlertCircle className="w-3 h-3 mr-1" />
-                            Confirmação Pendente
-                          </Badge>
-                        )}
+                          {policy.category && (
+                            <Badge className="bg-gray-100 text-gray-800 truncate max-w-24 sm:max-w-none">
+                              {policy.category}
+                            </Badge>
+                          )}
+                          {isRead && (
+                            <Badge className="bg-green-100 text-green-800 flex items-center">
+                              <Eye className="w-3 h-3 mr-1" />
+                              <span className="hidden sm:inline">Lida</span>
+                            </Badge>
+                          )}
+                          {isAcknowledged && (
+                            <Badge className="bg-purple-100 text-purple-800 flex items-center">
+                              <CheckCircle className="w-3 h-3 mr-1" />
+                              <span className="hidden sm:inline">Confirmada</span>
+                            </Badge>
+                          )}
+                          {needsAcknowledgment && (
+                            <Badge className="bg-yellow-100 text-yellow-800 flex items-center">
+                              <AlertCircle className="w-3 h-3 mr-1" />
+                              <span className="hidden xs:inline">Pendente</span>
+                            </Badge>
+                          )}
+                        </div>
                       </div>
 
-                      <p className="text-sm text-gray-600 mb-3 line-clamp-2">
+                      <p className="text-xs sm:text-sm text-gray-600 mb-3 line-clamp-2">
                         {policy.content?.substring(0, 200)}...
                       </p>
 
-                      <div className="flex items-center text-xs text-gray-500 space-x-4">
+                      <div className="flex items-center text-[10px] sm:text-xs text-gray-500">
                         {policy.updatedAt && (
-                          <span className="flex items-center">
-                            <Clock className="w-3 h-3 mr-1" />
-                            Atualizada em {format(new Date(policy.updatedAt), 'dd/MM/yyyy', { locale: ptBR })}
+                          <span className="flex items-center truncate">
+                            <Clock className="w-3 h-3 mr-1 flex-shrink-0" />
+                            <span className="truncate">
+                              Atualizada em {format(new Date(policy.updatedAt), 'dd/MM/yyyy', { locale: ptBR })}
+                            </span>
                           </span>
                         )}
                       </div>
@@ -407,7 +411,7 @@ const Policies: React.FC = () => {
                     <Button
                       size="sm"
                       onClick={() => handleViewPolicy(policy)}
-                      className="ml-4"
+                      className="ml-0 sm:ml-4 w-full sm:w-auto flex-shrink-0"
                     >
                       <BookOpen className="w-4 h-4 mr-2" />
                       {isRead ? 'Revisar' : 'Ler'}
@@ -424,20 +428,20 @@ const Policies: React.FC = () => {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
         >
-          <Card className="p-8">
-            <div className="flex items-start justify-between mb-6">
-              <div>
-                <h2 className="text-2xl font-bold text-gray-900 mb-2">
+          <Card className="p-4 sm:p-6 md:p-8">
+            <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4 mb-4 sm:mb-6">
+              <div className="min-w-0 flex-1">
+                <h2 className="text-lg sm:text-xl md:text-2xl font-bold text-gray-900 mb-2 break-words">
                   {selectedPolicy.title}
                 </h2>
-                <div className="flex items-center space-x-3">
-                  <Badge className="bg-blue-100 text-blue-800">
+                <div className="flex flex-wrap items-center gap-2 sm:gap-3">
+                  <Badge className="bg-blue-100 text-blue-800 text-xs">
                     Versão {selectedPolicy.version}
                   </Badge>
-                  <Badge className="bg-gray-100 text-gray-800">
+                  <Badge className="bg-gray-100 text-gray-800 text-xs truncate max-w-32 sm:max-w-none">
                     {selectedPolicy.category}
                   </Badge>
-                  <span className="text-sm text-gray-500">
+                  <span className="text-xs sm:text-sm text-gray-500 break-words">
                     Atualizada em {format(new Date(selectedPolicy.updatedAt), "dd 'de' MMMM 'de' yyyy", { locale: ptBR })}
                   </span>
                 </div>
@@ -445,33 +449,36 @@ const Policies: React.FC = () => {
               <Button
                 variant="outline"
                 onClick={() => setSelectedPolicy(null)}
+                className="w-full sm:w-auto flex-shrink-0"
+                size="sm"
               >
                 Voltar
               </Button>
             </div>
 
-            <div className="prose max-w-none mb-8">
-              <div className="whitespace-pre-wrap text-gray-700">
+            <div className="prose max-w-none mb-6 sm:mb-8 overflow-hidden">
+              <div className="whitespace-pre-wrap text-sm sm:text-base text-gray-700 break-words">
                 {selectedPolicy.content}
               </div>
             </div>
 
             {selectedPolicy.requiresAcknowledgment && !selectedPolicy.readStatus?.acknowledged && (
-              <div className="border-t border-gray-200 pt-6">
-                <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-6">
-                  <div className="flex items-start">
-                    <AlertCircle className="w-6 h-6 text-yellow-600 mr-3 flex-shrink-0 mt-0.5" />
-                    <div className="flex-1">
-                      <h3 className="text-lg font-semibold text-yellow-900 mb-2">
+              <div className="border-t border-gray-200 pt-4 sm:pt-6">
+                <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-4 sm:p-6">
+                  <div className="flex flex-col sm:flex-row sm:items-start gap-3">
+                    <AlertCircle className="w-5 sm:w-6 h-5 sm:h-6 text-yellow-600 flex-shrink-0 mt-0.5" />
+                    <div className="flex-1 min-w-0">
+                      <h3 className="text-base sm:text-lg font-semibold text-yellow-900 mb-2">
                         Confirmação de Leitura Obrigatória
                       </h3>
-                      <p className="text-sm text-yellow-800 mb-4">
+                      <p className="text-xs sm:text-sm text-yellow-800 mb-3 sm:mb-4">
                         Esta política requer sua confirmação de que você leu e compreendeu todo o conteúdo.
                         Ao confirmar, você está declarando ciência das normas e diretrizes aqui estabelecidas.
                       </p>
                       <Button
                         onClick={() => handleAcknowledge(selectedPolicy.id)}
-                        className="bg-yellow-600 hover:bg-yellow-700"
+                        className="bg-yellow-600 hover:bg-yellow-700 w-full sm:w-auto"
+                        size="sm"
                       >
                         <CheckCircle className="w-4 h-4 mr-2" />
                         Confirmar Leitura
@@ -483,11 +490,11 @@ const Policies: React.FC = () => {
             )}
 
             {selectedPolicy.readStatus?.acknowledged && (
-              <div className="border-t border-gray-200 pt-6">
-                <div className="bg-green-50 border border-green-200 rounded-lg p-4 flex items-center">
-                  <CheckCircle className="w-6 h-6 text-green-600 mr-3" />
-                  <div>
-                    <p className="text-sm font-medium text-green-900">
+              <div className="border-t border-gray-200 pt-4 sm:pt-6">
+                <div className="bg-green-50 border border-green-200 rounded-lg p-3 sm:p-4 flex flex-col sm:flex-row sm:items-center gap-3">
+                  <CheckCircle className="w-5 sm:w-6 h-5 sm:h-6 text-green-600 flex-shrink-0" />
+                  <div className="min-w-0">
+                    <p className="text-xs sm:text-sm font-medium text-green-900 break-words">
                       Você confirmou esta política em {format(new Date(selectedPolicy.readStatus.readAt), "dd/MM/yyyy 'às' HH:mm", { locale: ptBR })}
                     </p>
                   </div>

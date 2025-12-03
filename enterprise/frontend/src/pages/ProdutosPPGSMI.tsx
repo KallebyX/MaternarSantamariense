@@ -208,20 +208,20 @@ const ProdutosPPGSMI: React.FC = () => {
   }
 
   return (
-    <div className="min-h-screen p-4 md:p-6 lg:p-8">
+    <div className="min-h-screen p-3 sm:p-4 md:p-6 lg:p-8 xl:p-10">
       {/* Header */}
       <motion.div
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
-        className="mb-8"
+        className="mb-6 sm:mb-8"
       >
-        <div className="text-center mb-8">
+        <div className="text-center mb-6 sm:mb-8">
           {/* Logos */}
-          <div className="flex justify-center items-center gap-8 mb-6">
+          <div className="flex flex-col xs:flex-row justify-center items-center gap-4 sm:gap-6 md:gap-8 mb-4 sm:mb-6">
             <img 
               src="/logo-ppgsmi.png" 
               alt="Logo PPGSMI" 
-              className="h-20"
+              className="h-12 sm:h-16 md:h-20 w-auto max-w-full"
               onError={(e) => {
                 e.currentTarget.style.display = 'none'
               }}
@@ -229,52 +229,52 @@ const ProdutosPPGSMI: React.FC = () => {
             <img 
               src="/logo-ufn.png" 
               alt="Logo UFN" 
-              className="h-20"
+              className="h-12 sm:h-16 md:h-20 w-auto max-w-full"
               onError={(e) => {
                 e.currentTarget.style.display = 'none'
               }}
             />
           </div>
 
-          <h1 className="text-3xl md:text-4xl font-bold text-gray-900 mb-3 flex items-center justify-center gap-3">
-            <GraduationCap className="w-8 h-8 text-purple-600" />
-            Produtos Técnico-tecnológicos no PPGSMI
+          <h1 className="text-lg xs:text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-bold text-gray-900 mb-2 sm:mb-3 flex flex-col sm:flex-row items-center justify-center gap-2 sm:gap-3 px-2">
+            <GraduationCap className="w-6 h-6 sm:w-7 sm:h-7 md:w-8 md:h-8 text-purple-600 shrink-0" />
+            <span className="text-center leading-tight">Produtos Técnico-tecnológicos no PPGSMI</span>
           </h1>
-          <p className="text-gray-600 max-w-3xl mx-auto">
+          <p className="text-xs sm:text-sm md:text-base text-gray-600 max-w-xs sm:max-w-lg md:max-w-2xl lg:max-w-3xl mx-auto px-2 leading-relaxed">
             Acervo completo de produtos desenvolvidos no Programa de Pós-Graduação em Saúde Materno Infantil.
             Recursos educacionais, ferramentas e materiais para profissionais de saúde.
           </p>
         </div>
 
         {/* Stats */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8 max-w-4xl mx-auto">
-          <div className="bg-white rounded-lg p-4 shadow-sm border border-gray-100 text-center">
-            <FileText className="w-6 h-6 text-red-600 mx-auto mb-2" />
-            <p className="text-2xl font-bold text-gray-900">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-2 sm:gap-3 md:gap-4 mb-6 sm:mb-8 max-w-xs sm:max-w-2xl md:max-w-4xl mx-auto px-2">
+          <div className="bg-white rounded-lg p-2 sm:p-3 md:p-4 shadow-sm border border-gray-100 text-center">
+            <FileText className="w-4 h-4 sm:w-5 sm:h-5 md:w-6 md:h-6 text-red-600 mx-auto mb-1 sm:mb-2" />
+            <p className="text-lg sm:text-xl md:text-2xl font-bold text-gray-900 leading-none">
               {products.filter(p => p.type === 'PDF').length}
             </p>
-            <p className="text-sm text-gray-600">Documentos PDF</p>
+            <p className="text-[10px] sm:text-xs md:text-sm text-gray-600 mt-1 leading-tight">Documentos PDF</p>
           </div>
-          <div className="bg-white rounded-lg p-4 shadow-sm border border-gray-100 text-center">
-            <Video className="w-6 h-6 text-purple-600 mx-auto mb-2" />
-            <p className="text-2xl font-bold text-gray-900">
+          <div className="bg-white rounded-lg p-2 sm:p-3 md:p-4 shadow-sm border border-gray-100 text-center">
+            <Video className="w-4 h-4 sm:w-5 sm:h-5 md:w-6 md:h-6 text-purple-600 mx-auto mb-1 sm:mb-2" />
+            <p className="text-lg sm:text-xl md:text-2xl font-bold text-gray-900 leading-none">
               {products.filter(p => p.type === 'Video').length}
             </p>
-            <p className="text-sm text-gray-600">Vídeos</p>
+            <p className="text-[10px] sm:text-xs md:text-sm text-gray-600 mt-1 leading-tight">Vídeos</p>
           </div>
-          <div className="bg-white rounded-lg p-4 shadow-sm border border-gray-100 text-center">
-            <Link2 className="w-6 h-6 text-blue-600 mx-auto mb-2" />
-            <p className="text-2xl font-bold text-gray-900">
+          <div className="bg-white rounded-lg p-2 sm:p-3 md:p-4 shadow-sm border border-gray-100 text-center">
+            <Link2 className="w-4 h-4 sm:w-5 sm:h-5 md:w-6 md:h-6 text-blue-600 mx-auto mb-1 sm:mb-2" />
+            <p className="text-lg sm:text-xl md:text-2xl font-bold text-gray-900 leading-none">
               {products.filter(p => p.type === 'Website').length}
             </p>
-            <p className="text-sm text-gray-600">Websites</p>
+            <p className="text-[10px] sm:text-xs md:text-sm text-gray-600 mt-1 leading-tight">Websites</p>
           </div>
-          <div className="bg-white rounded-lg p-4 shadow-sm border border-gray-100 text-center">
-            <Layers className="w-6 h-6 text-green-600 mx-auto mb-2" />
-            <p className="text-2xl font-bold text-gray-900">
+          <div className="bg-white rounded-lg p-2 sm:p-3 md:p-4 shadow-sm border border-gray-100 text-center">
+            <Layers className="w-4 h-4 sm:w-5 sm:h-5 md:w-6 md:h-6 text-green-600 mx-auto mb-1 sm:mb-2" />
+            <p className="text-lg sm:text-xl md:text-2xl font-bold text-gray-900 leading-none">
               {products.filter(p => p.type === 'App' || p.type === 'Tool').length}
             </p>
-            <p className="text-sm text-gray-600">Apps e Ferramentas</p>
+            <p className="text-[10px] sm:text-xs md:text-sm text-gray-600 mt-1 leading-tight">Apps e Ferramentas</p>
           </div>
         </div>
       </motion.div>
@@ -284,7 +284,7 @@ const ProdutosPPGSMI: React.FC = () => {
         variants={container}
         initial="hidden"
         animate="show"
-        className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
+        className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 sm:gap-4 md:gap-6"
       >
         {products.map((product) => {
           const Icon = getTypeIcon(product.type)
@@ -298,32 +298,36 @@ const ProdutosPPGSMI: React.FC = () => {
               rel="noopener noreferrer"
               variants={item}
               whileHover={{ y: -5, scale: 1.02 }}
-              className="block bg-white rounded-xl shadow-sm hover:shadow-lg transition-all border border-gray-100 overflow-hidden"
+              className="block bg-white rounded-lg sm:rounded-xl shadow-sm hover:shadow-lg transition-all border border-gray-100 overflow-hidden w-full"
             >
-              <div className="p-6">
-                <div className="flex items-start justify-between mb-4">
-                  <div className={`p-3 rounded-lg ${colorClass}`}>
-                    <Icon className="w-6 h-6" />
+              <div className="p-3 sm:p-4 md:p-5 lg:p-6">
+                <div className="flex items-start justify-between mb-3 sm:mb-4">
+                  <div className={`p-2 sm:p-2.5 md:p-3 rounded-lg ${colorClass}`}>
+                    <Icon className="w-4 h-4 sm:w-5 sm:h-5 md:w-6 md:h-6" />
                   </div>
-                  <ExternalLink className="w-4 h-4 text-gray-400" />
+                  <ExternalLink className="w-3 h-3 sm:w-4 sm:h-4 text-gray-400 shrink-0" />
                 </div>
 
-                <h3 className="font-semibold text-gray-900 mb-2 line-clamp-2">
-                  {product.title}
+                <h3 className="font-semibold text-gray-900 mb-2 text-sm sm:text-base md:text-lg leading-tight min-w-0">
+                  <span className="line-clamp-3 sm:line-clamp-2 break-words overflow-wrap-anywhere">
+                    {product.title}
+                  </span>
                 </h3>
 
                 {product.description && (
-                  <p className="text-sm text-gray-600 mb-3 line-clamp-2">
-                    {product.description}
+                  <p className="text-xs sm:text-sm text-gray-600 mb-3 leading-relaxed min-w-0">
+                    <span className="line-clamp-2 sm:line-clamp-3 break-words overflow-wrap-anywhere">
+                      {product.description}
+                    </span>
                   </p>
                 )}
 
-                <div className="flex items-center justify-between">
-                  <span className={`text-xs font-medium px-2 py-1 rounded-full ${colorClass}`}>
+                <div className="flex flex-col xs:flex-row xs:items-center xs:justify-between gap-2 xs:gap-1">
+                  <span className={`text-[10px] sm:text-xs font-medium px-2 py-1 rounded-full ${colorClass} w-fit shrink-0`}>
                     {product.type}
                   </span>
                   {product.author && (
-                    <span className="text-xs text-gray-500">
+                    <span className="text-[10px] sm:text-xs text-gray-500 truncate min-w-0">
                       {product.author}
                     </span>
                   )}
@@ -339,11 +343,11 @@ const ProdutosPPGSMI: React.FC = () => {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 0.5 }}
-        className="mt-12 text-center"
+        className="mt-8 sm:mt-10 md:mt-12 text-center px-2"
       >
-        <div className="bg-gradient-to-r from-purple-50 to-pink-50 rounded-xl p-6">
-          <Heart className="w-8 h-8 text-pink-500 mx-auto mb-3" />
-          <p className="text-gray-700">
+        <div className="bg-gradient-to-r from-purple-50 to-pink-50 rounded-lg sm:rounded-xl p-4 sm:p-5 md:p-6 max-w-4xl mx-auto">
+          <Heart className="w-6 h-6 sm:w-7 sm:h-7 md:w-8 md:h-8 text-pink-500 mx-auto mb-2 sm:mb-3" />
+          <p className="text-xs sm:text-sm md:text-base text-gray-700 leading-relaxed">
             Todos os produtos foram desenvolvidos com dedicação pelos alunos e professores do PPGSMI,
             visando a melhoria da qualidade do cuidado materno-infantil.
           </p>

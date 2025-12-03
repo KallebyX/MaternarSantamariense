@@ -141,21 +141,21 @@ const Analytics: React.FC = () => {
   ]
 
   return (
-    <div className="p-6 space-y-6">
+    <div className="p-3 sm:p-4 md:p-6 space-y-4 sm:space-y-5 md:space-y-6">
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        className="flex items-center justify-between"
+        className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 sm:gap-0"
       >
-        <div>
-          <h1 className="text-3xl font-bold text-gray-900">Analytics</h1>
-          <p className="text-gray-600 mt-1">
+        <div className="min-w-0 flex-1">
+          <h1 className="text-xl sm:text-2xl lg:text-3xl font-bold text-gray-900">Analytics</h1>
+          <p className="text-sm sm:text-base text-gray-600 mt-1">
             Análise detalhada de performance e uso do sistema
           </p>
         </div>
-        <div className="flex space-x-3">
+        <div className="flex flex-wrap gap-2 sm:gap-3 w-full sm:w-auto">
           <select 
-            className="px-4 py-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500"
+            className="px-3 sm:px-4 py-2 text-xs sm:text-sm border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 min-w-0 flex-1 sm:flex-none"
             value={selectedPeriod}
             onChange={(e) => setSelectedPeriod(e.target.value)}
           >
@@ -164,17 +164,17 @@ const Analytics: React.FC = () => {
             <option value="90d">Últimos 90 dias</option>
             <option value="1y">Último ano</option>
           </select>
-          <Button variant="outline">
-            <Filter className="w-4 h-4 mr-2" />
-            Filtros
+          <Button variant="outline" className="text-xs sm:text-sm px-2 sm:px-4 py-2">
+            <Filter className="w-3 h-3 sm:w-4 sm:h-4 mr-1 sm:mr-2" />
+            <span className="hidden sm:inline">Filtros</span>
           </Button>
-          <Button variant="outline">
-            <Download className="w-4 h-4 mr-2" />
-            Exportar
+          <Button variant="outline" className="text-xs sm:text-sm px-2 sm:px-4 py-2">
+            <Download className="w-3 h-3 sm:w-4 sm:h-4 mr-1 sm:mr-2" />
+            <span className="hidden sm:inline">Exportar</span>
           </Button>
-          <Button>
-            <RefreshCw className="w-4 h-4 mr-2" />
-            Atualizar
+          <Button className="text-xs sm:text-sm px-2 sm:px-4 py-2">
+            <RefreshCw className="w-3 h-3 sm:w-4 sm:h-4 mr-1 sm:mr-2" />
+            <span className="hidden sm:inline">Atualizar</span>
           </Button>
         </div>
       </motion.div>
@@ -184,22 +184,22 @@ const Analytics: React.FC = () => {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.1 }}
-        className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6"
+        className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 md:gap-6"
       >
         {kpiCards.map((kpi, index) => (
-          <Card key={index} className="p-6 hover:shadow-lg transition-shadow">
+          <Card key={index} className="p-3 sm:p-4 md:p-6 hover:shadow-lg transition-shadow">
             <div className="flex items-center justify-between">
-              <div>
-                <p className="text-sm font-medium text-gray-600">{kpi.title}</p>
-                <p className="text-3xl font-bold text-gray-900 mt-2">{kpi.value}</p>
-                <div className="flex items-center mt-2">
-                  <TrendingUp className="w-4 h-4 text-maternar-green-500 mr-1" />
-                  <span className="text-sm text-maternar-green-600 font-medium">{kpi.change}</span>
-                  <span className="text-sm text-gray-500 ml-1">vs. período anterior</span>
+              <div className="min-w-0 flex-1">
+                <p className="text-xs sm:text-sm font-medium text-gray-600 truncate">{kpi.title}</p>
+                <p className="text-xl sm:text-2xl lg:text-3xl font-bold text-gray-900 mt-1 sm:mt-2">{kpi.value}</p>
+                <div className="flex items-center mt-1 sm:mt-2">
+                  <TrendingUp className="w-3 h-3 sm:w-4 sm:h-4 text-maternar-green-500 mr-1" />
+                  <span className="text-xs sm:text-sm text-maternar-green-600 font-medium">{kpi.change}</span>
+                  <span className="text-xs sm:text-sm text-gray-500 ml-1 hidden sm:inline">vs. período anterior</span>
                 </div>
               </div>
-              <div className={`p-3 rounded-lg ${kpi.color}`}>
-                <kpi.icon className="w-6 h-6 text-white" />
+              <div className={`p-2 sm:p-3 rounded-lg ${kpi.color} flex-shrink-0`}>
+                <kpi.icon className="w-5 h-5 sm:w-6 sm:h-6 text-white" />
               </div>
             </div>
           </Card>
@@ -207,24 +207,24 @@ const Analytics: React.FC = () => {
       </motion.div>
 
         {/* Charts Section */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6">
           {/* Monthly Trends */}
           <motion.div
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ delay: 0.2 }}
           >
-            <Card className="p-6">
-              <div className="flex items-center justify-between mb-6">
-                <h3 className="text-xl font-semibold text-gray-900">Tendências Mensais</h3>
-                <select className="px-3 py-1 border border-gray-300 rounded text-sm">
+            <Card className="p-3 sm:p-4 md:p-6">
+              <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-4 sm:mb-6 gap-2 sm:gap-0">
+                <h3 className="text-lg sm:text-xl font-semibold text-gray-900 min-w-0">Tendências Mensais</h3>
+                <select className="px-2 sm:px-3 py-1 border border-gray-300 rounded text-xs sm:text-sm w-full sm:w-auto">
                   <option>Todos os Métricas</option>
                   <option>Usuários</option>
                   <option>Projetos</option>
                   <option>Treinamentos</option>
                 </select>
               </div>
-              <div className="h-80">
+              <div className="h-64 sm:h-72 md:h-80">
                 <ResponsiveContainer width="100%" height="100%">
                   <RechartsLineChart data={monthlyData}>
                     <CartesianGrid strokeDasharray="3 3" stroke="#E5E7EB" />
@@ -255,9 +255,9 @@ const Analytics: React.FC = () => {
             animate={{ opacity: 1, x: 0 }}
             transition={{ delay: 0.3 }}
           >
-            <Card className="p-6">
-              <h3 className="text-xl font-semibold text-gray-900 mb-6">Distribuição por Departamento</h3>
-              <div className="h-80">
+            <Card className="p-3 sm:p-4 md:p-6">
+              <h3 className="text-lg sm:text-xl font-semibold text-gray-900 mb-4 sm:mb-6">Distribuição por Departamento</h3>
+              <div className="h-64 sm:h-72 md:h-80">
                 <ResponsiveContainer width="100%" height="100%">
                   <RechartsPieChart>
                     <Pie
@@ -265,8 +265,8 @@ const Analytics: React.FC = () => {
                       cx="50%"
                       cy="50%"
                       labelLine={false}
-                      label={({ name, percent }) => `${name} ${(percent * 100).toFixed(0)}%`}
-                      outerRadius={100}
+                      label={({ name, percent }) => window.innerWidth >= 640 ? `${name} ${(percent * 100).toFixed(0)}%` : `${(percent * 100).toFixed(0)}%`}
+                      outerRadius={80}
                       fill="#8884d8"
                       dataKey="value"
                     >
@@ -288,9 +288,9 @@ const Analytics: React.FC = () => {
             animate={{ opacity: 1, x: 0 }}
             transition={{ delay: 0.4 }}
           >
-            <Card className="p-6">
-              <h3 className="text-xl font-semibold text-gray-900 mb-6">Atividade ao Longo do Dia</h3>
-              <div className="h-80">
+            <Card className="p-3 sm:p-4 md:p-6">
+              <h3 className="text-lg sm:text-xl font-semibold text-gray-900 mb-4 sm:mb-6">Atividade ao Longo do Dia</h3>
+              <div className="h-64 sm:h-72 md:h-80">
                 <ResponsiveContainer width="100%" height="100%">
                   <AreaChart data={activityData}>
                     <defs>
@@ -329,9 +329,9 @@ const Analytics: React.FC = () => {
             animate={{ opacity: 1, x: 0 }}
             transition={{ delay: 0.5 }}
           >
-            <Card className="p-6">
-              <h3 className="text-xl font-semibold text-gray-900 mb-6">Métricas de Performance</h3>
-              <div className="h-80">
+            <Card className="p-3 sm:p-4 md:p-6">
+              <h3 className="text-lg sm:text-xl font-semibold text-gray-900 mb-4 sm:mb-6">Métricas de Performance</h3>
+              <div className="h-64 sm:h-72 md:h-80">
                 <ResponsiveContainer width="100%" height="100%">
                   <RechartsBarChart data={performanceData}>
                     <CartesianGrid strokeDasharray="3 3" stroke="#E5E7EB" />
@@ -356,38 +356,38 @@ const Analytics: React.FC = () => {
         </div>
 
       {/* Bottom Section */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6">
         {/* Top Performers */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.6 }}
         >
-          <Card className="p-6">
-            <div className="flex items-center justify-between mb-6">
-              <h3 className="text-xl font-semibold text-gray-900">Top Performers</h3>
-              <Button variant="outline" size="sm">
-                <Eye className="w-4 h-4 mr-2" />
+          <Card className="p-3 sm:p-4 md:p-6">
+            <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-4 sm:mb-6 gap-2 sm:gap-0">
+              <h3 className="text-lg sm:text-xl font-semibold text-gray-900">Top Performers</h3>
+              <Button variant="outline" size="sm" className="text-xs sm:text-sm">
+                <Eye className="w-3 h-3 sm:w-4 sm:h-4 mr-1 sm:mr-2" />
                 Ver Todos
               </Button>
             </div>
-            <div className="space-y-4">
+            <div className="space-y-2 sm:space-y-3 md:space-y-4">
               {topUsers.map((user, index) => (
-                <div key={index} className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
-                  <div className="flex items-center space-x-3">
-                    <div className="w-10 h-10 bg-maternar-blue-600 rounded-full flex items-center justify-center text-white font-medium">
+                <div key={index} className="flex items-center justify-between p-2 sm:p-3 bg-gray-50 rounded-lg">
+                  <div className="flex items-center space-x-2 sm:space-x-3 min-w-0 flex-1">
+                    <div className="w-8 h-8 sm:w-10 sm:h-10 bg-maternar-blue-600 rounded-full flex items-center justify-center text-white font-medium text-xs sm:text-sm flex-shrink-0">
                       {user.avatar}
                     </div>
-                    <div>
-                      <p className="font-medium text-gray-900">{user.name}</p>
-                      <p className="text-sm text-gray-600">{user.department}</p>
+                    <div className="min-w-0 flex-1">
+                      <p className="font-medium text-gray-900 text-sm sm:text-base truncate">{user.name}</p>
+                      <p className="text-xs sm:text-sm text-gray-600 truncate">{user.department}</p>
                     </div>
                   </div>
-                  <div className="flex items-center space-x-2">
-                    <Badge className="bg-green-100 text-green-800">
+                  <div className="flex items-center space-x-1 sm:space-x-2 flex-shrink-0">
+                    <Badge className="bg-green-100 text-green-800 text-xs">
                       {user.score}pts
                     </Badge>
-                    <Award className="w-5 h-5 text-yellow-500" />
+                    <Award className="w-4 h-4 sm:w-5 sm:h-5 text-yellow-500" />
                   </div>
                 </div>
               ))}
@@ -401,24 +401,24 @@ const Analytics: React.FC = () => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.7 }}
         >
-          <Card className="p-6">
-            <div className="flex items-center justify-between mb-6">
-              <h3 className="text-xl font-semibold text-gray-900">Atividade Recente</h3>
-              <Button variant="outline" size="sm">
-                <Activity className="w-4 h-4 mr-2" />
+          <Card className="p-3 sm:p-4 md:p-6">
+            <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-4 sm:mb-6 gap-2 sm:gap-0">
+              <h3 className="text-lg sm:text-xl font-semibold text-gray-900">Atividade Recente</h3>
+              <Button variant="outline" size="sm" className="text-xs sm:text-sm">
+                <Activity className="w-3 h-3 sm:w-4 sm:h-4 mr-1 sm:mr-2" />
                 Ver Histórico
               </Button>
             </div>
-            <div className="space-y-4">
+            <div className="space-y-2 sm:space-y-3 md:space-y-4">
               {recentEvents.map((event, index) => (
-                <div key={index} className="flex items-start space-x-3">
-                  <div className={`w-2 h-2 rounded-full mt-2 ${
+                <div key={index} className="flex items-start space-x-2 sm:space-x-3">
+                  <div className={`w-2 h-2 rounded-full mt-1 sm:mt-2 flex-shrink-0 ${
                     event.type === 'success' ? 'bg-maternar-green-500' :
                     event.type === 'warning' ? 'bg-yellow-500' : 'bg-blue-500'
                   }`} />
                   <div className="flex-1 min-w-0">
-                    <p className="text-sm text-gray-900">{event.event}</p>
-                    <p className="text-xs text-gray-500">{event.time}</p>
+                    <p className="text-xs sm:text-sm text-gray-900 leading-tight">{event.event}</p>
+                    <p className="text-[10px] sm:text-xs text-gray-500">{event.time}</p>
                   </div>
                 </div>
               ))}
@@ -434,96 +434,108 @@ const Analytics: React.FC = () => {
         transition={{ delay: 0.8 }}
         className="mt-6"
       >
-        <Card className="p-6">
-          <div className="flex items-center justify-between mb-6">
-            <h3 className="text-xl font-semibold text-gray-900 flex items-center gap-2">
-              <Trophy className="w-5 h-5 text-yellow-600" />
-              Ranking Geral de Profissionais
+        <Card className="p-3 sm:p-4 md:p-6">
+          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-4 sm:mb-6 gap-3 sm:gap-2">
+            <h3 className="text-lg sm:text-xl font-semibold text-gray-900 flex items-center gap-2 min-w-0">
+              <Trophy className="w-4 h-4 sm:w-5 sm:h-5 text-yellow-600 flex-shrink-0" />
+              <span className="truncate">Ranking Geral de Profissionais</span>
             </h3>
-            <div className="flex gap-2">
-              <select className="px-3 py-1 border border-gray-300 rounded text-sm">
+            <div className="flex flex-wrap gap-2 w-full sm:w-auto">
+              <select className="px-2 sm:px-3 py-1 border border-gray-300 rounded text-xs sm:text-sm flex-1 sm:flex-none min-w-0">
                 <option>Todos os Departamentos</option>
                 <option>Enfermagem</option>
                 <option>Medicina</option>
                 <option>Administração</option>
                 <option>TI</option>
               </select>
-              <Button variant="outline" size="sm">
-                <Download className="w-4 h-4 mr-2" />
-                Exportar
+              <Button variant="outline" size="sm" className="text-xs sm:text-sm">
+                <Download className="w-3 h-3 sm:w-4 sm:h-4 mr-1 sm:mr-2" />
+                <span className="hidden sm:inline">Exportar</span>
               </Button>
             </div>
           </div>
-          <div className="overflow-x-auto">
-            <table className="min-w-full divide-y divide-gray-200">
-              <thead className="bg-gray-50">
-                <tr>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Ranking
-                  </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Profissional
-                  </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Departamento
-                  </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Nível
-                  </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Pontuação
-                  </th>
-                </tr>
-              </thead>
-              <tbody className="bg-white divide-y divide-gray-200">
-                {rankingGeral.map((user) => (
-                  <tr key={user.rank} className="hover:bg-gray-50 transition-colors">
-                    <td className="px-6 py-4 whitespace-nowrap">
-                      <div className={`
-                        flex items-center justify-center w-8 h-8 rounded-full text-sm font-bold
-                        ${user.rank === 1 ? 'bg-yellow-500 text-white' :
-                          user.rank === 2 ? 'bg-gray-400 text-white' :
-                          user.rank === 3 ? 'bg-orange-500 text-white' :
-                          'bg-gray-100 text-gray-700'
-                        }
-                      `}>
-                        {user.rank}
-                      </div>
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap">
-                      <div className="flex items-center">
-                        <Avatar
-                          src={user.avatar}
-                          alt={user.name}
-                          fallback={user.name.split(' ').map(n => n[0]).join('')}
-                          size="sm"
-                        />
-                        <div className="ml-4">
-                          <div className="text-sm font-medium text-gray-900">{user.name}</div>
-                        </div>
-                      </div>
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap">
-                      <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-gray-100 text-gray-800">
-                        {user.department}
-                      </span>
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                      <div className="flex items-center">
-                        <Crown className="w-4 h-4 text-yellow-500 mr-1" />
-                        Nível {user.level}
-                      </div>
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-                      {user.points.toLocaleString()} pts
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
+          <div className="overflow-x-auto -mx-3 sm:-mx-4 md:-mx-6">
+            <div className="inline-block min-w-full align-middle">
+              <div className="overflow-hidden shadow ring-1 ring-black ring-opacity-5 md:rounded-lg">
+                <table className="min-w-full divide-y divide-gray-200">
+                  <thead className="bg-gray-50">
+                    <tr>
+                      <th className="px-3 sm:px-4 md:px-6 py-2 sm:py-3 text-left text-[10px] sm:text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        Ranking
+                      </th>
+                      <th className="px-3 sm:px-4 md:px-6 py-2 sm:py-3 text-left text-[10px] sm:text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        Profissional
+                      </th>
+                      <th className="hidden sm:table-cell px-3 sm:px-4 md:px-6 py-2 sm:py-3 text-left text-[10px] sm:text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        Departamento
+                      </th>
+                      <th className="hidden md:table-cell px-3 sm:px-4 md:px-6 py-2 sm:py-3 text-left text-[10px] sm:text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        Nível
+                      </th>
+                      <th className="px-3 sm:px-4 md:px-6 py-2 sm:py-3 text-left text-[10px] sm:text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        Pontuação
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody className="bg-white divide-y divide-gray-200">
+                    {rankingGeral.map((user) => (
+                      <tr key={user.rank} className="hover:bg-gray-50 transition-colors">
+                        <td className="px-3 sm:px-4 md:px-6 py-2 sm:py-4 whitespace-nowrap">
+                          <div className={`
+                            flex items-center justify-center w-6 h-6 sm:w-8 sm:h-8 rounded-full text-xs sm:text-sm font-bold
+                            ${user.rank === 1 ? 'bg-yellow-500 text-white' :
+                              user.rank === 2 ? 'bg-gray-400 text-white' :
+                              user.rank === 3 ? 'bg-orange-500 text-white' :
+                              'bg-gray-100 text-gray-700'
+                            }
+                          `}>
+                            {user.rank}
+                          </div>
+                        </td>
+                        <td className="px-3 sm:px-4 md:px-6 py-2 sm:py-4 whitespace-nowrap">
+                          <div className="flex items-center min-w-0">
+                            <Avatar
+                              src={user.avatar}
+                              alt={user.name}
+                              fallback={user.name.split(' ').map(n => n[0]).join('')}
+                              size="sm"
+                              className="flex-shrink-0"
+                            />
+                            <div className="ml-2 sm:ml-4 min-w-0">
+                              <div className="text-xs sm:text-sm font-medium text-gray-900 truncate">{user.name}</div>
+                              <div className="sm:hidden text-[10px] text-gray-500 truncate">{user.department}</div>
+                            </div>
+                          </div>
+                        </td>
+                        <td className="hidden sm:table-cell px-3 sm:px-4 md:px-6 py-2 sm:py-4 whitespace-nowrap">
+                          <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-gray-100 text-gray-800">
+                            {user.department}
+                          </span>
+                        </td>
+                        <td className="hidden md:table-cell px-3 sm:px-4 md:px-6 py-2 sm:py-4 whitespace-nowrap text-xs sm:text-sm text-gray-900">
+                          <div className="flex items-center">
+                            <Crown className="w-3 h-3 sm:w-4 sm:h-4 text-yellow-500 mr-1" />
+                            Nível {user.level}
+                          </div>
+                        </td>
+                        <td className="px-3 sm:px-4 md:px-6 py-2 sm:py-4 whitespace-nowrap text-xs sm:text-sm font-medium text-gray-900">
+                          <div className="text-right">
+                            <div>{user.points.toLocaleString()} pts</div>
+                            <div className="md:hidden text-[10px] text-gray-500 flex items-center justify-end mt-1">
+                              <Crown className="w-3 h-3 text-yellow-500 mr-1" />
+                              Nv. {user.level}
+                            </div>
+                          </div>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </div>
           </div>
-          <div className="mt-4 text-center">
-            <p className="text-sm text-gray-500">
+          <div className="mt-3 sm:mt-4 text-center px-3 sm:px-0">
+            <p className="text-xs sm:text-sm text-gray-500 leading-relaxed">
               Este ranking é atualizado diariamente e considera todas as atividades realizadas pelos profissionais no sistema.
             </p>
           </div>
