@@ -217,6 +217,20 @@ export const Layout: React.FC = () => {
               <Outlet />
             </div>
           </div>
+          
+          {/* Footer */}
+          <footer className="bg-gray-50 border-t border-gray-200 py-4">
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8 flex justify-center items-center">
+              <img 
+                src="/logo_ufn.png" 
+                alt="Logo UFN" 
+                className="h-8 w-auto"
+                onError={(e) => {
+                  e.currentTarget.style.display = 'none'
+                }}
+              />
+            </div>
+          </footer>
         </main>
       </div>
     </div>

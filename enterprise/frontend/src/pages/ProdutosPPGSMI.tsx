@@ -219,17 +219,9 @@ const ProdutosPPGSMI: React.FC = () => {
           {/* Logos */}
           <div className="flex flex-col xs:flex-row justify-center items-center gap-4 sm:gap-6 md:gap-8 mb-4 sm:mb-6">
             <img 
-              src="/logo-ppgsmi.png" 
-              alt="Logo PPGSMI" 
-              className="h-12 sm:h-16 md:h-20 w-auto max-w-full"
-              onError={(e) => {
-                e.currentTarget.style.display = 'none'
-              }}
-            />
-            <img 
-              src="/logo-ufn.png" 
-              alt="Logo UFN" 
-              className="h-12 sm:h-16 md:h-20 w-auto max-w-full"
+              src="/logo_materno.png" 
+              alt="Logo Materno" 
+              className="h-16 sm:h-20 md:h-24 w-auto max-w-full"
               onError={(e) => {
                 e.currentTarget.style.display = 'none'
               }}
