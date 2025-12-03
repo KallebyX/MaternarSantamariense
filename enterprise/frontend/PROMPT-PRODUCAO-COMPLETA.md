@@ -1,7 +1,7 @@
-# 🚀 Prompt Completo - Sistema Maternar Santamariense em Produção
+# 🚀 Prompt Completo - Sistema Maternar Santa-mariense em Produção
 
 ## Contexto
-Tenho um sistema de gestão hospitalar para maternidade chamado "Maternar Santamariense" que atualmente funciona apenas com dados mockados. Preciso que TUDO funcione em produção real, com backend funcional, banco de dados, autenticação real e todas as funcionalidades operacionais.
+Tenho um sistema de gestão hospitalar para maternidade chamado "Maternar Santa-mariense" que atualmente funciona apenas com dados mockados. Preciso que TUDO funcione em produção real, com backend funcional, banco de dados, autenticação real e todas as funcionalidades operacionais.
 
 ## Stack Atual
 - **Frontend**: React 18 + TypeScript + Vite + TailwindCSS + Apollo Client

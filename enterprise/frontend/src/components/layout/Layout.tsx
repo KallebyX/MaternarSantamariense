@@ -67,7 +67,7 @@ export const Layout: React.FC = () => {
               <img
                 className="h-10 w-auto"
                 src="/logo.png"
-                alt="Maternar Santa Mariense"
+                alt="Maternar Santa-mariense"
               />
               <span className="ml-2 text-lg font-bold text-primary">Maternar</span>
             </div>
@@ -107,7 +107,7 @@ export const Layout: React.FC = () => {
                 <img
                   className="h-10 w-auto"
                   src="/logo.png"
-                  alt="Maternar Santa Mariense"
+                  alt="Maternar Santa-mariense"
                 />
                 <span className="ml-2 text-lg font-bold text-primary">Maternar</span>
               </div>

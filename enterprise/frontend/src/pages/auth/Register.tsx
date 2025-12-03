@@ -24,7 +24,7 @@ const Register: React.FC = () => {
           <div className="mx-auto h-20 w-20 mb-6">
             <img 
               src="/logo.png" 
-              alt="Maternar Santa Mariense" 
+              alt="Maternar Santa-mariense" 
               className="w-full h-full object-contain"
             />
           </div>
@@ -32,7 +32,7 @@ const Register: React.FC = () => {
             Criar nova conta
           </h2>
           <p className="mt-2 text-sm text-maternar-gray-600">
-            Junte-se ao Maternar Santa Mariense
+            Junte-se ao Maternar Santa-mariense
           </p>
         </motion.div>
       </div>

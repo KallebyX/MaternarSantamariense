@@ -78,13 +78,13 @@ export const EnhancedLayout: React.FC = () => {
               <img
                 className="h-8 sm:h-10 md:h-12 w-auto"
                 src="/logo.png"
-                alt="Maternar Santa Mariense"
+                alt="Maternar Santa-mariense"
               />
               <div className="ml-2 sm:ml-3 min-w-0">
                 <span className="text-base sm:text-lg md:text-xl font-bold bg-gradient-to-r from-pink-600 to-purple-600 bg-clip-text text-transparent truncate">
                   Maternar
                 </span>
-                <p className="text-[10px] sm:text-xs text-gray-600 truncate">Santamariense</p>
+                <p className="text-[10px] sm:text-xs text-gray-600 truncate">Santa-mariense</p>
               </div>
             </div>
             <nav className="mt-6 sm:mt-8 px-2 space-y-1 sm:space-y-2">
@@ -137,13 +137,13 @@ export const EnhancedLayout: React.FC = () => {
                 <img
                   className="h-10 lg:h-12 w-auto"
                   src="/logo.png"
-                  alt="Maternar Santa Mariense"
+                  alt="Maternar Santa-mariense"
                 />
                 <div className="ml-3 min-w-0">
                   <span className="text-xl lg:text-2xl font-bold bg-gradient-to-r from-pink-600 to-purple-600 bg-clip-text text-transparent">
                     Maternar
                   </span>
-                  <p className="text-xs lg:text-sm text-gray-600">Santamariense</p>
+                  <p className="text-xs lg:text-sm text-gray-600">Santa-mariense</p>
                 </div>
               </div>
               

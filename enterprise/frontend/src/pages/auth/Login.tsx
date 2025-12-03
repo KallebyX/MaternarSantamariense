@@ -81,7 +81,7 @@ const Login: React.FC = () => {
           <div className="mx-auto h-20 w-20 mb-6">
             <img
               src="/logo.png"
-              alt="Maternar Santa Mariense"
+              alt="Maternar Santa-mariense"
               className="w-full h-full object-contain"
               onError={(e) => {
                 // Fallback para quando a imagem não carregar
@@ -94,7 +94,7 @@ const Login: React.FC = () => {
             Bem-vindo de volta
           </h2>
           <p className="mt-2 text-sm text-maternar-gray-600">
-            Acesse o Maternar Santa Mariense
+            Acesse o Maternar Santa-mariense
           </p>
         </motion.div>
       </div>
@@ -280,7 +280,7 @@ const Login: React.FC = () => {
       >
         <div className="text-center mb-12">
           <h3 className="text-2xl font-bold text-maternar-blue-700 mb-4">
-            Maternar Santa Mariense
+            Maternar Santa-mariense
           </h3>
           <p className="text-maternar-gray-600">
             Plataforma completa de gestao, educacao e comunicacao para saude

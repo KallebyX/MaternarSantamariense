@@ -135,7 +135,7 @@ const Dashboard = () => {
               Dashboard
             </h1>
             <p className="text-muted-foreground">
-              Bem-vindo ao Maternar Santa Mariense
+              Bem-vindo ao Maternar Santa-mariense
             </p>
           </div>
           <Badge dot variant="success" size="lg">

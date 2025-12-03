@@ -1,6 +1,6 @@
 {
   "common": {
-    "maternar": "Maternar Santa Mariense",
+    "maternar": "Maternar Santa-mariense",
     "loading": "Carregando...",
     "save": "Salvar",
     "cancel": "Cancelar",
@@ -36,8 +36,8 @@
     "username": "Nome de Usuário",
     "forgotPassword": "Esqueceu a senha?",
     "rememberMe": "Lembrar-me",
-    "loginTitle": "Login - Maternar Santa Mariense",
-    "registerTitle": "Cadastro - Maternar Santa Mariense",
+    "loginTitle": "Login - Maternar Santa-mariense",
+    "registerTitle": "Cadastro - Maternar Santa-mariense",
     "welcomeBack": "Bem-vindo de volta!",
     "createAccount": "Criar conta",
     "alreadyHaveAccount": "Já tem uma conta?",

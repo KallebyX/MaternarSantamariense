@@ -144,7 +144,7 @@ const Admin: React.FC = () => {
         <div>
           <h1 className="text-3xl font-bold text-gray-900">Administração</h1>
           <p className="text-gray-600 mt-1">
-            Painel administrativo do sistema Maternar Santa Mariense
+            Painel administrativo do sistema Maternar Santa-mariense
           </p>
         </div>
         
@@ -609,7 +609,7 @@ const Admin: React.FC = () => {
                   <input
                     type="text"
                     className="w-full px-3 py-2 border border-gray-300 rounded-lg"
-                    defaultValue="Maternar Santa Mariense"
+                    defaultValue="Maternar Santa-mariense"
                   />
                 </div>
 

@@ -49,6 +49,20 @@ interface Message {
   reactions?: { emoji: string; count: number }[]
 }
 
+interface ChatItem {
+  id: string
+  type: 'direct' | 'group'
+  name: string
+  avatar: string
+  lastMessage: string
+  lastMessageTime: string
+  unreadCount: number
+  status?: 'online' | 'away' | 'offline'
+  department: string
+  isPinned: boolean
+  participants?: number
+}
+
 const Chat: React.FC = () => {
   const [selectedChat, setSelectedChat] = useState('1')
   const [message, setMessage] = useState('')
@@ -58,7 +72,7 @@ const Chat: React.FC = () => {
   const messagesEndRef = useRef<HTMLDivElement>(null)
   const [isMobileSidebarOpen, setIsMobileSidebarOpen] = useState(false)
 
-  const chats = [
+  const chats: ChatItem[] = [
     {
       id: '1',
       type: 'direct' as const,

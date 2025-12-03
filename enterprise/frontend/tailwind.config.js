@@ -48,7 +48,7 @@ export default {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
         },
-        // Maternar Santa Mariense Brand Colors
+        // Maternar Santa-mariense Brand Colors
         maternar: {
           // Primary Blue (from logo)
           blue: {

@@ -1,4 +1,4 @@
-# 🚀 Deploy Fácil - Maternar Santamariense
+# 🚀 Deploy Fácil - Maternar Santa-mariense
 
 ## Opção Mais Rápida: Netlify Drop (2 minutos)
 

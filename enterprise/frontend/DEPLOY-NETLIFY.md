@@ -1,4 +1,4 @@
-# 🚀 Deploy Rápido no Netlify - Maternar Santamariense
+# 🚀 Deploy Rápido no Netlify - Maternar Santa-mariense
 
 ## Opção 1: Deploy via Netlify Drop (Mais Rápido - 2 minutos)
 
