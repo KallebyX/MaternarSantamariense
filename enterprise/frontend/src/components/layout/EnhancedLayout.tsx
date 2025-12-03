@@ -40,12 +40,12 @@ export const EnhancedLayout: React.FC = () => {
   const navigation = [
     { name: 'Painel Principal', href: '/dashboard', icon: Home, color: 'text-pink-600' },
     { name: 'Gamificação', href: '/gamification', icon: Trophy, color: 'text-amber-600' },
-    { name: 'Qualifica Profissional', href: '/qualifica-profissional', icon: GraduationCap, color: 'text-blue-600' },
+    { name: 'Qualifica Pré-natal', href: '/qualifica-profissional', icon: GraduationCap, color: 'text-blue-600' },
+    { name: 'Produtos PPGSMI', href: '/produtos-ppgsmi', icon: Baby, color: 'text-purple-600' },
     { name: 'Mensagens', href: '/chat', icon: MessageCircle, color: 'text-green-600' },
     { name: 'Agenda', href: '/calendar', icon: Calendar, color: 'text-purple-600' },
     { name: 'Projetos', href: '/projects', icon: FolderKanban, color: 'text-indigo-600' },
     { name: 'Protocolos', href: '/policies', icon: FileText, color: 'text-gray-600' },
-    { name: 'Recursos', href: '/links', icon: LinkIcon, color: 'text-cyan-600' },
     { name: 'Meu Perfil', href: '/profile', icon: User, color: 'text-rose-600' },
     { name: 'Configurações', href: '/settings', icon: Settings, color: 'text-slate-600' },
     { name: 'Estatísticas', href: '/analytics', icon: BarChart3, color: 'text-emerald-600' },
@@ -53,7 +53,7 @@ export const EnhancedLayout: React.FC = () => {
   ]
 
   const quickStats = [
-    { label: 'Pacientes Hoje', value: '24', icon: Heart, color: 'text-pink-500' },
+    { label: 'Usuárias Hoje', value: '24', icon: Heart, color: 'text-pink-500' },
     { label: 'Bebês', value: '12', icon: Baby, color: 'text-blue-500' },
     { label: 'Equipe Online', value: '8', icon: Stethoscope, color: 'text-green-500' },
     { label: 'Taxa', value: '98%', icon: Activity, color: 'text-purple-500' },

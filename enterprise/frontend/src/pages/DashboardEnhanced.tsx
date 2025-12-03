@@ -20,7 +20,8 @@ import {
   Star,
   MessageSquare,
   Stethoscope,
-  Sparkles
+  Sparkles,
+  Link2
 } from 'lucide-react'
 
 const GET_DASHBOARD_DATA = gql`
@@ -88,10 +89,10 @@ const Dashboard = () => {
 
   const stats = [
     {
-      title: 'Pacientes Atendidas',
+      title: 'Usuárias Atendidas',
       value: '156',
       change: '+12 esta semana',
-      icon: Heart,
+      icon: Link2,
       color: 'from-pink-500 to-pink-600',
       bgGlow: 'rgba(236, 72, 153, 0.1)'
     },
@@ -110,14 +111,6 @@ const Dashboard = () => {
       icon: Star,
       color: 'from-amber-500 to-amber-600',
       bgGlow: 'rgba(245, 158, 11, 0.1)'
-    },
-    {
-      title: 'Equipe Ativa',
-      value: '24/7',
-      change: 'Plantão completo',
-      icon: Stethoscope,
-      color: 'from-emerald-500 to-emerald-600',
-      bgGlow: 'rgba(16, 185, 129, 0.1)'
     }
   ]
 
@@ -406,11 +399,6 @@ const Dashboard = () => {
             <TrendingUp className="w-5 h-5 text-blue-500 mx-auto mb-1" />
             <p className="text-2xl font-bold text-gray-800 dark:text-white">94%</p>
             <p className="text-xs text-gray-600 dark:text-gray-400">Produtividade</p>
-          </div>
-          <div>
-            <Heart className="w-5 h-5 text-red-500 mx-auto mb-1" />
-            <p className="text-2xl font-bold text-gray-800 dark:text-white">156</p>
-            <p className="text-xs text-gray-600 dark:text-gray-400">Vidas Tocadas</p>
           </div>
         </div>
       </motion.div>

@@ -35,91 +35,72 @@ const Projects: React.FC = () => {
   const projects = [
     {
       id: 1,
-      title: 'Implementação ANVISA 2024',
-      description: 'Adequação aos novos protocolos da ANVISA para estabelecimentos de saúde',
+      title: 'Qualidade da Atenção Pré-Natal na Atenção Primária à Saúde',
+      description: 'Indicadores, desafios e perspectivas',
       status: 'in-progress',
       priority: 'high',
-      progress: 65,
-      startDate: '2025-09-01',
-      endDate: '2025-12-15',
+      progress: 45,
+      startDate: '2025-03-01',
+      endDate: '2026-03-01',
       team: [
-        { id: 1, name: 'Dr. Maria Silva', avatar: '/avatars/maria.jpg', role: 'Project Manager' },
-        { id: 2, name: 'Ana Costa', avatar: '/avatars/ana.jpg', role: 'Compliance Officer' },
-        { id: 3, name: 'João Santos', avatar: '/avatars/joao.jpg', role: 'Developer' }
+        { id: 1, name: 'Ana Torres', avatar: '/avatars/ana.jpg', role: 'Pesquisadora Principal' },
+        { id: 2, name: 'Silvia Santos', avatar: '/avatars/silvia.jpg', role: 'Co-orientadora' },
+        { id: 3, name: 'Marcia Amaral', avatar: '/avatars/marcia.jpg', role: 'Pesquisadora' }
       ],
       tasks: {
-        total: 24,
-        completed: 16,
-        pending: 8
+        total: 12,
+        completed: 5,
+        pending: 7
       },
-      category: 'compliance',
-      budget: 150000,
-      spent: 97500
+      category: 'pesquisa',
+      budget: 50000,
+      spent: 22500
     },
     {
       id: 2,
-      title: 'Sistema de Telemedicina',
-      description: 'Desenvolvimento de plataforma para consultas remotas',
-      status: 'planning',
-      priority: 'medium',
-      progress: 15,
-      startDate: '2025-10-15',
-      endDate: '2026-03-30',
-      team: [
-        { id: 4, name: 'Dr. Pedro Lima', avatar: '/avatars/pedro.jpg', role: 'Tech Lead' },
-        { id: 5, name: 'Sofia Oliveira', avatar: '/avatars/sofia.jpg', role: 'UX Designer' }
-      ],
-      tasks: {
-        total: 45,
-        completed: 7,
-        pending: 38
-      },
-      category: 'technology',
-      budget: 300000,
-      spent: 45000
-    },
-    {
-      id: 3,
-      title: 'Treinamento Segurança',
-      description: 'Programa abrangente de treinamento em segurança do paciente',
+      title: 'Fatores associados à adesão ao pré-natal entre gestantes de risco habitual',
+      description: 'Estudo transversal com análise de fatores socioeconômicos e culturais',
       status: 'completed',
       priority: 'high',
       progress: 100,
-      startDate: '2025-06-01',
-      endDate: '2025-09-30',
+      startDate: '2024-01-15',
+      endDate: '2025-01-15',
       team: [
-        { id: 1, name: 'Dr. Maria Silva', avatar: '/avatars/maria.jpg', role: 'Lead Trainer' },
-        { id: 6, name: 'Carlos Santos', avatar: '/avatars/carlos.jpg', role: 'Content Creator' }
+        { id: 4, name: 'Alice Costa', avatar: '/avatars/alice.jpg', role: 'Pesquisadora Principal' },
+        { id: 5, name: 'Leandro Mayer', avatar: '/avatars/leandro.jpg', role: 'Estatístico' },
+        { id: 6, name: 'Lívia Maria', avatar: '/avatars/livia.jpg', role: 'Pesquisadora' }
       ],
       tasks: {
-        total: 18,
-        completed: 18,
+        total: 20,
+        completed: 20,
         pending: 0
       },
-      category: 'training',
+      category: 'pesquisa',
       budget: 80000,
-      spent: 75000
+      spent: 78000
     },
     {
-      id: 4,
-      title: 'Modernização Infraestrutura',
-      description: 'Atualização da infraestrutura de TI do hospital',
-      status: 'on-hold',
-      priority: 'low',
-      progress: 30,
-      startDate: '2025-08-01',
-      endDate: '2025-11-30',
+      id: 3,
+      title: 'Avaliação da integralidade do cuidado no pré-natal',
+      description: 'Uma análise a partir das práticas de enfermagem',
+      status: 'planning',
+      priority: 'medium',
+      progress: 10,
+      startDate: '2025-11-01',
+      endDate: '2026-11-01',
       team: [
-        { id: 3, name: 'João Santos', avatar: '/avatars/joao.jpg', role: 'Infrastructure Manager' }
+        { id: 7, name: 'Marina Soares', avatar: '/avatars/marina.jpg', role: 'Pesquisadora Principal' },
+        { id: 8, name: 'Lucas Andrade Fontalvo', avatar: '/avatars/lucas.jpg', role: 'Co-orientador' },
+        { id: 9, name: 'Ana Beatriz Menezes', avatar: '/avatars/ana-beatriz.jpg', role: 'Pesquisadora' }
       ],
       tasks: {
-        total: 32,
-        completed: 10,
-        pending: 22
+        total: 15,
+        completed: 2,
+        pending: 13
       },
-      category: 'infrastructure',
-      budget: 200000,
-      spent: 60000
+      category: 'pesquisa',
+      budget: 60000,
+      spent: 6000
     }
   ]
 

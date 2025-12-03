@@ -91,20 +91,28 @@ const QualificaProfissional: React.FC = () => {
         },
         {
           id: '1.3',
-          title: 'Caderno de Atenção Básica 32 - Pré-Natal',
+          title: 'Guia do Papel do Fisioterapeuta',
           type: 'PDF',
-          url: 'https://bvsms.saude.gov.br/bvs/publicacoes/cadernos_atencao_basica_32_prenatal.pdf',
-          institution: 'Ministério da Saúde'
+          url: 'https://educapes.capes.gov.br/bitstream/capes/921944/2/Guia%20do%20papel%20do%20fisio_20240530_103351_0000_240617_202421.pdf',
+          institution: 'CAPES'
         },
         {
           id: '1.4',
-          title: 'Protocolo de Enfermagem - Pré-Natal',
-          type: 'PDF',
-          url: 'https://www.portalcoren-rs.gov.br/docs/ProtocolosEnfermagem/ProtocoloEnfermagemPreNatalRiscoHabitual.pdf',
-          institution: 'COREN-RS'
+          title: 'Cuidado Materno UNEB',
+          type: 'Website',
+          url: 'https://cuidadomaternouneb.com',
+          institution: 'UNEB',
+          description: 'Portal de recursos educacionais'
         },
         {
           id: '1.5',
+          title: 'Fluxograma Pré-natal',
+          type: 'PDF',
+          url: 'https://pergamum.ufn.edu.br/pergamumweb/vinculos/0000c5/0000c5fe.pdf',
+          institution: 'Universidade Franciscana'
+        },
+        {
+          id: '1.6',
           title: 'Material Complementar UFN',
           type: 'PDF',
           url: 'https://pergamum.ufn.edu.br/pergamumweb/vinculos/0000c4/0000c48b.pdf',
@@ -115,7 +123,7 @@ const QualificaProfissional: React.FC = () => {
     {
       id: 2,
       title: 'Puerpério, Saúde Mental e Rede de Apoio',
-      description: 'Cuidado integral no pós-parto, identificação de transtornos e construção de redes de suporte.',
+      description: 'Cuidado integral no pós-parto, identificação de mudanças emocionais e construção de redes de suporte.',
       icon: Sparkles,
       color: 'text-purple-600',
       bgColor: 'bg-purple-50',
@@ -151,7 +159,7 @@ const QualificaProfissional: React.FC = () => {
     {
       id: 3,
       title: 'Aleitamento Materno e Alimentação',
-      description: 'Manejo da amamentação, técnicas de apoio e introdução alimentar saudável.',
+      description: 'Manejo da amamentação, técnicas e introdução alimentar saudável.',
       icon: Baby,
       color: 'text-amber-600',
       bgColor: 'bg-amber-50',
@@ -170,6 +178,13 @@ const QualificaProfissional: React.FC = () => {
         },
         {
           id: '3.2',
+          title: 'Guia Dez Passos para Alimentação Saudável',
+          type: 'PDF',
+          url: 'https://bvsms.saude.gov.br/bvs/publicacoes/guia_dez_passos_alimentacao_saudavel_2ed.pdf',
+          institution: 'Ministério da Saúde'
+        },
+        {
+          id: '3.3',
           title: 'Materiais de Aleitamento Materno',
           type: 'Website',
           url: 'https://drive.google.com/drive/folders/1BDi76730bvskLibpQEWlJKk7VRIcIlKc',
@@ -222,8 +237,8 @@ const QualificaProfissional: React.FC = () => {
     },
     {
       id: 5,
-      title: 'Saúde Bucal e Exames na Gestação',
-      description: 'Cuidados odontológicos, exames essenciais e interpretação de resultados.',
+      title: 'Saúde Bucal',
+      description: 'Cuidados odontológicos.',
       icon: FileText,
       color: 'text-emerald-600',
       bgColor: 'bg-emerald-50',
@@ -336,13 +351,6 @@ const QualificaProfissional: React.FC = () => {
           institution: 'Prefeitura de Santa Maria'
         },
         {
-          id: '8.2',
-          title: 'Acervo Fotográfico Saúde',
-          type: 'Website',
-          url: 'https://www.flickr.com/photos/194124281@N02/albums',
-          institution: 'Flickr - Saúde'
-        },
-        {
           id: '8.3',
           title: 'Curso Introdutório Online',
           type: 'Website',
@@ -405,7 +413,7 @@ const QualificaProfissional: React.FC = () => {
     },
     {
       id: 2,
-      name: 'Trilha Nascimento',
+      name: 'Trilha Parto-Nascimento',
       description: 'Assistência ao parto e primeiros cuidados',
       modules: [4, 3],
       totalHours: 30,
@@ -413,7 +421,7 @@ const QualificaProfissional: React.FC = () => {
     },
     {
       id: 3,
-      name: 'Trilha Puerpério',
+      name: 'Trilha Pós-Parto',
       description: 'Cuidado integral no pós-parto',
       modules: [2, 3],
       totalHours: 35,
@@ -456,15 +464,14 @@ const QualificaProfissional: React.FC = () => {
             <GraduationCap className="w-8 h-8 text-white" />
           </div>
           <div>
-            <h1 className="text-3xl font-bold text-gray-900">Qualifica Profissional</h1>
-            <p className="text-gray-600">Capacitação continuada em saúde materno-infantil</p>
+            <h1 className="text-3xl font-bold text-gray-900">Qualifica Pré-natal</h1>
           </div>
         </div>
 
         {/* Call to Action */}
         <div className="bg-gradient-to-r from-blue-50 to-purple-50 rounded-xl p-6 mb-6">
           <p className="text-lg text-gray-700 italic">
-            "Transforme conhecimento em cuidado humanizado. Cada módulo concluído é um passo a mais na construção de um futuro mais saudável para mães e bebês."
+            "Transforme conhecimento em cuidado humanizado. Cada módulo concluído é um passo a mais na construção de um futuro saudável."
           </p>
         </div>
 

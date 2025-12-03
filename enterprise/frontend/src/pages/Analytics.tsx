@@ -13,7 +13,9 @@ import {
   Activity,
   BarChart3,
   PieChart,
-  LineChart
+  LineChart,
+  Trophy,
+  Crown
 } from 'lucide-react'
 import {
   LineChart as RechartsLineChart,
@@ -36,6 +38,7 @@ import {
 import { Card } from '../components/ui/Card'
 import { Button } from '../components/ui/Button'
 import { Badge } from '../components/ui/Badge'
+import { Avatar } from '../components/ui/Avatar'
 
 const Analytics: React.FC = () => {
   const [selectedPeriod, setSelectedPeriod] = useState('30d')
@@ -122,6 +125,19 @@ const Analytics: React.FC = () => {
     { time: '09:45', event: 'Treinamento "Segurança do Paciente" iniciado', type: 'info' },
     { time: '09:30', event: 'Sistema de backup executado', type: 'info' },
     { time: '09:00', event: 'Reunião mensal agendada', type: 'warning' }
+  ]
+
+  const rankingGeral = [
+    { rank: 1, name: 'Dr. Maria Silva', points: 52340, avatar: '/avatars/maria.jpg', level: 18, department: 'Enfermagem' },
+    { rank: 2, name: 'João Santos', points: 48920, avatar: '/avatars/joao.jpg', level: 17, department: 'Medicina' },
+    { rank: 3, name: 'Ana Costa', points: 45230, avatar: '/avatars/ana.jpg', level: 15, department: 'Administração' },
+    { rank: 4, name: 'Pedro Lima', points: 43180, avatar: '/avatars/pedro.jpg', level: 15, department: 'TI' },
+    { rank: 5, name: 'Sofia Oliveira', points: 41560, avatar: '/avatars/sofia.jpg', level: 14, department: 'Enfermagem' },
+    { rank: 6, name: 'Carlos Mendes', points: 40120, avatar: '/avatars/carlos.jpg', level: 14, department: 'Medicina' },
+    { rank: 7, name: 'Juliana Rocha', points: 38900, avatar: '/avatars/juliana.jpg', level: 13, department: 'Administração' },
+    { rank: 8, name: 'Ricardo Alves', points: 37500, avatar: '/avatars/ricardo.jpg', level: 13, department: 'Enfermagem' },
+    { rank: 9, name: 'Fernanda Costa', points: 36200, avatar: '/avatars/fernanda.jpg', level: 12, department: 'Medicina' },
+    { rank: 10, name: 'Paulo Henrique', points: 35100, avatar: '/avatars/paulo.jpg', level: 12, department: 'TI' }
   ]
 
   return (
@@ -410,6 +426,109 @@ const Analytics: React.FC = () => {
           </Card>
         </motion.div>
       </div>
+
+      {/* Ranking Geral */}
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.8 }}
+        className="mt-6"
+      >
+        <Card className="p-6">
+          <div className="flex items-center justify-between mb-6">
+            <h3 className="text-xl font-semibold text-gray-900 flex items-center gap-2">
+              <Trophy className="w-5 h-5 text-yellow-600" />
+              Ranking Geral de Profissionais
+            </h3>
+            <div className="flex gap-2">
+              <select className="px-3 py-1 border border-gray-300 rounded text-sm">
+                <option>Todos os Departamentos</option>
+                <option>Enfermagem</option>
+                <option>Medicina</option>
+                <option>Administração</option>
+                <option>TI</option>
+              </select>
+              <Button variant="outline" size="sm">
+                <Download className="w-4 h-4 mr-2" />
+                Exportar
+              </Button>
+            </div>
+          </div>
+          <div className="overflow-x-auto">
+            <table className="min-w-full divide-y divide-gray-200">
+              <thead className="bg-gray-50">
+                <tr>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    Ranking
+                  </th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    Profissional
+                  </th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    Departamento
+                  </th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    Nível
+                  </th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    Pontuação
+                  </th>
+                </tr>
+              </thead>
+              <tbody className="bg-white divide-y divide-gray-200">
+                {rankingGeral.map((user) => (
+                  <tr key={user.rank} className="hover:bg-gray-50 transition-colors">
+                    <td className="px-6 py-4 whitespace-nowrap">
+                      <div className={`
+                        flex items-center justify-center w-8 h-8 rounded-full text-sm font-bold
+                        ${user.rank === 1 ? 'bg-yellow-500 text-white' :
+                          user.rank === 2 ? 'bg-gray-400 text-white' :
+                          user.rank === 3 ? 'bg-orange-500 text-white' :
+                          'bg-gray-100 text-gray-700'
+                        }
+                      `}>
+                        {user.rank}
+                      </div>
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap">
+                      <div className="flex items-center">
+                        <Avatar
+                          src={user.avatar}
+                          alt={user.name}
+                          fallback={user.name.split(' ').map(n => n[0]).join('')}
+                          size="sm"
+                        />
+                        <div className="ml-4">
+                          <div className="text-sm font-medium text-gray-900">{user.name}</div>
+                        </div>
+                      </div>
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap">
+                      <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-gray-100 text-gray-800">
+                        {user.department}
+                      </span>
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                      <div className="flex items-center">
+                        <Crown className="w-4 h-4 text-yellow-500 mr-1" />
+                        Nível {user.level}
+                      </div>
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                      {user.points.toLocaleString()} pts
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+          <div className="mt-4 text-center">
+            <p className="text-sm text-gray-500">
+              Este ranking é atualizado diariamente e considera todas as atividades realizadas pelos profissionais no sistema.
+            </p>
+          </div>
+        </Card>
+      </motion.div>
     </div>
   )
 }

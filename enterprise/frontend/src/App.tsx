@@ -30,6 +30,7 @@ const Admin = lazy(() => import('./pages/Admin'))
 const UserManagement = lazy(() => import('./pages/UserManagement'))
 const Analytics = lazy(() => import('./pages/Analytics'))
 const Documents = lazy(() => import('./pages/Documents'))
+const ProdutosPPGSMI = lazy(() => import('./pages/ProdutosPPGSMI'))
 const NotFound = lazy(() => import('./pages/NotFound'))
 
 // Layout
@@ -121,6 +122,7 @@ function App() {
                       <Route path="/user-management" element={<ProtectedRoute requiredRole={['ADMIN', 'MANAGER']}><UserManagement /></ProtectedRoute>} />
                       <Route path="/analytics" element={<Analytics />} />
                       <Route path="/documents" element={<Documents />} />
+                      <Route path="/produtos-ppgsmi" element={<ProdutosPPGSMI />} />
                     </Route>
 
                     {/* 404 */}

@@ -40,7 +40,7 @@ const Gamification: React.FC = () => {
     {
       id: 1,
       title: 'Primeiros Passos',
-      description: 'Complete sua primeira avaliação de saúde',
+      description: 'Complete seu primeiro atendimento de pré-natal',
       icon: <CheckCircle className="w-6 h-6" />,
       points: 100,
       completed: true,
@@ -48,7 +48,7 @@ const Gamification: React.FC = () => {
     },
     {
       id: 2,
-      title: 'Campeão de Consistência',
+      title: 'Campeão de Constância',
       description: 'Registre atividades por 30 dias consecutivos',
       icon: <Calendar className="w-6 h-6" />,
       points: 500,
@@ -57,8 +57,8 @@ const Gamification: React.FC = () => {
     },
     {
       id: 3,
-      title: 'Buscador de Conhecimento',
-      description: 'Complete 10 cursos de treinamento',
+      title: 'Explorador de Conhecimentos',
+      description: 'Complete 10 cursos de qualificação',
       icon: <Trophy className="w-6 h-6" />,
       points: 1000,
       completed: false,
@@ -79,8 +79,8 @@ const Gamification: React.FC = () => {
     },
     {
       id: 5,
-      title: 'Cuidador Lendário',
-      description: 'Complete 100 avaliações de saúde',
+      title: 'Profissional Legendário',
+      description: 'Complete 100 atendimentos de pré-natal',
       icon: <Crown className="w-6 h-6" />,
       points: 5000,
       completed: false,
@@ -122,8 +122,8 @@ const Gamification: React.FC = () => {
     },
     {
       id: 2,
-      title: 'Mestre do Treinamento',
-      description: 'Termine 2 módulos de treinamento esta semana',
+      title: 'Mestre da Qualificação',
+      description: 'Termine 2 módulos de qualificação esta semana',
       reward: '500 XP + Knowledge Badge',
       deadline: '2025-10-13',
       progress: 0,
@@ -272,7 +272,7 @@ const Gamification: React.FC = () => {
               <p className="text-white/80 text-sm mb-1">Ranking</p>
               <p className="text-3xl font-bold">#{userStats.rank}</p>
               <p className="text-sm text-white/70 mt-2">
-                No ranking global
+                no ranking municipal
               </p>
             </div>
           </Card>
@@ -385,7 +385,7 @@ const Gamification: React.FC = () => {
           </Card>
         </motion.div>
 
-        {/* Leaderboard */}
+        {/* Info Card */}
         <motion.div
           initial={{ opacity: 0, x: 20 }}
           animate={{ opacity: 1, x: 0 }}
@@ -395,60 +395,36 @@ const Gamification: React.FC = () => {
             <CardHeader>
               <h2 className="text-xl font-semibold flex items-center gap-2">
                 <TrendingUp className="w-5 h-5 text-green-600 dark:text-green-500" />
-                Ranking
+                Informações do Sistema
               </h2>
             </CardHeader>
-            <CardContent className="space-y-2">
-              {leaderboard.map((user) => (
-                <motion.div
-                  key={user.rank}
-                  whileHover={{ scale: 1.02 }}
-                  className={`
-                    flex items-center gap-3 p-3 rounded-lg transition-all
-                    ${user.isCurrentUser
-                      ? 'bg-primary/10 border-2 border-primary/30 shadow-sm'
-                      : 'hover:bg-accent'
-                    }
-                  `}
-                >
-                  <div className={`
-                    flex items-center justify-center w-7 h-7 rounded-full text-xs font-bold shrink-0
-                    ${user.rank === 1 ? 'bg-yellow-500 text-white' :
-                      user.rank === 2 ? 'bg-gray-400 text-white' :
-                      user.rank === 3 ? 'bg-orange-500 text-white' :
-                      'bg-muted text-muted-foreground'
-                    }
-                  `}>
-                    {user.rank}
-                  </div>
-                  <Avatar
-                    src={user.avatar}
-                    alt={user.name}
-                    fallback={user.name.charAt(0)}
-                    size="sm"
-                  />
-                  <div className="flex-1 min-w-0">
-                    <p className={`
-                      text-sm font-medium truncate
-                      ${user.isCurrentUser ? 'text-primary' : 'text-foreground'}
-                    `}>
-                      {user.name}
-                      {user.isCurrentUser && (
-                        <span className="ml-1 text-xs text-primary">(você)</span>
-                      )}
-                    </p>
-                    <p className="text-xs text-muted-foreground">
-                      Nível {user.level}
-                    </p>
-                  </div>
-                  <div className="text-right shrink-0">
-                    <p className="text-sm font-semibold text-foreground">
-                      {user.points.toLocaleString()}
-                    </p>
-                    <p className="text-xs text-muted-foreground">pts</p>
-                  </div>
-                </motion.div>
-              ))}
+            <CardContent className="space-y-4">
+              <div className="p-4 bg-blue-50 dark:bg-blue-900/20 rounded-lg border border-blue-200 dark:border-blue-800">
+                <h3 className="font-medium text-blue-900 dark:text-blue-100 mb-2">
+                  📊 Estatísticas Completas
+                </h3>
+                <p className="text-sm text-blue-700 dark:text-blue-300">
+                  Acesse a aba "Analytics" para visualizar o ranking completo de todos os profissionais e estatísticas detalhadas do sistema.
+                </p>
+              </div>
+              
+              <div className="p-4 bg-green-50 dark:bg-green-900/20 rounded-lg border border-green-200 dark:border-green-800">
+                <h3 className="font-medium text-green-900 dark:text-green-100 mb-2">
+                  🎯 Dica do Dia
+                </h3>
+                <p className="text-sm text-green-700 dark:text-green-300">
+                  Complete desafios diários para ganhar XP extra e subir no ranking municipal!
+                </p>
+              </div>
+
+              <div className="p-4 bg-purple-50 dark:bg-purple-900/20 rounded-lg border border-purple-200 dark:border-purple-800">
+                <h3 className="font-medium text-purple-900 dark:text-purple-100 mb-2">
+                  🏆 Próximas Recompensas
+                </h3>
+                <p className="text-sm text-purple-700 dark:text-purple-300">
+                  Faltam apenas {userStats.nextLevelXp - userStats.xp} XP para você alcançar o nível {userStats.level + 1}!
+                </p>
+              </div>
             </CardContent>
           </Card>
         </motion.div>

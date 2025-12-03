@@ -8,7 +8,10 @@ import {
   Clock,
   Eye,
   BookOpen,
-  Loader2
+  Loader2,
+  ExternalLink,
+  GraduationCap,
+  Shield
 } from 'lucide-react'
 
 import { Card } from '../components/ui/Card'
@@ -110,10 +113,108 @@ const Policies: React.FC = () => {
         className="flex items-center justify-between"
       >
         <div>
-          <h1 className="text-3xl font-bold text-gray-900">Políticas e Procedimentos</h1>
+          <h1 className="text-3xl font-bold text-gray-900">Protocolos</h1>
           <p className="text-gray-600 mt-1">
-            Acesse e gerencie todas as políticas organizacionais
+            Acesse as políticas e protocolos vigentes
           </p>
+        </div>
+      </motion.div>
+
+      {/* Brasão e Links Rápidos */}
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.05 }}
+        className="bg-white rounded-xl shadow-sm p-6 border border-gray-100"
+      >
+        <div className="flex flex-col md:flex-row items-center md:items-start gap-6">
+          {/* Brasão */}
+          <div className="flex-shrink-0">
+            <img 
+              src="/brasao-santa-maria.png" 
+              alt="Brasão de Santa Maria" 
+              className="h-24 w-auto"
+              onError={(e) => {
+                e.currentTarget.style.display = 'none'
+              }}
+            />
+          </div>
+          
+          {/* Links */}
+          <div className="flex-1 space-y-4">
+            <h3 className="text-lg font-semibold text-gray-900 flex items-center gap-2">
+              <Shield className="w-5 h-5 text-blue-600" />
+              Protocolos e Documentos Oficiais
+            </h3>
+            
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+              <a
+                href="https://sites.google.com/view/cursointrodutoriosm/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-2 p-3 rounded-lg bg-blue-50 hover:bg-blue-100 transition-colors"
+              >
+                <GraduationCap className="w-4 h-4 text-blue-600" />
+                <span className="text-sm font-medium text-blue-900">Curso Introdutório</span>
+                <ExternalLink className="w-3 h-3 text-blue-500 ml-auto" />
+              </a>
+              
+              <a
+                href="https://bvsms.saude.gov.br/bvs/publicacoes/cadernos_atencao_basica_32_prenatal.pdf"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-2 p-3 rounded-lg bg-green-50 hover:bg-green-100 transition-colors"
+              >
+                <FileText className="w-4 h-4 text-green-600" />
+                <span className="text-sm font-medium text-green-900">Caderno de Atenção Básica 32</span>
+                <ExternalLink className="w-3 h-3 text-green-500 ml-auto" />
+              </a>
+              
+              <a
+                href="https://www.portalcoren-rs.gov.br/docs/ProtocolosEnfermagem/ProtocoloEnfermagemPreNatalRiscoHabitual.pdf"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-2 p-3 rounded-lg bg-purple-50 hover:bg-purple-100 transition-colors"
+              >
+                <FileText className="w-4 h-4 text-purple-600" />
+                <span className="text-sm font-medium text-purple-900">Protocolo de Enfermagem - Pré-Natal</span>
+                <ExternalLink className="w-3 h-3 text-purple-500 ml-auto" />
+              </a>
+              
+              <a
+                href="https://www.santamaria.rs.gov.br/arquivos/baixar-arquivo/conteudo/D29-3877.pdf"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-2 p-3 rounded-lg bg-pink-50 hover:bg-pink-100 transition-colors"
+              >
+                <FileText className="w-4 h-4 text-pink-600" />
+                <span className="text-sm font-medium text-pink-900">Protocolo Municipal 1</span>
+                <ExternalLink className="w-3 h-3 text-pink-500 ml-auto" />
+              </a>
+              
+              <a
+                href="https://www.santamaria.rs.gov.br/arquivos/baixar-arquivo/conteudo/D18-3328.pdf"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-2 p-3 rounded-lg bg-amber-50 hover:bg-amber-100 transition-colors"
+              >
+                <FileText className="w-4 h-4 text-amber-600" />
+                <span className="text-sm font-medium text-amber-900">Protocolo Municipal 2</span>
+                <ExternalLink className="w-3 h-3 text-amber-500 ml-auto" />
+              </a>
+              
+              <a
+                href="https://www.santamaria.rs.gov.br/arquivos/baixar-arquivo/conteudo/D14-2254.pdf"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-2 p-3 rounded-lg bg-teal-50 hover:bg-teal-100 transition-colors"
+              >
+                <FileText className="w-4 h-4 text-teal-600" />
+                <span className="text-sm font-medium text-teal-900">Protocolo Municipal 3</span>
+                <ExternalLink className="w-3 h-3 text-teal-500 ml-auto" />
+              </a>
+            </div>
+          </div>
         </div>
       </motion.div>
 

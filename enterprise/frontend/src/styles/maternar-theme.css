@@ -1,14 +1,14 @@
 /* Tema Personalizado Maternar Santa Mariense */
 :root {
-  /* Cores principais - tons suaves e acolhedores */
-  --maternar-primary: #E91E63; /* Rosa vibrante */
-  --maternar-primary-light: #F8BBD0;
-  --maternar-primary-dark: #C2185B;
+  /* Cores principais - tons de azul Santa-mariense */
+  --maternar-primary: #2196F3; /* Azul Santa-mariense */
+  --maternar-primary-light: #90CAF9;
+  --maternar-primary-dark: #1565C0;
   
   /* Cores secundárias */
-  --maternar-secondary: #7C4DFF; /* Roxo suave */
-  --maternar-secondary-light: #B39DDB;
-  --maternar-secondary-dark: #512DA8;
+  --maternar-secondary: #5C6BC0; /* Azul médio */
+  --maternar-secondary-light: #9FA8DA;
+  --maternar-secondary-dark: #3949AB;
   
   /* Cores de apoio */
   --maternar-success: #4CAF50;
@@ -68,12 +68,12 @@
   padding: 12px 24px;
   font-weight: 600;
   transition: all 0.3s ease;
-  box-shadow: 0 4px 15px rgba(233, 30, 99, 0.3);
+  box-shadow: 0 4px 15px rgba(33, 150, 243, 0.3);
 }
 
 .maternar-button:hover {
   transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(233, 30, 99, 0.4);
+  box-shadow: 0 6px 20px rgba(33, 150, 243, 0.4);
 }
 
 .maternar-avatar {
@@ -94,7 +94,7 @@
 .maternar-header {
   background: var(--maternar-gradient-soft);
   backdrop-filter: blur(10px);
-  border-bottom: 1px solid rgba(233, 30, 99, 0.1);
+  border-bottom: 1px solid rgba(33, 150, 243, 0.1);
 }
 
 /* Sidebar melhorado */
@@ -109,11 +109,11 @@
 }
 
 .maternar-nav-item:hover {
-  background: rgba(233, 30, 99, 0.08);
+  background: rgba(33, 150, 243, 0.08);
 }
 
 .maternar-nav-item.active {
-  background: rgba(233, 30, 99, 0.12);
+  background: rgba(33, 150, 243, 0.12);
   color: var(--maternar-primary);
 }
 
@@ -174,7 +174,7 @@
 
 .maternar-input:focus {
   border-color: var(--maternar-primary);
-  box-shadow: 0 0 0 4px rgba(233, 30, 99, 0.1);
+  box-shadow: 0 0 0 4px rgba(33, 150, 243, 0.1);
 }
 
 /* Notificações */
@@ -218,7 +218,7 @@
 }
 
 .maternar-list-item:hover {
-  background: rgba(233, 30, 99, 0.05);
+  background: rgba(33, 150, 243, 0.05);
   padding-left: 20px;
 }
 
@@ -228,7 +228,7 @@
   align-items: center;
   gap: 4px;
   padding: 4px 12px;
-  background: rgba(233, 30, 99, 0.1);
+  background: rgba(33, 150, 243, 0.1);
   color: var(--maternar-primary);
   border-radius: 20px;
   font-size: 0.875rem;
