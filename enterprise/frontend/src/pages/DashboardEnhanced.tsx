@@ -1,28 +1,47 @@
 import React, { useEffect, useState } from 'react'
+import { Link } from 'react-router-dom'
 import { motion } from 'framer-motion'
-import { Card } from '../components/ui/Card'
-import { Avatar } from '../components/ui/Avatar'
-import { useAuth } from '../components/providers/AuthProvider'
-import { useQuery } from '@apollo/client'
-import { gql } from '@apollo/client'
+import { useQuery, gql } from '@apollo/client'
 import {
+  Users,
   Baby,
   Heart,
-  Activity,
   TrendingUp,
+  TrendingDown,
   Award,
   Calendar,
-  Users,
   BookOpen,
   CheckCircle2,
   Clock,
-  Bell,
-  Star,
-  MessageSquare,
-  Stethoscope,
+  ArrowRight,
   Sparkles,
-  Link2
+  Activity,
+  Target,
+  MessageCircle,
+  FolderKanban,
+  GraduationCap,
+  BarChart3,
+  Flame,
+  Zap,
+  Star,
+  ChevronRight,
+  Plus
 } from 'lucide-react'
+import { useAuth } from '../components/providers/AuthProvider'
+import {
+  AreaChart,
+  Area,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+  ResponsiveContainer,
+  BarChart,
+  Bar,
+  PieChart,
+  Pie,
+  Cell
+} from 'recharts'
 
 const GET_DASHBOARD_DATA = gql`
   query GetDashboardData {
@@ -37,7 +56,7 @@ const GET_DASHBOARD_DATA = gql`
       weeklyXP
       currentStreak
     }
-    myCourses(orderBy: { enrolledAt: desc }, limit: 3) {
+    myCourses(orderBy: { enrolledAt: desc }, limit: 5) {
       id
       progress
       course {
@@ -45,7 +64,7 @@ const GET_DASHBOARD_DATA = gql`
         title
         thumbnail
         category
-        totalLessons
+        estimatedTime
       }
     }
     myAchievements(limit: 4) {
@@ -64,21 +83,56 @@ const GET_DASHBOARD_DATA = gql`
       timestamp
       xpEarned
     }
-    events(where: { startDate: { gte: "now" } }, orderBy: { startDate: asc }, limit: 3) {
+    events(where: { startDate: { gte: "now" } }, orderBy: { startDate: asc }, limit: 4) {
       id
       title
       startDate
       location
       type
-      attendees
+    }
+    dashboardStats {
+      totalUsers
+      activeUsers
+      coursesCompleted
+      averageProgress
     }
   }
 `
 
-const Dashboard = () => {
+// Chart colors
+const CHART_COLORS = {
+  primary: '#1E4A7A',
+  secondary: '#7AB844',
+  accent: '#D42E5B',
+  info: '#3B82F6',
+  warning: '#F59E0B'
+}
+
+const PIE_COLORS = ['#1E4A7A', '#7AB844', '#D42E5B', '#3B82F6']
+
+// Mock chart data (will be replaced with real data)
+const weeklyActivityData = [
+  { day: 'Seg', xp: 120, hours: 2 },
+  { day: 'Ter', xp: 200, hours: 3.5 },
+  { day: 'Qua', xp: 150, hours: 2.5 },
+  { day: 'Qui', xp: 280, hours: 4 },
+  { day: 'Sex', xp: 190, hours: 3 },
+  { day: 'Sab', xp: 80, hours: 1 },
+  { day: 'Dom', xp: 50, hours: 0.5 }
+]
+
+const courseProgressData = [
+  { name: 'Concluídos', value: 8, color: '#7AB844' },
+  { name: 'Em Andamento', value: 4, color: '#1E4A7A' },
+  { name: 'Não Iniciados', value: 3, color: '#E5E7EB' }
+]
+
+const Dashboard: React.FC = () => {
   const { user } = useAuth()
   const [greeting, setGreeting] = useState('')
-  const { data, loading, error } = useQuery(GET_DASHBOARD_DATA)
+  const { data, loading, error } = useQuery(GET_DASHBOARD_DATA, {
+    errorPolicy: 'all'
+  })
 
   useEffect(() => {
     const hour = new Date().getHours()
@@ -87,324 +141,485 @@ const Dashboard = () => {
     else setGreeting('Boa noite')
   }, [])
 
-  const stats = [
-    {
-      title: 'Usuárias Atendidas',
-      value: '156',
-      change: '+12 esta semana',
-      icon: Link2,
-      color: 'from-pink-500 to-pink-600',
-      bgGlow: 'rgba(236, 72, 153, 0.1)'
-    },
-    {
-      title: 'Bebês Acompanhados',
-      value: '89',
-      change: '5 novos',
-      icon: Baby,
-      color: 'from-purple-500 to-purple-600',
-      bgGlow: 'rgba(168, 85, 247, 0.1)'
-    },
-    {
-      title: 'Taxa de Satisfação',
-      value: '98%',
-      change: '+2% este mês',
-      icon: Star,
-      color: 'from-amber-500 to-amber-600',
-      bgGlow: 'rgba(245, 158, 11, 0.1)'
-    }
-  ]
+  const fadeInUp = {
+    initial: { opacity: 0, y: 20 },
+    animate: { opacity: 1, y: 0 },
+    transition: { duration: 0.4 }
+  }
 
-  const container = {
-    hidden: { opacity: 0 },
-    show: {
-      opacity: 1,
+  const staggerChildren = {
+    animate: {
       transition: {
         staggerChildren: 0.1
       }
     }
   }
 
-  const item = {
-    hidden: { opacity: 0, y: 20 },
-    show: { opacity: 1, y: 0 }
-  }
+  // Stats cards data
+  const statsCards = [
+    {
+      title: 'Gestantes Ativas',
+      value: data?.dashboardStats?.totalUsers || '156',
+      change: '+12%',
+      trend: 'up',
+      icon: Heart,
+      color: 'pink',
+      bgGradient: 'from-maternar-pink-500 to-maternar-pink-600'
+    },
+    {
+      title: 'Bebês Acompanhados',
+      value: '89',
+      change: '+5 novos',
+      trend: 'up',
+      icon: Baby,
+      color: 'blue',
+      bgGradient: 'from-maternar-blue-500 to-maternar-blue-600'
+    },
+    {
+      title: 'Cursos Concluídos',
+      value: data?.dashboardStats?.coursesCompleted || '234',
+      change: '+18%',
+      trend: 'up',
+      icon: GraduationCap,
+      color: 'green',
+      bgGradient: 'from-maternar-green-500 to-maternar-green-600'
+    },
+    {
+      title: 'Taxa de Engajamento',
+      value: `${data?.dashboardStats?.averageProgress || 94}%`,
+      change: '+3%',
+      trend: 'up',
+      icon: TrendingUp,
+      color: 'blue',
+      bgGradient: 'from-blue-500 to-blue-600'
+    }
+  ]
+
+  // Quick actions
+  const quickActions = [
+    { label: 'Novo Curso', icon: Plus, href: '/qualifica-profissional', color: 'bg-maternar-blue-500' },
+    { label: 'Agendar', icon: Calendar, href: '/calendar', color: 'bg-maternar-green-500' },
+    { label: 'Mensagem', icon: MessageCircle, href: '/chat', color: 'bg-maternar-pink-500' },
+    { label: 'Projetos', icon: FolderKanban, href: '/projects', color: 'bg-purple-500' }
+  ]
 
   return (
-    <div className="min-h-screen p-3 sm:p-4 md:p-6 lg:p-8">
-      {/* Welcome Section */}
+    <div className="space-y-6">
+      {/* Welcome Header */}
       <motion.div
-        initial={{ opacity: 0, y: -20 }}
-        animate={{ opacity: 1, y: 0 }}
-        className="mb-4 sm:mb-6 md:mb-8 p-4 sm:p-5 md:p-6 maternar-card bg-gradient-to-r from-pink-50 via-purple-50 to-pink-50 dark:from-pink-900/20 dark:via-purple-900/20 dark:to-pink-900/20"
+        {...fadeInUp}
+        className="enterprise-card p-6 bg-gradient-to-r from-maternar-blue-500 via-maternar-blue-600 to-maternar-green-600"
       >
-        <div className="flex flex-col md:flex-row items-center gap-4 md:gap-6">
-          <Avatar 
-            src={user?.avatar || '/avatars/laura.jpg'} 
-            alt={user?.name} 
-            size="xl" 
-            className="maternar-avatar ring-4 ring-pink-200 dark:ring-pink-800 w-16 h-16 sm:w-20 sm:h-20 md:w-24 md:h-24"
-          />
-          <div className="text-center md:text-left flex-1 w-full">
-            <h1 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold bg-gradient-to-r from-pink-600 to-purple-600 bg-clip-text text-transparent">
-              {greeting}, {user?.firstName || 'Laura'}! 
-            </h1>
-            <p className="text-sm sm:text-base text-gray-600 dark:text-gray-400 mt-1 sm:mt-2">
-              {new Date().toLocaleDateString('pt-BR', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' })}
-            </p>
-            <div className="flex flex-wrap justify-center md:justify-start gap-2 mt-3 sm:mt-4">
-              <span className="maternar-badge text-xs sm:text-sm">
-                <Sparkles className="w-3 h-3" />
-                Nível {data?.me?.level || 10}
-              </span>
-              <span className="maternar-tag text-xs sm:text-sm">
-                <Activity className="w-3 h-3" />
-                <span className="hidden xs:inline">{data?.me?.weeklyXP || 450} XP esta semana</span>
-                <span className="xs:hidden">{data?.me?.weeklyXP || 450} XP</span>
-              </span>
-              <span className="maternar-tag text-xs sm:text-sm">
-                🔥 <span className="hidden xs:inline">{data?.me?.currentStreak || 12} dias de sequência</span>
-                <span className="xs:hidden">{data?.me?.currentStreak || 12} dias</span>
-              </span>
+        <div className="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-4">
+          <div className="flex items-center gap-4">
+            <div className="relative">
+              <img
+                src={user?.avatar || '/avatars/default.jpg'}
+                alt={user?.firstName}
+                className="h-16 w-16 rounded-2xl object-cover ring-4 ring-white/20"
+              />
+              <span className="absolute -bottom-1 -right-1 h-5 w-5 rounded-full bg-green-400 border-2 border-white" />
+            </div>
+            <div className="text-white">
+              <h1 className="text-2xl lg:text-3xl font-bold">
+                {greeting}, {user?.firstName || 'Usuário'}!
+              </h1>
+              <p className="text-white/80 mt-1">
+                {new Date().toLocaleDateString('pt-BR', {
+                  weekday: 'long',
+                  day: 'numeric',
+                  month: 'long'
+                })}
+              </p>
             </div>
           </div>
-          <div className="flex flex-col items-center space-y-2 mt-3 md:mt-0">
-            <div className="maternar-button text-xs sm:text-sm px-3 sm:px-4 py-2">
-              <Bell className="w-4 h-4 sm:w-5 sm:h-5 mr-1.5 sm:mr-2" />
-              <span className="hidden sm:inline">3 novas notificações</span>
-              <span className="sm:hidden">3 novas</span>
+
+          <div className="flex flex-wrap items-center gap-3">
+            <div className="flex items-center gap-2 px-4 py-2 rounded-xl bg-white/10 backdrop-blur-sm">
+              <Flame className="h-5 w-5 text-orange-300" />
+              <span className="text-white font-semibold">{data?.me?.currentStreak || 12} dias</span>
+            </div>
+            <div className="flex items-center gap-2 px-4 py-2 rounded-xl bg-white/10 backdrop-blur-sm">
+              <Zap className="h-5 w-5 text-yellow-300" />
+              <span className="text-white font-semibold">{data?.me?.weeklyXP || 450} XP</span>
+            </div>
+            <div className="flex items-center gap-2 px-4 py-2 rounded-xl bg-white/10 backdrop-blur-sm">
+              <Star className="h-5 w-5 text-amber-300" />
+              <span className="text-white font-semibold">Nível {data?.me?.level || 10}</span>
             </div>
           </div>
+        </div>
+
+        {/* Quick Actions */}
+        <div className="mt-6 grid grid-cols-2 sm:grid-cols-4 gap-3">
+          {quickActions.map((action, idx) => (
+            <Link
+              key={idx}
+              to={action.href}
+              className="flex items-center gap-3 px-4 py-3 rounded-xl bg-white/10 hover:bg-white/20 transition-colors"
+            >
+              <div className={`p-2 rounded-lg ${action.color}`}>
+                <action.icon className="h-4 w-4 text-white" />
+              </div>
+              <span className="text-white font-medium text-sm">{action.label}</span>
+            </Link>
+          ))}
         </div>
       </motion.div>
 
       {/* Stats Grid */}
       <motion.div
-        variants={container}
-        initial="hidden"
-        animate="show"
-        className="grid grid-cols-1 xs:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4 md:gap-5 lg:gap-6 mb-4 sm:mb-6 md:mb-8"
+        variants={staggerChildren}
+        initial="initial"
+        animate="animate"
+        className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4"
       >
-        {stats.map((stat, index) => {
-          const Icon = stat.icon
-          return (
-            <motion.div key={index} variants={item}>
-              <div className="maternar-stat-card group p-4 sm:p-5 md:p-6">
-                <div className="flex items-start justify-between mb-3 sm:mb-4">
-                  <div 
-                    className={`p-2 sm:p-2.5 md:p-3 rounded-xl sm:rounded-2xl bg-gradient-to-br ${stat.color} shadow-lg`}
-                    style={{ boxShadow: `0 8px 16px ${stat.bgGlow}` }}
-                  >
-                    <Icon className="h-5 w-5 sm:h-6 sm:w-6 text-white" />
-                  </div>
-                  <span className="text-[10px] sm:text-xs font-medium text-green-600 dark:text-green-400">
-                    {stat.change}
-                  </span>
+        {statsCards.map((stat, idx) => (
+          <motion.div key={idx} variants={fadeInUp}>
+            <div className="enterprise-stat-card h-full">
+              <div className="flex items-start justify-between">
+                <div className={`p-3 rounded-xl bg-gradient-to-br ${stat.bgGradient}`}>
+                  <stat.icon className="h-5 w-5 text-white" />
                 </div>
-                <h3 className="text-xs sm:text-sm font-medium text-gray-600 dark:text-gray-400 mb-1">
-                  {stat.title}
-                </h3>
-                <p className="text-xl sm:text-2xl md:text-3xl font-bold bg-gradient-to-r from-gray-800 to-gray-600 dark:from-gray-100 dark:to-gray-300 bg-clip-text text-transparent">
-                  {stat.value}
-                </p>
+                <span className={`text-xs font-medium px-2 py-1 rounded-full ${
+                  stat.trend === 'up'
+                    ? 'bg-green-100 text-green-700'
+                    : 'bg-red-100 text-red-700'
+                }`}>
+                  {stat.trend === 'up' ? <TrendingUp className="h-3 w-3 inline mr-1" /> : <TrendingDown className="h-3 w-3 inline mr-1" />}
+                  {stat.change}
+                </span>
               </div>
-            </motion.div>
-          )
-        })}
+              <div className="mt-4">
+                <p className="text-2xl lg:text-3xl font-bold text-gray-900">{stat.value}</p>
+                <p className="text-sm text-gray-500 mt-1">{stat.title}</p>
+              </div>
+            </div>
+          </motion.div>
+        ))}
       </motion.div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-5 md:gap-6 mb-4 sm:mb-6 md:mb-8">
-        {/* Current Courses */}
-        <motion.div
-          initial={{ opacity: 0, x: -20 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ delay: 0.3 }}
-          className="lg:col-span-2"
-        >
-          <div className="maternar-card p-4 sm:p-5 md:p-6">
-            <h2 className="text-base sm:text-lg md:text-xl font-semibold mb-4 sm:mb-5 md:mb-6 flex items-center">
-              <BookOpen className="w-4 h-4 sm:w-5 sm:h-5 text-pink-500 mr-2"/>
-              Cursos em Andamento
-            </h2>
-            <div className="space-y-3 sm:space-y-4">
-              {data?.myCourses?.map((enrollment: any) => (
-                <div key={enrollment.id} className="maternar-list-item flex items-center gap-3 sm:gap-4 p-3 sm:p-4">
-                  <div className="w-12 h-12 sm:w-14 sm:h-14 md:w-16 md:h-16 rounded-lg sm:rounded-xl overflow-hidden flex-shrink-0 bg-gradient-to-br from-pink-100 to-purple-100">
-                    <img 
-                      src={enrollment.course.thumbnail || '/courses/default.jpg'} 
-                      alt={enrollment.course.title}
-                      className="w-full h-full object-cover"
-                    />
-                  </div>
-                  <div className="flex-1 min-w-0">
-                    <h4 className="font-medium text-sm sm:text-base text-gray-900 dark:text-white truncate">
-                      {enrollment.course.title}
-                    </h4>
-                    <p className="text-xs sm:text-sm text-gray-500 dark:text-gray-400">
-                      {enrollment.course.category} • {enrollment.course.totalLessons} aulas
-                    </p>
-                  </div>
-                  <div className="text-right">
-                    <div className="maternar-progress w-16 sm:w-20 md:w-24 mb-1">
-                      <div 
-                        className="maternar-progress-bar"
-                        style={{ width: `${enrollment.progress}%` }}
-                      />
-                    </div>
-                    <span className="text-[10px] sm:text-xs text-gray-600 dark:text-gray-400">
-                      {enrollment.progress}%
-                    </span>
-                  </div>
+      {/* Main Content Grid */}
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        {/* Activity Chart */}
+        <motion.div {...fadeInUp} className="lg:col-span-2">
+          <div className="enterprise-card p-6">
+            <div className="flex items-center justify-between mb-6">
+              <div>
+                <h3 className="text-lg font-semibold text-gray-900">Atividade Semanal</h3>
+                <p className="text-sm text-gray-500">XP ganho e horas de estudo</p>
+              </div>
+              <div className="flex items-center gap-4 text-sm">
+                <div className="flex items-center gap-2">
+                  <div className="h-3 w-3 rounded-full bg-maternar-blue-500" />
+                  <span className="text-gray-600">XP</span>
                 </div>
-              ))}
-              {(!data?.myCourses || data.myCourses.length === 0) && (
-                <p className="text-center text-sm sm:text-base text-gray-500 py-6 sm:py-8">
-                  Nenhum curso em andamento
-                </p>
-              )}
+                <div className="flex items-center gap-2">
+                  <div className="h-3 w-3 rounded-full bg-maternar-green-500" />
+                  <span className="text-gray-600">Horas</span>
+                </div>
+              </div>
+            </div>
+            <div className="h-[280px]">
+              <ResponsiveContainer width="100%" height="100%">
+                <AreaChart data={weeklyActivityData}>
+                  <defs>
+                    <linearGradient id="colorXp" x1="0" y1="0" x2="0" y2="1">
+                      <stop offset="5%" stopColor={CHART_COLORS.primary} stopOpacity={0.3}/>
+                      <stop offset="95%" stopColor={CHART_COLORS.primary} stopOpacity={0}/>
+                    </linearGradient>
+                    <linearGradient id="colorHours" x1="0" y1="0" x2="0" y2="1">
+                      <stop offset="5%" stopColor={CHART_COLORS.secondary} stopOpacity={0.3}/>
+                      <stop offset="95%" stopColor={CHART_COLORS.secondary} stopOpacity={0}/>
+                    </linearGradient>
+                  </defs>
+                  <CartesianGrid strokeDasharray="3 3" stroke="#E5E7EB" />
+                  <XAxis dataKey="day" axisLine={false} tickLine={false} tick={{ fill: '#6B7280', fontSize: 12 }} />
+                  <YAxis axisLine={false} tickLine={false} tick={{ fill: '#6B7280', fontSize: 12 }} />
+                  <Tooltip
+                    contentStyle={{
+                      background: 'white',
+                      border: '1px solid #E5E7EB',
+                      borderRadius: '12px',
+                      boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)'
+                    }}
+                  />
+                  <Area
+                    type="monotone"
+                    dataKey="xp"
+                    stroke={CHART_COLORS.primary}
+                    fillOpacity={1}
+                    fill="url(#colorXp)"
+                    strokeWidth={2}
+                  />
+                  <Area
+                    type="monotone"
+                    dataKey="hours"
+                    stroke={CHART_COLORS.secondary}
+                    fillOpacity={1}
+                    fill="url(#colorHours)"
+                    strokeWidth={2}
+                  />
+                </AreaChart>
+              </ResponsiveContainer>
             </div>
           </div>
         </motion.div>
 
-        {/* Recent Achievements */}
-        <motion.div
-          initial={{ opacity: 0, x: 20 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ delay: 0.4 }}
-        >
-          <div className="maternar-card p-4 sm:p-5 md:p-6">
-            <h2 className="text-base sm:text-lg md:text-xl font-semibold mb-4 sm:mb-5 md:mb-6 flex items-center">
-              <Award className="w-4 h-4 sm:w-5 sm:h-5 text-amber-500 mr-2"/>
-              Conquistas Recentes
-            </h2>
-            <div className="space-y-2 sm:space-y-3">
-              {data?.myAchievements?.map((userAchievement: any) => (
-                <div key={userAchievement.id} className="flex items-center gap-2 sm:gap-3 p-2 sm:p-3 rounded-lg sm:rounded-xl hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors">
-                  <div className="text-2xl sm:text-3xl">
-                    {userAchievement.achievement.icon}
-                  </div>
-                  <div className="flex-1 min-w-0">
-                    <h4 className="font-medium text-xs sm:text-sm truncate">
-                      {userAchievement.achievement.title}
-                    </h4>
-                    <p className="text-[10px] sm:text-xs text-gray-500">
-                      +{userAchievement.achievement.xpReward} XP
-                    </p>
+        {/* Course Progress */}
+        <motion.div {...fadeInUp}>
+          <div className="enterprise-card p-6 h-full">
+            <div className="flex items-center justify-between mb-6">
+              <h3 className="text-lg font-semibold text-gray-900">Progresso</h3>
+              <Link to="/qualifica-profissional" className="text-sm text-maternar-blue-600 hover:text-maternar-blue-700 font-medium flex items-center gap-1">
+                Ver todos
+                <ChevronRight className="h-4 w-4" />
+              </Link>
+            </div>
+            <div className="flex justify-center mb-6">
+              <div className="relative h-40 w-40">
+                <ResponsiveContainer width="100%" height="100%">
+                  <PieChart>
+                    <Pie
+                      data={courseProgressData}
+                      cx="50%"
+                      cy="50%"
+                      innerRadius={50}
+                      outerRadius={70}
+                      paddingAngle={4}
+                      dataKey="value"
+                    >
+                      {courseProgressData.map((entry, index) => (
+                        <Cell key={`cell-${index}`} fill={entry.color} />
+                      ))}
+                    </Pie>
+                  </PieChart>
+                </ResponsiveContainer>
+                <div className="absolute inset-0 flex items-center justify-center">
+                  <div className="text-center">
+                    <p className="text-2xl font-bold text-gray-900">15</p>
+                    <p className="text-xs text-gray-500">Total</p>
                   </div>
                 </div>
+              </div>
+            </div>
+            <div className="space-y-3">
+              {courseProgressData.map((item, idx) => (
+                <div key={idx} className="flex items-center justify-between">
+                  <div className="flex items-center gap-2">
+                    <div className="h-3 w-3 rounded-full" style={{ backgroundColor: item.color }} />
+                    <span className="text-sm text-gray-600">{item.name}</span>
+                  </div>
+                  <span className="text-sm font-semibold text-gray-900">{item.value}</span>
+                </div>
               ))}
-              {(!data?.myAchievements || data.myAchievements.length === 0) && (
-                <p className="text-center text-sm sm:text-base text-gray-500 py-3 sm:py-4">
-                  Nenhuma conquista recente
-                </p>
-              )}
             </div>
           </div>
         </motion.div>
       </div>
 
-      {/* Activity Feed & Events */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-5 md:gap-6">
-        {/* Recent Activity */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.5 }}
-        >
-          <div className="maternar-card p-4 sm:p-5 md:p-6">
-            <h2 className="text-base sm:text-lg md:text-xl font-semibold mb-4 sm:mb-5 md:mb-6 flex items-center">
-              <Activity className="w-4 h-4 sm:w-5 sm:h-5 text-emerald-500 mr-2 animate-pulse"/>
-              Atividade Recente
-            </h2>
-            <div className="space-y-2 sm:space-y-3">
-              {data?.recentActivity?.map((activity: any, index: number) => (
-                <div key={index} className="maternar-list-item p-3 sm:p-4">
-                  <div className="flex justify-between items-start gap-2">
-                    <div className="min-w-0 flex-1">
-                      <p className="text-xs sm:text-sm font-medium text-gray-900 dark:text-white">
-                        {activity.title}
-                      </p>
-                      <p className="text-[10px] sm:text-xs text-gray-500 dark:text-gray-400 flex items-center mt-1">
-                        <Clock className="w-3 h-3 mr-1" />
-                        {new Date(activity.timestamp).toLocaleString('pt-BR')}
-                      </p>
-                    </div>
-                    {activity.xpEarned > 0 && (
-                      <span className="maternar-badge text-[10px] sm:text-xs whitespace-nowrap">
-                        +{activity.xpEarned} XP
-                      </span>
-                    )}
+      {/* Second Row */}
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        {/* My Courses */}
+        <motion.div {...fadeInUp} className="lg:col-span-2">
+          <div className="enterprise-card p-6">
+            <div className="flex items-center justify-between mb-6">
+              <div>
+                <h3 className="text-lg font-semibold text-gray-900">Meus Cursos</h3>
+                <p className="text-sm text-gray-500">Continue de onde parou</p>
+              </div>
+              <Link to="/qualifica-profissional" className="enterprise-btn enterprise-btn-secondary text-sm">
+                Ver todos
+                <ArrowRight className="h-4 w-4" />
+              </Link>
+            </div>
+            <div className="space-y-4">
+              {(data?.myCourses || []).slice(0, 3).map((enrollment: any, idx: number) => (
+                <Link
+                  key={enrollment.id || idx}
+                  to={`/training/${enrollment.course?.id}`}
+                  className="flex items-center gap-4 p-4 rounded-xl border border-gray-100 hover:border-maternar-blue-200 hover:bg-maternar-blue-50/30 transition-all group"
+                >
+                  <div className="h-16 w-24 rounded-lg overflow-hidden bg-gray-100 flex-shrink-0">
+                    <img
+                      src={enrollment.course?.thumbnail || '/courses/default.jpg'}
+                      alt={enrollment.course?.title}
+                      className="h-full w-full object-cover"
+                    />
                   </div>
-                </div>
+                  <div className="flex-1 min-w-0">
+                    <h4 className="font-semibold text-gray-900 truncate group-hover:text-maternar-blue-600">
+                      {enrollment.course?.title || 'Curso'}
+                    </h4>
+                    <p className="text-sm text-gray-500 mt-1">
+                      {enrollment.course?.category} • {enrollment.course?.estimatedTime || '2h'}
+                    </p>
+                    <div className="mt-2 flex items-center gap-3">
+                      <div className="flex-1 enterprise-progress h-2">
+                        <div
+                          className="enterprise-progress-bar"
+                          style={{ width: `${enrollment.progress || 0}%` }}
+                        />
+                      </div>
+                      <span className="text-sm font-medium text-gray-600">
+                        {enrollment.progress || 0}%
+                      </span>
+                    </div>
+                  </div>
+                  <ChevronRight className="h-5 w-5 text-gray-400 group-hover:text-maternar-blue-500 transition-colors" />
+                </Link>
               ))}
+              {(!data?.myCourses || data.myCourses.length === 0) && (
+                <div className="text-center py-8">
+                  <BookOpen className="h-12 w-12 text-gray-300 mx-auto mb-3" />
+                  <p className="text-gray-500">Nenhum curso em andamento</p>
+                  <Link to="/qualifica-profissional" className="text-maternar-blue-600 text-sm font-medium mt-2 inline-block">
+                    Explorar cursos
+                  </Link>
+                </div>
+              )}
             </div>
           </div>
         </motion.div>
 
         {/* Upcoming Events */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.6 }}
-        >
-          <div className="maternar-card p-4 sm:p-5 md:p-6">
-            <h2 className="text-base sm:text-lg md:text-xl font-semibold mb-4 sm:mb-5 md:mb-6 flex items-center">
-              <Calendar className="w-4 h-4 sm:w-5 sm:h-5 text-purple-500 mr-2"/>
-              Próximos Eventos
-            </h2>
-            <div className="space-y-2 sm:space-y-3">
-              {data?.events?.map((event: any) => (
-                <div key={event.id} className="maternar-list-item p-3 sm:p-4">
-                  <div className="flex justify-between items-start gap-2">
-                    <div className="min-w-0 flex-1">
-                      <p className="text-xs sm:text-sm font-medium text-gray-900 dark:text-white">
-                        {event.title}
-                      </p>
-                      <p className="text-[10px] sm:text-xs text-gray-500 dark:text-gray-400">
-                        {new Date(event.startDate).toLocaleDateString('pt-BR')} • {event.location}
-                      </p>
-                      <div className="flex items-center mt-1 sm:mt-2">
-                        <Users className="w-3 h-3 text-gray-400 mr-1" />
-                        <span className="text-[10px] sm:text-xs text-gray-500">
-                          {event.attendees} participantes
+        <motion.div {...fadeInUp}>
+          <div className="enterprise-card p-6 h-full">
+            <div className="flex items-center justify-between mb-6">
+              <h3 className="text-lg font-semibold text-gray-900">Agenda</h3>
+              <Link to="/calendar" className="text-sm text-maternar-blue-600 hover:text-maternar-blue-700 font-medium flex items-center gap-1">
+                Ver agenda
+                <ChevronRight className="h-4 w-4" />
+              </Link>
+            </div>
+            <div className="space-y-4">
+              {(data?.events || []).map((event: any, idx: number) => {
+                const eventDate = new Date(event.startDate)
+                return (
+                  <div
+                    key={event.id || idx}
+                    className="flex items-start gap-4 p-3 rounded-xl hover:bg-gray-50 transition-colors"
+                  >
+                    <div className="flex-shrink-0 w-12 h-12 rounded-xl bg-maternar-blue-50 flex flex-col items-center justify-center">
+                      <span className="text-xs font-medium text-maternar-blue-600 uppercase">
+                        {eventDate.toLocaleDateString('pt-BR', { month: 'short' })}
+                      </span>
+                      <span className="text-lg font-bold text-maternar-blue-700">
+                        {eventDate.getDate()}
+                      </span>
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <h4 className="font-medium text-gray-900 truncate">{event.title}</h4>
+                      <div className="flex items-center gap-2 mt-1">
+                        <Clock className="h-3 w-3 text-gray-400" />
+                        <span className="text-xs text-gray-500">
+                          {eventDate.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' })}
                         </span>
+                        {event.location && (
+                          <>
+                            <span className="text-gray-300">•</span>
+                            <span className="text-xs text-gray-500 truncate">{event.location}</span>
+                          </>
+                        )}
                       </div>
                     </div>
-                    <span className="maternar-tag text-[10px] sm:text-xs">
-                      {event.type === 'MEETING' ? '🏢 Reunião' : '📚 Treinamento'}
-                    </span>
                   </div>
+                )
+              })}
+              {(!data?.events || data.events.length === 0) && (
+                <div className="text-center py-6">
+                  <Calendar className="h-10 w-10 text-gray-300 mx-auto mb-2" />
+                  <p className="text-gray-500 text-sm">Nenhum evento próximo</p>
+                </div>
+              )}
+            </div>
+          </div>
+        </motion.div>
+      </div>
+
+      {/* Third Row */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        {/* Recent Achievements */}
+        <motion.div {...fadeInUp}>
+          <div className="enterprise-card p-6">
+            <div className="flex items-center justify-between mb-6">
+              <div>
+                <h3 className="text-lg font-semibold text-gray-900">Conquistas Recentes</h3>
+                <p className="text-sm text-gray-500">Suas últimas medalhas</p>
+              </div>
+              <Link to="/gamification" className="text-sm text-maternar-blue-600 hover:text-maternar-blue-700 font-medium flex items-center gap-1">
+                Ver todas
+                <ChevronRight className="h-4 w-4" />
+              </Link>
+            </div>
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
+              {(data?.myAchievements || [
+                { achievement: { icon: '🏆', title: 'Primeira Aula', xpReward: 50 } },
+                { achievement: { icon: '🎯', title: '7 Dias Seguidos', xpReward: 100 } },
+                { achievement: { icon: '📚', title: 'Curso Completo', xpReward: 200 } },
+                { achievement: { icon: '⭐', title: 'Top 10', xpReward: 150 } }
+              ]).map((ua: any, idx: number) => (
+                <div
+                  key={idx}
+                  className="text-center p-4 rounded-xl bg-gradient-to-br from-gray-50 to-white border border-gray-100 hover:border-amber-200 hover:shadow-md transition-all"
+                >
+                  <div className="text-3xl mb-2">{ua.achievement?.icon || '🏅'}</div>
+                  <h4 className="font-medium text-gray-900 text-sm truncate">{ua.achievement?.title}</h4>
+                  <p className="text-xs text-amber-600 font-medium mt-1">+{ua.achievement?.xpReward} XP</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </motion.div>
+
+        {/* Recent Activity */}
+        <motion.div {...fadeInUp}>
+          <div className="enterprise-card p-6">
+            <div className="flex items-center justify-between mb-6">
+              <div>
+                <h3 className="text-lg font-semibold text-gray-900">Atividade Recente</h3>
+                <p className="text-sm text-gray-500">Suas últimas ações</p>
+              </div>
+            </div>
+            <div className="space-y-4">
+              {(data?.recentActivity || [
+                { type: 'course', title: 'Completou aula de Amamentação', timestamp: new Date().toISOString(), xpEarned: 25 },
+                { type: 'achievement', title: 'Desbloqueou conquista "Dedicado"', timestamp: new Date(Date.now() - 3600000).toISOString(), xpEarned: 100 },
+                { type: 'login', title: 'Streak de 7 dias mantido', timestamp: new Date(Date.now() - 7200000).toISOString(), xpEarned: 50 }
+              ]).slice(0, 5).map((activity: any, idx: number) => (
+                <div key={idx} className="flex items-center gap-4 p-3 rounded-xl hover:bg-gray-50 transition-colors">
+                  <div className={`p-2 rounded-lg ${
+                    activity.type === 'course' ? 'bg-blue-100 text-blue-600' :
+                    activity.type === 'achievement' ? 'bg-amber-100 text-amber-600' :
+                    'bg-green-100 text-green-600'
+                  }`}>
+                    {activity.type === 'course' ? <BookOpen className="h-4 w-4" /> :
+                     activity.type === 'achievement' ? <Award className="h-4 w-4" /> :
+                     <Activity className="h-4 w-4" />}
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <p className="text-sm font-medium text-gray-900 truncate">{activity.title}</p>
+                    <p className="text-xs text-gray-500 flex items-center gap-1 mt-0.5">
+                      <Clock className="h-3 w-3" />
+                      {new Date(activity.timestamp).toLocaleString('pt-BR', {
+                        day: '2-digit',
+                        month: 'short',
+                        hour: '2-digit',
+                        minute: '2-digit'
+                      })}
+                    </p>
+                  </div>
+                  {activity.xpEarned > 0 && (
+                    <span className="enterprise-badge enterprise-badge-success">
+                      +{activity.xpEarned} XP
+                    </span>
+                  )}
                 </div>
               ))}
             </div>
           </div>
         </motion.div>
       </div>
-
-      {/* Quick Stats Bar */}
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.7 }}
-        className="mt-4 sm:mt-6 md:mt-8 p-3 sm:p-4 maternar-card bg-gradient-to-r from-pink-50 to-purple-50 dark:from-pink-900/10 dark:to-purple-900/10"
-      >
-        <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 sm:gap-4 text-center">
-          <div>
-            <MessageSquare className="w-4 h-4 sm:w-5 sm:h-5 text-pink-500 mx-auto mb-1" />
-            <p className="text-lg sm:text-xl md:text-2xl font-bold text-gray-800 dark:text-white">42</p>
-            <p className="text-[10px] sm:text-xs text-gray-600 dark:text-gray-400">Mensagens</p>
-          </div>
-          <div>
-            <CheckCircle2 className="w-4 h-4 sm:w-5 sm:h-5 text-emerald-500 mx-auto mb-1" />
-            <p className="text-lg sm:text-xl md:text-2xl font-bold text-gray-800 dark:text-white">18</p>
-            <p className="text-[10px] sm:text-xs text-gray-600 dark:text-gray-400">Tarefas</p>
-          </div>
-          <div className="col-span-2 sm:col-span-1">
-            <TrendingUp className="w-4 h-4 sm:w-5 sm:h-5 text-blue-500 mx-auto mb-1" />
-            <p className="text-lg sm:text-xl md:text-2xl font-bold text-gray-800 dark:text-white">94%</p>
-            <p className="text-[10px] sm:text-xs text-gray-600 dark:text-gray-400">Produtividade</p>
-          </div>
-        </div>
-      </motion.div>
     </div>
   )
 }
