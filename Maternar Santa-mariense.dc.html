@@ -411,10 +411,7 @@
           <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(290px,1fr));gap:16px">
             <sc-for list="{{ cursosFiltrados }}" as="c" hint-placeholder-count="6">
               <div style="background:#fff;border:1px solid #DCE6F0;border-radius:16px;overflow:hidden;display:flex;flex-direction:column;transition:border-color .15s" style-hover="border-color:#93B7DA">
-                <div style="height:104px;background:repeating-linear-gradient(135deg,#E3EDF6,#E3EDF6 7px,#F0F6FB 7px,#F0F6FB 14px);border-bottom:1px solid #DFE9F2;display:flex;align-items:flex-end;justify-content:space-between;padding:12px;position:relative">
-                  <img src="logo_maternar_icon.png" alt="" style="position:absolute;top:12px;left:12px;height:30px;width:auto;opacity:.35" />
-                  <span style="font-family:'IBM Plex Mono',monospace;font-size:9.5px;letter-spacing:.1em;text-transform:uppercase;color:#93A9B9">{{ c.area }}</span>
-                  <span style="font-size:10.5px;font-weight:700;padding:3px 8px;border-radius:9px;background:{{ c.tagBg }};color:{{ c.tagCor }}">{{ c.tag }}</span>
+                <div style="height:104px;border-bottom:1px solid #DFE9F2;display:flex;align-items:flex-end;justify-content:space-between;padding:12px;position:relative;overflow:hidden"><img src="{{ c.capa }}" alt="" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover" /><span style="position:relative;font-family:'IBM Plex Mono',monospace;font-size:9.5px;letter-spacing:.1em;text-transform:uppercase;color:#41576D;background:rgba(255,255,255,.88);padding:3px 8px;border-radius:8px">{{ c.area }}</span><span style="position:relative;font-size:10.5px;font-weight:700;padding:3px 8px;border-radius:9px;background:{{ c.tagBg }};color:{{ c.tagCor }}">{{ c.tag }}</span>
                 </div>
                 <div style="padding:16px;display:flex;flex-direction:column;flex:1">
                   <div style="font-size:14.5px;font-weight:600;line-height:1.35;margin-bottom:7px;text-wrap:pretty">{{ c.titulo }}</div>
@@ -1047,7 +1044,7 @@
             <sc-for list="{{ qModulos }}" as="m" hint-placeholder-count="9">
               <div style="background:#fff;border:1px solid #DCE6F0;border-radius:16px;padding:17px;display:flex;flex-direction:column;opacity:{{ m.op }};box-shadow:{{ m.anel }}">
                 <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:10px;margin-bottom:10px">
-                  <span style="width:34px;height:34px;border-radius:11px;background:{{ m.cor }};flex-shrink:0"></span>
+                  <span style="width:34px;height:34px;border-radius:11px;background:{{ m.cor }};flex-shrink:0;display:flex;align-items:center;justify-content:center"><img src="{{ m.icone }}" alt="" style="width:19px;height:19px;display:block" /></span>
                   <span style="font-size:10.5px;font-weight:700;padding:4px 9px;border-radius:9px;background:{{ m.nivelBg }};color:{{ m.nivelCor }}">{{ m.nivel }}</span>
                 </div>
                 <div style="font-size:14.5px;font-weight:600;line-height:1.35;margin-bottom:6px;text-wrap:pretty">{{ m.id }}. {{ m.t }}</div>
@@ -2079,6 +2076,8 @@ const POLITICAS = [
 ];
 const QUAL_TIPO = { 1: 'Capacitações online', 2: 'Capacitações online', 3: 'Capacitações presenciais', 4: 'Capacitações presenciais', 5: 'Capacitações livres', 6: 'Capacitações livres', 7: 'Capacitações livres', 8: 'Capacitações online', 9: 'Capacitações livres' };
 
+const CURSO_CAPAS = { c1: 'cursos/capa-c1.svg', c2: 'cursos/capa-c2.svg', c3: 'cursos/capa-c3.svg', c4: 'cursos/capa-c4.svg', c5: 'cursos/capa-c5.svg', c6: 'cursos/capa-c6.svg' };
+const QUAL_ICONES = { 1: 'qualifica/icone-1.svg', 2: 'qualifica/icone-2.svg', 3: 'qualifica/icone-3.svg', 4: 'qualifica/icone-4.svg', 5: 'qualifica/icone-5.svg', 6: 'qualifica/icone-6.svg', 7: 'qualifica/icone-7.svg', 8: 'qualifica/icone-8.svg', 9: 'qualifica/icone-9.svg' };
 class Component extends DCLogic {
   state = {
     authed: this.props.iniciarLogado !== false,
@@ -2448,7 +2447,7 @@ class Component extends DCLogic {
       const tagCores = { 'Obrigatório': ['#FCE9EF', '#D42E5B'], 'Certificado': ['#EAF1F8', '#1E4A7A'], 'Trilha': ['#F2F7EC', '#3F6B21'], 'Novo': ['#FBF2E2', '#8A5A12'] };
       const tc = tagCores[c.tag] || tagCores.Trilha;
       return {
-        ...c, pct: p.pct + '%', pctLabel: p.pct + '%',
+        ...c, capa: CURSO_CAPAS[c.id], pct: p.pct + '%', pctLabel: p.pct + '%',
         meta: c.horas + 'h · ' + c.aulas.length + ' aulas · ' + c.nivel,
         progressoLabel: p.n + ' de ' + c.aulas.length + ' aulas',
         barra: p.pct === 100 ? '#7AB844' : '#D42E5B',
@@ -2594,7 +2593,7 @@ class Component extends DCLogic {
     const qModulos = QUALIFICA.filter(m => s.qualTipo === 'Todas' || QUAL_TIPO[m.id] === s.qualTipo).map(m => {
       const nc = nivelCores[m.nivel];
       const dest = trilhaAtiva && trilhaAtiva.mods.includes(m.id);
-      return { ...m, modTipo: (QUAL_TIPO[m.id] || '').replace('Capacitações ', ''), nivelBg: nc[0], nivelCor: nc[1],
+      return { ...m, icone: QUAL_ICONES[m.id], modTipo: (QUAL_TIPO[m.id] || '').replace('Capacitações ', ''), nivelBg: nc[0], nivelCor: nc[1],
         anel: dest ? '0 0 0 2px ' + trilhaAtiva.cor : 'none',
         op: m.locked ? .6 : 1, desbloqueado: !m.locked,
         aberto: s.modExp === m.id && !m.locked,
