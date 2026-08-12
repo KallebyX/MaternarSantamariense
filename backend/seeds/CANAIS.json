@@ -1,0 +1,26 @@
+[
+ {
+  "id": "obst",
+  "n": "# equipe-obstetrícia",
+  "sub": "34 participantes · plantões integrados",
+  "u": 0
+ },
+ {
+  "id": "plantao",
+  "n": "# plantão-noturno",
+  "sub": "12 participantes · turno 19h–07h",
+  "u": 3
+ },
+ {
+  "id": "ppgsmi",
+  "n": "# ppgsmi-pesquisa",
+  "sub": "21 participantes · produção científica",
+  "u": 0
+ },
+ {
+  "id": "maria",
+  "n": "Maria Aparecida Rocha",
+  "sub": "Coordenadora de Enfermagem · online",
+  "u": 1
+ }
+]

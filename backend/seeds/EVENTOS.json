@@ -1,0 +1,44 @@
+[
+ {
+  "dia": 29,
+  "hora": "08:00",
+  "t": "Round multiprofissional",
+  "local": "Centro Obstétrico — Sala 2",
+  "cor": "#1E4A7A"
+ },
+ {
+  "dia": 29,
+  "hora": "10:30",
+  "t": "Capacitação: código vermelho",
+  "local": "Auditório Térreo",
+  "cor": "#D42E5B"
+ },
+ {
+  "dia": 29,
+  "hora": "14:00",
+  "t": "Comitê de mortalidade materna",
+  "local": "Sala de reuniões — 3º andar",
+  "cor": "#7AB844"
+ },
+ {
+  "dia": 30,
+  "hora": "09:00",
+  "t": "Supervisão de estágio PPGSMI",
+  "local": "Alojamento conjunto",
+  "cor": "#1E4A7A"
+ },
+ {
+  "dia": 31,
+  "hora": "13:30",
+  "t": "Simulação de reanimação neonatal",
+  "local": "Laboratório de habilidades",
+  "cor": "#D42E5B"
+ },
+ {
+  "dia": 3,
+  "hora": "08:30",
+  "t": "Abertura da Semana do Aleitamento",
+  "local": "Praça da Maternidade",
+  "cor": "#7AB844"
+ }
+]

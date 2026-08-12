@@ -1,0 +1,50 @@
+[
+ {
+  "tipo": "Cartilha",
+  "ano": 2026,
+  "titulo": "Amamentar: um guia para os primeiros 30 dias",
+  "desc": "Material ilustrado para entrega na alta hospitalar, validado com 40 puérperas da rede.",
+  "url": "https://amamos.lapinf.ufn.edu.br/",
+  "capa": "produtos/capa-1.svg"
+ },
+ {
+  "tipo": "Guia",
+  "ano": 2026,
+  "titulo": "Linha de cuidado da gestante de alto risco",
+  "desc": "Fluxo completo de encaminhamento entre APS, ambulatório e maternidade de referência.",
+  "url": "https://bvsms.saude.gov.br/bvs/publicacoes/manual_tecnico_gestacao_alto_risco.pdf",
+  "capa": "produtos/capa-2.svg"
+ },
+ {
+  "tipo": "Podcast",
+  "ano": 2026,
+  "titulo": "Maternar em Rede — temporada 2",
+  "desc": "Oito episódios com profissionais da rede sobre humanização do parto e puerpério.",
+  "url": "https://www.apoiare.lapinf.ufn.edu.br/",
+  "capa": "produtos/capa-3.svg"
+ },
+ {
+  "tipo": "Manual",
+  "ano": 2025,
+  "titulo": "Manual de simulação em emergências obstétricas",
+  "desc": "Roteiros de cenário, checklists de debriefing e escalas de avaliação de equipe.",
+  "url": "https://www.portalcoren-rs.gov.br/docs/ProtocolosEnfermagem/",
+  "capa": "produtos/capa-4.svg"
+ },
+ {
+  "tipo": "Vídeo",
+  "ano": 2025,
+  "titulo": "Série: os 60 primeiros segundos do RN",
+  "desc": "Cinco vídeos curtos gravados em sala de parto para treinamento em serviço.",
+  "url": "https://www.youtube.com/results?search_query=reanima%C3%A7%C3%A3o+neonatal+minuto+de+ouro",
+  "capa": "produtos/capa-5.svg"
+ },
+ {
+  "tipo": "Relatório",
+  "ano": 2025,
+  "titulo": "Panorama materno-infantil de Santa Maria",
+  "desc": "Indicadores municipais de mortalidade, pré-natal e prematuridade com série histórica.",
+  "url": "https://datasus.saude.gov.br/",
+  "capa": "produtos/capa-6.svg"
+ }
+]

@@ -1,0 +1,50 @@
+[
+ {
+  "ini": "CS",
+  "nome": "Camila Souza",
+  "email": "camila.souza@maternarsm.com.br",
+  "unidade": "Centro Obstétrico",
+  "perfil": "Profissional",
+  "situacao": "Ativa"
+ },
+ {
+  "ini": "JL",
+  "nome": "João Pedro Lima",
+  "email": "joao.lima@maternarsm.com.br",
+  "unidade": "Neonatologia",
+  "perfil": "Profissional",
+  "situacao": "Ativo"
+ },
+ {
+  "ini": "MR",
+  "nome": "Maria Aparecida Rocha",
+  "email": "maria.rocha@maternarsm.com.br",
+  "unidade": "Maternidade",
+  "perfil": "Gestor",
+  "situacao": "Ativa"
+ },
+ {
+  "ini": "DA",
+  "nome": "Denise Antunes",
+  "email": "denise.antunes@ufn.edu.br",
+  "unidade": "PPGSMI — UFN",
+  "perfil": "Gestor",
+  "situacao": "Ativa"
+ },
+ {
+  "ini": "RN",
+  "nome": "Rafael Nunes",
+  "email": "rafael.nunes@maternarsm.com.br",
+  "unidade": "Plantão noturno",
+  "perfil": "Profissional",
+  "situacao": "Pendente"
+ },
+ {
+  "ini": "KE",
+  "nome": "Kalleby Evangelho",
+  "email": "kalleby@maternarsm.com.br",
+  "unidade": "PPGSMI — UFN",
+  "perfil": "Administrador",
+  "situacao": "Ativo"
+ }
+]

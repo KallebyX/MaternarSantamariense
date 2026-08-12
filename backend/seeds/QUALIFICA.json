@@ -1,0 +1,267 @@
+[
+ {
+  "id": 1,
+  "t": "Pré-natal e Saúde da Gestante",
+  "d": "Fundamentos do cuidado pré-natal, protocolos de atendimento e acompanhamento integral da gestante.",
+  "aulas": 12,
+  "dur": "15h",
+  "nivel": "Intermediário",
+  "prog": 65,
+  "cor": "#D42E5B",
+  "rec": [
+   [
+    "Guia do Pré-Natal RS 2024",
+    "PDF",
+    "https://atencaoprimaria.rs.gov.br/upload/arquivos/202404/25124004-guia-do-pre-natal-2024.pdf",
+    "Secretaria Estadual de Saúde do RS"
+   ],
+   [
+    "Guia do Pré-Natal para Profissionais",
+    "PDF",
+    "https://bvsms.saude.gov.br/bvs/publicacoes/guia_pre_natal_profissionais_saude_1ed.pdf",
+    "Ministério da Saúde"
+   ],
+   [
+    "Cuidado Materno UNEB",
+    "Site",
+    "https://cuidadomaternouneb.com",
+    "UNEB"
+   ],
+   [
+    "Fluxograma Pré-natal",
+    "PDF",
+    "https://pergamum.ufn.edu.br/pergamumweb/vinculos/0000c5/0000c5fe.pdf",
+    "Universidade Franciscana"
+   ]
+  ]
+ },
+ {
+  "id": 2,
+  "t": "Puerpério, Saúde Mental e Rede de Apoio",
+  "d": "Cuidado integral no pós-parto, mudanças emocionais e construção de redes de suporte.",
+  "aulas": 10,
+  "dur": "12h",
+  "nivel": "Intermediário",
+  "prog": 30,
+  "cor": "#1E4A7A",
+  "rec": [
+   [
+    "Plataforma APOIARE",
+    "Plataforma",
+    "https://www.apoiare.lapinf.ufn.edu.br/",
+    "UFN / LAPINF"
+   ],
+   [
+    "Tecnologias em Saúde — Puerpério",
+    "PDF",
+    "https://www.ufn.edu.br/Arquivos/vue/Portfolio/a53420f0-c96d-46e6-b42c-b62983720685.pdf",
+    "Universidade Franciscana"
+   ],
+   [
+    "Portfólio de Cuidados no Puerpério",
+    "PDF",
+    "https://www.ufn.edu.br/Arquivos/vue/Portfolio/a42d5374-983f-4131-b7f0-6d209cbcac6f.pdf",
+    "Universidade Franciscana"
+   ]
+  ]
+ },
+ {
+  "id": 3,
+  "t": "Aleitamento Materno e Alimentação",
+  "d": "Manejo da amamentação, técnicas e introdução alimentar saudável.",
+  "aulas": 8,
+  "dur": "10h",
+  "nivel": "Introdutório",
+  "prog": 100,
+  "cor": "#7AB844",
+  "rec": [
+   [
+    "Plataforma AMAMOS",
+    "Plataforma",
+    "https://amamos.lapinf.ufn.edu.br/buscar/categoria",
+    "UFN / LAPINF"
+   ],
+   [
+    "Guia Dez Passos para Alimentação Saudável",
+    "PDF",
+    "https://bvsms.saude.gov.br/bvs/publicacoes/guia_dez_passos_alimentacao_saudavel_2ed.pdf",
+    "Ministério da Saúde"
+   ]
+  ]
+ },
+ {
+  "id": 4,
+  "t": "Atenção ao Bebê: Primeiros Cuidados",
+  "d": "Cuidados essenciais, urgências pediátricas e desenvolvimento infantil.",
+  "aulas": 15,
+  "dur": "18h",
+  "nivel": "Avançado",
+  "prog": null,
+  "locked": true,
+  "cor": "#153A62",
+  "rec": [
+   [
+    "Primeiros Socorros em Bebês",
+    "Vídeo",
+    "https://www.youtube.com/watch?v=PzqnC0paEA8",
+    "YouTube Educacional"
+   ],
+   [
+    "Cuidados com Recém-nascidos",
+    "Vídeo",
+    "https://www.youtube.com/watch?v=Mr48F49Uqso",
+    "YouTube Educacional"
+   ],
+   [
+    "App SOS Kids",
+    "App",
+    "https://play.google.com/store/apps/details?id=com.ufn.soskids",
+    "UFN"
+   ]
+  ]
+ },
+ {
+  "id": 5,
+  "t": "Saúde Bucal",
+  "d": "Cuidados odontológicos da gestante e do bebê.",
+  "aulas": 6,
+  "dur": "8h",
+  "nivel": "Introdutório",
+  "prog": 0,
+  "cor": "#8A5A12",
+  "rec": [
+   [
+    "Cartilha Saúde Bucal da Gestante",
+    "PDF",
+    "https://www.gov.br/saude/pt-br/centrais-de-conteudo/publicacoes/cartilhas/2022/cartilha-a-saude-bucal-da-gestante.pdf",
+    "Ministério da Saúde"
+   ],
+   [
+    "Material sobre Saúde Bucal",
+    "PDF",
+    "https://pergamum.ufn.edu.br/pergamumweb/vinculos/0000c6/0000c608.pdf",
+    "Universidade Franciscana"
+   ]
+  ]
+ },
+ {
+  "id": 6,
+  "t": "Protocolos e Cadernos Técnicos",
+  "d": "Documentos oficiais, diretrizes e protocolos de atendimento atualizados.",
+  "aulas": 20,
+  "dur": "25h",
+  "nivel": "Avançado",
+  "prog": 10,
+  "cor": "#1E4A7A",
+  "rec": [
+   [
+    "Protocolos de Enfermagem COREN-RS",
+    "Site",
+    "https://www.portalcoren-rs.gov.br/docs/ProtocolosEnfermagem/",
+    "COREN-RS"
+   ],
+   [
+    "Cadernos de Atenção Básica",
+    "Site",
+    "https://bvsms.saude.gov.br/bvs/publicacoes/",
+    "Ministério da Saúde"
+   ]
+  ]
+ },
+ {
+  "id": 7,
+  "t": "Aplicativos e Plataformas Digitais",
+  "d": "Ferramentas tecnológicas de apoio ao cuidado materno-infantil.",
+  "aulas": 5,
+  "dur": "6h",
+  "nivel": "Introdutório",
+  "prog": 0,
+  "cor": "#D42E5B",
+  "rec": [
+   [
+    "App Fortalece",
+    "App",
+    "https://play.google.com/store/apps/details?id=io.kodular.miguelmachado0007.fortalece",
+    "Acompanhamento da gestação"
+   ],
+   [
+    "App SOS Kids",
+    "App",
+    "https://play.google.com/store/apps/details?id=com.ufn.soskids",
+    "UFN · urgências pediátricas"
+   ],
+   [
+    "Plataforma AMAMOS",
+    "Plataforma",
+    "https://amamos.lapinf.ufn.edu.br/",
+    "UFN / LAPINF"
+   ],
+   [
+    "Plataforma APOIARE",
+    "Plataforma",
+    "https://www.apoiare.lapinf.ufn.edu.br/",
+    "UFN / LAPINF"
+   ]
+  ]
+ },
+ {
+  "id": 8,
+  "t": "Materiais Audiovisuais Educativos",
+  "d": "Vídeos, podcasts e recursos multimídia para educação em saúde.",
+  "aulas": 12,
+  "dur": "8h",
+  "nivel": "Introdutório",
+  "prog": 45,
+  "cor": "#7AB844",
+  "rec": [
+   [
+    "Álbum — Maternidade Santa Maria",
+    "Site",
+    "https://www.flickr.com/photos/prefeituradesantamaria/52890420023/in/album-72177720307320784/",
+    "Prefeitura de Santa Maria"
+   ],
+   [
+    "Curso Introdutório Online",
+    "Site",
+    "https://sites.google.com/view/cursointrodutoriosm/",
+    "Secretaria Municipal de Saúde SM"
+   ],
+   [
+    "Conteúdo Pediátrico",
+    "Site",
+    "https://pediatraluisapinheiro.com.br/",
+    "Dra. Luisa Pinheiro"
+   ]
+  ]
+ },
+ {
+  "id": 9,
+  "t": "Publicações Científicas",
+  "d": "Artigos, pesquisas e evidências atualizadas em saúde materno-infantil.",
+  "aulas": 10,
+  "dur": "15h",
+  "nivel": "Avançado",
+  "prog": 0,
+  "cor": "#8A5A12",
+  "rec": [
+   [
+    "Produção Científica UFN — 1",
+    "PDF",
+    "https://pergamum.ufn.edu.br/pergamumweb/vinculos/0000c5/0000c57a.pdf",
+    "Universidade Franciscana"
+   ],
+   [
+    "Produção Científica UFN — 2",
+    "PDF",
+    "https://pergamum.ufn.edu.br/pergamumweb/vinculos/0000c5/0000c5fe.pdf",
+    "Universidade Franciscana"
+   ],
+   [
+    "Produção Científica UFN — 3",
+    "PDF",
+    "https://pergamum.ufn.edu.br/pergamumweb/vinculos/0000bf/0000bfec.pdf",
+    "Universidade Franciscana"
+   ]
+  ]
+ }
+]

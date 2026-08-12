@@ -1,0 +1,62 @@
+[
+ {
+  "t": "e-SUS APS",
+  "url": "https://sisaps.saude.gov.br/esus/",
+  "cat": "Sistemas",
+  "desc": "Prontuário eletrônico e registro das ações da atenção primária."
+ },
+ {
+  "t": "CNES",
+  "url": "https://cnes.datasus.gov.br/",
+  "cat": "Sistemas",
+  "desc": "Cadastro Nacional de Estabelecimentos de Saúde."
+ },
+ {
+  "t": "SISPRENATAL",
+  "url": "https://datasus.saude.gov.br/",
+  "cat": "Sistemas",
+  "desc": "Acompanhamento das gestantes cadastradas no pré-natal do SUS."
+ },
+ {
+  "t": "Portal interno Maternar",
+  "url": "#portal",
+  "cat": "Sistemas",
+  "desc": "Intranet da rede com comunicados, escalas e ramais das unidades."
+ },
+ {
+  "t": "AVASUS",
+  "url": "https://avasus.ufrn.br/",
+  "cat": "Treinamentos",
+  "desc": "Cursos gratuitos do SUS com certificação nacional reconhecida."
+ },
+ {
+  "t": "Biblioteca Virtual em Saúde",
+  "url": "https://bvsms.saude.gov.br/",
+  "cat": "Treinamentos",
+  "desc": "Diretrizes clínicas, cadernos e manuais do Ministério da Saúde."
+ },
+ {
+  "t": "TelessaúdeRS — UFRGS",
+  "url": "https://www.ufrgs.br/telessauders/",
+  "cat": "Suporte",
+  "desc": "Teleconsultoria para dúvidas clínicas em tempo real (0800 644 6543)."
+ },
+ {
+  "t": "Suporte técnico da plataforma",
+  "url": "#suporte",
+  "cat": "Suporte",
+  "desc": "Abertura de chamados para problemas de acesso e cadastro."
+ },
+ {
+  "t": "Saúde da Mulher — Ministério da Saúde",
+  "url": "https://www.gov.br/saude/",
+  "cat": "Externos",
+  "desc": "Políticas e campanhas nacionais de saúde materno-infantil."
+ },
+ {
+  "t": "Rede Cegonha — normativas",
+  "url": "https://www.gov.br/saude/",
+  "cat": "Externos",
+  "desc": "Portarias e diretrizes da rede de atenção materno-infantil."
+ }
+]

@@ -1,0 +1,66 @@
+[
+ {
+  "id": "MSM-101",
+  "titulo": "Consolidar indicadores do 1º semestre",
+  "prio": "Alta",
+  "resp": "MR",
+  "prazo": "Vence em 2 dias",
+  "col": 0
+ },
+ {
+  "id": "MSM-104",
+  "titulo": "Revisar cartilha de alta responsável",
+  "prio": "Média",
+  "resp": "AF",
+  "prazo": "Vence em 9 dias",
+  "col": 0
+ },
+ {
+  "id": "MSM-097",
+  "titulo": "Treinar equipe noturna no código vermelho",
+  "prio": "Urgente",
+  "resp": "JP",
+  "prazo": "Vence amanhã",
+  "col": 1
+ },
+ {
+  "id": "MSM-092",
+  "titulo": "Auditoria de prontuários — junho",
+  "prio": "Média",
+  "resp": "MR",
+  "prazo": "Vence em 5 dias",
+  "col": 1
+ },
+ {
+  "id": "MSM-088",
+  "titulo": "Atualizar POP de triagem neonatal",
+  "prio": "Alta",
+  "resp": "CS",
+  "prazo": "Em revisão da CCIH",
+  "col": 2
+ },
+ {
+  "id": "MSM-085",
+  "titulo": "Painel de mortalidade neonatal",
+  "prio": "Baixa",
+  "resp": "KE",
+  "prazo": "Aguarda validação",
+  "col": 2
+ },
+ {
+  "id": "MSM-079",
+  "titulo": "Campanha Julho do aleitamento",
+  "prio": "Média",
+  "resp": "AF",
+  "prazo": "Entregue em 14/07",
+  "col": 3
+ },
+ {
+  "id": "MSM-071",
+  "titulo": "Migração dos certificados 2025",
+  "prio": "Baixa",
+  "resp": "KE",
+  "prazo": "Entregue em 02/07",
+  "col": 3
+ }
+]

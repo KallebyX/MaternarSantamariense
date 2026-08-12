@@ -1,0 +1,18 @@
+services:
+  maternar:
+    build:
+      context: .
+      dockerfile: backend/Dockerfile
+    container_name: maternar
+    restart: unless-stopped
+    # Em VM privada (acesso via VPN): publica só no localhost e deixa o nginx expor
+    ports:
+      - "127.0.0.1:3000:3000"
+    environment:
+      - JWT_SECRET=${JWT_SECRET:?defina JWT_SECRET no .env ou no ambiente}
+      - JWT_EXPIRA=12h
+    volumes:
+      - maternar-dados:/app/backend/data
+
+volumes:
+  maternar-dados:

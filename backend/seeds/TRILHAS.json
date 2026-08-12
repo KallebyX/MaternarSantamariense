@@ -1,0 +1,35 @@
+[
+ {
+  "id": 1,
+  "n": "Trilha Gestação",
+  "d": "Fundamentos do cuidado pré-natal",
+  "mods": [
+   1,
+   5
+  ],
+  "h": 40,
+  "cor": "#D42E5B"
+ },
+ {
+  "id": 2,
+  "n": "Trilha Parto-Nascimento",
+  "d": "Assistência ao parto e primeiros cuidados",
+  "mods": [
+   4,
+   3
+  ],
+  "h": 30,
+  "cor": "#1E4A7A"
+ },
+ {
+  "id": 3,
+  "n": "Trilha Pós-Parto",
+  "d": "Cuidado integral no pós-parto",
+  "mods": [
+   2,
+   3
+  ],
+  "h": 35,
+  "cor": "#3F6B21"
+ }
+]

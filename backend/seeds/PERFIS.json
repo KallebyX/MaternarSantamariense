@@ -1,0 +1,41 @@
+{
+ "ENFERMEIRA": {
+  "nome": "Ana Beatriz Ferraz",
+  "curto": "Profissional de saúde",
+  "cargo": "Enfermeira Obstétrica",
+  "iniciais": "AF",
+  "email": "ana.ferraz@maternarsm.com.br",
+  "unidade": "Centro Obstétrico — HUSM",
+  "perfil": "Profissional",
+  "xp": 3240,
+  "streak": 12,
+  "coren": "COREN-RS 284.117",
+  "admissao": "Março de 2021"
+ },
+ "COORDENADORA": {
+  "nome": "Maria Aparecida Rocha",
+  "curto": "Gestor",
+  "cargo": "Coordenadora de Enfermagem",
+  "iniciais": "MR",
+  "email": "maria.rocha@maternarsm.com.br",
+  "unidade": "Maternidade — Rede Municipal",
+  "perfil": "Gestor",
+  "xp": 6980,
+  "streak": 34,
+  "coren": "COREN-RS 118.902",
+  "admissao": "Agosto de 2016"
+ },
+ "ADMIN": {
+  "nome": "Kalleby Evangelho",
+  "curto": "Admin",
+  "cargo": "Administrador da plataforma",
+  "iniciais": "KE",
+  "email": "kalleby@maternarsm.com.br",
+  "unidade": "PPGSMI — Universidade Franciscana",
+  "perfil": "Administrador",
+  "xp": 9410,
+  "streak": 51,
+  "coren": "—",
+  "admissao": "Janeiro de 2025"
+ }
+}

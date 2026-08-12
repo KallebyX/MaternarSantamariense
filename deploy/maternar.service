@@ -1,0 +1,29 @@
+# /etc/systemd/system/maternar.service — deploy sem Docker
+[Unit]
+Description=Maternar Santa-mariense — API e frontend
+After=network.target
+
+[Service]
+Type=simple
+User=maternar
+Group=maternar
+WorkingDirectory=/opt/maternar/backend
+Environment=NODE_ENV=production
+Environment=PORT=3000
+Environment=HOST=127.0.0.1
+Environment=STATIC_DIR=/opt/maternar
+Environment=DB_PATH=/opt/maternar/backend/data/maternar.db
+# JWT_SECRET fica em arquivo fora do git:
+EnvironmentFile=/etc/maternar/env
+ExecStart=/usr/bin/node src/server.js
+Restart=on-failure
+RestartSec=3
+# Hardening básico
+NoNewPrivileges=true
+ProtectSystem=strict
+ReadWritePaths=/opt/maternar/backend/data
+ProtectHome=true
+PrivateTmp=true
+
+[Install]
+WantedBy=multi-user.target

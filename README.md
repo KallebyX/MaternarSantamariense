@@ -3,6 +3,17 @@
 Plataforma de educação permanente e comunicação da rede materno-infantil de Santa Maria.
 Desenvolvida pela UFN / PPGSMI em parceria com o NEPES — Prefeitura de Santa Maria.
 
+## Backend (API + banco local)
+
+O diretório `backend/` traz a API REST (Express) com banco **SQLite** local,
+servindo também o frontend e o acervo — pronto para deploy em VM na rede da
+VPN. Veja **[DEPLOY.md](DEPLOY.md)** para as opções (script automatizado,
+Docker Compose ou manual) e o mapa completo de endpoints.
+
+```bash
+cd backend && npm install && npm start   # http://127.0.0.1:3000
+```
+
 ## Conteúdo
 
 - `index.html` — versão standalone (tudo embutido: JS, logos). Abre direto no navegador e funciona no GitHub Pages.

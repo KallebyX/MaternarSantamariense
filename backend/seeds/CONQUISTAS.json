@@ -1,0 +1,50 @@
+[
+ {
+  "nome": "Primeira aula",
+  "desc": "Concluiu a primeira aula na plataforma.",
+  "cor": "#7AB844",
+  "n": 1
+ },
+ {
+  "nome": "Protocolo em dia",
+  "desc": "Leu todos os protocolos do trimestre.",
+  "cor": "#1E4A7A",
+  "n": 2
+ },
+ {
+  "nome": "Plantão dedicado",
+  "desc": "Sete dias seguidos de acesso.",
+  "cor": "#D42E5B",
+  "n": 3
+ },
+ {
+  "nome": "Mentora",
+  "desc": "Respondeu 25 dúvidas da equipe no chat.",
+  "cor": "#B4771F",
+  "n": 5
+ },
+ {
+  "nome": "Trilha completa",
+  "desc": "Finalizou uma trilha de capacitação inteira.",
+  "cor": "#1E4A7A",
+  "n": 8
+ },
+ {
+  "nome": "Referência clínica",
+  "desc": "Certificada em três cursos avançados.",
+  "cor": "#7AB844",
+  "n": 11
+ },
+ {
+  "nome": "Rede ativa",
+  "desc": "Participou de 10 eventos da agenda.",
+  "cor": "#D42E5B",
+  "n": 14
+ },
+ {
+  "nome": "Excelência",
+  "desc": "Alcançou o nível 15 da plataforma.",
+  "cor": "#153A62",
+  "n": 15
+ }
+]
