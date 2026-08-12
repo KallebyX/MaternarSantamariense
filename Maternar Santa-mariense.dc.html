@@ -1611,7 +1611,7 @@ const CONQUISTAS = [
 ];
 
 const IDB = {
-  open: () => new Promise((res, rej) => { const r = indexedDB.open('maternar_db', 1); r.onupgradeneeded = () => r.result.createObjectStore('kv'); r.onsuccess = () => res(r.result); r.onerror = () => rej(r.error); }),
+  open: () => new Promise((res, rej) => { const r = indexedDB.open('maternar_db_v2', 1); r.onupgradeneeded = () => r.result.createObjectStore('kv'); r.onsuccess = () => res(r.result); r.onerror = () => rej(r.error); }),
   get: async k => { try { const db = await IDB.open(); return await new Promise((res, rej) => { const t = db.transaction('kv').objectStore('kv').get(k); t.onsuccess = () => res(t.result); t.onerror = () => rej(t.error); }); } catch (e) { return null; } },
   set: async (k, v) => { try { const db = await IDB.open(); await new Promise((res, rej) => { const t = db.transaction('kv', 'readwrite'); t.objectStore('kv').put(v, k); t.oncomplete = res; t.onerror = () => rej(t.error); }); } catch (e) {} }
 };
@@ -2136,7 +2136,7 @@ class Component extends DCLogic {
   componentDidMount() {
     this._r = () => this.setState({ w: window.innerWidth });
     window.addEventListener('resize', this._r);
-    try { this._aplicar(JSON.parse(localStorage.getItem('maternar_db_v1') || 'null')); } catch (e) {}
+    try { this._aplicar(JSON.parse(localStorage.getItem('maternar_db_v2') || 'null')); } catch (e) {}
     IDB.get('snapshot').then(d => { if (d) this._aplicar(d); });
   }
   _aplicar(d) {
@@ -2180,7 +2180,7 @@ class Component extends DCLogic {
         perfilOverrides: s.perfilOverrides, cfg: s.cfg, quizFeitos: s.quizFeitos, projetosPesq: s.projetosPesq, prodStats: s.prodStats,
         sessao: { authed: s.authed, role: s.role, email: s.email }
       };
-      localStorage.setItem('maternar_db_v1', JSON.stringify(snap));
+      localStorage.setItem('maternar_db_v2', JSON.stringify(snap));
       IDB.set('snapshot', snap);
     } catch (e) {}
   };
@@ -2339,7 +2339,7 @@ class Component extends DCLogic {
   };
   backupBanco = () => {
     try {
-      const blob = new Blob([localStorage.getItem('maternar_db_v1') || '{}'], { type: 'application/json' });
+      const blob = new Blob([localStorage.getItem('maternar_db_v2') || '{}'], { type: 'application/json' });
       const a = document.createElement('a');
       a.href = URL.createObjectURL(blob);
       a.download = 'maternar-backup-2026-07-29.json';
