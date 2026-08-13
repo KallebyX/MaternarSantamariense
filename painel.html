@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Painel de gestão — Maternar Santa-mariense</title>
+<meta name="robots" content="noindex">
+<link rel="icon" href="logo_maternar_icon.png">
+<style>
+  :root{
+    --azul:#153A62; --azul-medio:#1E4A7A; --rosa:#D42E5B; --fundo:#F1F5FA;
+    --branco:#fff; --borda:#D8E3EE; --texto:#153A62; --texto-suave:#5A7286;
+    --texto-fraco:#93A9B9; --ok:#1D6A42; --alerta:#A31842;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--fundo);color:var(--texto);
+    font-family:Inter,-apple-system,BlinkMacSystemFont,'Segoe UI',system-ui,sans-serif;
+    -webkit-font-smoothing:antialiased;font-size:14px;line-height:1.5}
+  a{color:var(--azul-medio);text-decoration:none}
+  a:hover{color:var(--rosa)}
+  h1,h2,h3{margin:0;letter-spacing:-.02em}
+  .mono{font-family:'IBM Plex Mono',ui-monospace,SFMono-Regular,Menlo,monospace;
+    font-size:11px;letter-spacing:.12em;text-transform:uppercase}
+  .oculto{display:none !important}
+
+  /* ---------------------------------------------------------------- login */
+  #tela-login{min-height:100vh;display:grid;place-items:center;padding:24px}
+  #tela-login .caixa{width:100%;max-width:400px;background:var(--branco);
+    border:1px solid var(--borda);border-radius:18px;padding:32px;
+    box-shadow:0 12px 34px rgba(21,58,98,.12)}
+
+  /* ----------------------------------------------------------- estrutura */
+  #app{display:grid;grid-template-columns:250px 1fr;min-height:100vh}
+  aside{background:var(--azul);color:#DCE6F0;padding:20px 0;display:flex;
+    flex-direction:column;gap:4px;position:sticky;top:0;height:100vh;overflow-y:auto}
+  aside .topo{padding:0 20px 18px;display:flex;align-items:center;gap:12px}
+  aside .grupo{padding:16px 20px 6px;color:#7794B3}
+  aside button{display:flex;width:100%;align-items:center;gap:9px;background:none;
+    border:0;color:#C6D5E4;font:inherit;text-align:left;padding:8px 20px;cursor:pointer}
+  aside button:hover{background:#1D4470;color:#fff}
+  aside button.ativo{background:#245081;color:#fff;box-shadow:inset 3px 0 0 var(--rosa)}
+  aside .rodape{margin-top:auto;padding:16px 20px 0;border-top:1px solid #2C557F;font-size:12px;color:#8FA6BF}
+
+  main{min-width:0;padding:26px 30px 60px}
+  .cabecalho{display:flex;gap:16px;align-items:flex-start;flex-wrap:wrap;margin-bottom:22px}
+  .cabecalho h2{font-size:23px;font-weight:600}
+  .cabecalho p{margin:5px 0 0;color:var(--texto-suave);max-width:70ch}
+  .cabecalho .acoes{margin-left:auto;display:flex;gap:9px;flex-wrap:wrap}
+
+  /* -------------------------------------------------------------- blocos */
+  .cartao{background:var(--branco);border:1px solid var(--borda);border-radius:14px;padding:18px}
+  .grade{display:grid;gap:14px;grid-template-columns:repeat(auto-fit,minmax(190px,1fr))}
+  .indicador span{display:block;font-size:27px;font-weight:600;line-height:1.2}
+  .indicador small{color:var(--texto-fraco);font-size:12px}
+
+  .btn{display:inline-flex;align-items:center;justify-content:center;gap:7px;border:0;
+    border-radius:9px;padding:9px 15px;font-size:13.5px;font-weight:600;cursor:pointer;
+    font-family:inherit}
+  .btn-primario{background:var(--rosa);color:#fff}
+  .btn-escuro{background:var(--azul);color:#fff}
+  .btn-linha{background:#F7FAFD;color:var(--azul-medio);border:1px solid #CFDDEA}
+  .btn-perigo{background:#FDECF1;color:var(--alerta);border:1px solid #F6C9D7}
+  .btn-mini{padding:5px 10px;font-size:12.5px;border-radius:7px}
+  .btn:hover{filter:brightness(1.05)}
+  .btn[disabled]{opacity:.55;cursor:not-allowed;filter:none}
+
+  /* min-width:max-content faz a tabela rolar na horizontal em vez de espremer
+     as colunas quando há muitos campos — cada linha fica em uma só altura. */
+  /* sem overflow:hidden aqui — ele quebraria o position:sticky da coluna de ações */
+  table{width:100%;min-width:max-content;border-collapse:collapse;background:var(--branco);
+    border:1px solid var(--borda);border-radius:14px}
+  .rolagem{overflow-x:auto;border-radius:14px}
+  th,td{text-align:left;padding:10px 12px;border-bottom:1px solid #EBF1F7;vertical-align:middle}
+  th{background:#F7FAFD;font-size:12px;text-transform:uppercase;letter-spacing:.06em;
+    color:var(--texto-suave);font-weight:600;white-space:nowrap}
+  tbody tr:last-child td{border-bottom:0}
+  tbody tr:hover{background:#FAFCFE}
+  /* A coluna de ações fica fixa à direita: a tabela rola, os botões continuam à vista. */
+  td.acoes,th.acoes{white-space:nowrap;text-align:right;position:sticky;right:0;
+    background:var(--branco);box-shadow:-7px 0 9px -7px rgba(21,58,98,.22)}
+  th.acoes{background:#F7FAFD}
+  tbody tr:hover td.acoes{background:#FAFCFE}
+  td .celula{display:block;max-width:380px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+
+  .etiqueta{display:inline-block;padding:3px 9px;border-radius:999px;font-size:11.5px;
+    font-weight:600;background:#EDF3FA;color:var(--azul-medio);white-space:nowrap}
+  .etiqueta.verde{background:#EAF6EF;color:var(--ok)}
+  .etiqueta.vermelha{background:#FDECF1;color:var(--alerta)}
+  .etiqueta.cinza{background:#F0F4F8;color:var(--texto-fraco)}
+
+  .filtros{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:14px;align-items:center}
+  label{display:block;font-size:12px;font-weight:600;color:#41576D;margin-bottom:5px}
+  input,select,textarea{width:100%;padding:9px 11px;border:1px solid #CFDDEA;border-radius:9px;
+    font-size:13.5px;font-family:inherit;color:var(--texto);background:#fff}
+  textarea{min-height:78px;resize:vertical}
+  input[type=checkbox]{width:auto}
+  input[type=color]{padding:3px;height:38px}
+  input:focus,select:focus,textarea:focus{outline:2px solid #BBD2E8;outline-offset:1px}
+  .filtros input,.filtros select{width:auto;min-width:190px}
+
+  dialog{border:0;border-radius:16px;padding:0;max-width:640px;width:calc(100% - 32px);
+    box-shadow:0 24px 60px rgba(9,26,45,.32)}
+  dialog::backdrop{background:rgba(18,33,46,.5)}
+  dialog .corpo{padding:24px}
+  dialog h3{font-size:19px;font-weight:600;margin-bottom:4px}
+  dialog .campos{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));margin-top:18px}
+  dialog .campos .largo{grid-column:1/-1}
+  dialog .pe{display:flex;gap:10px;justify-content:flex-end;margin-top:22px;flex-wrap:wrap}
+
+  .aviso{margin:12px 0;padding:10px 13px;border-radius:10px;font-size:13.5px}
+  .aviso.erro{background:#FDECF1;color:var(--alerta);border:1px solid #F6C9D7}
+  .aviso.ok{background:#EAF6EF;color:var(--ok);border:1px solid #C3E4D2}
+  .aviso.info{background:#EDF3FA;color:var(--azul-medio);border:1px solid #CFDDEA}
+  #recado{position:fixed;right:20px;bottom:20px;z-index:90;max-width:390px}
+  .vazio{padding:26px;text-align:center;color:var(--texto-fraco);background:var(--branco);
+    border:1px dashed var(--borda);border-radius:14px}
+  .senha-gerada{font-family:'IBM Plex Mono',ui-monospace,monospace;font-size:16px;
+    background:#F7FAFD;border:1px dashed #CFDDEA;border-radius:9px;padding:9px 12px;
+    display:inline-block;margin-top:6px;user-select:all}
+  .anexo{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-top:6px}
+  .anexo select,.anexo input[type=file]{flex:1;min-width:150px;width:auto}
+
+  @media (max-width:900px){
+    #app{grid-template-columns:1fr}
+    aside{position:static;height:auto}
+    main{padding:20px 16px 50px}
+  }
+</style>
+</head>
+<body>
+
+<!-- ------------------------------------------------------------------ login -->
+<div id="tela-login">
+  <div class="caixa">
+    <img src="logo_materno.png" alt="Saúde Materno-Infantil — PPGSMI" style="height:64px;display:block;margin:0 auto 22px">
+    <h1 style="font-size:21px;font-weight:600;text-align:center">Painel de gestão</h1>
+    <p style="color:var(--texto-suave);text-align:center;margin:6px 0 20px">
+      Acesso restrito à coordenação (Gestor e Administrador).</p>
+    <form id="form-login">
+      <label for="email">E-mail institucional</label>
+      <input id="email" name="email" type="email" required autocomplete="username">
+      <div style="height:12px"></div>
+      <label for="senha">Senha</label>
+      <input id="senha" name="senha" type="password" required autocomplete="current-password">
+      <button class="btn btn-escuro" type="submit" style="width:100%;margin-top:18px">Entrar</button>
+    </form>
+    <div id="aviso-login"></div>
+    <p style="text-align:center;margin:18px 0 0"><a href="index.html">← Voltar para a página inicial</a></p>
+  </div>
+</div>
+
+<!-- ------------------------------------------------------------------ painel -->
+<div id="app" class="oculto">
+  <aside>
+    <div class="topo">
+      <img src="logo_maternar_icon.png" alt="" style="height:34px">
+      <div>
+        <div style="font-weight:600;color:#fff">Maternar</div>
+        <div class="mono" style="color:#7794B3">Painel de gestão</div>
+      </div>
+    </div>
+    <nav id="menu"></nav>
+    <div class="rodape">
+      <div id="quem-sou" style="color:#DCE6F0;font-weight:600"></div>
+      <div id="perfil-sou" style="margin-bottom:10px"></div>
+      <a href="app.html" style="color:#A9C3DC;display:block">Ir para a plataforma</a>
+      <a href="index.html" style="color:#A9C3DC;display:block">Página inicial</a>
+      <button id="sair" class="btn btn-mini btn-linha" style="margin-top:10px;width:auto">Sair</button>
+    </div>
+  </aside>
+
+  <main>
+    <div id="banner-senha" class="aviso info oculto">
+      Você está com uma <strong>senha provisória</strong>. Defina uma senha própria em
+      <a href="#" data-ir="perfil">Meu perfil</a>.
+    </div>
+    <div class="cabecalho">
+      <div>
+        <div class="mono" id="secao-grupo" style="color:var(--rosa)"></div>
+        <h2 id="secao-titulo">Visão geral</h2>
+        <p id="secao-descricao"></p>
+      </div>
+      <div class="acoes" id="secao-acoes"></div>
+    </div>
+    <div id="conteudo"></div>
+  </main>
+</div>
+
+<div id="recado"></div>
+
+<dialog id="modal">
+  <form class="corpo" id="form-modal">
+    <div class="mono" id="modal-grupo" style="color:var(--rosa)"></div>
+    <h3 id="modal-titulo">Registro</h3>
+    <p id="modal-descricao" style="color:var(--texto-suave);margin:4px 0 0"></p>
+    <div class="campos" id="modal-campos"></div>
+    <div id="modal-aviso"></div>
+    <div class="pe">
+      <button type="button" class="btn btn-linha" id="modal-cancelar">Cancelar</button>
+      <button type="submit" class="btn btn-primario" id="modal-salvar">Salvar</button>
+    </div>
+  </form>
+</dialog>
+
+<script src="painel.js"></script>
+</body>
+</html>

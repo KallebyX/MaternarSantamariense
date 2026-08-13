@@ -89,11 +89,16 @@ conteudoRouter.post('/documentos', autenticar, exigirPapel('Gestor', 'Administra
   const falta = exigir(req.body, ['titulo']);
   if (falta) return erro(res, 400, falta);
   const id = 'd' + Date.now().toString(36);
-  db.prepare(`INSERT INTO documentos (id, titulo, tipo, categoria, setor, autor, status, tags, descricao, atualizado)
-    VALUES (?, ?, ?, ?, ?, ?, 'Em revisão', ?, ?, date('now'))`)
+  const status = ['Aprovado', 'Em revisão', 'Vencido'].includes(req.body.status) ? req.body.status : 'Em revisão';
+  db.prepare(`INSERT INTO documentos
+      (id, titulo, tipo, categoria, setor, autor, status, versao, expira, tamanho, tags, descricao, url, atualizado)
+    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`)
     .run(id, req.body.titulo.trim(), String(req.body.tipo || 'Documento'), String(req.body.categoria || ''),
-      String(req.body.setor || ''), req.usuario.nome,
-      JSON.stringify(Array.isArray(req.body.tags) ? req.body.tags : []), String(req.body.descricao || ''));
+      String(req.body.setor || ''), String(req.body.autor || req.usuario.nome), status,
+      String(req.body.versao || ''), String(req.body.expira || ''), String(req.body.tamanho || ''),
+      JSON.stringify(Array.isArray(req.body.tags) ? req.body.tags : []), String(req.body.descricao || ''),
+      String(req.body.url || ''),
+      String(req.body.atualizado || new Date().toISOString().slice(0, 10)));
   registrarLog(req.usuario.email, 'criar-documento', req.body.titulo);
   return res.status(201).json({ ok: true, dados: comTags(db.prepare('SELECT * FROM documentos WHERE id = ?').get(id)), erro: null });
 });

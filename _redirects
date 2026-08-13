@@ -1,0 +1,5 @@
+# Hospedagem estática (Netlify): a landing é o index.html na raiz.
+# Estes apelidos espelham as rotas que o backend Express também atende.
+/app          /app.html      200
+/plataforma   /app.html      200
+/painel       /painel.html   200

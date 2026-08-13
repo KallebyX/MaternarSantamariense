@@ -2,7 +2,7 @@ import { Router } from 'express';
 import bcrypt from 'bcryptjs';
 import { db, registrarLog } from '../db/connection.js';
 import { assinarToken, autenticar, usuarioPublico } from './middleware.js';
-import { erro, ok, exigir, emailValido } from '../lib/http.js';
+import { erro, ok, exigir, emailValido, senhaFraca } from '../lib/http.js';
 
 export const authRouter = Router();
 
@@ -38,7 +38,8 @@ authRouter.post('/registro', (req, res) => {
   if (falta) return erro(res, 400, falta);
   const email = String(req.body.email).toLowerCase().trim();
   if (!emailValido(email)) return erro(res, 400, 'E-mail inválido.');
-  if (String(req.body.senha).length < 8) return erro(res, 400, 'A senha deve ter pelo menos 8 caracteres.');
+  const fraca = senhaFraca(req.body.senha);
+  if (fraca) return erro(res, 400, fraca);
   if (db.prepare('SELECT 1 FROM usuarios WHERE email = ?').get(email)) {
     return erro(res, 409, 'Já existe uma conta com este e-mail.');
   }
