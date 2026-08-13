@@ -16,10 +16,35 @@ cd backend && npm install && npm start   # http://127.0.0.1:3000
 
 ## Conteúdo
 
-- `index.html` — versão standalone (tudo embutido: JS, logos). Abre direto no navegador e funciona no GitHub Pages.
+- `index.html` — **landing pública** (`/`): apresentação do projeto, entrada na
+  plataforma, solicitação de acesso e verificação de certificado.
+- `app.html` — plataforma usada pelos profissionais (`/app`); versão standalone do
+  protótipo, com tudo embutido (JS, logos).
+- `painel.html` + `painel.js` — **painel de gestão** (`/painel`), restrito a Gestor e
+  Administrador: equipe e senhas, biblioteca de uploads e CRUD completo de todo o
+  conteúdo, ligado à API.
 - `Maternar Santa-mariense.dc.html` — fonte editável do protótipo (requer `support.js`, `image-slot.js` e os PNGs na mesma pasta).
 - `support.js`, `image-slot.js` — runtime do protótipo.
 - `logo_materno.png`, `logo_ufn.png`, `logo_maternar_icon.png` — logos.
+- `_redirects` — apelidos `/app` e `/painel` em hospedagem estática.
+
+## Painel de gestão
+
+Em `/painel`, a coordenação (Gestor/Administrador) administra a plataforma sem
+tocar em banco de dados:
+
+- **Equipe e senhas** — convida a equipe já com a senha que vai repassar (ou uma
+  sugerida pela plataforma), redefine senhas, aprova solicitações, ajusta perfis e
+  situações. Sem SMTP na VM, a senha aparece na tela uma única vez para repasse
+  pessoal, marcada como provisória para troca no primeiro acesso.
+- **Biblioteca de uploads** — envia treinamentos, políticas, materiais, produtos do
+  PPGSMI e capacitações do Qualifica (PDF, Office, imagens, vídeo, áudio, ZIP). O
+  endereço gerado é reaproveitado em qualquer conteúdo.
+- **CRUD completo** — cursos e aulas, módulos e materiais do Qualifica, trilhas,
+  áreas de política e materiais do acervo, protocolos, documentos, links, produtos
+  do PPGSMI, projetos de pesquisa, avisos, agenda, canais, conquistas e tarefas.
+  Todo formulário aceita anexar um arquivo enviado na hora.
+- **Registros e backup** — trilha de auditoria das ações e cópia do banco em JSON.
 
 ## Novidades desta versão (ata de alterações)
 
@@ -45,4 +70,7 @@ git commit -m "v2: protótipo completo substituindo versão anterior"
 git push origin main
 ```
 
-Para publicar no GitHub Pages: Settings → Pages → branch `main`, pasta `/ (root)` — o `index.html` já serve como entrada.
+Para publicar no GitHub Pages: Settings → Pages → branch `main`, pasta `/ (root)` —
+o `index.html` (landing) serve como entrada e o protótipo fica em `app.html`. Sem o
+backend, a landing mostra os números de referência e os formulários avisam que o
+acesso é pela rede da Prefeitura.

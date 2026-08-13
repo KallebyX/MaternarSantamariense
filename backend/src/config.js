@@ -22,6 +22,8 @@ export const config = {
   jwtSecret: process.env.JWT_SECRET || (teste ? 'segredo-de-teste' : ''),
   jwtExpira: process.env.JWT_EXPIRA || '12h',
   staticDir: resolve(raiz, process.env.STATIC_DIR || '..'),
+  uploadDir: resolve(raiz, process.env.UPLOAD_DIR || './data/uploads'),
+  uploadMaxMb: Number(process.env.UPLOAD_MAX_MB || 64),
   corsOrigin: process.env.CORS_ORIGIN || '',
   raiz,
 };

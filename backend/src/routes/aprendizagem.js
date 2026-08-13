@@ -2,7 +2,7 @@
 import { Router } from 'express';
 import { randomBytes } from 'node:crypto';
 import { db, registrarLog } from '../db/connection.js';
-import { autenticar } from '../auth/middleware.js';
+import { autenticar, exigirPapel } from '../auth/middleware.js';
 import { erro, ok, exigir } from '../lib/http.js';
 
 export const aprendizagemRouter = Router();
@@ -115,6 +115,12 @@ aprendizagemRouter.get('/notificacoes', autenticar, (req, res) => {
     ORDER BY n.id DESC`).all(req.usuario.id, req.usuario.id);
   return ok(res, notifs.map(n => ({ ...n, lida: !!n.lida })));
 });
+
+// Painel de gestão: todos os avisos, inclusive os dirigidos a uma pessoa só.
+aprendizagemRouter.get('/notificacoes/todas', autenticar, exigirPapel('Gestor', 'Administrador'), (req, res) =>
+  ok(res, db.prepare(`SELECT n.*, u.nome destinatario
+    FROM notificacoes n LEFT JOIN usuarios u ON u.id = n.usuario_id
+    ORDER BY n.id DESC`).all()));
 
 aprendizagemRouter.post('/notificacoes/:id/lida', autenticar, (req, res) => {
   if (!db.prepare('SELECT 1 FROM notificacoes WHERE id = ?').get(req.params.id)) return erro(res, 404, 'Notificação não encontrada.');

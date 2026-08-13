@@ -233,3 +233,21 @@ CREATE TABLE IF NOT EXISTS logs (
   acao TEXT NOT NULL,
   detalhe TEXT DEFAULT ''
 );
+
+-- Biblioteca de arquivos enviados pelo painel (treinamentos, políticas, materiais…).
+-- O binário fica em data/uploads/<armazenado>; aqui ficam só os metadados.
+CREATE TABLE IF NOT EXISTS arquivos (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  titulo TEXT NOT NULL,
+  categoria TEXT NOT NULL DEFAULT 'Material',
+  descricao TEXT DEFAULT '',
+  original TEXT NOT NULL,
+  armazenado TEXT NOT NULL UNIQUE,
+  mime TEXT DEFAULT '',
+  bytes INTEGER NOT NULL DEFAULT 0,
+  url TEXT NOT NULL,
+  enviado_por TEXT DEFAULT '',
+  downloads INTEGER NOT NULL DEFAULT 0,
+  criado_em TEXT NOT NULL DEFAULT (datetime('now'))
+);
+CREATE INDEX IF NOT EXISTS idx_arquivos_categoria ON arquivos(categoria);

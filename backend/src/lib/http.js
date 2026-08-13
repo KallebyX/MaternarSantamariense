@@ -21,3 +21,13 @@ export function exigir(body, campos) {
 }
 
 export const emailValido = e => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(String(e || ''));
+
+export const SENHA_MINIMA = 8;
+
+/** Devolve mensagem de erro se a senha não atender à política, ou null. */
+export function senhaFraca(senha) {
+  const s = String(senha ?? '');
+  if (s.length < SENHA_MINIMA) return `A senha deve ter pelo menos ${SENHA_MINIMA} caracteres.`;
+  if (!/[A-Za-zÀ-ÿ]/.test(s) || !/\d/.test(s)) return 'A senha deve combinar letras e números.';
+  return null;
+}
