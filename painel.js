@@ -5,8 +5,8 @@
  * (treinamentos, Qualifica, acervo por política, produtos do PPGSMI,
  * documentos, protocolos, links, eventos, projetos e avisos).
  *
- * Sem framework de propósito: a plataforma roda em VM na rede da Prefeitura e
- * este arquivo precisa funcionar sem build, sem CDN e sem dependências.
+ * Frontend estático servido pela API na UFN. Os ícones Lucide são SVGs locais;
+ * o navegador não depende de um CDN ou de uma etapa de build.
  */
 'use strict';
 
@@ -29,14 +29,21 @@ class ErroApi extends Error {
 }
 
 async function pedir(caminho, { metodo = 'GET', corpo, formulario } = {}) {
+  if (metodo === 'GET' && /^\/cursos(?:\/[^/?]+)?$/.test(caminho)) caminho += '?gestao=1';
   const cabecalhos = {};
   if (sessao.token) cabecalhos.Authorization = 'Bearer ' + sessao.token;
   if (corpo !== undefined) cabecalhos['Content-Type'] = 'application/json';
-  const resposta = await fetch(API + caminho, {
-    method: metodo,
-    headers: cabecalhos,
-    body: formulario || (corpo !== undefined ? JSON.stringify(corpo) : undefined),
-  });
+  let resposta;
+  try {
+    resposta = await fetch(API + caminho, {
+      method: metodo,
+      headers: cabecalhos,
+      signal: AbortSignal.timeout(formulario ? 90000 : 15000),
+      body: formulario || (corpo !== undefined ? JSON.stringify(corpo) : undefined),
+    });
+  } catch (erro) {
+    throw new ErroApi(erro.name === 'TimeoutError' ? 'O servidor demorou a responder. Tente novamente.' : 'Não foi possível conectar ao servidor. Tente novamente.', 0);
+  }
   let dados = null;
   try { dados = await resposta.json(); } catch { /* sem corpo JSON */ }
   if (resposta.status === 401 && sessao.token) {
@@ -84,10 +91,11 @@ const naoVazio = v => v !== undefined && v !== null && String(v).trim() !== '';
  * servidor (uploads/, acervo/…). Barra javascript:, data: e afins vindos do banco.
  */
 function enderecoSeguro(valor) {
-  const bruto = String(valor || '').trim();
-  if (/^https?:\/\//i.test(bruto)) return bruto;
-  if (/^[a-z][a-z0-9+.-]*:/i.test(bruto)) return null; // outro esquema (javascript:, data:…)
-  return bruto || null;
+  if (!valor) return null;
+  try {
+    const url = new URL(String(valor).trim(), location.origin);
+    return ['http:', 'https:'].includes(url.protocol) ? url.href : null;
+  } catch { return null; }
 }
 
 const formatarData = v => (v ? String(v).slice(0, 10).split('-').reverse().join('/') : '—');
@@ -121,22 +129,23 @@ const RECURSOS = {
       { campo: 'horas', rotulo: 'Horas' },
       { campo: 'nivel', rotulo: 'Nível', tipo: 'etiqueta' },
       { rotulo: 'Aulas', calculo: r => (r.aulas || []).length },
-      { campo: 'inscritos', rotulo: 'Inscritos' },
+      { campo: 'situacao', rotulo: 'Publicação', tipo: 'etiqueta' },
+      { campo: 'inscritos', rotulo: 'Participantes com progresso' },
     ],
     campos: [
       { nome: 'titulo', rotulo: 'Título', obrigatorio: true, largo: true },
       { nome: 'area', rotulo: 'Área', obrigatorio: true },
-      { nome: 'horas', rotulo: 'Carga horária (h)', tipo: 'numero' },
-      { nome: 'nivel', rotulo: 'Nível', tipo: 'selecao', opcoes: NIVEIS },
+      { nome: 'horas', rotulo: 'Carga horária (h)', tipo: 'numero', obrigatorio: true },
+      { nome: 'nivel', rotulo: 'Nível', tipo: 'selecao', opcoes: NIVEIS, permiteVazio: true, padrao: 'Básico' },
       { nome: 'tag', rotulo: 'Etiqueta' },
-      { nome: 'inscritos', rotulo: 'Inscritos', tipo: 'numero' },
+      { nome: 'publicado', rotulo: 'Publicar curso (todas as aulas devem ter conteúdo)', tipo: 'booleano' },
       { nome: 'descricao', rotulo: 'Descrição', tipo: 'area', largo: true },
       { nome: 'capa', rotulo: 'Capa (imagem)', tipo: 'arquivo', largo: true },
     ],
   },
   aulas: {
     titulo: 'Aulas dos cursos',
-    descricao: 'Conteúdo de cada curso, na ordem em que aparece. A ordem começa em 0 e não pode repetir dentro do mesmo curso.',
+    descricao: 'Cadastre as aulas, envie seus arquivos e depois publique o curso em Cursos. Alterações de conteúdo retornam o curso a rascunho para revisão. A ordem começa em 0.',
     rota: 'aulas', singular: 'aula', rotulo: r => r.titulo, categoriaArquivo: 'Treinamento',
     colunas: [
       { campo: 'curso_id', rotulo: 'Curso', referencia: 'cursos' },
@@ -168,10 +177,10 @@ const RECURSOS = {
     ],
     campos: [
       { nome: 'titulo', rotulo: 'Título', obrigatorio: true, largo: true },
-      { nome: 'tipo', rotulo: 'Tipo de capacitação', tipo: 'selecao', opcoes: TIPOS_QUALIFICA },
+      { nome: 'tipo', rotulo: 'Tipo de capacitação', tipo: 'selecao', opcoes: TIPOS_QUALIFICA, padrao: 'Capacitações livres' },
       { nome: 'aulas', rotulo: 'Quantidade de aulas', tipo: 'numero' },
       { nome: 'duracao', rotulo: 'Duração (ex.: 4h)' },
-      { nome: 'nivel', rotulo: 'Nível', tipo: 'selecao', opcoes: NIVEIS },
+      { nome: 'nivel', rotulo: 'Nível', tipo: 'selecao', opcoes: NIVEIS, permiteVazio: true },
       { nome: 'cor', rotulo: 'Cor do cartão', tipo: 'cor' },
       { nome: 'descricao', rotulo: 'Descrição', tipo: 'area', largo: true },
       { nome: 'url', rotulo: 'Material principal', tipo: 'arquivo', largo: true },
@@ -251,15 +260,15 @@ const RECURSOS = {
     ],
   },
   produtos: {
-    titulo: 'Produtos do PPGSMI',
-    descricao: 'E-books, cartilhas e produtos técnicos do Programa de Pós-Graduação em Saúde Materno-Infantil, com contadores de visualização e download.',
+    titulo: 'Produtos e ferramentas',
+    descricao: 'Aplicativos, portais e publicações, com contagem das aberturas e dos cliques de download na plataforma.',
     rota: 'produtos', singular: 'produto', rotulo: r => r.titulo, categoriaArquivo: 'Produto PPGSMI',
     colunas: [
       { campo: 'tipo', rotulo: 'Tipo', tipo: 'etiqueta' },
       { campo: 'ano', rotulo: 'Ano' },
       { campo: 'titulo', rotulo: 'Título' },
-      { campo: 'visualizacoes', rotulo: 'Visualizações' },
-      { campo: 'downloads', rotulo: 'Downloads' },
+      { campo: 'visualizacoes', rotulo: 'Aberturas' },
+      { campo: 'downloads', rotulo: 'Cliques em baixar' },
       { campo: 'url', rotulo: 'Arquivo', tipo: 'link' },
     ],
     campos: [
@@ -290,7 +299,7 @@ const RECURSOS = {
       { nome: 'categoria', rotulo: 'Categoria' },
       { nome: 'setor', rotulo: 'Setor' },
       { nome: 'autor', rotulo: 'Autor' },
-      { nome: 'status', rotulo: 'Situação', tipo: 'selecao', opcoes: ['Aprovado', 'Em revisão', 'Vencido'] },
+      { nome: 'status', rotulo: 'Situação', tipo: 'selecao', opcoes: ['Aprovado', 'Em revisão', 'Vencido'], padrao: 'Em revisão' },
       { nome: 'versao', rotulo: 'Versão' },
       { nome: 'atualizado', rotulo: 'Atualizado em', tipo: 'data' },
       { nome: 'expira', rotulo: 'Expira em', tipo: 'data' },
@@ -347,6 +356,7 @@ const RECURSOS = {
     colunas: [
       { campo: 'dia', rotulo: 'Dia' },
       { campo: 'mes', rotulo: 'Mês' },
+      { campo: 'ano', rotulo: 'Ano' },
       { campo: 'hora', rotulo: 'Hora' },
       { campo: 'titulo', rotulo: 'Evento' },
       { campo: 'local', rotulo: 'Local' },
@@ -354,7 +364,8 @@ const RECURSOS = {
     campos: [
       { nome: 'titulo', rotulo: 'Evento', obrigatorio: true, largo: true },
       { nome: 'dia', rotulo: 'Dia (1–31)', tipo: 'numero', obrigatorio: true },
-      { nome: 'mes', rotulo: 'Mês (1–12)', tipo: 'numero' },
+      { nome: 'ano', rotulo: 'Ano', tipo: 'numero', obrigatorio: true, padrao: new Date().getFullYear() },
+      { nome: 'mes', rotulo: 'Mês (1–12)', tipo: 'numero', obrigatorio: true, padrao: new Date().getMonth() + 1 },
       { nome: 'hora', rotulo: 'Hora (ex.: 14:00)', obrigatorio: true },
       { nome: 'local', rotulo: 'Local' },
       { nome: 'cor', rotulo: 'Cor', tipo: 'cor' },
@@ -362,13 +373,17 @@ const RECURSOS = {
   },
   projetos: {
     titulo: 'Projetos de pesquisa',
-    descricao: 'Pesquisas autorizadas pelo NEPeS na rede municipal. O número de autorização é gerado ao cadastrar.',
+    descricao: 'Registros atuais e históricos do NEPeS. Consulte a situação e a autorização informadas na fonte de cada projeto.',
     rota: 'projetos', singular: 'projeto', rotulo: r => r.titulo,
     colunas: [
       { campo: 'titulo', rotulo: 'Projeto' },
       { campo: 'responsavel', rotulo: 'Responsável' },
       { campo: 'instituicao', rotulo: 'Instituição' },
+      { campo: 'ano_referencia', rotulo: 'Ano da fonte' },
+      { campo: 'historico', rotulo: 'Acervo', calculo: r => r.historico ? 'Histórico' : 'Atual' },
       { campo: 'status', rotulo: 'Situação', tipo: 'etiqueta' },
+      { campo: 'situacao_origem', rotulo: 'Situação na fonte (AUT. CEP)' },
+      { campo: 'periodo_origem', rotulo: 'Período na fonte' },
       { campo: 'autorizacao', rotulo: 'Autorização' },
     ],
     campos: [
@@ -378,8 +393,8 @@ const RECURSOS = {
       { nome: 'local', rotulo: 'Local de execução' },
       { nome: 'inicio', rotulo: 'Início' },
       { nome: 'fim', rotulo: 'Término' },
-      { nome: 'status', rotulo: 'Situação', tipo: 'selecao', opcoes: ['Ativo', 'Encerrado'], somenteEdicao: true },
-      { nome: 'autorizacao', rotulo: 'Autorização NEPeS', somenteEdicao: true },
+      { nome: 'status', rotulo: 'Situação', tipo: 'selecao', opcoes: ['Ativo', 'Encerrado', 'Histórico'], somenteEdicao: true },
+      { nome: 'autorizacao', rotulo: 'Autorização NEPeS' },
     ],
   },
   notificacoes: {
@@ -412,7 +427,7 @@ const RECURSOS = {
       { nome: 'nome', rotulo: 'Nome', obrigatorio: true, largo: true },
       { nome: 'descricao', rotulo: 'Descrição', tipo: 'area', largo: true },
       { nome: 'cor', rotulo: 'Cor', tipo: 'cor' },
-      { nome: 'nivel', rotulo: 'Nível', tipo: 'numero' },
+      { nome: 'nivel', rotulo: 'Nível', tipo: 'numero', obrigatorio: true, padrao: 1 },
     ],
   },
   canais: {
@@ -442,7 +457,7 @@ const RECURSOS = {
     ],
     campos: [
       { nome: 'titulo', rotulo: 'Tarefa', obrigatorio: true, largo: true },
-      { nome: 'prioridade', rotulo: 'Prioridade', tipo: 'selecao', opcoes: ['Alta', 'Média', 'Baixa'] },
+      { nome: 'prioridade', rotulo: 'Prioridade', tipo: 'selecao', opcoes: ['Alta', 'Média', 'Baixa'], padrao: 'Média' },
       { nome: 'responsavel', rotulo: 'Responsável' },
       { nome: 'prazo', rotulo: 'Prazo' },
       { nome: 'coluna', rotulo: 'Coluna do quadro (0, 1, 2)', tipo: 'numero' },
@@ -453,42 +468,42 @@ const RECURSOS = {
 /** Menu lateral: cada entrada aponta para uma seção própria ou um recurso CRUD. */
 const MENU = [
   { grupo: 'Início', itens: [
-    { id: 'visao', rotulo: 'Visão geral', icone: '◆' },
-    { id: 'perfil', rotulo: 'Meu perfil', icone: '☺' },
+    { id: 'visao', rotulo: 'Visão geral', icone: 'layout-dashboard' },
+    { id: 'perfil', rotulo: 'Meu perfil', icone: 'user-round' },
   ] },
   { grupo: 'Equipe', itens: [
-    { id: 'equipe', rotulo: 'Equipe e senhas', icone: '☰' },
+    { id: 'equipe', rotulo: 'Equipe e senhas', icone: 'users-round' },
   ] },
   { grupo: 'Arquivos', itens: [
-    { id: 'biblioteca', rotulo: 'Biblioteca de uploads', icone: '⬆' },
+    { id: 'biblioteca', rotulo: 'Biblioteca de uploads', icone: 'folder-up' },
   ] },
   { grupo: 'Formação', itens: [
-    { id: 'cursos', rotulo: 'Cursos', icone: '▤' },
-    { id: 'aulas', rotulo: 'Aulas dos cursos', icone: '▹' },
-    { id: 'qualifica-modulos', rotulo: 'Qualifica — módulos', icone: '▣' },
-    { id: 'qualifica-recursos', rotulo: 'Qualifica — materiais', icone: '▸' },
-    { id: 'trilhas', rotulo: 'Trilhas', icone: '⇉' },
+    { id: 'cursos', rotulo: 'Cursos', icone: 'graduation-cap' },
+    { id: 'aulas', rotulo: 'Aulas dos cursos', icone: 'circle-play' },
+    { id: 'qualifica-modulos', rotulo: 'Qualifica — módulos', icone: 'layers' },
+    { id: 'qualifica-recursos', rotulo: 'Qualifica — materiais', icone: 'library-big' },
+    { id: 'trilhas', rotulo: 'Trilhas', icone: 'route' },
   ] },
   { grupo: 'Acervo', itens: [
-    { id: 'politicas', rotulo: 'Áreas de política', icone: '◈' },
-    { id: 'materiais', rotulo: 'Materiais', icone: '▦' },
-    { id: 'protocolos', rotulo: 'Protocolos', icone: '❑' },
-    { id: 'documentos', rotulo: 'Documentos e POPs', icone: '❐' },
-    { id: 'links', rotulo: 'Links úteis', icone: '⇗' },
+    { id: 'politicas', rotulo: 'Áreas de política', icone: 'landmark' },
+    { id: 'materiais', rotulo: 'Materiais', icone: 'book-open' },
+    { id: 'protocolos', rotulo: 'Protocolos', icone: 'clipboard-check' },
+    { id: 'documentos', rotulo: 'Documentos e POPs', icone: 'files' },
+    { id: 'links', rotulo: 'Links úteis', icone: 'link' },
   ] },
   { grupo: 'PPGSMI', itens: [
-    { id: 'produtos', rotulo: 'Produtos', icone: '◉' },
-    { id: 'projetos', rotulo: 'Projetos de pesquisa', icone: '⌗' },
+    { id: 'produtos', rotulo: 'Produtos', icone: 'package' },
+    { id: 'projetos', rotulo: 'Projetos de pesquisa', icone: 'flask-conical' },
   ] },
   { grupo: 'Rede', itens: [
-    { id: 'notificacoes', rotulo: 'Avisos', icone: '✱' },
-    { id: 'eventos', rotulo: 'Agenda', icone: '▧' },
-    { id: 'canais', rotulo: 'Canais', icone: '❍' },
-    { id: 'conquistas', rotulo: 'Conquistas', icone: '★' },
-    { id: 'tarefas', rotulo: 'Tarefas', icone: '✓' },
+    { id: 'notificacoes', rotulo: 'Avisos', icone: 'bell' },
+    { id: 'eventos', rotulo: 'Agenda', icone: 'calendar-days' },
+    { id: 'canais', rotulo: 'Canais', icone: 'messages-square' },
+    { id: 'conquistas', rotulo: 'Conquistas', icone: 'award' },
+    { id: 'tarefas', rotulo: 'Tarefas', icone: 'list-checks' },
   ] },
   { grupo: 'Sistema', itens: [
-    { id: 'registros', rotulo: 'Registros e backup', icone: '⎙', somenteAdmin: true },
+    { id: 'registros', rotulo: 'Registros e backup', icone: 'database-backup', somenteAdmin: true },
   ] },
 ];
 
@@ -508,8 +523,7 @@ async function opcoesDe(nomeRecurso) {
   const rotulo = nomeRecurso === 'usuarios'
     ? (r => `${r.nome} — ${r.unidade || r.perfil}`)
     : (RECURSOS[nomeRecurso]?.rotulo || (r => r.titulo || r.nome || r.id));
-  let lista = [];
-  try { lista = await pedir(rota); } catch { lista = []; }
+  const lista = await pedir(rota);
   const opcoes = lista.map(r => ({ valor: String(r.id), texto: rotulo(r) }));
   cache.opcoes.set(nomeRecurso, opcoes);
   return opcoes;
@@ -517,7 +531,7 @@ async function opcoesDe(nomeRecurso) {
 
 async function biblioteca() {
   if (!cache.biblioteca) {
-    try { cache.biblioteca = await pedir('/arquivos'); } catch { cache.biblioteca = []; }
+    cache.biblioteca = await pedir('/arquivos');
   }
   return cache.biblioteca;
 }
@@ -527,12 +541,14 @@ async function biblioteca() {
 const modal = document.getElementById('modal');
 const formModal = document.getElementById('form-modal');
 let aoSalvarModal = null;
+let geracaoModal = 0, uploadsModal = 0;
+modal.addEventListener('close', () => { geracaoModal++; aoSalvarModal = null; });
 
 document.getElementById('modal-cancelar').addEventListener('click', () => modal.close());
 
 formModal.addEventListener('submit', async evento => {
   evento.preventDefault();
-  if (!aoSalvarModal) return;
+  if (!aoSalvarModal || uploadsModal) return;
   const botao = document.getElementById('modal-salvar');
   botao.disabled = true;
   try {
@@ -546,6 +562,7 @@ formModal.addEventListener('submit', async evento => {
 
 /** Monta o controle de um campo conforme o tipo declarado. */
 async function montarCampo(campo, valor) {
+  valor ??= campo.padrao;
   const id = 'campo-' + campo.nome;
   const envolver = filho => el('div', { classe: campo.largo ? 'largo' : '' },
     [el('label', { for: id, texto: campo.rotulo + (campo.obrigatorio ? ' *' : '') }), filho,
@@ -559,7 +576,9 @@ async function montarCampo(campo, valor) {
       ? await opcoesDe(campo.recurso)
       : campo.opcoes.map(o => ({ valor: o, texto: o }));
     const select = el('select', { id, name: campo.nome, required: campo.obrigatorio });
-    if (!campo.obrigatorio) select.append(el('option', { value: '', texto: campo.tipo === 'ref' ? '— nenhum —' : '—' }));
+    if (!campo.obrigatorio && (campo.tipo === 'ref' || campo.permiteVazio)) {
+      select.append(el('option', { value: '', texto: campo.tipo === 'ref' ? '— nenhum —' : '— não informado —' }));
+    }
     for (const opcao of opcoes) {
       select.append(el('option', { value: opcao.valor, texto: opcao.texto, selected: String(valor ?? '') === opcao.valor }));
     }
@@ -589,7 +608,7 @@ async function montarCampoArquivo(campo, valor) {
   const entrada = el('input', { id: 'campo-' + campo.nome, name: campo.nome, type: 'text',
     value: valor ?? '', required: campo.obrigatorio, placeholder: 'uploads/arquivo.pdf ou https://…' });
 
-  const escolher = el('select');
+  const escolher = el('select', { 'aria-label': 'Escolher arquivo para ' + campo.rotulo });
   escolher.append(el('option', { value: '', texto: '— escolher da biblioteca —' }));
   for (const arquivo of await biblioteca()) {
     escolher.append(el('option', { value: arquivo.url, texto: `${arquivo.titulo} (${arquivo.categoria})` }));
@@ -597,11 +616,13 @@ async function montarCampoArquivo(campo, valor) {
   escolher.addEventListener('change', () => { if (escolher.value) entrada.value = escolher.value; });
 
   const situacao = el('span', { classe: 'mono', estilo: 'color:var(--texto-fraco);letter-spacing:.04em;text-transform:none' });
-  const seletor = el('input', { type: 'file' });
+  const seletor = el('input', { type: 'file', 'aria-label': 'Enviar arquivo para ' + campo.rotulo });
   seletor.addEventListener('change', async () => {
     const arquivo = seletor.files?.[0];
     if (!arquivo) return;
     situacao.textContent = 'Enviando…';
+    const geracao = geracaoModal;
+    uploadsModal++;seletor.disabled=true;document.getElementById('modal-salvar').disabled=true;
     try {
       const enviado = await enviarArquivo(arquivo, {
         titulo: arquivo.name,
@@ -613,7 +634,8 @@ async function montarCampoArquivo(campo, valor) {
     } catch (erro) {
       situacao.textContent = erro.message;
     } finally {
-      seletor.value = '';
+      seletor.value = '';seletor.disabled=false;
+      if(geracao===geracaoModal){uploadsModal--;document.getElementById('modal-salvar').disabled=uploadsModal>0 || !aoSalvarModal;}
     }
   });
 
@@ -637,11 +659,12 @@ function lerFormulario(campos) {
   for (const campo of campos) {
     const entrada = formModal.elements[campo.nome];
     if (!entrada) continue;
-    if (campo.tipo === 'booleano') corpo[campo.nome] = entrada.checked;
+    if (campo.tipo === 'ref' && entrada.value === '' && !campo.obrigatorio) corpo[campo.nome] = null;
+    else if (campo.tipo === 'booleano') corpo[campo.nome] = entrada.checked;
     else if (campo.tipo === 'tags') {
       corpo[campo.nome] = entrada.value.split(',').map(t => t.trim()).filter(Boolean);
     } else if (campo.tipo === 'numero') {
-      corpo[campo.nome] = entrada.value === '' ? 0 : Number(entrada.value);
+      corpo[campo.nome] = entrada.value === '' ? (campo.padrao ?? 0) : Number(entrada.value);
     } else corpo[campo.nome] = entrada.value;
   }
   return corpo;
@@ -651,22 +674,35 @@ function lerFormulario(campos) {
  * Abre o modal de formulário.
  * @param {{titulo:string, grupo?:string, descricao?:string, campos:Array, registro?:object, salvar:Function}} opcoes
  */
-async function abrirFormulario({ titulo, grupo = '', descricao = '', campos, registro = {}, salvar, rotuloSalvar = 'Salvar' }) {
+async function abrirFormulario(opcoes) {
+  const {titulo, grupo = '', descricao = '', campos, registro = {}, salvar, rotuloSalvar = 'Salvar'} = opcoes;
+  const geracao = ++geracaoModal;
+  aoSalvarModal = null; uploadsModal = 0;
   document.getElementById('modal-titulo').textContent = titulo;
   document.getElementById('modal-grupo').textContent = grupo;
   document.getElementById('modal-descricao').textContent = descricao;
-  document.getElementById('modal-salvar').textContent = rotuloSalvar;
+  const botao = document.getElementById('modal-salvar');
+  botao.textContent = rotuloSalvar; botao.disabled = true;
   avisoEm('modal-aviso', '');
   const area = document.getElementById('modal-campos');
   area.replaceChildren(el('div', { classe: 'largo', texto: 'Carregando…' }));
-  const controles = [];
-  for (const campo of campos) controles.push(await montarCampo(campo, registro[campo.nome]));
-  area.replaceChildren(...controles);
-  aoSalvarModal = async () => {
-    await salvar(lerFormulario(campos));
-    modal.close();
-  };
-  modal.showModal();
+  if (!modal.open) modal.showModal();
+  try {
+    const controles = [];
+    for (const campo of campos) controles.push(await montarCampo(campo, registro[campo.nome]));
+    if (geracao !== geracaoModal || !modal.open) return;
+    area.replaceChildren(...controles);
+    aoSalvarModal = async () => {
+      await salvar(lerFormulario(campos));
+      if (geracao === geracaoModal) modal.close();
+    };
+    botao.disabled = false;
+    area.querySelector('input,select,textarea')?.focus();
+  } catch (erro) {
+    if (geracao !== geracaoModal || !modal.open) return;
+    avisoEm('modal-aviso', erro.message);
+    area.replaceChildren(el('button', { type: 'button', classe: 'btn btn-linha', texto: 'Tentar novamente', onclick: () => abrirFormulario(opcoes) }));
+  }
 }
 
 /* ---------------------------------------------------------------- tabelas - */
@@ -714,7 +750,10 @@ function montarTabela({ colunas, registros, referencias = {}, acoes, vazio = 'Ne
     if (acoes) linha.append(el('td', { classe: 'acoes' }, acoes(registro)));
     corpo.append(linha);
   }
-  return el('div', { classe: 'rolagem' }, [el('table', {}, [el('thead', {}, [cabecalho]), corpo])]);
+  return el('div', {}, [
+    el('p', { classe: 'ajuda-tabela', texto: 'Deslize a tabela para ver todas as colunas e ações.' }),
+    el('div', { classe: 'rolagem', tabindex: '0', role: 'region', 'aria-label': 'Tabela com rolagem horizontal' }, [el('table', {}, [el('thead', {}, [cabecalho]), corpo])]),
+  ]);
 }
 
 /* ------------------------------------------------------- seções genéricas - */
@@ -739,15 +778,51 @@ async function secaoRecurso(nome) {
   let registros = [];
   try {
     registros = await pedir(rotaListagem);
+    if (!Array.isArray(registros)) throw new ErroApi('Não foi possível carregar os registros. Tente novamente.');
   } catch (erro) {
+    if (!alvo.isConnected) return;
     alvo.replaceChildren(el('div', { classe: 'aviso erro', texto: erro.message }));
+    alvo.append(el('button', { classe: 'btn btn-linha', texto: 'Tentar novamente', onclick: () => irPara(nome) }));
     return;
   }
 
-  const filtro = el('input', { type: 'search', placeholder: `Buscar em ${spec.titulo.toLowerCase()}…` });
+  const filtro = el('input', { type: 'search', 'aria-label': `Buscar em ${spec.titulo.toLowerCase()}`, placeholder: `Buscar em ${spec.titulo.toLowerCase()}…` });
   const contador = el('span', { classe: 'mono', estilo: 'color:var(--texto-fraco)' });
   const area = el('div');
   let limite = LIMITE_INICIAL;
+  const normalizarBusca = texto => String(texto ?? '').normalize('NFD').replace(/[\u0300-\u036f]/g, '').trim().replace(/\s+/g, ' ').toLowerCase();
+  const seletoresProjetos = new Map();
+  const filtrosProjetos = nome === 'projetos' ? el('div', { classe: 'filtros-projetos' }) : null;
+  const valoresProjetos = {
+    ano_referencia: r => r.ano_referencia ? String(r.ano_referencia) : 'sem-ano',
+    historico: r => r.historico ? 'historicos' : 'atuais',
+    status: r => r.status,
+    instituicao: r => normalizarBusca(r.instituicao),
+    situacao_origem: r => normalizarBusca(r.situacao_origem),
+  };
+  if (filtrosProjetos) {
+    filtro.placeholder = 'Título, responsável, instituição ou local';
+    for (const [campo, rotulo] of [['ano_referencia', 'Ano da fonte'], ['historico', 'Acervo'], ['status', 'Situação do projeto'], ['instituicao', 'Instituição'], ['situacao_origem', 'Situação na fonte (AUT. CEP)']]) {
+      const seletor = el('select', { 'aria-label': rotulo });
+      seletoresProjetos.set(campo, seletor);
+      seletor.addEventListener('change', () => { limite = LIMITE_INICIAL; desenhar(); });
+      filtrosProjetos.append(el('label', {}, [el('span', { texto: rotulo }), seletor]));
+    }
+    filtrosProjetos.append(el('button', { classe: 'btn btn-linha', type: 'button', texto: 'Limpar filtros', onclick: () => {
+      filtro.value = ''; for (const seletor of seletoresProjetos.values()) seletor.value = '';
+      limite = LIMITE_INICIAL; desenhar();
+    } }));
+  }
+  function atualizarFiltrosProjetos() {
+    for (const [campo, seletor] of seletoresProjetos) {
+      const atual = seletor.value;
+      const opcoes = new Map(registros.map(r => [valoresProjetos[campo](r), campo === 'historico' ? (r.historico ? 'Registros históricos' : 'Registros atuais') : campo === 'ano_referencia' ? (r.ano_referencia || 'Ano não informado') : String(r[campo] ?? '').trim()]).filter(([valor]) => valor));
+      if (atual && !opcoes.has(atual)) opcoes.set(atual, seletor.selectedOptions[0]?.textContent || atual);
+      const ordenadas = [...opcoes].sort((a, b) => campo === 'ano_referencia' ? (Number(b[0]) || 0) - (Number(a[0]) || 0) : String(a[1]).localeCompare(String(b[1]), 'pt-BR'));
+      seletor.replaceChildren(el('option', { value: '', texto: 'Todos' }), ...ordenadas.map(([valor, texto]) => el('option', { value: valor, texto: String(texto) })));
+      seletor.value = atual;
+    }
+  }
 
   const campoTexto = registro => spec.colunas
     .map(c => (c.calculo ? c.calculo(registro) : registro[c.campo]))
@@ -755,9 +830,12 @@ async function secaoRecurso(nome) {
 
   function desenhar() {
     const termo = filtro.value.trim().toLowerCase();
-    const filtrados = termo ? registros.filter(r => campoTexto(r).includes(termo)) : registros;
-    contador.textContent = `${filtrados.length} de ${registros.length}`;
+    const filtrados = filtrosProjetos ? registros.filter(r =>
+      normalizarBusca(termo).split(' ').filter(Boolean).every(t => normalizarBusca([r.titulo, r.responsavel, r.instituicao, r.local].join(' ')).includes(t)) &&
+      [...seletoresProjetos].every(([campo, seletor]) => !seletor.value || valoresProjetos[campo](r) === seletor.value))
+      : termo ? registros.filter(r => campoTexto(r).includes(termo)) : registros;
     const visiveis = filtrados.slice(0, limite);
+    contador.textContent = filtrosProjetos ? `Exibindo ${visiveis.length} de ${filtrados.length} resultados · ${registros.length} no acervo` : `${filtrados.length} de ${registros.length}`;
     const tabela = montarTabela({
       colunas: spec.colunas, registros: visiveis, referencias,
       acoes: registro => [
@@ -770,7 +848,7 @@ async function secaoRecurso(nome) {
           onclick: () => remover(registro),
         }),
       ],
-      vazio: termo ? 'Nenhum registro corresponde à busca.' : 'Nenhum registro ainda. Use “Novo” para cadastrar.',
+      vazio: termo || [...seletoresProjetos.values()].some(s => s.value) ? 'Nenhum registro corresponde aos filtros.' : 'Nenhum registro ainda. Use “Novo” para cadastrar.',
     });
     const extras = [tabela];
     if (filtrados.length > visiveis.length) {
@@ -788,6 +866,7 @@ async function secaoRecurso(nome) {
   async function recarregar() {
     invalidarCache(nome);
     registros = await pedir(rotaListagem);
+    atualizarFiltrosProjetos();
     desenhar();
   }
 
@@ -813,7 +892,8 @@ async function secaoRecurso(nome) {
   async function editar(registro) {
     await abrirFormulario({
       grupo: spec.titulo, titulo: `Editar ${spec.singular}`, descricao: spec.rotulo(registro),
-      campos: camposDe('editar'), registro,
+      campos: camposDe('editar').map(c => nome === 'projetos' && registro.historico && c.nome === 'responsavel'
+        ? { ...c, obrigatorio: false, dica: 'Quando a fonte histórica não informa o responsável, mantenha o campo vazio.' } : c), registro,
       salvar: async corpo => {
         await pedir(`/${spec.rota}/${encodeURIComponent(registro.id)}`, { metodo: 'PUT', corpo });
         await recarregar();
@@ -833,8 +913,10 @@ async function secaoRecurso(nome) {
     }
   }
 
-  definirAcoes([el('button', { classe: 'btn btn-primario', texto: `Novo ${spec.singular}`, onclick: criar })]);
-  alvo.replaceChildren(el('div', { classe: 'filtros' }, [filtro, contador]), area);
+  definirAcoes([el('button', { classe: 'btn btn-primario', texto: `Novo ${spec.singular}`, onclick: criar })], alvo);
+  atualizarFiltrosProjetos();
+  alvo.replaceChildren(el('div', { classe: 'filtros' }, [filtro, contador]), ...(filtrosProjetos ? [filtrosProjetos,
+    el('p', { classe: 'nota-projetos', texto: 'Histórico identifica o arquivo de origem; não confirma andamento, conclusão ou autorização atual. A situação da fonte foi preservada separadamente.' })] : []), area);
   desenhar();
 }
 
@@ -845,14 +927,14 @@ async function secaoVisao() {
   alvo.replaceChildren(el('div', { classe: 'vazio', texto: 'Carregando indicadores…' }));
 
   const [politicas, cursos, qualifica, produtos, protocolos, documentos, arquivos, usuarios] = await Promise.all([
-    pedir('/politicas').catch(() => []),
-    pedir('/cursos').catch(() => []),
-    pedir('/qualifica').catch(() => ({ modulos: [], trilhas: [] })),
-    pedir('/produtos').catch(() => []),
-    pedir('/protocolos').catch(() => []),
-    pedir('/documentos').catch(() => []),
-    pedir('/arquivos').catch(() => []),
-    pedir('/usuarios').catch(() => []),
+    pedir('/politicas'),
+    pedir('/cursos'),
+    pedir('/qualifica'),
+    pedir('/produtos'),
+    pedir('/protocolos'),
+    pedir('/documentos'),
+    pedir('/arquivos'),
+    pedir('/usuarios'),
   ]);
 
   const indicadores = [
@@ -864,7 +946,7 @@ async function secaoVisao() {
     ['Materiais do acervo', politicas.reduce((s, p) => s + p.materiais.length, 0), 'materiais'],
     ['Protocolos', protocolos.length, 'protocolos'],
     ['Documentos', documentos.length, 'documentos'],
-    ['Produtos do PPGSMI', produtos.length, 'produtos'],
+    ['Produtos e ferramentas', produtos.length, 'produtos'],
   ];
 
   const grade = el('div', { classe: 'grade' }, indicadores.map(([rotulo, valor, destino]) =>
@@ -898,16 +980,16 @@ async function secaoVisao() {
     ]));
   }
 
-  const maisBaixados = [...produtos].sort((a, b) => b.downloads - a.downloads).slice(0, 5);
+  const maisBaixados = produtos.filter(p => p.downloads > 0).sort((a, b) => b.downloads - a.downloads).slice(0, 5);
   if (maisBaixados.length) {
     blocos.push(el('div', { estilo: 'margin-top:22px' }, [
-      el('h3', { estilo: 'font-size:16px;margin-bottom:10px', texto: 'Produtos mais baixados' }),
+      el('h3', { estilo: 'font-size:16px;margin-bottom:10px', texto: 'Produtos com mais cliques em baixar' }),
       montarTabela({
         colunas: [
           { campo: 'titulo', rotulo: 'Produto' },
           { campo: 'tipo', rotulo: 'Tipo', tipo: 'etiqueta' },
-          { campo: 'visualizacoes', rotulo: 'Visualizações' },
-          { campo: 'downloads', rotulo: 'Downloads' },
+          { campo: 'visualizacoes', rotulo: 'Aberturas' },
+          { campo: 'downloads', rotulo: 'Cliques em baixar' },
         ],
         registros: maisBaixados,
       }),
@@ -917,7 +999,7 @@ async function secaoVisao() {
   definirAcoes([
     el('button', { classe: 'btn btn-primario', texto: 'Enviar arquivo', onclick: () => irPara('biblioteca') }),
     el('button', { classe: 'btn btn-linha', texto: 'Convidar profissional', onclick: () => irPara('equipe') }),
-  ]);
+  ], alvo);
   alvo.replaceChildren(...blocos);
 }
 
@@ -949,6 +1031,7 @@ async function secaoEquipe() {
     const caixa = el('div', { classe: 'aviso ok', estilo: 'margin-bottom:16px' }, [
       el('div', { estilo: 'font-weight:600', texto: titulo }),
       el('div', { texto: dados.usuario ? `${dados.usuario.nome} — ${dados.usuario.email}` : '' }),
+      ...(dados.emailEnvio ? [el('div', { classe: dados.emailEnvio.enviado ? 'aviso ok' : 'aviso erro', texto: dados.emailEnvio.mensagem })] : []),
       el('div', { classe: 'senha-gerada', texto: dados.senha }),
       el('div', { estilo: 'margin-top:8px;font-size:12.5px',
         texto: dados.trocaObrigatoria
@@ -966,12 +1049,13 @@ async function secaoEquipe() {
   async function convidar() {
     await abrirFormulario({
       grupo: 'Equipe', titulo: 'Convidar profissional',
-      descricao: 'A conta já entra ativa. Defina a senha que você vai repassar — ou deixe em branco para a plataforma sugerir uma.',
+      descricao: 'A conta já entra ativa. Você pode enviar por e-mail um link para a pessoa definir sua própria senha, válido por 1 hora.',
       rotuloSalvar: 'Criar acesso',
       campos: [
         { nome: 'nome', rotulo: 'Nome completo', obrigatorio: true, largo: true },
         { nome: 'email', rotulo: 'E-mail institucional', obrigatorio: true, largo: true },
         { nome: 'cargo', rotulo: 'Cargo ou função' },
+        { nome: 'formacao', rotulo: 'Formação profissional' },
         { nome: 'unidade', rotulo: 'Unidade / serviço' },
         { nome: 'telefone', rotulo: 'Telefone' },
         { nome: 'coren', rotulo: 'Registro profissional (COREN/CRM…)' },
@@ -979,6 +1063,7 @@ async function secaoEquipe() {
           opcoes: sessao.admin ? PERFIS : ['Profissional', 'Gestor'] },
         { nome: 'senha', rotulo: 'Senha de acesso (mínimo 8 caracteres, com letras e números)', largo: true },
         { nome: 'trocarSenha', rotulo: 'Exigir troca de senha no primeiro acesso', tipo: 'booleano', largo: true },
+        { nome: 'enviarEmail', rotulo: 'Enviar link de acesso por e-mail', tipo: 'booleano', largo: true },
       ],
       registro: { perfil: 'Profissional', trocarSenha: true },
       salvar: async corpo => {
@@ -1007,12 +1092,23 @@ async function secaoEquipe() {
     });
   }
 
+  async function enviarEmail(usuario, botao) {
+    if (!await confirmar(`Enviar para ${usuario.email} um link de acesso válido por 1 hora? A senha atual continua válida até a pessoa definir uma nova.`)) return;
+    botao.disabled = true;
+    try {
+      const dados = await pedir(`/usuarios/${usuario.id}/enviar-acesso`, { metodo: 'POST' });
+      recado(dados.mensagem);
+    } catch (erro) { recado(erro.message, 'erro'); }
+    finally { botao.disabled = false; }
+  }
+
   async function editar(usuario) {
     await abrirFormulario({
       grupo: 'Equipe', titulo: 'Editar cadastro', descricao: usuario.email,
       campos: [
         { nome: 'nome', rotulo: 'Nome completo', obrigatorio: true, largo: true },
         { nome: 'cargo', rotulo: 'Cargo ou função' },
+        { nome: 'formacao', rotulo: 'Formação profissional' },
         { nome: 'unidade', rotulo: 'Unidade / serviço' },
         { nome: 'telefone', rotulo: 'Telefone' },
         { nome: 'coren', rotulo: 'Registro profissional' },
@@ -1021,7 +1117,9 @@ async function secaoEquipe() {
       ],
       registro: usuario,
       salvar: async corpo => {
-        await pedir(`/usuarios/${usuario.id}`, { metodo: 'PUT', corpo });
+        const atualizado = await pedir(`/usuarios/${usuario.id}`, { metodo: 'PUT', corpo });
+        invalidarCache('usuarios');
+        if (atualizado.id === sessao.usuario.id) sincronizarPerfil(atualizado);
         await recarregar();
         recado('Cadastro atualizado.');
       },
@@ -1062,17 +1160,22 @@ async function secaoEquipe() {
         { campo: 'email', rotulo: 'E-mail' },
         { campo: 'unidade', rotulo: 'Unidade' },
         { campo: 'cargo', rotulo: 'Função' },
+        { campo: 'formacao', rotulo: 'Formação' },
         { campo: 'perfil', rotulo: 'Perfil', tipo: 'etiqueta' },
         { rotulo: 'Situação', calculo: u => u.situacao },
         { rotulo: 'Senha', calculo: u => (u.senha_temporaria ? 'provisória' : 'própria') },
       ],
       registros: filtrados,
       acoes: usuario => [
+        ...(usuario.situacao === 'Ativo' ? [el('button', { classe: 'btn btn-mini btn-linha', texto: 'Enviar acesso', onclick: evento => enviarEmail(usuario, evento.currentTarget) })] : []),
         el('button', { classe: 'btn btn-mini btn-linha', texto: 'Senha', onclick: () => definirSenha(usuario) }),
         el('button', { classe: 'btn btn-mini btn-linha', estilo: 'margin-left:6px', texto: 'Editar', onclick: () => editar(usuario) }),
         usuario.situacao === 'Pendente'
           ? el('button', { classe: 'btn btn-mini btn-primario', estilo: 'margin-left:6px', texto: 'Aprovar',
-            onclick: async () => { await pedir(`/usuarios/${usuario.id}/aprovar`, { metodo: 'POST' }); await recarregar(); recado('Acesso liberado.'); } })
+            onclick: async () => {
+              try { await pedir(`/usuarios/${usuario.id}/aprovar`, { metodo: 'POST' }); await recarregar(); recado('Acesso liberado.'); }
+              catch (erro) { recado(erro.message, 'erro'); }
+            } })
           : el('button', { classe: 'btn btn-mini btn-linha', estilo: 'margin-left:6px',
             texto: usuario.situacao === 'Desativado' ? 'Reativar' : 'Desativar',
             onclick: () => alternarSituacao(usuario) }),
@@ -1089,7 +1192,7 @@ async function secaoEquipe() {
     controle.addEventListener('change', desenhar);
   }
 
-  definirAcoes([el('button', { classe: 'btn btn-primario', texto: 'Convidar profissional', onclick: convidar })]);
+  definirAcoes([el('button', { classe: 'btn btn-primario', texto: 'Convidar profissional', onclick: convidar })], alvo);
   alvo.replaceChildren(el('div', { classe: 'filtros' }, [busca, filtroPerfil, filtroSituacao, contador]), area);
   desenhar();
 }
@@ -1194,7 +1297,7 @@ async function secaoBiblioteca() {
         { campo: 'categoria', rotulo: 'Categoria', tipo: 'etiqueta' },
         { campo: 'original', rotulo: 'Arquivo' },
         { rotulo: 'Tamanho', calculo: a => formatarBytes(a.bytes) },
-        { campo: 'downloads', rotulo: 'Downloads' },
+        { campo: 'downloads', rotulo: 'Cliques em baixar' },
         { campo: 'enviado_por', rotulo: 'Enviado por' },
         { campo: 'criado_em', rotulo: 'Data', tipo: 'data' },
       ],
@@ -1218,18 +1321,24 @@ async function secaoBiblioteca() {
     controle.addEventListener('change', desenhar);
   }
 
-  definirAcoes([el('button', { classe: 'btn btn-primario', texto: 'Enviar arquivo', onclick: enviar })]);
+  definirAcoes([el('button', { classe: 'btn btn-primario', texto: 'Enviar arquivo', onclick: enviar })], alvo);
   alvo.replaceChildren(el('div', { classe: 'filtros' }, [busca, filtroCategoria, contador]), area);
   desenhar();
 }
 
 /* ------------------------------------------------------------- meu perfil - */
 
-async function secaoPerfil() {
-  const alvo = conteudo();
-  const eu = await pedir('/auth/eu');
+function sincronizarPerfil(eu) {
   sessao.usuario = eu;
-  localStorage.setItem(CHAVE_USUARIO, JSON.stringify(eu));
+  localStorage.setItem(CHAVE_USUARIO, JSON.stringify({ nome: eu.nome, perfil: eu.perfil }));
+  document.getElementById('quem-sou').textContent = eu.nome;
+  document.getElementById('perfil-sou').textContent = `${eu.perfil} · ${eu.unidade || 'rede municipal'}`;
+}
+
+async function secaoPerfil(atualizado) {
+  const alvo = conteudo();
+  const eu = atualizado || await pedir('/auth/eu');
+  sincronizarPerfil(eu);
 
   const dados = el('div', { classe: 'cartao' }, [
     el('h3', { estilo: 'font-size:16px;margin-bottom:12px', texto: 'Meus dados' }),
@@ -1240,6 +1349,7 @@ async function secaoPerfil() {
         { campo: 'perfil', rotulo: 'Perfil', tipo: 'etiqueta' },
         { campo: 'unidade', rotulo: 'Unidade' },
         { campo: 'cargo', rotulo: 'Função' },
+        { campo: 'formacao', rotulo: 'Formação' },
         { campo: 'telefone', rotulo: 'Telefone' },
         { campo: 'xp', rotulo: 'XP' },
       ],
@@ -1253,21 +1363,32 @@ async function secaoPerfil() {
     el('div', { estilo: 'height:12px' }),
     el('label', { for: 'nova', texto: 'Nova senha (mínimo 8 caracteres, com letras e números)' }),
     el('input', { id: 'nova', name: 'senhaNova', type: 'password', required: true, minlength: 8, autocomplete: 'new-password' }),
+    el('label', { for: 'confirmar-nova', texto: 'Confirme a nova senha' }),
+    el('input', { id: 'confirmar-nova', name: 'confirmacao', type: 'password', required: true, minlength: 8, autocomplete: 'new-password' }),
     el('button', { classe: 'btn btn-escuro', type: 'submit', estilo: 'margin-top:16px', texto: 'Trocar senha' }),
   ]);
   const avisoSenha = el('div');
   formSenha.addEventListener('submit', async evento => {
     evento.preventDefault();
+    const botao = formSenha.querySelector('button');
+    if (botao.disabled) return;
+    botao.disabled = true;
     try {
-      await pedir('/usuarios/eu/senha', {
+      if (formSenha.elements.senhaNova.value !== formSenha.elements.confirmacao.value) throw new Error('As senhas não conferem.');
+      const novaSessao = await pedir('/usuarios/eu/senha', {
         metodo: 'PUT',
         corpo: { senhaAtual: formSenha.senhaAtual.value, senhaNova: formSenha.senhaNova.value },
       });
+      sessao.token = novaSessao.token;
+      sessao.usuario = novaSessao.usuario;
+      localStorage.setItem(CHAVE_TOKEN, sessao.token);
       formSenha.reset();
       avisoEm(avisoSenha, 'Senha atualizada.', 'ok');
       document.getElementById('banner-senha').classList.add('oculto');
     } catch (erro) {
       avisoEm(avisoSenha, erro.message);
+    } finally {
+      botao.disabled = false;
     }
   });
 
@@ -1278,17 +1399,20 @@ async function secaoPerfil() {
       campos: [
         { nome: 'nome', rotulo: 'Nome completo', obrigatorio: true, largo: true },
         { nome: 'cargo', rotulo: 'Cargo ou função' },
+        { nome: 'formacao', rotulo: 'Formação profissional' },
         { nome: 'unidade', rotulo: 'Unidade / serviço' },
         { nome: 'telefone', rotulo: 'Telefone' },
       ],
       registro: eu,
       salvar: async corpo => {
-        await pedir('/usuarios/eu', { metodo: 'PUT', corpo });
+        const atualizado = await pedir('/usuarios/eu', { metodo: 'PUT', corpo });
+        invalidarCache('usuarios');
+        sincronizarPerfil(atualizado);
+        if (alvo.isConnected) await secaoPerfil(atualizado);
         recado('Dados atualizados.');
-        secaoPerfil();
       },
     }),
-  })]);
+  })], alvo);
 
   alvo.replaceChildren(dados, el('div', { classe: 'cartao', estilo: 'margin-top:16px;max-width:460px' }, [
     el('h3', { estilo: 'font-size:16px;margin-bottom:12px', texto: 'Trocar minha senha' }),
@@ -1301,9 +1425,10 @@ async function secaoPerfil() {
 async function secaoRegistros() {
   const alvo = conteudo();
   alvo.replaceChildren(el('div', { classe: 'vazio', texto: 'Carregando registros…' }));
-  const [logs, estatisticas] = await Promise.all([
+  const [logs, estatisticas, email] = await Promise.all([
     pedir('/admin/logs?limite=200'),
     pedir('/admin/estatisticas'),
+    pedir('/admin/email'),
   ]);
 
   const contagens = Object.entries(estatisticas.contagens)
@@ -1329,9 +1454,21 @@ async function secaoRegistros() {
       },
     }),
     el('button', { classe: 'btn btn-linha', texto: 'Atualizar', onclick: secaoRegistros }),
-  ]);
+  ], alvo);
 
   alvo.replaceChildren(
+    el('div', { classe: 'cartao', estilo: 'margin-bottom:16px' }, [
+      el('h3', { texto: 'E-mail de acesso' }),
+      el('p', { texto: email.configurado ? `Remetente: ${email.remetente}. O envio de acesso fica disponível no cadastro da equipe.` : 'O envio de e-mail ainda não está configurado neste ambiente.' }),
+      el('button', { classe: 'btn btn-linha', texto: 'Verificar conexão de e-mail', onclick: async evento => {
+        const botao = evento.currentTarget; botao.disabled = true;
+        try {
+          const dados = await pedir('/admin/email/verificar', { metodo: 'POST' });
+          recado(dados.autenticado ? 'Conexão e autenticação SMTP confirmadas. Nenhum e-mail foi enviado nesta verificação.' : 'Não foi possível autenticar no servidor de e-mail. Verifique a configuração com a TI.', dados.autenticado ? 'ok' : 'erro');
+        } catch (erro) { recado(erro.message, 'erro'); }
+        finally { botao.disabled = false; }
+      } }),
+    ]),
     el('div', { classe: 'cartao' }, [
       el('h3', { estilo: 'font-size:16px;margin-bottom:10px', texto: 'Banco de dados' }),
       el('div', { estilo: 'margin-bottom:12px;color:var(--texto-suave)',
@@ -1361,22 +1498,34 @@ const SECOES_PROPRIAS = {
   registros: { grupo: 'Sistema', titulo: 'Registros e backup', descricao: 'Trilha de auditoria das ações e cópia completa do banco em JSON.', render: secaoRegistros },
 };
 
-function definirAcoes(botoes) {
+function definirAcoes(botoes, origem) {
+  if (origem && !origem.isConnected) return;
   document.getElementById('secao-acoes').replaceChildren(...botoes.filter(Boolean));
 }
 
 let secaoAtual = '';
 
 async function irPara(id) {
-  const propria = SECOES_PROPRIAS[id];
-  const recurso = RECURSOS[id];
+  if (id === 'registros' && !sessao.admin) return irPara('visao');
+  const propria = Object.hasOwn(SECOES_PROPRIAS, id) ? SECOES_PROPRIAS[id] : null;
+  const recurso = Object.hasOwn(RECURSOS, id) ? RECURSOS[id] : null;
   if (!propria && !recurso) return irPara('visao');
   secaoAtual = id;
+  // Cada navegação possui seu próprio destino. Respostas antigas só alteram
+  // o nó já removido, sem substituir o conteúdo da seção mais recente.
+  const alvo = conteudo().cloneNode(false);
+  conteudo().replaceWith(alvo);
   if (location.hash !== '#' + id) location.hash = id;
-
   for (const botao of document.querySelectorAll('#menu button')) {
-    botao.classList.toggle('ativo', botao.dataset.secao === id);
+    const ativo = botao.dataset.secao === id;
+    botao.classList.toggle('ativo', ativo);
+    if (ativo) {
+      botao.setAttribute('aria-current', 'page');
+      botao.scrollIntoView({ block: 'nearest', inline: 'nearest', behavior: 'instant' });
+    }
+    else botao.removeAttribute('aria-current');
   }
+  window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
   document.getElementById('secao-grupo').textContent = propria ? propria.grupo : tituloGrupo(id);
   document.getElementById('secao-titulo').textContent = propria ? propria.titulo : recurso.titulo;
   document.getElementById('secao-descricao').textContent = propria ? propria.descricao : recurso.descricao;
@@ -1386,7 +1535,10 @@ async function irPara(id) {
     if (propria) await propria.render();
     else await secaoRecurso(id);
   } catch (erro) {
-    if (erro.status !== 401) conteudo().replaceChildren(el('div', { classe: 'aviso erro', texto: erro.message }));
+    if (erro.status !== 401 && alvo.isConnected) alvo.replaceChildren(
+      el('div', { classe: 'aviso erro', texto: erro.message }),
+      el('button', { classe: 'btn btn-linha', texto: 'Tentar novamente', onclick: () => irPara(id) }),
+    );
   }
 }
 
@@ -1404,16 +1556,26 @@ function montarMenu() {
     menu.append(el('div', { classe: 'grupo mono', texto: grupo.grupo }));
     for (const item of itens) {
       menu.append(el('button', {
-        dados: { secao: item.id }, onclick: () => irPara(item.id),
-      }, [el('span', { estilo: 'width:16px;display:inline-block;text-align:center', texto: item.icone }),
+        type: 'button', dados: { secao: item.id }, onclick: () => irPara(item.id),
+      }, [iconeMenu(item.icone),
         el('span', { texto: item.rotulo })]));
     }
   }
 }
 
+function iconeMenu(nome) {
+  const ns = 'http://www.w3.org/2000/svg';
+  const svg = document.createElementNS(ns, 'svg');
+  for (const [chave, valor] of Object.entries({ class: 'icone-menu', viewBox: '0 0 24 24', 'aria-hidden': 'true', focusable: 'false' })) svg.setAttribute(chave, valor);
+  const uso = document.createElementNS(ns, 'use');
+  uso.setAttribute('href', `/assets/lucide.svg#${nome}`);
+  svg.append(uso);
+  return svg;
+}
+
 window.addEventListener('hashchange', () => {
-  const id = location.hash.replace('#', '');
-  if (id && id !== secaoAtual) irPara(id);
+  const id = location.hash.replace('#', '') || 'visao';
+  if (id !== secaoAtual) irPara(id);
 });
 
 document.addEventListener('click', evento => {
@@ -1433,7 +1595,9 @@ function encerrarSessao(mensagem) {
   if (mensagem) avisoEm('aviso-login', mensagem, 'info');
 }
 
-document.getElementById('sair').addEventListener('click', () => encerrarSessao('Sessão encerrada.'));
+document.getElementById('sair').addEventListener('click', async () => {
+  try { await pedir('/auth/logout', { metodo: 'POST' }); } finally { encerrarSessao('Sessão encerrada.'); }
+});
 
 document.getElementById('form-login').addEventListener('submit', async evento => {
   evento.preventDefault();
@@ -1445,13 +1609,14 @@ document.getElementById('form-login').addEventListener('submit', async evento =>
       corpo: { email: form.email.value.trim(), senha: form.senha.value },
     });
     if (!['Gestor', 'Administrador'].includes(dados.usuario.perfil)) {
-      avisoEm('aviso-login', 'Este painel é restrito a Gestor e Administrador. Use a plataforma em /app.', 'erro');
+      localStorage.setItem(CHAVE_TOKEN, dados.token);
+      location.replace('/app');
       return;
     }
     sessao.token = dados.token;
     sessao.usuario = dados.usuario;
     localStorage.setItem(CHAVE_TOKEN, dados.token);
-    localStorage.setItem(CHAVE_USUARIO, JSON.stringify(dados.usuario));
+    localStorage.setItem(CHAVE_USUARIO, JSON.stringify({ nome: dados.usuario.nome, perfil: dados.usuario.perfil }));
     iniciar();
   } catch (erro) {
     avisoEm('aviso-login', erro.message);
@@ -1467,10 +1632,8 @@ async function iniciar() {
     return encerrarSessao('Entre novamente para continuar.');
   }
   sessao.usuario = eu;
-  localStorage.setItem(CHAVE_USUARIO, JSON.stringify(eu));
-  if (!sessao.gestor) {
-    return encerrarSessao('Este painel é restrito a Gestor e Administrador.');
-  }
+  localStorage.setItem(CHAVE_USUARIO, JSON.stringify({ nome: eu.nome, perfil: eu.perfil }));
+  if (!sessao.gestor || eu.senha_temporaria) return location.replace(eu.senha_temporaria ? '/app#perfil' : '/app');
 
   document.getElementById('tela-login').classList.add('oculto');
   document.getElementById('app').classList.remove('oculto');

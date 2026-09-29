@@ -33,12 +33,13 @@ chown -R maternar:maternar "$DESTINO/backend/data"
 
 echo "== Dependências do backend =="
 cd "$DESTINO/backend"
-sudo -u maternar npm install --omit=dev --no-fund --no-audit
+sudo -u maternar npm ci --omit=dev --no-fund --no-audit
 
 echo "== systemd + nginx =="
 cp "$DESTINO/deploy/maternar.service" /etc/systemd/system/maternar.service
 systemctl daemon-reload
-systemctl enable --now maternar
+systemctl enable maternar
+systemctl restart maternar
 cp "$DESTINO/deploy/nginx.conf" /etc/nginx/sites-available/maternar
 ln -sf /etc/nginx/sites-available/maternar /etc/nginx/sites-enabled/maternar
 rm -f /etc/nginx/sites-enabled/default

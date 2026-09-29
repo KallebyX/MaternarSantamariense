@@ -3,7 +3,8 @@ import { test, before } from 'node:test';
 import assert from 'node:assert/strict';
 import request from 'supertest';
 import { criarApp } from '../src/app.js';
-import { seed } from '../src/db/seed.js';
+import { db } from '../src/db/connection.js';
+import { seed } from './fixtures/seed.js';
 
 let app;
 let tokenProfissional;
@@ -18,6 +19,8 @@ async function login(email) {
 
 before(async () => {
   seed();
+  db.prepare("UPDATE aulas SET url = 'acervo/mulher/protocolos/criterios-encaminhamento-para-parto-maternidades-2025.pdf'").run();
+  db.prepare('UPDATE cursos SET publicado=1').run();
   app = criarApp();
   tokenProfissional = await login('ana.ferraz@maternarsm.com.br');
   tokenGestor = await login('maria.rocha@maternarsm.com.br');
@@ -90,19 +93,21 @@ test('materiais filtram por tag', async () => {
 test('projetos reais do NEPeS com filtro e busca', async () => {
   const todos = await request(app).get('/api/projetos');
   assert.equal(todos.status, 200);
-  assert.equal(todos.body.meta.total, 157);
+  assert.equal(todos.body.meta.total, 704);
+  const historicos = await request(app).get('/api/projetos?escopo=historicos');
+  assert.equal(historicos.body.meta.total, 547);
   const busca = await request(app).get('/api/projetos?q=aleitamento');
   assert.ok(busca.body.meta.total > 0);
   const ativos = await request(app).get('/api/projetos?status=Ativo');
-  assert.ok(ativos.body.meta.total < 157 && ativos.body.meta.total > 0);
+  assert.ok(ativos.body.meta.total < todos.body.meta.total && ativos.body.meta.total > 0);
 });
 
-test('gestor cadastra projeto com autorização NEPeS sequencial', async () => {
+test('gestor cadastra projeto sem inventar autorização NEPeS', async () => {
   const r = await request(app).post('/api/projetos')
     .set('Authorization', `Bearer ${tokenGestor}`)
     .send({ titulo: 'Projeto de teste', responsavel: 'Prof. Teste' });
   assert.equal(r.status, 201);
-  assert.match(r.body.dados.autorizacao, /^NEPeS reg\. nº \d{3}\/\d{4}$/);
+  assert.equal(r.body.dados.autorizacao, '');
 });
 
 test('fluxo completo: concluir aulas → emitir certificado → verificar público', async () => {
@@ -181,7 +186,7 @@ test('admin: backup JSON sem hashes e estatísticas', async () => {
   assert.equal(r.status, 200);
   assert.ok(r.body.tabelas.usuarios.length >= 8);
   assert.ok(!('senha_hash' in r.body.tabelas.usuarios[0]));
-  assert.equal(r.body.tabelas.projetos.length, 158); // 157 + 1 criado no teste
+  assert.equal(r.body.tabelas.projetos.length, 705); // 704 + 1 criado no teste
   const est = await request(app).get('/api/admin/estatisticas').set('Authorization', `Bearer ${tokenAdmin}`);
   assert.ok(est.body.dados.contagens.materiais > 90);
 });

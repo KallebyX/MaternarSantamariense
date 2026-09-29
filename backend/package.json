@@ -9,7 +9,11 @@
     "dev": "node --watch src/server.js",
     "seed": "node src/db/seed.js",
     "extract-seeds": "node scripts/extract-seeds.mjs",
-    "test": "NODE_ENV=test node --test 'tests/**/*.test.js'"
+    "test": "NODE_ENV=test node --test 'tests/**/*.test.js'",
+    "test:e2e": "playwright test",
+    "icons": "node scripts/gerar-icones.mjs",
+    "importar-equipe": "node scripts/importar-equipe.mjs",
+    "criar-admin": "node scripts/criar-admin.mjs"
   },
   "engines": {
     "node": ">=20"
@@ -19,9 +23,13 @@
     "better-sqlite3": "^11.5.0",
     "express": "^4.21.0",
     "jsonwebtoken": "^9.0.2",
-    "multer": "^2.2.0"
+    "multer": "^2.2.0",
+    "nodemailer": "^10.0.12"
   },
   "devDependencies": {
+    "@playwright/test": "^1.63.0",
+    "lucide-static": "1.48.0",
+    "smtp-server": "^3.19.15",
     "supertest": "^7.0.0"
   }
 }

@@ -1,0 +1,2722 @@
+{
+  "PRODUTOS": [
+    {
+      "tipo": "Cartilha",
+      "ano": 2026,
+      "titulo": "Amamentar: um guia para os primeiros 30 dias",
+      "desc": "Material ilustrado para entrega na alta hospitalar, validado com 40 puérperas da rede.",
+      "url": "https://amamos.lapinf.ufn.edu.br/",
+      "capa": "produtos/capa-1.svg"
+    },
+    {
+      "tipo": "Guia",
+      "ano": 2026,
+      "titulo": "Linha de cuidado da gestante de alto risco",
+      "desc": "Fluxo completo de encaminhamento entre APS, ambulatório e maternidade de referência.",
+      "url": "https://bvsms.saude.gov.br/bvs/publicacoes/manual_tecnico_gestacao_alto_risco.pdf",
+      "capa": "produtos/capa-2.svg"
+    },
+    {
+      "tipo": "Podcast",
+      "ano": 2026,
+      "titulo": "Maternar em Rede — temporada 2",
+      "desc": "Oito episódios com profissionais da rede sobre humanização do parto e puerpério.",
+      "url": "https://www.apoiare.lapinf.ufn.edu.br/",
+      "capa": "produtos/capa-3.svg"
+    },
+    {
+      "tipo": "Manual",
+      "ano": 2025,
+      "titulo": "Manual de simulação em emergências obstétricas",
+      "desc": "Roteiros de cenário, checklists de debriefing e escalas de avaliação de equipe.",
+      "url": "https://www.portalcoren-rs.gov.br/docs/ProtocolosEnfermagem/",
+      "capa": "produtos/capa-4.svg"
+    },
+    {
+      "tipo": "Vídeo",
+      "ano": 2025,
+      "titulo": "Série: os 60 primeiros segundos do RN",
+      "desc": "Cinco vídeos curtos gravados em sala de parto para treinamento em serviço.",
+      "url": "https://www.youtube.com/results?search_query=reanima%C3%A7%C3%A3o+neonatal+minuto+de+ouro",
+      "capa": "produtos/capa-5.svg"
+    },
+    {
+      "tipo": "Relatório",
+      "ano": 2025,
+      "titulo": "Panorama materno-infantil de Santa Maria",
+      "desc": "Indicadores municipais de mortalidade, pré-natal e prematuridade com série histórica.",
+      "url": "https://datasus.saude.gov.br/",
+      "capa": "produtos/capa-6.svg"
+    }
+  ],
+  "CANAIS": [
+    {
+      "id": "obst",
+      "n": "# equipe-obstetrícia",
+      "sub": "34 participantes · plantões integrados",
+      "u": 0
+    },
+    {
+      "id": "plantao",
+      "n": "# plantão-noturno",
+      "sub": "12 participantes · turno 19h–07h",
+      "u": 3
+    },
+    {
+      "id": "ppgsmi",
+      "n": "# ppgsmi-pesquisa",
+      "sub": "21 participantes · produção científica",
+      "u": 0
+    },
+    {
+      "id": "maria",
+      "n": "Maria Aparecida Rocha",
+      "sub": "Coordenadora de Enfermagem · online",
+      "u": 1
+    }
+  ],
+  "QUALIFICA": [
+    {
+      "id": 1,
+      "t": "Pré-natal e Saúde da Gestante",
+      "d": "Fundamentos do cuidado pré-natal, protocolos de atendimento e acompanhamento integral da gestante.",
+      "aulas": 12,
+      "dur": "15h",
+      "nivel": "Intermediário",
+      "prog": 65,
+      "cor": "#D42E5B",
+      "rec": [
+        [
+          "Guia do Pré-Natal RS 2024",
+          "PDF",
+          "https://atencaoprimaria.rs.gov.br/upload/arquivos/202404/25124004-guia-do-pre-natal-2024.pdf",
+          "Secretaria Estadual de Saúde do RS"
+        ],
+        [
+          "Guia do Pré-Natal para Profissionais",
+          "PDF",
+          "https://bvsms.saude.gov.br/bvs/publicacoes/guia_pre_natal_profissionais_saude_1ed.pdf",
+          "Ministério da Saúde"
+        ],
+        [
+          "Cuidado Materno UNEB",
+          "Site",
+          "https://cuidadomaternouneb.com",
+          "UNEB"
+        ],
+        [
+          "Fluxograma Pré-natal",
+          "PDF",
+          "https://pergamum.ufn.edu.br/pergamumweb/vinculos/0000c5/0000c5fe.pdf",
+          "Universidade Franciscana"
+        ]
+      ]
+    },
+    {
+      "id": 2,
+      "t": "Puerpério, Saúde Mental e Rede de Apoio",
+      "d": "Cuidado integral no pós-parto, mudanças emocionais e construção de redes de suporte.",
+      "aulas": 10,
+      "dur": "12h",
+      "nivel": "Intermediário",
+      "prog": 30,
+      "cor": "#1E4A7A",
+      "rec": [
+        [
+          "Plataforma APOIARE",
+          "Plataforma",
+          "https://www.apoiare.lapinf.ufn.edu.br/",
+          "UFN / LAPINF"
+        ],
+        [
+          "Tecnologias em Saúde — Puerpério",
+          "PDF",
+          "https://www.ufn.edu.br/Arquivos/vue/Portfolio/a53420f0-c96d-46e6-b42c-b62983720685.pdf",
+          "Universidade Franciscana"
+        ],
+        [
+          "Portfólio de Cuidados no Puerpério",
+          "PDF",
+          "https://www.ufn.edu.br/Arquivos/vue/Portfolio/a42d5374-983f-4131-b7f0-6d209cbcac6f.pdf",
+          "Universidade Franciscana"
+        ]
+      ]
+    },
+    {
+      "id": 3,
+      "t": "Aleitamento Materno e Alimentação",
+      "d": "Manejo da amamentação, técnicas e introdução alimentar saudável.",
+      "aulas": 8,
+      "dur": "10h",
+      "nivel": "Introdutório",
+      "prog": 100,
+      "cor": "#7AB844",
+      "rec": [
+        [
+          "Plataforma AMAMOS",
+          "Plataforma",
+          "https://amamos.lapinf.ufn.edu.br/buscar/categoria",
+          "UFN / LAPINF"
+        ],
+        [
+          "Guia Dez Passos para Alimentação Saudável",
+          "PDF",
+          "https://bvsms.saude.gov.br/bvs/publicacoes/guia_dez_passos_alimentacao_saudavel_2ed.pdf",
+          "Ministério da Saúde"
+        ]
+      ]
+    },
+    {
+      "id": 4,
+      "t": "Atenção ao Bebê: Primeiros Cuidados",
+      "d": "Cuidados essenciais, urgências pediátricas e desenvolvimento infantil.",
+      "aulas": 15,
+      "dur": "18h",
+      "nivel": "Avançado",
+      "prog": null,
+      "locked": true,
+      "cor": "#153A62",
+      "rec": [
+        [
+          "Primeiros Socorros em Bebês",
+          "Vídeo",
+          "https://www.youtube.com/watch?v=PzqnC0paEA8",
+          "YouTube Educacional"
+        ],
+        [
+          "Cuidados com Recém-nascidos",
+          "Vídeo",
+          "https://www.youtube.com/watch?v=Mr48F49Uqso",
+          "YouTube Educacional"
+        ],
+        [
+          "App SOS Kids",
+          "App",
+          "https://play.google.com/store/apps/details?id=com.ufn.soskids",
+          "UFN"
+        ]
+      ]
+    },
+    {
+      "id": 5,
+      "t": "Saúde Bucal",
+      "d": "Cuidados odontológicos da gestante e do bebê.",
+      "aulas": 6,
+      "dur": "8h",
+      "nivel": "Introdutório",
+      "prog": 0,
+      "cor": "#8A5A12",
+      "rec": [
+        [
+          "Cartilha Saúde Bucal da Gestante",
+          "PDF",
+          "https://www.gov.br/saude/pt-br/centrais-de-conteudo/publicacoes/cartilhas/2022/cartilha-a-saude-bucal-da-gestante.pdf",
+          "Ministério da Saúde"
+        ],
+        [
+          "Material sobre Saúde Bucal",
+          "PDF",
+          "https://pergamum.ufn.edu.br/pergamumweb/vinculos/0000c6/0000c608.pdf",
+          "Universidade Franciscana"
+        ]
+      ]
+    },
+    {
+      "id": 6,
+      "t": "Protocolos e Cadernos Técnicos",
+      "d": "Documentos oficiais, diretrizes e protocolos de atendimento atualizados.",
+      "aulas": 20,
+      "dur": "25h",
+      "nivel": "Avançado",
+      "prog": 10,
+      "cor": "#1E4A7A",
+      "rec": [
+        [
+          "Protocolos de Enfermagem COREN-RS",
+          "Site",
+          "https://www.portalcoren-rs.gov.br/docs/ProtocolosEnfermagem/",
+          "COREN-RS"
+        ],
+        [
+          "Cadernos de Atenção Básica",
+          "Site",
+          "https://bvsms.saude.gov.br/bvs/publicacoes/",
+          "Ministério da Saúde"
+        ]
+      ]
+    },
+    {
+      "id": 7,
+      "t": "Aplicativos e Plataformas Digitais",
+      "d": "Ferramentas tecnológicas de apoio ao cuidado materno-infantil.",
+      "aulas": 5,
+      "dur": "6h",
+      "nivel": "Introdutório",
+      "prog": 0,
+      "cor": "#D42E5B",
+      "rec": [
+        [
+          "App Fortalece",
+          "App",
+          "https://play.google.com/store/apps/details?id=io.kodular.miguelmachado0007.fortalece",
+          "Acompanhamento da gestação"
+        ],
+        [
+          "App SOS Kids",
+          "App",
+          "https://play.google.com/store/apps/details?id=com.ufn.soskids",
+          "UFN · urgências pediátricas"
+        ],
+        [
+          "Plataforma AMAMOS",
+          "Plataforma",
+          "https://amamos.lapinf.ufn.edu.br/",
+          "UFN / LAPINF"
+        ],
+        [
+          "Plataforma APOIARE",
+          "Plataforma",
+          "https://www.apoiare.lapinf.ufn.edu.br/",
+          "UFN / LAPINF"
+        ]
+      ]
+    },
+    {
+      "id": 8,
+      "t": "Materiais Audiovisuais Educativos",
+      "d": "Vídeos, podcasts e recursos multimídia para educação em saúde.",
+      "aulas": 12,
+      "dur": "8h",
+      "nivel": "Introdutório",
+      "prog": 45,
+      "cor": "#7AB844",
+      "rec": [
+        [
+          "Álbum — Maternidade Santa Maria",
+          "Site",
+          "https://www.flickr.com/photos/prefeituradesantamaria/52890420023/in/album-72177720307320784/",
+          "Prefeitura de Santa Maria"
+        ],
+        [
+          "Curso Introdutório Online",
+          "Site",
+          "https://sites.google.com/view/cursointrodutoriosm/",
+          "Secretaria Municipal de Saúde SM"
+        ],
+        [
+          "Conteúdo Pediátrico",
+          "Site",
+          "https://pediatraluisapinheiro.com.br/",
+          "Dra. Luisa Pinheiro"
+        ]
+      ]
+    },
+    {
+      "id": 9,
+      "t": "Publicações Científicas",
+      "d": "Artigos, pesquisas e evidências atualizadas em saúde materno-infantil.",
+      "aulas": 10,
+      "dur": "15h",
+      "nivel": "Avançado",
+      "prog": 0,
+      "cor": "#8A5A12",
+      "rec": [
+        [
+          "Produção Científica UFN — 1",
+          "PDF",
+          "https://pergamum.ufn.edu.br/pergamumweb/vinculos/0000c5/0000c57a.pdf",
+          "Universidade Franciscana"
+        ],
+        [
+          "Produção Científica UFN — 2",
+          "PDF",
+          "https://pergamum.ufn.edu.br/pergamumweb/vinculos/0000c5/0000c5fe.pdf",
+          "Universidade Franciscana"
+        ],
+        [
+          "Produção Científica UFN — 3",
+          "PDF",
+          "https://pergamum.ufn.edu.br/pergamumweb/vinculos/0000bf/0000bfec.pdf",
+          "Universidade Franciscana"
+        ]
+      ]
+    }
+  ],
+  "DOCS": [
+    {
+      "id": "d1",
+      "titulo": "Critérios de Encaminhamento para Parto — Maternidades 2025",
+      "tipo": "Protocolo",
+      "cat": "Saúde da Mulher",
+      "setor": "Saúde da Mulher",
+      "autor": "SMS Santa Maria / NEPeS",
+      "status": "Aprovado",
+      "versao": "vigente",
+      "mod": "ago/2026",
+      "expira": "",
+      "expSoon": false,
+      "tam": "316 KB",
+      "views": 902,
+      "downloads": 283,
+      "tags": [
+        "parto",
+        "maternidades"
+      ],
+      "desc": "Material oficial do acervo de qualificações — Saúde da Mulher.",
+      "url": "acervo/mulher/protocolos/criterios-encaminhamento-para-parto-maternidades-2025.pdf"
+    },
+    {
+      "id": "d2",
+      "titulo": "Ficha de Compartilhamento de Informação — violência contra crianças e adolescentes",
+      "tipo": "Formulário",
+      "cat": "Saúde da Mulher",
+      "setor": "Saúde da Mulher",
+      "autor": "SMS Santa Maria / NEPeS",
+      "status": "Aprovado",
+      "versao": "vigente",
+      "mod": "ago/2026",
+      "expira": "",
+      "expSoon": false,
+      "tam": "172 KB",
+      "views": 328,
+      "downloads": 121,
+      "tags": [
+        "violência",
+        "formulário"
+      ],
+      "desc": "Material oficial do acervo de qualificações — Saúde da Mulher.",
+      "url": "acervo/mulher/protocolos/ficha-de-compartilhamento-de-informacao.docx"
+    },
+    {
+      "id": "d3",
+      "titulo": "Formulário de Encaminhamento — Violência Doméstica",
+      "tipo": "Formulário",
+      "cat": "Saúde da Mulher",
+      "setor": "Saúde da Mulher",
+      "autor": "SMS Santa Maria / NEPeS",
+      "status": "Aprovado",
+      "versao": "vigente",
+      "mod": "ago/2026",
+      "expira": "",
+      "expSoon": false,
+      "tam": "130 KB",
+      "views": 1181,
+      "downloads": 119,
+      "tags": [
+        "violência",
+        "formulário"
+      ],
+      "desc": "Material oficial do acervo de qualificações — Saúde da Mulher.",
+      "url": "acervo/mulher/protocolos/formulario-de-encaminhamento-vio-domestica.pdf"
+    },
+    {
+      "id": "d4",
+      "titulo": "Instruções de Coleta — Cultura de Streptococcus agalactiae (GBS)",
+      "tipo": "Protocolo",
+      "cat": "Saúde da Mulher",
+      "setor": "Saúde da Mulher",
+      "autor": "SMS Santa Maria / NEPeS",
+      "status": "Aprovado",
+      "versao": "vigente",
+      "mod": "ago/2026",
+      "expira": "",
+      "expSoon": false,
+      "tam": "235 KB",
+      "views": 1252,
+      "downloads": 84,
+      "tags": [
+        "GBS",
+        "gestante",
+        "coleta"
+      ],
+      "desc": "Material oficial do acervo de qualificações — Saúde da Mulher.",
+      "url": "acervo/mulher/protocolos/instrucoes-para-coleta-de-material-para-cultura-de-streptococcus-agalactiae-estreptococo-grupo-b-ou-gbs.pdf"
+    },
+    {
+      "id": "d5",
+      "titulo": "Orientações para Registro — Saúde da Mulher",
+      "tipo": "Protocolo",
+      "cat": "Saúde da Mulher",
+      "setor": "Saúde da Mulher",
+      "autor": "SMS Santa Maria / NEPeS",
+      "status": "Aprovado",
+      "versao": "vigente",
+      "mod": "ago/2026",
+      "expira": "",
+      "expSoon": false,
+      "tam": "715 KB",
+      "views": 676,
+      "downloads": 341,
+      "tags": [
+        "registro",
+        "mulher"
+      ],
+      "desc": "Material oficial do acervo de qualificações — Saúde da Mulher.",
+      "url": "acervo/mulher/protocolos/orientacoes-para-registro-saude-da-mulher.pdf"
+    },
+    {
+      "id": "d6",
+      "titulo": "Orientações para Validação de Consultas de Puerpério e Puericultura",
+      "tipo": "Protocolo",
+      "cat": "Saúde da Mulher",
+      "setor": "Saúde da Mulher",
+      "autor": "SMS Santa Maria / NEPeS",
+      "status": "Aprovado",
+      "versao": "vigente",
+      "mod": "ago/2026",
+      "expira": "",
+      "expSoon": false,
+      "tam": "620 KB",
+      "views": 1863,
+      "downloads": 169,
+      "tags": [
+        "puerpério",
+        "puericultura",
+        "registro"
+      ],
+      "desc": "Material oficial do acervo de qualificações — Saúde da Mulher.",
+      "url": "acervo/mulher/protocolos/orientacoes-para-validacao-de-consultas-de-puerperio-e-puericultura.pdf"
+    },
+    {
+      "id": "d7",
+      "titulo": "Protocolo de Encaminhamento — Implante Subdérmico (dez/2025)",
+      "tipo": "Protocolo",
+      "cat": "Saúde da Mulher",
+      "setor": "Saúde da Mulher",
+      "autor": "SMS Santa Maria / NEPeS",
+      "status": "Aprovado",
+      "versao": "vigente",
+      "mod": "ago/2026",
+      "expira": "",
+      "expSoon": false,
+      "tam": "542 KB",
+      "views": 863,
+      "downloads": 141,
+      "tags": [
+        "implante subdérmico",
+        "contracepção"
+      ],
+      "desc": "Material oficial do acervo de qualificações — Saúde da Mulher.",
+      "url": "acervo/mulher/protocolos/protocolo-de-encaminhamento-implante-subda-rmico-dez-2025.pdf"
+    },
+    {
+      "id": "d8",
+      "titulo": "Protocolo de Enfermagem em Saúde da Mulher",
+      "tipo": "Protocolo",
+      "cat": "Saúde da Mulher",
+      "setor": "Saúde da Mulher",
+      "autor": "SMS Santa Maria / NEPeS",
+      "status": "Aprovado",
+      "versao": "vigente",
+      "mod": "ago/2026",
+      "expira": "",
+      "expSoon": false,
+      "tam": "12,5 MB",
+      "views": 1840,
+      "downloads": 237,
+      "tags": [
+        "enfermagem",
+        "mulher"
+      ],
+      "desc": "Material oficial do acervo de qualificações — Saúde da Mulher.",
+      "url": "acervo/mulher/protocolos/protocolo-de-enfermagem-em-saude-da-mulher.pdf"
+    },
+    {
+      "id": "d9",
+      "titulo": "Protocolo de Toxoplasmose Gestacional de Santa Maria",
+      "tipo": "Protocolo",
+      "cat": "Saúde da Mulher",
+      "setor": "Saúde da Mulher",
+      "autor": "SMS Santa Maria / NEPeS",
+      "status": "Aprovado",
+      "versao": "vigente",
+      "mod": "ago/2026",
+      "expira": "",
+      "expSoon": false,
+      "tam": "1,1 MB",
+      "views": 1249,
+      "downloads": 383,
+      "tags": [
+        "toxoplasmose",
+        "gestante"
+      ],
+      "desc": "Material oficial do acervo de qualificações — Saúde da Mulher.",
+      "url": "acervo/mulher/protocolos/protocolo-toxoplasmose-gestacional-de-santa-maria-1.pdf"
+    },
+    {
+      "id": "d10",
+      "titulo": "Suplementação de Cálcio para Gestantes",
+      "tipo": "Protocolo",
+      "cat": "Saúde da Mulher",
+      "setor": "Saúde da Mulher",
+      "autor": "SMS Santa Maria / NEPeS",
+      "status": "Aprovado",
+      "versao": "vigente",
+      "mod": "ago/2026",
+      "expira": "",
+      "expSoon": false,
+      "tam": "86 KB",
+      "views": 1700,
+      "downloads": 142,
+      "tags": [
+        "gestante",
+        "cálcio",
+        "pré-natal"
+      ],
+      "desc": "Material oficial do acervo de qualificações — Saúde da Mulher.",
+      "url": "acervo/mulher/protocolos/suplementacao-de-calcio-para-gestantes.pdf"
+    },
+    {
+      "id": "d11",
+      "titulo": "Telessaúde — Encaminhamentos de Pré-natal de Alto Risco",
+      "tipo": "Protocolo",
+      "cat": "Saúde da Mulher",
+      "setor": "Saúde da Mulher",
+      "autor": "SMS Santa Maria / NEPeS",
+      "status": "Aprovado",
+      "versao": "vigente",
+      "mod": "ago/2026",
+      "expira": "",
+      "expSoon": false,
+      "tam": "1,9 MB",
+      "views": 1839,
+      "downloads": 303,
+      "tags": [
+        "telessaúde",
+        "pré-natal",
+        "alto risco"
+      ],
+      "desc": "Material oficial do acervo de qualificações — Saúde da Mulher.",
+      "url": "acervo/mulher/protocolos/telessaude-encaminhamentos-pre-natal-alto-risco.pdf"
+    },
+    {
+      "id": "d12",
+      "titulo": "Telessaúde — Laqueadura e Vasectomia",
+      "tipo": "Protocolo",
+      "cat": "Saúde da Mulher",
+      "setor": "Saúde da Mulher",
+      "autor": "SMS Santa Maria / NEPeS",
+      "status": "Aprovado",
+      "versao": "vigente",
+      "mod": "ago/2026",
+      "expira": "",
+      "expSoon": false,
+      "tam": "5,9 MB",
+      "views": 1264,
+      "downloads": 182,
+      "tags": [
+        "telessaúde",
+        "planejamento reprodutivo"
+      ],
+      "desc": "Material oficial do acervo de qualificações — Saúde da Mulher.",
+      "url": "acervo/mulher/protocolos/laqueadura-e-vasectomia-telessaude.pdf"
+    },
+    {
+      "id": "d13",
+      "titulo": "Telessaúde — Nódulo Mamário",
+      "tipo": "Protocolo",
+      "cat": "Saúde da Mulher",
+      "setor": "Saúde da Mulher",
+      "autor": "SMS Santa Maria / NEPeS",
+      "status": "Aprovado",
+      "versao": "vigente",
+      "mod": "ago/2026",
+      "expira": "",
+      "expSoon": false,
+      "tam": "1,8 MB",
+      "views": 1101,
+      "downloads": 414,
+      "tags": [
+        "telessaúde",
+        "mama"
+      ],
+      "desc": "Material oficial do acervo de qualificações — Saúde da Mulher.",
+      "url": "acervo/mulher/protocolos/telessaude-nodulo-mamario.pdf"
+    },
+    {
+      "id": "d14",
+      "titulo": "Fluxograma — Violência contra a Mulher",
+      "tipo": "Fluxograma",
+      "cat": "Saúde da Mulher",
+      "setor": "Saúde da Mulher",
+      "autor": "SMS Santa Maria / NEPeS",
+      "status": "Aprovado",
+      "versao": "vigente",
+      "mod": "ago/2026",
+      "expira": "",
+      "expSoon": false,
+      "tam": "367 KB",
+      "views": 1387,
+      "downloads": 243,
+      "tags": [
+        "violência",
+        "mulher",
+        "fluxo"
+      ],
+      "desc": "Material oficial do acervo de qualificações — Saúde da Mulher.",
+      "url": "acervo/mulher/protocolos/fluxograma-violencia-contra-a-mulher.jpeg"
+    },
+    {
+      "id": "d15",
+      "titulo": "Nota Técnica 01/2025 — Testagem de HTLV em Gestantes",
+      "tipo": "Nota Técnica",
+      "cat": "Saúde da Mulher",
+      "setor": "Saúde da Mulher",
+      "autor": "SMS Santa Maria / NEPeS",
+      "status": "Aprovado",
+      "versao": "vigente",
+      "mod": "ago/2026",
+      "expira": "",
+      "expSoon": false,
+      "tam": "245 KB",
+      "views": 600,
+      "downloads": 162,
+      "tags": [
+        "HTLV",
+        "testagem",
+        "gestante"
+      ],
+      "desc": "Material oficial do acervo de qualificações — Saúde da Mulher.",
+      "url": "acervo/mulher/notas-tecnicas/nota-tecnica-01-2025-testagem-htlv-gestantes.pdf"
+    },
+    {
+      "id": "d16",
+      "titulo": "Nota Técnica Conjunta nº 6/2025 — HTLV em Gestantes (MS)",
+      "tipo": "Nota Técnica",
+      "cat": "Saúde da Mulher",
+      "setor": "Saúde da Mulher",
+      "autor": "Ministério da Saúde",
+      "status": "Aprovado",
+      "versao": "vigente",
+      "mod": "ago/2026",
+      "expira": "",
+      "expSoon": false,
+      "tam": "1,9 MB",
+      "views": 165,
+      "downloads": 351,
+      "tags": [
+        "HTLV",
+        "gestante"
+      ],
+      "desc": "Material oficial do acervo de qualificações — Saúde da Mulher.",
+      "url": "acervo/mulher/notas-tecnicas/nota-tecnica-conjunta-htlv-em-gestantes-n-6-2025-cgist-dathi-svsa-ms.pdf"
+    },
+    {
+      "id": "d17",
+      "titulo": "Memorando — Dignidade Menstrual",
+      "tipo": "Memorando",
+      "cat": "Saúde da Mulher",
+      "setor": "Saúde da Mulher",
+      "autor": "SMS Santa Maria / NEPeS",
+      "status": "Aprovado",
+      "versao": "vigente",
+      "mod": "ago/2026",
+      "expira": "",
+      "expSoon": false,
+      "tam": "389 KB",
+      "views": 1644,
+      "downloads": 116,
+      "tags": [
+        "dignidade menstrual"
+      ],
+      "desc": "Material oficial do acervo de qualificações — Saúde da Mulher.",
+      "url": "acervo/mulher/memorandos/memorando-dignidade-mesntrual.pdf"
+    },
+    {
+      "id": "d18",
+      "titulo": "Memorando — Gestantes Diabéticas",
+      "tipo": "Memorando",
+      "cat": "Saúde da Mulher",
+      "setor": "Saúde da Mulher",
+      "autor": "SMS Santa Maria / NEPeS",
+      "status": "Aprovado",
+      "versao": "vigente",
+      "mod": "ago/2026",
+      "expira": "",
+      "expSoon": false,
+      "tam": "418 KB",
+      "views": 143,
+      "downloads": 315,
+      "tags": [
+        "gestante",
+        "diabetes"
+      ],
+      "desc": "Material oficial do acervo de qualificações — Saúde da Mulher.",
+      "url": "acervo/mulher/memorandos/memorando-gestantes-diabeticas.pdf"
+    },
+    {
+      "id": "d19",
+      "titulo": "Memorando — HTLV na Gestação",
+      "tipo": "Memorando",
+      "cat": "Saúde da Mulher",
+      "setor": "Saúde da Mulher",
+      "autor": "SMS Santa Maria / NEPeS",
+      "status": "Aprovado",
+      "versao": "vigente",
+      "mod": "ago/2026",
+      "expira": "",
+      "expSoon": false,
+      "tam": "189 KB",
+      "views": 1731,
+      "downloads": 173,
+      "tags": [
+        "HTLV",
+        "gestante"
+      ],
+      "desc": "Material oficial do acervo de qualificações — Saúde da Mulher.",
+      "url": "acervo/mulher/memorandos/memorando-htlv-na-gestacao.pdf"
+    },
+    {
+      "id": "d20",
+      "titulo": "Memorando — Laqueadura e Vasectomia",
+      "tipo": "Memorando",
+      "cat": "Saúde da Mulher",
+      "setor": "Saúde da Mulher",
+      "autor": "SMS Santa Maria / NEPeS",
+      "status": "Aprovado",
+      "versao": "vigente",
+      "mod": "ago/2026",
+      "expira": "",
+      "expSoon": false,
+      "tam": "119 KB",
+      "views": 1135,
+      "downloads": 63,
+      "tags": [
+        "planejamento reprodutivo"
+      ],
+      "desc": "Material oficial do acervo de qualificações — Saúde da Mulher.",
+      "url": "acervo/mulher/memorandos/memorando-laqueadura-e-vasectomia.pdf"
+    },
+    {
+      "id": "d21",
+      "titulo": "Memorando — Rota de Envio do Citopatológico de Colo Uterino",
+      "tipo": "Memorando",
+      "cat": "Saúde da Mulher",
+      "setor": "Saúde da Mulher",
+      "autor": "SMS Santa Maria / NEPeS",
+      "status": "Aprovado",
+      "versao": "vigente",
+      "mod": "ago/2026",
+      "expira": "",
+      "expSoon": false,
+      "tam": "196 KB",
+      "views": 1418,
+      "downloads": 53,
+      "tags": [
+        "citopatológico",
+        "colo do útero"
+      ],
+      "desc": "Material oficial do acervo de qualificações — Saúde da Mulher.",
+      "url": "acervo/mulher/memorandos/memorando-rota-envio-citopatologico-de-colo-uterino.pdf"
+    },
+    {
+      "id": "d22",
+      "titulo": "Manual de Vigilância do Óbito Infantil e Fetal — 2ª edição",
+      "tipo": "Manual",
+      "cat": "Saúde da Criança",
+      "setor": "Saúde da Criança",
+      "autor": "SMS Santa Maria / NEPeS",
+      "status": "Aprovado",
+      "versao": "vigente",
+      "mod": "ago/2026",
+      "expira": "",
+      "expSoon": false,
+      "tam": "1,6 MB",
+      "views": 1568,
+      "downloads": 120,
+      "tags": [
+        "óbito infantil",
+        "vigilância"
+      ],
+      "desc": "Material oficial do acervo de qualificações — Saúde da Criança.",
+      "url": "acervo/crianca/protocolos/manual-obito-infantil-fetal-2ed.pdf"
+    },
+    {
+      "id": "d23",
+      "titulo": "Protocolo de Enfermagem — Saúde da Criança e do Adolescente",
+      "tipo": "Protocolo",
+      "cat": "Saúde da Criança",
+      "setor": "Saúde da Criança",
+      "autor": "SMS Santa Maria / NEPeS",
+      "status": "Aprovado",
+      "versao": "vigente",
+      "mod": "ago/2026",
+      "expira": "",
+      "expSoon": false,
+      "tam": "85,6 MB",
+      "views": 913,
+      "downloads": 111,
+      "tags": [
+        "enfermagem",
+        "criança",
+        "adolescente"
+      ],
+      "desc": "Material oficial do acervo de qualificações — Saúde da Criança.",
+      "url": "acervo/crianca/protocolos/protocoloenfermagemsaudecriancaadolescente-1.pdf"
+    },
+    {
+      "id": "d24",
+      "titulo": "Fluxo de Encaminhamento para Pediatra",
+      "tipo": "Fluxograma",
+      "cat": "Saúde da Criança",
+      "setor": "Saúde da Criança",
+      "autor": "SMS Santa Maria / NEPeS",
+      "status": "Aprovado",
+      "versao": "vigente",
+      "mod": "ago/2026",
+      "expira": "",
+      "expSoon": false,
+      "tam": "132 KB",
+      "views": 1095,
+      "downloads": 291,
+      "tags": [
+        "pediatra",
+        "encaminhamento"
+      ],
+      "desc": "Material oficial do acervo de qualificações — Saúde da Criança.",
+      "url": "acervo/crianca/protocolos/fluxo-encaminhamento-para-pediatra-docx.pdf"
+    },
+    {
+      "id": "d25",
+      "titulo": "Fluxograma de Violência Sexual para Crianças e Adolescentes",
+      "tipo": "Fluxograma",
+      "cat": "Saúde da Criança",
+      "setor": "Saúde da Criança",
+      "autor": "SMS Santa Maria / NEPeS",
+      "status": "Aprovado",
+      "versao": "vigente",
+      "mod": "ago/2026",
+      "expira": "",
+      "expSoon": false,
+      "tam": "2,1 MB",
+      "views": 864,
+      "downloads": 96,
+      "tags": [
+        "violência sexual",
+        "criança",
+        "fluxo"
+      ],
+      "desc": "Material oficial do acervo de qualificações — Saúde da Criança.",
+      "url": "acervo/crianca/links-uteis/3-1.png"
+    },
+    {
+      "id": "d26",
+      "titulo": "Fluxograma de Violência para Crianças e Adolescentes",
+      "tipo": "Fluxograma",
+      "cat": "Saúde da Criança",
+      "setor": "Saúde da Criança",
+      "autor": "SMS Santa Maria / NEPeS",
+      "status": "Aprovado",
+      "versao": "vigente",
+      "mod": "ago/2026",
+      "expira": "",
+      "expSoon": false,
+      "tam": "2,4 MB",
+      "views": 1253,
+      "downloads": 82,
+      "tags": [
+        "violência",
+        "criança",
+        "fluxo"
+      ],
+      "desc": "Material oficial do acervo de qualificações — Saúde da Criança.",
+      "url": "acervo/crianca/links-uteis/4-1.png"
+    },
+    {
+      "id": "d27",
+      "titulo": "Fluxograma — Triagem Auditiva Neonatal (TAN)",
+      "tipo": "Fluxograma",
+      "cat": "Saúde da Criança",
+      "setor": "Saúde da Criança",
+      "autor": "SMS Santa Maria / NEPeS",
+      "status": "Aprovado",
+      "versao": "vigente",
+      "mod": "ago/2026",
+      "expira": "",
+      "expSoon": false,
+      "tam": "685 KB",
+      "views": 256,
+      "downloads": 38,
+      "tags": [
+        "TAN",
+        "triagem neonatal"
+      ],
+      "desc": "Material oficial do acervo de qualificações — Saúde da Criança.",
+      "url": "acervo/crianca/protocolos/fluxograma-tan-1-1.pdf"
+    },
+    {
+      "id": "d28",
+      "titulo": "Fluxograma — Violência Sexual contra Gestantes",
+      "tipo": "Fluxograma",
+      "cat": "Saúde da Criança",
+      "setor": "Saúde da Criança",
+      "autor": "SMS Santa Maria / NEPeS",
+      "status": "Aprovado",
+      "versao": "vigente",
+      "mod": "ago/2026",
+      "expira": "",
+      "expSoon": false,
+      "tam": "1,4 MB",
+      "views": 365,
+      "downloads": 282,
+      "tags": [
+        "violência sexual",
+        "gestante",
+        "fluxo"
+      ],
+      "desc": "Material oficial do acervo de qualificações — Saúde da Criança.",
+      "url": "acervo/crianca/links-uteis/violencia-sexual-gestante.png"
+    },
+    {
+      "id": "d29",
+      "titulo": "Assistência à Saúde da Criança de 0 a 2 anos na APS (RS)",
+      "tipo": "Nota Técnica",
+      "cat": "Saúde da Criança",
+      "setor": "Saúde da Criança",
+      "autor": "SES/RS",
+      "status": "Aprovado",
+      "versao": "vigente",
+      "mod": "ago/2026",
+      "expira": "",
+      "expSoon": false,
+      "tam": "676 KB",
+      "views": 738,
+      "downloads": 384,
+      "tags": [
+        "puericultura",
+        "0 a 2 anos",
+        "APS"
+      ],
+      "desc": "Material oficial do acervo de qualificações — Saúde da Criança.",
+      "url": "acervo/crianca/notas-tecnicas/12123420-assistencia-a-saude-da-crianca-de-0-a-2-anos-na-atencao-primaria-a-saude-saude-da-crianca-rs.pdf"
+    },
+    {
+      "id": "d30",
+      "titulo": "Ficha de Compartilhamento de Informações — modelo atualizado (25/05/2025)",
+      "tipo": "Formulário",
+      "cat": "Saúde da Criança",
+      "setor": "Saúde da Criança",
+      "autor": "SMS Santa Maria / NEPeS",
+      "status": "Aprovado",
+      "versao": "vigente",
+      "mod": "ago/2026",
+      "expira": "",
+      "expSoon": false,
+      "tam": "256 KB",
+      "views": 387,
+      "downloads": 258,
+      "tags": [
+        "violência",
+        "formulário"
+      ],
+      "desc": "Material oficial do acervo de qualificações — Saúde da Criança.",
+      "url": "acervo/crianca/notas-tecnicas/ficha-de-compartilhamento-de-informacoes-modelo-atualizado-em-25-05-25-1-1.pdf"
+    },
+    {
+      "id": "d31",
+      "titulo": "Nota Técnica — Triagem Neonatal (RS)",
+      "tipo": "Nota Técnica",
+      "cat": "Saúde da Criança",
+      "setor": "Saúde da Criança",
+      "autor": "SES/RS",
+      "status": "Aprovado",
+      "versao": "vigente",
+      "mod": "ago/2026",
+      "expira": "",
+      "expSoon": false,
+      "tam": "548 KB",
+      "views": 1577,
+      "downloads": 327,
+      "tags": [
+        "triagem neonatal",
+        "RS"
+      ],
+      "desc": "Material oficial do acervo de qualificações — Saúde da Criança.",
+      "url": "acervo/crianca/notas-tecnicas/nota-tecnica-triagem-neonatal-rs.pdf"
+    },
+    {
+      "id": "d32",
+      "titulo": "Ficha F1 — Investigação de Óbito Fetal (serviço ambulatorial)",
+      "tipo": "Formulário",
+      "cat": "Saúde da Criança",
+      "setor": "Saúde da Criança",
+      "autor": "SMS Santa Maria / NEPeS",
+      "status": "Aprovado",
+      "versao": "vigente",
+      "mod": "ago/2026",
+      "expira": "",
+      "expSoon": false,
+      "tam": "166 KB",
+      "views": 674,
+      "downloads": 39,
+      "tags": [
+        "óbito fetal",
+        "vigilância"
+      ],
+      "desc": "Material oficial do acervo de qualificações — Saúde da Criança.",
+      "url": "acervo/crianca/links-uteis/f1-ficha-investigacao-obito-fetal-servico-saude-ambulatorial.pdf"
+    },
+    {
+      "id": "d33",
+      "titulo": "Ficha F3 — Investigação de Óbito Fetal (entrevista domiciliar)",
+      "tipo": "Formulário",
+      "cat": "Saúde da Criança",
+      "setor": "Saúde da Criança",
+      "autor": "SMS Santa Maria / NEPeS",
+      "status": "Aprovado",
+      "versao": "vigente",
+      "mod": "ago/2026",
+      "expira": "",
+      "expSoon": false,
+      "tam": "566 KB",
+      "views": 259,
+      "downloads": 351,
+      "tags": [
+        "óbito fetal",
+        "vigilância"
+      ],
+      "desc": "Material oficial do acervo de qualificações — Saúde da Criança.",
+      "url": "acervo/crianca/links-uteis/f3-ficha-investigacao-obito-fetal-entrevista-domiciliar.pdf"
+    },
+    {
+      "id": "d34",
+      "titulo": "Guia Rápido — Política de Saúde da Criança",
+      "tipo": "Guia",
+      "cat": "Saúde da Criança",
+      "setor": "Saúde da Criança",
+      "autor": "SMS Santa Maria / NEPeS",
+      "status": "Aprovado",
+      "versao": "vigente",
+      "mod": "ago/2026",
+      "expira": "",
+      "expSoon": false,
+      "tam": "789 KB",
+      "views": 1741,
+      "downloads": 231,
+      "tags": [
+        "criança",
+        "política"
+      ],
+      "desc": "Material oficial do acervo de qualificações — Saúde da Criança.",
+      "url": "acervo/crianca/links-uteis/guia-rapido-politica-de-saude-da-crianca.pdf"
+    },
+    {
+      "id": "d35",
+      "titulo": "Investigação de Óbito Infantil — Ambulatorial",
+      "tipo": "Formulário",
+      "cat": "Saúde da Criança",
+      "setor": "Saúde da Criança",
+      "autor": "SMS Santa Maria / NEPeS",
+      "status": "Aprovado",
+      "versao": "vigente",
+      "mod": "ago/2026",
+      "expira": "",
+      "expSoon": false,
+      "tam": "205 KB",
+      "views": 576,
+      "downloads": 326,
+      "tags": [
+        "óbito infantil",
+        "vigilância"
+      ],
+      "desc": "Material oficial do acervo de qualificações — Saúde da Criança.",
+      "url": "acervo/crianca/links-uteis/investigacao-obito-infantil-ambulatorial.pdf"
+    },
+    {
+      "id": "d36",
+      "titulo": "Investigação de Óbito Infantil — Domiciliar",
+      "tipo": "Formulário",
+      "cat": "Saúde da Criança",
+      "setor": "Saúde da Criança",
+      "autor": "SMS Santa Maria / NEPeS",
+      "status": "Aprovado",
+      "versao": "vigente",
+      "mod": "ago/2026",
+      "expira": "",
+      "expSoon": false,
+      "tam": "197 KB",
+      "views": 1499,
+      "downloads": 238,
+      "tags": [
+        "óbito infantil",
+        "vigilância"
+      ],
+      "desc": "Material oficial do acervo de qualificações — Saúde da Criança.",
+      "url": "acervo/crianca/links-uteis/investigacao-obito-infantil-domiciliar.pdf"
+    },
+    {
+      "id": "d37",
+      "titulo": "Plano Regional DCNT e Pessoa Idosa — 2025",
+      "tipo": "Plano",
+      "cat": "Saúde da Pessoa Idosa",
+      "setor": "Saúde da Pessoa Idosa",
+      "autor": "SMS Santa Maria / NEPeS",
+      "status": "Aprovado",
+      "versao": "vigente",
+      "mod": "ago/2026",
+      "expira": "",
+      "expSoon": false,
+      "tam": "10,0 MB",
+      "views": 393,
+      "downloads": 75,
+      "tags": [
+        "DCNT",
+        "idoso",
+        "regional"
+      ],
+      "desc": "Material oficial do acervo de qualificações — Saúde da Pessoa Idosa.",
+      "url": "acervo/saude-da-pessoa-idosa/protocolos/plano-regional-dcnt-e-idoso-2025.pdf"
+    },
+    {
+      "id": "d38",
+      "titulo": "Fluxograma Regional — Pessoa Idosa e DANT",
+      "tipo": "Fluxograma",
+      "cat": "Saúde da Pessoa Idosa",
+      "setor": "Saúde da Pessoa Idosa",
+      "autor": "SMS Santa Maria / NEPeS",
+      "status": "Aprovado",
+      "versao": "vigente",
+      "mod": "ago/2026",
+      "expira": "",
+      "expSoon": false,
+      "tam": "87 KB",
+      "views": 1622,
+      "downloads": 209,
+      "tags": [
+        "idoso",
+        "DANT",
+        "fluxo"
+      ],
+      "desc": "Material oficial do acervo de qualificações — Saúde da Pessoa Idosa.",
+      "url": "acervo/saude-da-pessoa-idosa/fluxogramas/fluxograma-idoso-dant-regional.pdf"
+    },
+    {
+      "id": "d39",
+      "titulo": "Caderno de Indicadores RS 2024–2027 — Avaliação Multidimensional",
+      "tipo": "Nota Técnica",
+      "cat": "Saúde da Pessoa Idosa",
+      "setor": "Saúde da Pessoa Idosa",
+      "autor": "SES/RS",
+      "status": "Aprovado",
+      "versao": "vigente",
+      "mod": "ago/2026",
+      "expira": "",
+      "expSoon": false,
+      "tam": "417 KB",
+      "views": 1602,
+      "downloads": 359,
+      "tags": [
+        "indicadores",
+        "RS"
+      ],
+      "desc": "Material oficial do acervo de qualificações — Saúde da Pessoa Idosa.",
+      "url": "acervo/saude-da-pessoa-idosa/notas-tecnicas/caderno-de-indicadores-rs-2024-27-amd.pdf"
+    },
+    {
+      "id": "d40",
+      "titulo": "Década do Envelhecimento Saudável 2020–2030",
+      "tipo": "Nota Técnica",
+      "cat": "Saúde da Pessoa Idosa",
+      "setor": "Saúde da Pessoa Idosa",
+      "autor": "SMS Santa Maria / NEPeS",
+      "status": "Aprovado",
+      "versao": "vigente",
+      "mod": "ago/2026",
+      "expira": "",
+      "expSoon": false,
+      "tam": "521 KB",
+      "views": 347,
+      "downloads": 400,
+      "tags": [
+        "envelhecimento",
+        "OMS"
+      ],
+      "desc": "Material oficial do acervo de qualificações — Saúde da Pessoa Idosa.",
+      "url": "acervo/saude-da-pessoa-idosa/notas-tecnicas/decada-do-envelhecimento-saudavel-2020-2030.pdf"
+    },
+    {
+      "id": "d41",
+      "titulo": "IVCF-20 — Índice de Vulnerabilidade Clínico-Funcional",
+      "tipo": "Instrumento",
+      "cat": "Saúde da Pessoa Idosa",
+      "setor": "Saúde da Pessoa Idosa",
+      "autor": "SMS Santa Maria / NEPeS",
+      "status": "Aprovado",
+      "versao": "vigente",
+      "mod": "ago/2026",
+      "expira": "",
+      "expSoon": false,
+      "tam": "123 KB",
+      "views": 1683,
+      "downloads": 151,
+      "tags": [
+        "IVCF-20",
+        "avaliação",
+        "idoso"
+      ],
+      "desc": "Material oficial do acervo de qualificações — Saúde da Pessoa Idosa.",
+      "url": "acervo/saude-da-pessoa-idosa/notas-tecnicas/ivcf20.pdf"
+    },
+    {
+      "id": "d42",
+      "titulo": "Manual de Aplicação do IVCF-20",
+      "tipo": "Manual",
+      "cat": "Saúde da Pessoa Idosa",
+      "setor": "Saúde da Pessoa Idosa",
+      "autor": "SMS Santa Maria / NEPeS",
+      "status": "Aprovado",
+      "versao": "vigente",
+      "mod": "ago/2026",
+      "expira": "",
+      "expSoon": false,
+      "tam": "3,5 MB",
+      "views": 923,
+      "downloads": 255,
+      "tags": [
+        "IVCF-20",
+        "avaliação"
+      ],
+      "desc": "Material oficial do acervo de qualificações — Saúde da Pessoa Idosa.",
+      "url": "acervo/saude-da-pessoa-idosa/notas-tecnicas/manual-ivcf-20.pdf"
+    },
+    {
+      "id": "d43",
+      "titulo": "Manual de Avaliação Multidimensional da Pessoa Idosa na APS — IVCF-20 e ICOPE",
+      "tipo": "Manual",
+      "cat": "Saúde da Pessoa Idosa",
+      "setor": "Saúde da Pessoa Idosa",
+      "autor": "SMS Santa Maria / NEPeS",
+      "status": "Aprovado",
+      "versao": "vigente",
+      "mod": "ago/2026",
+      "expira": "",
+      "expSoon": false,
+      "tam": "10,3 MB",
+      "views": 1017,
+      "downloads": 80,
+      "tags": [
+        "IVCF-20",
+        "ICOPE",
+        "APS"
+      ],
+      "desc": "Material oficial do acervo de qualificações — Saúde da Pessoa Idosa.",
+      "url": "acervo/saude-da-pessoa-idosa/notas-tecnicas/manual-de-avaliacao-multidimensional-da-pessoa-idosa-para-a-atencao-primaria-a-saude-aplicacoes-do-ivcf-20-e-do-icope-1.pdf"
+    },
+    {
+      "id": "d44",
+      "titulo": "Nota Metodológica C6 — Cuidado da Pessoa Idosa",
+      "tipo": "Nota Técnica",
+      "cat": "Saúde da Pessoa Idosa",
+      "setor": "Saúde da Pessoa Idosa",
+      "autor": "SMS Santa Maria / NEPeS",
+      "status": "Aprovado",
+      "versao": "vigente",
+      "mod": "ago/2026",
+      "expira": "",
+      "expSoon": false,
+      "tam": "285 KB",
+      "views": 623,
+      "downloads": 315,
+      "tags": [
+        "idoso",
+        "indicadores",
+        "APS"
+      ],
+      "desc": "Material oficial do acervo de qualificações — Saúde da Pessoa Idosa.",
+      "url": "acervo/saude-da-pessoa-idosa/notas-tecnicas/nota-metodologica-c6-cuidado-da-pessoa-idosa.pdf"
+    },
+    {
+      "id": "d45",
+      "titulo": "Nota Técnica CONASS — Saúde da Pessoa Idosa",
+      "tipo": "Nota Técnica",
+      "cat": "Saúde da Pessoa Idosa",
+      "setor": "Saúde da Pessoa Idosa",
+      "autor": "CONASS",
+      "status": "Aprovado",
+      "versao": "vigente",
+      "mod": "ago/2026",
+      "expira": "",
+      "expSoon": false,
+      "tam": "3,7 MB",
+      "views": 1036,
+      "downloads": 218,
+      "tags": [
+        "idoso",
+        "CONASS"
+      ],
+      "desc": "Material oficial do acervo de qualificações — Saúde da Pessoa Idosa.",
+      "url": "acervo/saude-da-pessoa-idosa/notas-tecnicas/nt-saude-do-idoso-conass.pdf"
+    },
+    {
+      "id": "d46",
+      "titulo": "Nota Técnica — Atenção à Pessoa Idosa na APS",
+      "tipo": "Nota Técnica",
+      "cat": "Saúde da Pessoa Idosa",
+      "setor": "Saúde da Pessoa Idosa",
+      "autor": "SMS Santa Maria / NEPeS",
+      "status": "Aprovado",
+      "versao": "vigente",
+      "mod": "ago/2026",
+      "expira": "",
+      "expSoon": false,
+      "tam": "822 KB",
+      "views": 579,
+      "downloads": 206,
+      "tags": [
+        "idoso",
+        "APS"
+      ],
+      "desc": "Material oficial do acervo de qualificações — Saúde da Pessoa Idosa.",
+      "url": "acervo/saude-da-pessoa-idosa/notas-tecnicas/nt-atencao-a-pessoa-idosa-na-aps-1.pdf"
+    },
+    {
+      "id": "d47",
+      "titulo": "Plano Estadual de DANT 2022–2030",
+      "tipo": "Plano",
+      "cat": "DANTs",
+      "setor": "DANTs",
+      "autor": "SES/RS",
+      "status": "Aprovado",
+      "versao": "vigente",
+      "mod": "ago/2026",
+      "expira": "",
+      "expSoon": false,
+      "tam": "7,0 MB",
+      "views": 786,
+      "downloads": 394,
+      "tags": [
+        "DANT",
+        "RS"
+      ],
+      "desc": "Material oficial do acervo de qualificações — DANTs.",
+      "url": "acervo/dants/protocolos/plano-de-dant-2022-2030.pdf"
+    },
+    {
+      "id": "d48",
+      "titulo": "Plano Regional DCNT e Pessoa Idosa — 2025",
+      "tipo": "Plano",
+      "cat": "DANTs",
+      "setor": "DANTs",
+      "autor": "SMS Santa Maria / NEPeS",
+      "status": "Aprovado",
+      "versao": "vigente",
+      "mod": "ago/2026",
+      "expira": "",
+      "expSoon": false,
+      "tam": "10,0 MB",
+      "views": 393,
+      "downloads": 75,
+      "tags": [
+        "DCNT",
+        "idoso",
+        "regional"
+      ],
+      "desc": "Material oficial do acervo de qualificações — DANTs.",
+      "url": "acervo/dants/protocolos/plano-regional-dcnt-e-idoso-2025.pdf"
+    },
+    {
+      "id": "d49",
+      "titulo": "Protocolo de Enfermagem — Hipertensão e Diabetes",
+      "tipo": "Protocolo",
+      "cat": "DANTs",
+      "setor": "DANTs",
+      "autor": "SMS Santa Maria / NEPeS",
+      "status": "Aprovado",
+      "versao": "vigente",
+      "mod": "ago/2026",
+      "expira": "",
+      "expSoon": false,
+      "tam": "3,8 MB",
+      "views": 887,
+      "downloads": 209,
+      "tags": [
+        "enfermagem",
+        "hipertensão",
+        "diabetes"
+      ],
+      "desc": "Material oficial do acervo de qualificações — DANTs.",
+      "url": "acervo/dants/protocolos/protocoloenfermagemhipertensaodiabetes.pdf"
+    },
+    {
+      "id": "d50",
+      "titulo": "Fluxograma Regional — Pessoa Idosa e DANT",
+      "tipo": "Fluxograma",
+      "cat": "DANTs",
+      "setor": "DANTs",
+      "autor": "SMS Santa Maria / NEPeS",
+      "status": "Aprovado",
+      "versao": "vigente",
+      "mod": "ago/2026",
+      "expira": "",
+      "expSoon": false,
+      "tam": "87 KB",
+      "views": 1622,
+      "downloads": 209,
+      "tags": [
+        "idoso",
+        "DANT",
+        "fluxo"
+      ],
+      "desc": "Material oficial do acervo de qualificações — DANTs.",
+      "url": "acervo/dants/fluxograma/fluxograma-idoso-dant-regional-1.pdf"
+    },
+    {
+      "id": "d51",
+      "titulo": "Apresentação — Indicadores da APS — Componente Qualidade",
+      "tipo": "Apresentação",
+      "cat": "DANTs",
+      "setor": "DANTs",
+      "autor": "SMS Santa Maria / NEPeS",
+      "status": "Aprovado",
+      "versao": "vigente",
+      "mod": "ago/2026",
+      "expira": "",
+      "expSoon": false,
+      "tam": "3,9 MB",
+      "views": 620,
+      "downloads": 353,
+      "tags": [
+        "APS",
+        "indicadores",
+        "qualidade"
+      ],
+      "desc": "Material oficial do acervo de qualificações — DANTs.",
+      "url": "acervo/dants/notas-tecnicas/apresentacao-indicadores-da-aps-componente-qualidade-1.pdf"
+    },
+    {
+      "id": "d52",
+      "titulo": "Apresentação — Novos Indicadores do PIAPS",
+      "tipo": "Apresentação",
+      "cat": "DANTs",
+      "setor": "DANTs",
+      "autor": "SMS Santa Maria / NEPeS",
+      "status": "Aprovado",
+      "versao": "vigente",
+      "mod": "ago/2026",
+      "expira": "",
+      "expSoon": false,
+      "tam": "12,0 MB",
+      "views": 1550,
+      "downloads": 130,
+      "tags": [
+        "PIAPS",
+        "indicadores"
+      ],
+      "desc": "Material oficial do acervo de qualificações — DANTs.",
+      "url": "acervo/dants/notas-tecnicas/apresentacao-dos-novos-indicadores-piaps-1.pdf"
+    },
+    {
+      "id": "d53",
+      "titulo": "Nota Metodológica C4 — Cuidado da Pessoa com Diabetes",
+      "tipo": "Nota Técnica",
+      "cat": "DANTs",
+      "setor": "DANTs",
+      "autor": "SMS Santa Maria / NEPeS",
+      "status": "Aprovado",
+      "versao": "vigente",
+      "mod": "ago/2026",
+      "expira": "",
+      "expSoon": false,
+      "tam": "318 KB",
+      "views": 378,
+      "downloads": 206,
+      "tags": [
+        "diabetes",
+        "indicadores",
+        "APS"
+      ],
+      "desc": "Material oficial do acervo de qualificações — DANTs.",
+      "url": "acervo/dants/notas-tecnicas/nota-metodologica-c4-cuidado-da-pessoa-com-diabetes-2-1.pdf"
+    },
+    {
+      "id": "d54",
+      "titulo": "Nota Metodológica C5 — Cuidado da Pessoa com Hipertensão",
+      "tipo": "Nota Técnica",
+      "cat": "DANTs",
+      "setor": "DANTs",
+      "autor": "SMS Santa Maria / NEPeS",
+      "status": "Aprovado",
+      "versao": "vigente",
+      "mod": "ago/2026",
+      "expira": "",
+      "expSoon": false,
+      "tam": "272 KB",
+      "views": 527,
+      "downloads": 384,
+      "tags": [
+        "hipertensão",
+        "indicadores",
+        "APS"
+      ],
+      "desc": "Material oficial do acervo de qualificações — DANTs.",
+      "url": "acervo/dants/notas-tecnicas/nota-metodologica-c5-cuidado-da-pessoa-com-hipertensao-2-1.pdf"
+    },
+    {
+      "id": "d55",
+      "titulo": "Nota Metodológica C6 — Cuidado da Pessoa Idosa",
+      "tipo": "Nota Técnica",
+      "cat": "DANTs",
+      "setor": "DANTs",
+      "autor": "SMS Santa Maria / NEPeS",
+      "status": "Aprovado",
+      "versao": "vigente",
+      "mod": "ago/2026",
+      "expira": "",
+      "expSoon": false,
+      "tam": "285 KB",
+      "views": 623,
+      "downloads": 315,
+      "tags": [
+        "idoso",
+        "indicadores",
+        "APS"
+      ],
+      "desc": "Material oficial do acervo de qualificações — DANTs.",
+      "url": "acervo/dants/notas-tecnicas/nota-metodologica-c6-cuidado-da-pessoa-idosa-1.pdf"
+    },
+    {
+      "id": "d56",
+      "titulo": "Nota Técnica 30/2025 — Componente Vínculo e Acompanhamento",
+      "tipo": "Nota Técnica",
+      "cat": "DANTs",
+      "setor": "DANTs",
+      "autor": "SMS Santa Maria / NEPeS",
+      "status": "Aprovado",
+      "versao": "vigente",
+      "mod": "ago/2026",
+      "expira": "",
+      "expSoon": false,
+      "tam": "147 KB",
+      "views": 665,
+      "downloads": 262,
+      "tags": [
+        "vínculo",
+        "indicadores"
+      ],
+      "desc": "Material oficial do acervo de qualificações — DANTs.",
+      "url": "acervo/dants/notas-tecnicas/nota-tecnica-30-2025-componente-vinculo-e-acom-260407-083415-2.pdf"
+    },
+    {
+      "id": "d57",
+      "titulo": "Nota Técnica Estadual — Acompanhamento de Pessoas com Diabetes Mellitus",
+      "tipo": "Nota Técnica",
+      "cat": "DANTs",
+      "setor": "DANTs",
+      "autor": "SES/RS",
+      "status": "Aprovado",
+      "versao": "vigente",
+      "mod": "ago/2026",
+      "expira": "",
+      "expSoon": false,
+      "tam": "237 KB",
+      "views": 732,
+      "downloads": 384,
+      "tags": [
+        "diabetes",
+        "RS"
+      ],
+      "desc": "Material oficial do acervo de qualificações — DANTs.",
+      "url": "acervo/dants/notas-tecnicas/nota-tecnica-estadual-para-acompanhamento-de-pessoas-com-diabetes-mellitus.pdf"
+    },
+    {
+      "id": "d58",
+      "titulo": "Nota Técnica — Hipertensão Arterial",
+      "tipo": "Nota Técnica",
+      "cat": "DANTs",
+      "setor": "DANTs",
+      "autor": "SMS Santa Maria / NEPeS",
+      "status": "Aprovado",
+      "versao": "vigente",
+      "mod": "ago/2026",
+      "expira": "",
+      "expSoon": false,
+      "tam": "2,6 MB",
+      "views": 1186,
+      "downloads": 38,
+      "tags": [
+        "hipertensão"
+      ],
+      "desc": "Material oficial do acervo de qualificações — DANTs.",
+      "url": "acervo/dants/notas-tecnicas/nota-tecnica-hipertensao-1.pdf"
+    },
+    {
+      "id": "d59",
+      "titulo": "Novas Diretrizes da Sociedade Brasileira de Hipertensão",
+      "tipo": "Diretriz",
+      "cat": "DANTs",
+      "setor": "DANTs",
+      "autor": "SMS Santa Maria / NEPeS",
+      "status": "Aprovado",
+      "versao": "vigente",
+      "mod": "ago/2026",
+      "expira": "",
+      "expSoon": false,
+      "tam": "5,5 MB",
+      "views": 1107,
+      "downloads": 242,
+      "tags": [
+        "hipertensão",
+        "diretriz"
+      ],
+      "desc": "Material oficial do acervo de qualificações — DANTs.",
+      "url": "acervo/dants/notas-tecnicas/novas-diretrizes-sociedade-brasileira-de-hipertensao-1.pdf"
+    },
+    {
+      "id": "d60",
+      "titulo": "Protocolo de Cirurgia Oral (CEO)",
+      "tipo": "Protocolo",
+      "cat": "Saúde Bucal",
+      "setor": "Saúde Bucal",
+      "autor": "SMS Santa Maria / NEPeS",
+      "status": "Aprovado",
+      "versao": "vigente",
+      "mod": "ago/2026",
+      "expira": "",
+      "expSoon": false,
+      "tam": "314 KB",
+      "views": 1203,
+      "downloads": 409,
+      "tags": [
+        "cirurgia oral",
+        "CEO"
+      ],
+      "desc": "Material oficial do acervo de qualificações — Saúde Bucal.",
+      "url": "acervo/saude-bucal/protocolos/protocolo-cirurgia-2018-1.docx"
+    },
+    {
+      "id": "d61",
+      "titulo": "Protocolo de Endodontia (CEO)",
+      "tipo": "Protocolo",
+      "cat": "Saúde Bucal",
+      "setor": "Saúde Bucal",
+      "autor": "SMS Santa Maria / NEPeS",
+      "status": "Aprovado",
+      "versao": "vigente",
+      "mod": "ago/2026",
+      "expira": "",
+      "expSoon": false,
+      "tam": "311 KB",
+      "views": 1121,
+      "downloads": 27,
+      "tags": [
+        "endodontia",
+        "CEO"
+      ],
+      "desc": "Material oficial do acervo de qualificações — Saúde Bucal.",
+      "url": "acervo/saude-bucal/protocolos/protocolo-endo-2018-1.docx"
+    },
+    {
+      "id": "d62",
+      "titulo": "Protocolo de Odontopediatria (CEO)",
+      "tipo": "Protocolo",
+      "cat": "Saúde Bucal",
+      "setor": "Saúde Bucal",
+      "autor": "SMS Santa Maria / NEPeS",
+      "status": "Aprovado",
+      "versao": "vigente",
+      "mod": "ago/2026",
+      "expira": "",
+      "expSoon": false,
+      "tam": "40 KB",
+      "views": 1869,
+      "downloads": 37,
+      "tags": [
+        "odontopediatria",
+        "CEO"
+      ],
+      "desc": "Material oficial do acervo de qualificações — Saúde Bucal.",
+      "url": "acervo/saude-bucal/protocolos/protocolo-pediatria-2019-1.docx"
+    },
+    {
+      "id": "d63",
+      "titulo": "Protocolo de Pacientes com Necessidades Especiais (CEO)",
+      "tipo": "Protocolo",
+      "cat": "Saúde Bucal",
+      "setor": "Saúde Bucal",
+      "autor": "SMS Santa Maria / NEPeS",
+      "status": "Aprovado",
+      "versao": "vigente",
+      "mod": "ago/2026",
+      "expira": "",
+      "expSoon": false,
+      "tam": "343 KB",
+      "views": 1536,
+      "downloads": 392,
+      "tags": [
+        "PNE",
+        "CEO"
+      ],
+      "desc": "Material oficial do acervo de qualificações — Saúde Bucal.",
+      "url": "acervo/saude-bucal/protocolos/protocolo-pne-2018-1.docx"
+    },
+    {
+      "id": "d64",
+      "titulo": "Protocolo de Periodontia (CEO)",
+      "tipo": "Protocolo",
+      "cat": "Saúde Bucal",
+      "setor": "Saúde Bucal",
+      "autor": "SMS Santa Maria / NEPeS",
+      "status": "Aprovado",
+      "versao": "vigente",
+      "mod": "ago/2026",
+      "expira": "",
+      "expSoon": false,
+      "tam": "339 KB",
+      "views": 693,
+      "downloads": 160,
+      "tags": [
+        "periodontia",
+        "CEO"
+      ],
+      "desc": "Material oficial do acervo de qualificações — Saúde Bucal.",
+      "url": "acervo/saude-bucal/protocolos/protocolo-perio-2018-1.docx"
+    },
+    {
+      "id": "d65",
+      "titulo": "O SUS e a Saúde Bucal no Brasil",
+      "tipo": "Nota Técnica",
+      "cat": "Saúde Bucal",
+      "setor": "Saúde Bucal",
+      "autor": "SMS Santa Maria / NEPeS",
+      "status": "Aprovado",
+      "versao": "vigente",
+      "mod": "ago/2026",
+      "expira": "",
+      "expSoon": false,
+      "tam": "16,0 MB",
+      "views": 1114,
+      "downloads": 419,
+      "tags": [
+        "saúde bucal",
+        "SUS"
+      ],
+      "desc": "Material oficial do acervo de qualificações — Saúde Bucal.",
+      "url": "acervo/saude-bucal/notas-tecnicas/sus-e-a-saude-bucal-no-brasil.pdf"
+    },
+    {
+      "id": "d66",
+      "titulo": "PCDT — Infecções Sexualmente Transmissíveis (2022)",
+      "tipo": "Protocolo",
+      "cat": "HIV, ISTs e Hepatites Virais",
+      "setor": "HIV, ISTs e Hepatites Virais",
+      "autor": "Ministério da Saúde",
+      "status": "Aprovado",
+      "versao": "vigente",
+      "mod": "ago/2026",
+      "expira": "",
+      "expSoon": false,
+      "tam": "2,6 MB",
+      "views": 1448,
+      "downloads": 35,
+      "tags": [
+        "IST",
+        "PCDT"
+      ],
+      "desc": "Material oficial do acervo de qualificações — HIV, ISTs e Hepatites Virais.",
+      "url": "acervo/hiv-ists-e-hepatites-virais/protocolos/pcdt-ist-2022-isbn.pdf"
+    },
+    {
+      "id": "d67",
+      "titulo": "PCDT — Profilaxia Pré-Exposição (PrEP) ao HIV (2022)",
+      "tipo": "Protocolo",
+      "cat": "HIV, ISTs e Hepatites Virais",
+      "setor": "HIV, ISTs e Hepatites Virais",
+      "autor": "Ministério da Saúde",
+      "status": "Aprovado",
+      "versao": "vigente",
+      "mod": "ago/2026",
+      "expira": "",
+      "expSoon": false,
+      "tam": "1,4 MB",
+      "views": 1030,
+      "downloads": 397,
+      "tags": [
+        "HIV",
+        "PrEP",
+        "PCDT"
+      ],
+      "desc": "Material oficial do acervo de qualificações — HIV, ISTs e Hepatites Virais.",
+      "url": "acervo/hiv-ists-e-hepatites-virais/protocolos/pcdt-prep-versao-eletronica-22-09-2022.pdf"
+    },
+    {
+      "id": "d68",
+      "titulo": "Manual de Registro das Ações do PSE",
+      "tipo": "Protocolo",
+      "cat": "PSE — Saúde na Escola",
+      "setor": "PSE — Saúde na Escola",
+      "autor": "SMS Santa Maria / NEPeS",
+      "status": "Aprovado",
+      "versao": "vigente",
+      "mod": "ago/2026",
+      "expira": "",
+      "expSoon": false,
+      "tam": "5,3 MB",
+      "views": 371,
+      "downloads": 399,
+      "tags": [
+        "PSE",
+        "registro"
+      ],
+      "desc": "Material oficial do acervo de qualificações — PSE — Saúde na Escola.",
+      "url": "acervo/pse/protocolos/manual-de-registro-completo.pdf"
+    },
+    {
+      "id": "d69",
+      "titulo": "POP — Monitoramento no Sistema MV",
+      "tipo": "Protocolo",
+      "cat": "PSE — Saúde na Escola",
+      "setor": "PSE — Saúde na Escola",
+      "autor": "SMS Santa Maria / NEPeS",
+      "status": "Aprovado",
+      "versao": "vigente",
+      "mod": "ago/2026",
+      "expira": "",
+      "expSoon": false,
+      "tam": "2,4 MB",
+      "views": 596,
+      "downloads": 408,
+      "tags": [
+        "PSE",
+        "sistema MV",
+        "registro"
+      ],
+      "desc": "Material oficial do acervo de qualificações — PSE — Saúde na Escola.",
+      "url": "acervo/pse/protocolos/pop-monitoramento-sistema-mv-1-1.pdf"
+    },
+    {
+      "id": "d70",
+      "titulo": "POP — Sistema MV — PET Saúde Digital",
+      "tipo": "Protocolo",
+      "cat": "PSE — Saúde na Escola",
+      "setor": "PSE — Saúde na Escola",
+      "autor": "SMS Santa Maria / NEPeS",
+      "status": "Aprovado",
+      "versao": "vigente",
+      "mod": "ago/2026",
+      "expira": "",
+      "expSoon": false,
+      "tam": "779 KB",
+      "views": 243,
+      "downloads": 93,
+      "tags": [
+        "PSE",
+        "sistema MV",
+        "PET Saúde"
+      ],
+      "desc": "Material oficial do acervo de qualificações — PSE — Saúde na Escola.",
+      "url": "acervo/pse/protocolos/pop-mv-pet-saude-digital.pdf"
+    },
+    {
+      "id": "d71",
+      "titulo": "Tabela de Registro das Ações nas Escolas — 2026",
+      "tipo": "Protocolo",
+      "cat": "PSE — Saúde na Escola",
+      "setor": "PSE — Saúde na Escola",
+      "autor": "SMS Santa Maria / NEPeS",
+      "status": "Aprovado",
+      "versao": "vigente",
+      "mod": "ago/2026",
+      "expira": "",
+      "expSoon": false,
+      "tam": "210 KB",
+      "views": 237,
+      "downloads": 376,
+      "tags": [
+        "PSE",
+        "registro",
+        "escolas"
+      ],
+      "desc": "Material oficial do acervo de qualificações — PSE — Saúde na Escola.",
+      "url": "acervo/pse/protocolos/tabela-de-registro-das-acoes-das-escolas-2026.pdf"
+    },
+    {
+      "id": "d72",
+      "titulo": "Nota Técnica nº 30/2024 — CGEDESS/DEPPROS/SAPS/MS",
+      "tipo": "Nota Técnica",
+      "cat": "PSE — Saúde na Escola",
+      "setor": "PSE — Saúde na Escola",
+      "autor": "Ministério da Saúde",
+      "status": "Aprovado",
+      "versao": "vigente",
+      "mod": "ago/2026",
+      "expira": "",
+      "expSoon": false,
+      "tam": "127 KB",
+      "views": 794,
+      "downloads": 310,
+      "tags": [
+        "PSE",
+        "normativa"
+      ],
+      "desc": "Material oficial do acervo de qualificações — PSE — Saúde na Escola.",
+      "url": "acervo/pse/notas-tecnicas/nota-tecnica-no-30-2024-cgedess-deppros-saps-ms.pdf"
+    },
+    {
+      "id": "d73",
+      "titulo": "Nota Técnica nº 5/2026 — COAIA/CGESCO/DESF/SAPS/MS",
+      "tipo": "Nota Técnica",
+      "cat": "PSE — Saúde na Escola",
+      "setor": "PSE — Saúde na Escola",
+      "autor": "Ministério da Saúde",
+      "status": "Aprovado",
+      "versao": "vigente",
+      "mod": "ago/2026",
+      "expira": "",
+      "expSoon": false,
+      "tam": "72 KB",
+      "views": 1845,
+      "downloads": 375,
+      "tags": [
+        "PSE",
+        "normativa"
+      ],
+      "desc": "Material oficial do acervo de qualificações — PSE — Saúde na Escola.",
+      "url": "acervo/pse/notas-tecnicas/nota-tecnica-no-5-2026-coaia-cgesco-desf-saps-ms.pdf"
+    },
+    {
+      "id": "d74",
+      "titulo": "Caderno do Gestor do PSE",
+      "tipo": "Caderno",
+      "cat": "PSE — Saúde na Escola",
+      "setor": "PSE — Saúde na Escola",
+      "autor": "SMS Santa Maria / NEPeS",
+      "status": "Aprovado",
+      "versao": "vigente",
+      "mod": "ago/2026",
+      "expira": "",
+      "expSoon": false,
+      "tam": "2,2 MB",
+      "views": 1035,
+      "downloads": 332,
+      "tags": [
+        "PSE",
+        "gestão",
+        "escola"
+      ],
+      "desc": "Material oficial do acervo de qualificações — PSE — Saúde na Escola.",
+      "url": "acervo/pse/caderno-gestor-do-pse.pdf"
+    },
+    {
+      "id": "d75",
+      "titulo": "Extrato de Escolas e Equipes Pactuadas — PSE 2025/2026",
+      "tipo": "Planilha",
+      "cat": "PSE — Saúde na Escola",
+      "setor": "PSE — Saúde na Escola",
+      "autor": "SMS Santa Maria / NEPeS",
+      "status": "Aprovado",
+      "versao": "vigente",
+      "mod": "ago/2026",
+      "expira": "",
+      "expSoon": false,
+      "tam": "37 KB",
+      "views": 1673,
+      "downloads": 276,
+      "tags": [
+        "PSE",
+        "pactuação",
+        "escolas"
+      ],
+      "desc": "Material oficial do acervo de qualificações — PSE — Saúde na Escola.",
+      "url": "acervo/pse/pse2025-2026-extrato-escolas-equipes-pactuadas-final-xlsx-extrato-escolas-equipes.pdf"
+    },
+    {
+      "id": "d76",
+      "titulo": "Política Estadual de Práticas Integrativas e Complementares (2015)",
+      "tipo": "Nota Técnica",
+      "cat": "PICS",
+      "setor": "PICS",
+      "autor": "SES/RS",
+      "status": "Aprovado",
+      "versao": "vigente",
+      "mod": "ago/2026",
+      "expira": "",
+      "expSoon": false,
+      "tam": "282 KB",
+      "views": 1845,
+      "downloads": 117,
+      "tags": [
+        "PICS",
+        "RS"
+      ],
+      "desc": "Material oficial do acervo de qualificações — PICS.",
+      "url": "acervo/pics/notas-tecnicas/11141920-politica-estadual-de-praticas-integrativas-e-complementares-2015.pdf"
+    },
+    {
+      "id": "d77",
+      "titulo": "Política Nacional de Práticas Integrativas e Complementares — 3ª edição",
+      "tipo": "Nota Técnica",
+      "cat": "PICS",
+      "setor": "PICS",
+      "autor": "Ministério da Saúde",
+      "status": "Aprovado",
+      "versao": "vigente",
+      "mod": "ago/2026",
+      "expira": "",
+      "expSoon": false,
+      "tam": "713 KB",
+      "views": 314,
+      "downloads": 365,
+      "tags": [
+        "PICS",
+        "política nacional"
+      ],
+      "desc": "Material oficial do acervo de qualificações — PICS.",
+      "url": "acervo/pics/notas-tecnicas/politica-nacional-praticas-integrativas-3ed-1.pdf"
+    },
+    {
+      "id": "d78",
+      "titulo": "Portaria nº 971/2006 — PNPIC no SUS",
+      "tipo": "Portaria",
+      "cat": "PICS",
+      "setor": "PICS",
+      "autor": "SMS Santa Maria / NEPeS",
+      "status": "Aprovado",
+      "versao": "vigente",
+      "mod": "ago/2026",
+      "expira": "",
+      "expSoon": false,
+      "tam": "58 KB",
+      "views": 640,
+      "downloads": 295,
+      "tags": [
+        "PICS",
+        "portaria"
+      ],
+      "desc": "Material oficial do acervo de qualificações — PICS.",
+      "url": "acervo/pics/notas-tecnicas/38-brasil-ministerio-da-saude-portaria-n-971-de-03-de-maio-de-2006.pdf"
+    },
+    {
+      "id": "d79",
+      "titulo": "Fluxo de Encaminhamento — Aleitamento Humano",
+      "tipo": "Fluxograma",
+      "cat": "Aleitamento Humano",
+      "setor": "Aleitamento Humano",
+      "autor": "SMS Santa Maria / NEPeS",
+      "status": "Aprovado",
+      "versao": "vigente",
+      "mod": "ago/2026",
+      "expira": "",
+      "expSoon": false,
+      "tam": "2,1 MB",
+      "views": 1715,
+      "downloads": 111,
+      "tags": [
+        "aleitamento",
+        "encaminhamento"
+      ],
+      "desc": "Material oficial do acervo de qualificações — Aleitamento Humano.",
+      "url": "acervo/comissao-municipal-de-aleitamento-humano-e-alimentacao-complementar-saudavel/protocolos/fluxo-encaminhamento.pdf"
+    },
+    {
+      "id": "d80",
+      "titulo": "Encaminhamento para Cirurgia Bariátrica",
+      "tipo": "Protocolo",
+      "cat": "Alimentação e Nutrição",
+      "setor": "Alimentação e Nutrição",
+      "autor": "SMS Santa Maria / NEPeS",
+      "status": "Aprovado",
+      "versao": "vigente",
+      "mod": "ago/2026",
+      "expira": "",
+      "expSoon": false,
+      "tam": "233 KB",
+      "views": 1038,
+      "downloads": 179,
+      "tags": [
+        "bariátrica",
+        "encaminhamento"
+      ],
+      "desc": "Material oficial do acervo de qualificações — Alimentação e Nutrição.",
+      "url": "acervo/alimentacao-e-nutricao/protocolos/encaminhamento-bariatrica.pdf"
+    },
+    {
+      "id": "d81",
+      "titulo": "Memorando Circular — TRIA (Triagem de Risco Alimentar)",
+      "tipo": "Memorando",
+      "cat": "Alimentação e Nutrição",
+      "setor": "Alimentação e Nutrição",
+      "autor": "SMS Santa Maria / NEPeS",
+      "status": "Aprovado",
+      "versao": "vigente",
+      "mod": "ago/2026",
+      "expira": "",
+      "expSoon": false,
+      "tam": "81 KB",
+      "views": 1550,
+      "downloads": 115,
+      "tags": [
+        "TRIA",
+        "nutrição"
+      ],
+      "desc": "Material oficial do acervo de qualificações — Alimentação e Nutrição.",
+      "url": "acervo/alimentacao-e-nutricao/protocolos/memorando-circular-tria-assinado.pdf"
+    },
+    {
+      "id": "d82",
+      "titulo": "Política Estadual de Educação Permanente em Saúde Coletiva",
+      "tipo": "Portaria",
+      "cat": "NEPeS — Educação Permanente",
+      "setor": "NEPeS — Educação Permanente",
+      "autor": "SES/RS",
+      "status": "Aprovado",
+      "versao": "vigente",
+      "mod": "ago/2026",
+      "expira": "",
+      "expSoon": false,
+      "tam": "138 KB",
+      "views": 299,
+      "downloads": 286,
+      "tags": [
+        "educação permanente",
+        "RS"
+      ],
+      "desc": "Material oficial do acervo de qualificações — NEPeS — Educação Permanente.",
+      "url": "acervo/nepes/notas-tecnicas-portarias/politica-estadual-de-educacao-permanente-em-saude-coletiva.pdf"
+    },
+    {
+      "id": "d83",
+      "titulo": "Política Nacional de Educação Permanente em Saúde",
+      "tipo": "Portaria",
+      "cat": "NEPeS — Educação Permanente",
+      "setor": "NEPeS — Educação Permanente",
+      "autor": "Ministério da Saúde",
+      "status": "Aprovado",
+      "versao": "vigente",
+      "mod": "ago/2026",
+      "expira": "",
+      "expSoon": false,
+      "tam": "287 KB",
+      "views": 1584,
+      "downloads": 326,
+      "tags": [
+        "educação permanente",
+        "política nacional"
+      ],
+      "desc": "Material oficial do acervo de qualificações — NEPeS — Educação Permanente.",
+      "url": "acervo/nepes/notas-tecnicas-portarias/politica-nacional-de-educacao-permanente-em-saude.pdf"
+    },
+    {
+      "id": "d84",
+      "titulo": "Portaria Municipal do NEPeS",
+      "tipo": "Portaria",
+      "cat": "NEPeS — Educação Permanente",
+      "setor": "NEPeS — Educação Permanente",
+      "autor": "SMS Santa Maria / NEPeS",
+      "status": "Aprovado",
+      "versao": "vigente",
+      "mod": "ago/2026",
+      "expira": "",
+      "expSoon": false,
+      "tam": "142 KB",
+      "views": 792,
+      "downloads": 96,
+      "tags": [
+        "NEPeS",
+        "portaria"
+      ],
+      "desc": "Material oficial do acervo de qualificações — NEPeS — Educação Permanente.",
+      "url": "acervo/nepes/notas-tecnicas-portarias/portaria-municipal-nepes.pdf"
+    }
+  ],
+  "PROTOCOLOS": [
+    {
+      "id": "p1",
+      "nome": "Critérios de Encaminhamento para Parto — Maternidades 2025",
+      "versao": "vigente",
+      "setor": "Saúde da Mulher",
+      "atualizado": "2025/2026",
+      "paginas": 7,
+      "prazo": "—",
+      "pendente": false,
+      "url": "acervo/mulher/protocolos/criterios-encaminhamento-para-parto-maternidades-2025.pdf"
+    },
+    {
+      "id": "p2",
+      "nome": "Instruções de Coleta — Cultura de Streptococcus agalactiae (GBS)",
+      "versao": "vigente",
+      "setor": "Saúde da Mulher",
+      "atualizado": "2025/2026",
+      "paginas": 1,
+      "prazo": "—",
+      "pendente": false,
+      "url": "acervo/mulher/protocolos/instrucoes-para-coleta-de-material-para-cultura-de-streptococcus-agalactiae-estreptococo-grupo-b-ou-gbs.pdf"
+    },
+    {
+      "id": "p3",
+      "nome": "Orientações para Registro — Saúde da Mulher",
+      "versao": "vigente",
+      "setor": "Saúde da Mulher",
+      "atualizado": "2025/2026",
+      "paginas": 14,
+      "prazo": "—",
+      "pendente": false,
+      "url": "acervo/mulher/protocolos/orientacoes-para-registro-saude-da-mulher.pdf"
+    },
+    {
+      "id": "p4",
+      "nome": "Orientações para Validação de Consultas de Puerpério e Puericultura",
+      "versao": "vigente",
+      "setor": "Saúde da Mulher",
+      "atualizado": "2025/2026",
+      "paginas": 2,
+      "prazo": "—",
+      "pendente": false,
+      "url": "acervo/mulher/protocolos/orientacoes-para-validacao-de-consultas-de-puerperio-e-puericultura.pdf"
+    },
+    {
+      "id": "p5",
+      "nome": "Protocolo de Encaminhamento — Implante Subdérmico (dez/2025)",
+      "versao": "vigente",
+      "setor": "Saúde da Mulher",
+      "atualizado": "2025/2026",
+      "paginas": 9,
+      "prazo": "—",
+      "pendente": false,
+      "url": "acervo/mulher/protocolos/protocolo-de-encaminhamento-implante-subda-rmico-dez-2025.pdf"
+    },
+    {
+      "id": "p6",
+      "nome": "Protocolo de Enfermagem em Saúde da Mulher",
+      "versao": "vigente",
+      "setor": "Saúde da Mulher",
+      "atualizado": "2025/2026",
+      "paginas": 187,
+      "prazo": "—",
+      "pendente": false,
+      "url": "acervo/mulher/protocolos/protocolo-de-enfermagem-em-saude-da-mulher.pdf"
+    },
+    {
+      "id": "p7",
+      "nome": "Protocolo de Toxoplasmose Gestacional de Santa Maria",
+      "versao": "vigente",
+      "setor": "Saúde da Mulher",
+      "atualizado": "2025/2026",
+      "paginas": 18,
+      "prazo": "—",
+      "pendente": false,
+      "url": "acervo/mulher/protocolos/protocolo-toxoplasmose-gestacional-de-santa-maria-1.pdf"
+    },
+    {
+      "id": "p8",
+      "nome": "Suplementação de Cálcio para Gestantes",
+      "versao": "vigente",
+      "setor": "Saúde da Mulher",
+      "atualizado": "2025/2026",
+      "paginas": 1,
+      "prazo": "—",
+      "pendente": false,
+      "url": "acervo/mulher/protocolos/suplementacao-de-calcio-para-gestantes.pdf"
+    },
+    {
+      "id": "p9",
+      "nome": "Telessaúde — Encaminhamentos de Pré-natal de Alto Risco",
+      "versao": "vigente",
+      "setor": "Saúde da Mulher",
+      "atualizado": "2025/2026",
+      "paginas": 50,
+      "prazo": "—",
+      "pendente": false,
+      "url": "acervo/mulher/protocolos/telessaude-encaminhamentos-pre-natal-alto-risco.pdf"
+    },
+    {
+      "id": "p10",
+      "nome": "Telessaúde — Laqueadura e Vasectomia",
+      "versao": "vigente",
+      "setor": "Saúde da Mulher",
+      "atualizado": "2025/2026",
+      "paginas": 43,
+      "prazo": "—",
+      "pendente": false,
+      "url": "acervo/mulher/protocolos/laqueadura-e-vasectomia-telessaude.pdf"
+    },
+    {
+      "id": "p11",
+      "nome": "Telessaúde — Nódulo Mamário",
+      "versao": "vigente",
+      "setor": "Saúde da Mulher",
+      "atualizado": "2025/2026",
+      "paginas": 35,
+      "prazo": "—",
+      "pendente": false,
+      "url": "acervo/mulher/protocolos/telessaude-nodulo-mamario.pdf"
+    },
+    {
+      "id": "p12",
+      "nome": "Protocolo de Enfermagem — Saúde da Criança e do Adolescente",
+      "versao": "vigente",
+      "setor": "Saúde da Criança",
+      "atualizado": "2025/2026",
+      "paginas": 156,
+      "prazo": "—",
+      "pendente": false,
+      "url": "acervo/crianca/protocolos/protocoloenfermagemsaudecriancaadolescente-1.pdf"
+    },
+    {
+      "id": "p13",
+      "nome": "Protocolo de Enfermagem — Hipertensão e Diabetes",
+      "versao": "vigente",
+      "setor": "DANTs",
+      "atualizado": "2025/2026",
+      "paginas": 193,
+      "prazo": "—",
+      "pendente": false,
+      "url": "acervo/dants/protocolos/protocoloenfermagemhipertensaodiabetes.pdf"
+    },
+    {
+      "id": "p14",
+      "nome": "Protocolo de Cirurgia Oral (CEO)",
+      "versao": "vigente",
+      "setor": "Saúde Bucal",
+      "atualizado": "2025/2026",
+      "paginas": 1,
+      "prazo": "—",
+      "pendente": false,
+      "url": "acervo/saude-bucal/protocolos/protocolo-cirurgia-2018-1.docx"
+    },
+    {
+      "id": "p15",
+      "nome": "Protocolo de Endodontia (CEO)",
+      "versao": "vigente",
+      "setor": "Saúde Bucal",
+      "atualizado": "2025/2026",
+      "paginas": 1,
+      "prazo": "—",
+      "pendente": false,
+      "url": "acervo/saude-bucal/protocolos/protocolo-endo-2018-1.docx"
+    },
+    {
+      "id": "p16",
+      "nome": "Protocolo de Odontopediatria (CEO)",
+      "versao": "vigente",
+      "setor": "Saúde Bucal",
+      "atualizado": "2025/2026",
+      "paginas": 1,
+      "prazo": "—",
+      "pendente": false,
+      "url": "acervo/saude-bucal/protocolos/protocolo-pediatria-2019-1.docx"
+    },
+    {
+      "id": "p17",
+      "nome": "Protocolo de Pacientes com Necessidades Especiais (CEO)",
+      "versao": "vigente",
+      "setor": "Saúde Bucal",
+      "atualizado": "2025/2026",
+      "paginas": 1,
+      "prazo": "—",
+      "pendente": false,
+      "url": "acervo/saude-bucal/protocolos/protocolo-pne-2018-1.docx"
+    },
+    {
+      "id": "p18",
+      "nome": "Protocolo de Periodontia (CEO)",
+      "versao": "vigente",
+      "setor": "Saúde Bucal",
+      "atualizado": "2025/2026",
+      "paginas": 1,
+      "prazo": "—",
+      "pendente": false,
+      "url": "acervo/saude-bucal/protocolos/protocolo-perio-2018-1.docx"
+    },
+    {
+      "id": "p19",
+      "nome": "PCDT — Infecções Sexualmente Transmissíveis (2022)",
+      "versao": "vigente",
+      "setor": "HIV, ISTs e Hepatites Virais",
+      "atualizado": "2025/2026",
+      "paginas": 215,
+      "prazo": "—",
+      "pendente": false,
+      "url": "acervo/hiv-ists-e-hepatites-virais/protocolos/pcdt-ist-2022-isbn.pdf"
+    },
+    {
+      "id": "p20",
+      "nome": "PCDT — Profilaxia Pré-Exposição (PrEP) ao HIV (2022)",
+      "versao": "vigente",
+      "setor": "HIV, ISTs e Hepatites Virais",
+      "atualizado": "2025/2026",
+      "paginas": 54,
+      "prazo": "—",
+      "pendente": false,
+      "url": "acervo/hiv-ists-e-hepatites-virais/protocolos/pcdt-prep-versao-eletronica-22-09-2022.pdf"
+    },
+    {
+      "id": "p21",
+      "nome": "Manual de Registro das Ações do PSE",
+      "versao": "vigente",
+      "setor": "PSE — Saúde na Escola",
+      "atualizado": "2025/2026",
+      "paginas": 21,
+      "prazo": "—",
+      "pendente": false,
+      "url": "acervo/pse/protocolos/manual-de-registro-completo.pdf"
+    },
+    {
+      "id": "p22",
+      "nome": "POP — Monitoramento no Sistema MV",
+      "versao": "vigente",
+      "setor": "PSE — Saúde na Escola",
+      "atualizado": "2025/2026",
+      "paginas": 6,
+      "prazo": "—",
+      "pendente": false,
+      "url": "acervo/pse/protocolos/pop-monitoramento-sistema-mv-1-1.pdf"
+    },
+    {
+      "id": "p23",
+      "nome": "POP — Sistema MV — PET Saúde Digital",
+      "versao": "vigente",
+      "setor": "PSE — Saúde na Escola",
+      "atualizado": "2025/2026",
+      "paginas": 2,
+      "prazo": "—",
+      "pendente": false,
+      "url": "acervo/pse/protocolos/pop-mv-pet-saude-digital.pdf"
+    },
+    {
+      "id": "p24",
+      "nome": "Tabela de Registro das Ações nas Escolas — 2026",
+      "versao": "vigente",
+      "setor": "PSE — Saúde na Escola",
+      "atualizado": "2025/2026",
+      "paginas": 1,
+      "prazo": "—",
+      "pendente": false,
+      "url": "acervo/pse/protocolos/tabela-de-registro-das-acoes-das-escolas-2026.pdf"
+    },
+    {
+      "id": "p25",
+      "nome": "Encaminhamento para Cirurgia Bariátrica",
+      "versao": "vigente",
+      "setor": "Alimentação e Nutrição",
+      "atualizado": "2025/2026",
+      "paginas": 3,
+      "prazo": "—",
+      "pendente": false,
+      "url": "acervo/alimentacao-e-nutricao/protocolos/encaminhamento-bariatrica.pdf"
+    }
+  ],
+  "CURSOS": [
+    {
+      "id": "c1",
+      "titulo": "Manejo clínico do aleitamento materno",
+      "area": "Enfermagem",
+      "horas": 12,
+      "nivel": "Intermediário",
+      "tag": "Obrigatório",
+      "inscritos": 184,
+      "desc": "Formação prática sobre fisiologia da lactação, avaliação da mamada e condutas nas intercorrências mais frequentes do puerpério imediato.",
+      "aulas": [
+        {
+          "t": "Fisiologia da lactação",
+          "d": "18 min"
+        },
+        {
+          "t": "Pega e posicionamento",
+          "d": "22 min"
+        },
+        {
+          "t": "Fissuras e ingurgitamento",
+          "d": "26 min"
+        },
+        {
+          "t": "Relactação e banco de leite",
+          "d": "19 min"
+        },
+        {
+          "t": "Estudo de caso guiado",
+          "d": "31 min"
+        }
+      ]
+    },
+    {
+      "id": "c2",
+      "titulo": "Hemorragia pós-parto: resposta rápida",
+      "area": "Medicina",
+      "horas": 8,
+      "nivel": "Avançado",
+      "tag": "Obrigatório",
+      "inscritos": 142,
+      "desc": "Reconhecimento precoce, código vermelho obstétrico e manejo escalonado da hemorragia pós-parto conforme o protocolo vigente da rede.",
+      "aulas": [
+        {
+          "t": "Estimativa de perda sanguínea",
+          "d": "16 min"
+        },
+        {
+          "t": "Código vermelho obstétrico",
+          "d": "24 min"
+        },
+        {
+          "t": "Uterotônicos e balão intrauterino",
+          "d": "28 min"
+        },
+        {
+          "t": "Simulação em equipe",
+          "d": "35 min"
+        }
+      ]
+    },
+    {
+      "id": "c3",
+      "titulo": "Reanimação neonatal em sala de parto",
+      "area": "Multiprofissional",
+      "horas": 10,
+      "nivel": "Avançado",
+      "tag": "Certificado",
+      "inscritos": 209,
+      "desc": "Sequência de reanimação do recém-nascido a termo e prematuro, com ênfase em ventilação eficaz nos primeiros 60 segundos.",
+      "aulas": [
+        {
+          "t": "Preparo do material",
+          "d": "14 min"
+        },
+        {
+          "t": "Minuto de ouro",
+          "d": "27 min"
+        },
+        {
+          "t": "Ventilação com pressão positiva",
+          "d": "25 min"
+        },
+        {
+          "t": "Prematuro extremo",
+          "d": "21 min"
+        },
+        {
+          "t": "Avaliação prática",
+          "d": "30 min"
+        }
+      ]
+    },
+    {
+      "id": "c4",
+      "titulo": "Pré-natal de risco habitual na APS",
+      "area": "Enfermagem",
+      "horas": 16,
+      "nivel": "Básico",
+      "tag": "Trilha",
+      "inscritos": 318,
+      "desc": "Consulta de enfermagem no pré-natal, calendário de exames, vacinação e critérios de encaminhamento ao alto risco.",
+      "aulas": [
+        {
+          "t": "Primeira consulta e classificação",
+          "d": "20 min"
+        },
+        {
+          "t": "Exames por trimestre",
+          "d": "23 min"
+        },
+        {
+          "t": "Sinais de alerta",
+          "d": "18 min"
+        },
+        {
+          "t": "Vacinação na gestação",
+          "d": "15 min"
+        }
+      ]
+    },
+    {
+      "id": "c5",
+      "titulo": "Parto respeitoso e boas práticas",
+      "area": "Multiprofissional",
+      "horas": 6,
+      "nivel": "Básico",
+      "tag": "Novo",
+      "inscritos": 96,
+      "desc": "Diretrizes da OMS para assistência ao parto, plano de parto, acompanhante e prevenção de intervenções desnecessárias.",
+      "aulas": [
+        {
+          "t": "Direitos da gestante",
+          "d": "17 min"
+        },
+        {
+          "t": "Métodos não farmacológicos",
+          "d": "22 min"
+        },
+        {
+          "t": "Comunicação com a família",
+          "d": "19 min"
+        }
+      ]
+    },
+    {
+      "id": "c6",
+      "titulo": "Prevenção de infecção puerperal",
+      "area": "Enfermagem",
+      "horas": 9,
+      "nivel": "Intermediário",
+      "tag": "Trilha",
+      "inscritos": 127,
+      "desc": "Vigilância de sítio cirúrgico, higienização das mãos e critérios diagnósticos de endometrite no pós-parto.",
+      "aulas": [
+        {
+          "t": "Cadeia de transmissão",
+          "d": "15 min"
+        },
+        {
+          "t": "Ferida operatória de cesárea",
+          "d": "24 min"
+        },
+        {
+          "t": "Endometrite puerperal",
+          "d": "20 min"
+        },
+        {
+          "t": "Indicadores de vigilância",
+          "d": "18 min"
+        }
+      ]
+    }
+  ],
+  "CONQUISTAS": [
+    {
+      "nome": "Primeira aula",
+      "desc": "Concluiu a primeira aula na plataforma.",
+      "cor": "#7AB844",
+      "n": 1
+    },
+    {
+      "nome": "Protocolo em dia",
+      "desc": "Leu todos os protocolos do trimestre.",
+      "cor": "#1E4A7A",
+      "n": 2
+    },
+    {
+      "nome": "Plantão dedicado",
+      "desc": "Sete dias seguidos de acesso.",
+      "cor": "#D42E5B",
+      "n": 3
+    },
+    {
+      "nome": "Mentora",
+      "desc": "Respondeu 25 dúvidas da equipe no chat.",
+      "cor": "#B4771F",
+      "n": 5
+    },
+    {
+      "nome": "Trilha completa",
+      "desc": "Finalizou uma trilha de capacitação inteira.",
+      "cor": "#1E4A7A",
+      "n": 8
+    },
+    {
+      "nome": "Referência clínica",
+      "desc": "Certificada em três cursos avançados.",
+      "cor": "#7AB844",
+      "n": 11
+    },
+    {
+      "nome": "Rede ativa",
+      "desc": "Participou de 10 eventos da agenda.",
+      "cor": "#D42E5B",
+      "n": 14
+    },
+    {
+      "nome": "Excelência",
+      "desc": "Alcançou o nível 15 da plataforma.",
+      "cor": "#153A62",
+      "n": 15
+    }
+  ]
+}

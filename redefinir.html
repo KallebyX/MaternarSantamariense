@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="referrer" content="no-referrer">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Definir senha — Maternar Santa-mariense</title>
+  <link rel="icon" href="/logo_maternar_icon.png">
+  <style>
+    *{box-sizing:border-box}body{margin:0;background:#f5f7fa;color:#17354d;font:16px/1.6 system-ui,sans-serif;min-height:100vh;display:grid;place-items:center;padding:24px}
+    main{background:white;border:1px solid #d9e2eb;border-radius:20px;padding:32px;width:100%;max-width:480px;box-shadow:0 12px 40px #17354d12}
+    img{width:64px;height:64px;object-fit:contain}h1{font-size:26px;line-height:1.3;margin:16px 0}p{color:#486174}label{display:block;font-weight:600;margin-top:18px}input{font:inherit;width:100%;padding:12px;border:1px solid #8c9dab;border-radius:8px;margin-top:6px}button,a{min-height:44px}button{font:inherit;font-weight:600;width:100%;padding:12px;border:0;border-radius:8px;background:#153a62;color:white;margin:24px 0 8px;cursor:pointer}button:disabled{opacity:.6;cursor:wait}a{color:#153a62;display:inline-flex;align-items:center}input:focus-visible,button:focus-visible,a:focus-visible{outline:3px solid #347bb3;outline-offset:3px}[role=status]{overflow-wrap:anywhere;margin-top:12px}.erro{color:#a32328}.sucesso{color:#17603c}[hidden]{display:none!important}@media(max-width:380px){body{padding:12px}main{padding:22px}}
+  </style>
+  <script src="/redefinir.js" defer></script>
+</head>
+<body>
+  <main>
+    <img src="/logo_maternar_icon.png" alt="Maternar">
+    <h1>Defina sua senha</h1>
+    <p>Use no mínimo 8 caracteres, incluindo letras e números. O link vale por 1 hora e pode ser usado uma única vez.</p>
+    <form id="redefinir">
+      <label for="senha">Nova senha</label>
+      <input id="senha" name="senha" type="password" autocomplete="new-password" minlength="8" maxlength="72" required>
+      <label for="confirmacao">Confirme a nova senha</label>
+      <input id="confirmacao" name="confirmacao" type="password" autocomplete="new-password" minlength="8" maxlength="72" required>
+      <button type="submit">Salvar nova senha</button>
+    </form>
+    <div id="resultado" role="status" aria-live="polite"></div>
+    <a href="/#acesso">Voltar para o acesso</a>
+  </main>
+</body>
+</html>

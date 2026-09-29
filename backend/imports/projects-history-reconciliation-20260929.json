@@ -1,0 +1,283 @@
+{
+  "historicos": 547,
+  "atuaisJaPresentes": 157,
+  "porAno": [
+    {
+      "ano": 2018,
+      "registros": 78,
+      "situacoes": {
+        "ok": 73,
+        "OK": 2,
+        "não havendo quem registrou o projeto não há como liberar documetno do CEP": 3
+      },
+      "lacunas": {
+        "sem_datas_completas": 72,
+        "sem_local": 3
+      }
+    },
+    {
+      "ano": 2019,
+      "registros": 96,
+      "situacoes": {
+        "autorizado": 91,
+        "rejeitado": 1,
+        "REJEITADO": 1,
+        "autorizado porém não será realizado devido pendencias no cep": 1,
+        "AUTORIZADO": 1,
+        "rejeitado (Aguardo resposta por escrito)": 1
+      },
+      "lacunas": {
+        "sem_datas_completas": 95,
+        "sem_periodo_origem": 1,
+        "sem_responsavel": 1
+      }
+    },
+    {
+      "ano": 2020,
+      "registros": 82,
+      "situacoes": {
+        "autorizado": 77,
+        "AUTORIZADO": 3,
+        "cancelado": 1,
+        "não autorizado": 1
+      },
+      "lacunas": {
+        "sem_datas_completas": 76,
+        "sem_responsavel": 7,
+        "sem_periodo_origem": 1,
+        "sem_local": 1
+      }
+    },
+    {
+      "ano": 2021,
+      "registros": 66,
+      "situacoes": {
+        "autorizado": 63,
+        "não autorizado": 1,
+        "AUTORIZADO": 1,
+        "cancelado": 1
+      },
+      "lacunas": {
+        "sem_datas_completas": 63
+      }
+    },
+    {
+      "ano": 2022,
+      "registros": 64,
+      "situacoes": {
+        "AUTORIZADO": 18,
+        "autorizado": 45,
+        "negado": 1
+      },
+      "lacunas": {
+        "sem_datas_completas": 63,
+        "sem_periodo_origem": 2
+      }
+    },
+    {
+      "ano": 2023,
+      "registros": 73,
+      "situacoes": {
+        "autorizado": 70,
+        "negado": 1,
+        "retornou para ajustes": 1,
+        "AUTORIZADO": 1
+      },
+      "lacunas": {
+        "sem_datas_completas": 69,
+        "sem_responsavel": 1,
+        "sem_periodo_origem": 2,
+        "sem_local": 1
+      }
+    },
+    {
+      "ano": 2024,
+      "registros": 88,
+      "situacoes": {
+        "autorizado": 68,
+        "negado": 1,
+        "retornou para ajustes": 2,
+        "Autorizado": 8,
+        "projeto autorizado sem avaliação (avaliação não entregue ao Nepes no prazo estipulado)": 7,
+        "Autorizado apenas com a autorização da Bruna pois não recebemos retorno da vigilância quanto a avaliação no prazo estipulado": 1,
+        "autorizado em 11/nov/2024": 1
+      },
+      "lacunas": {
+        "sem_datas_completas": 66,
+        "sem_responsavel": 1
+      }
+    }
+  ],
+  "camposSanitizadosOuNormalizados": {
+    "responsavel": 241,
+    "local": 2,
+    "titulo": 2
+  },
+  "registrosRepetidosPreservados": [
+    {
+      "ano": 2022,
+      "registro": 56,
+      "linha": 60,
+      "id": "pq2022_56_2"
+    },
+    {
+      "ano": 2023,
+      "registro": 27,
+      "linha": 32,
+      "id": "pq2023_27_2"
+    },
+    {
+      "ano": 2023,
+      "registro": 32,
+      "linha": 39,
+      "id": "pq2023_32_2"
+    },
+    {
+      "ano": 2023,
+      "registro": 33,
+      "linha": 40,
+      "id": "pq2023_33_2"
+    }
+  ],
+  "linhasSemTituloNaoImportadas": [
+    {
+      "ano": 2018,
+      "registro": 1,
+      "linha": 5,
+      "motivo": "Título não preenchido na fonte"
+    },
+    {
+      "ano": 2018,
+      "registro": 80,
+      "linha": 84,
+      "motivo": "Título não preenchido na fonte"
+    },
+    {
+      "ano": 2018,
+      "registro": 81,
+      "linha": 85,
+      "motivo": "Título não preenchido na fonte"
+    },
+    {
+      "ano": 2018,
+      "registro": 82,
+      "linha": 86,
+      "motivo": "Título não preenchido na fonte"
+    },
+    {
+      "ano": 2018,
+      "registro": 84,
+      "linha": 87,
+      "motivo": "Título não preenchido na fonte"
+    },
+    {
+      "ano": 2018,
+      "registro": 85,
+      "linha": 88,
+      "motivo": "Título não preenchido na fonte"
+    },
+    {
+      "ano": 2018,
+      "registro": 86,
+      "linha": 89,
+      "motivo": "Título não preenchido na fonte"
+    },
+    {
+      "ano": 2018,
+      "registro": 87,
+      "linha": 90,
+      "motivo": "Título não preenchido na fonte"
+    },
+    {
+      "ano": 2018,
+      "registro": 88,
+      "linha": 91,
+      "motivo": "Título não preenchido na fonte"
+    },
+    {
+      "ano": 2018,
+      "registro": 89,
+      "linha": 92,
+      "motivo": "Título não preenchido na fonte"
+    },
+    {
+      "ano": 2018,
+      "registro": 90,
+      "linha": 93,
+      "motivo": "Título não preenchido na fonte"
+    },
+    {
+      "ano": 2018,
+      "registro": 91,
+      "linha": 94,
+      "motivo": "Título não preenchido na fonte"
+    },
+    {
+      "ano": 2018,
+      "registro": 92,
+      "linha": 95,
+      "motivo": "Título não preenchido na fonte"
+    },
+    {
+      "ano": 2018,
+      "registro": 93,
+      "linha": 96,
+      "motivo": "Título não preenchido na fonte"
+    },
+    {
+      "ano": 2018,
+      "registro": 94,
+      "linha": 97,
+      "motivo": "Título não preenchido na fonte"
+    },
+    {
+      "ano": 2018,
+      "registro": 95,
+      "linha": 98,
+      "motivo": "Título não preenchido na fonte"
+    },
+    {
+      "ano": 2018,
+      "registro": 96,
+      "linha": 99,
+      "motivo": "Título não preenchido na fonte"
+    },
+    {
+      "ano": 2018,
+      "registro": 97,
+      "linha": 100,
+      "motivo": "Título não preenchido na fonte"
+    },
+    {
+      "ano": 2018,
+      "registro": 98,
+      "linha": 101,
+      "motivo": "Título não preenchido na fonte"
+    },
+    {
+      "ano": 2018,
+      "registro": 99,
+      "linha": 102,
+      "motivo": "Título não preenchido na fonte"
+    },
+    {
+      "ano": 2018,
+      "registro": 100,
+      "linha": 103,
+      "motivo": "Título não preenchido na fonte"
+    }
+  ],
+  "periodosInconsistentes": [
+    {
+      "id": "pq2018_27",
+      "motivo": "A data final indicada na fonte antecede a inicial; período literal preservado e datas estruturadas vazias."
+    }
+  ],
+  "dadosExcluidos": [
+    "Autores/TEL/E-MAIL",
+    "Avaliador",
+    "Data da devolutiva",
+    "Devolutiva",
+    "Telefones, e-mails, URLs e CPFs embutidos em células públicas"
+  ]
+}

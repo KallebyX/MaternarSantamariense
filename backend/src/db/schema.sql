@@ -29,6 +29,18 @@ CREATE TABLE IF NOT EXISTS cursos (
   descricao TEXT DEFAULT ''
 );
 
+-- Apenas o hash do token é persistido; links de acesso nunca entram em logs.
+CREATE TABLE IF NOT EXISTS acessos_email (
+  token_hash TEXT PRIMARY KEY,
+  usuario_id INTEGER NOT NULL REFERENCES usuarios(id) ON DELETE CASCADE,
+  token_version INTEGER NOT NULL,
+  criado_em INTEGER NOT NULL,
+  expira_em INTEGER NOT NULL,
+  usado_em INTEGER,
+  enviado INTEGER NOT NULL DEFAULT 0
+);
+CREATE INDEX IF NOT EXISTS idx_acessos_email_usuario ON acessos_email(usuario_id, criado_em);
+
 CREATE TABLE IF NOT EXISTS aulas (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
   curso_id TEXT NOT NULL REFERENCES cursos(id) ON DELETE CASCADE,
@@ -99,8 +111,12 @@ CREATE TABLE IF NOT EXISTS projetos (
   local TEXT DEFAULT '',
   inicio TEXT DEFAULT '',
   fim TEXT DEFAULT '',
-  status TEXT NOT NULL DEFAULT 'Ativo' CHECK (status IN ('Ativo','Encerrado')),
+  status TEXT NOT NULL DEFAULT 'Ativo' CHECK (status IN ('Ativo','Encerrado','Histórico')),
   autorizacao TEXT DEFAULT '',
+  ano_referencia INTEGER,
+  historico INTEGER NOT NULL DEFAULT 0 CHECK (historico IN (0,1)),
+  situacao_origem TEXT NOT NULL DEFAULT '',
+  periodo_origem TEXT NOT NULL DEFAULT '',
   criado_em TEXT NOT NULL DEFAULT (datetime('now'))
 );
 
@@ -251,3 +267,5 @@ CREATE TABLE IF NOT EXISTS arquivos (
   criado_em TEXT NOT NULL DEFAULT (datetime('now'))
 );
 CREATE INDEX IF NOT EXISTS idx_arquivos_categoria ON arquivos(categoria);
+
+CREATE TABLE IF NOT EXISTS app_meta (chave TEXT PRIMARY KEY, valor TEXT NOT NULL);

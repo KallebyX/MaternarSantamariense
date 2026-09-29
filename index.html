@@ -4,14 +4,14 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Maternar Santa-mariense — plataforma da rede materno-infantil</title>
-<meta name="description" content="Educação permanente, protocolos vigentes e acervo da rede materno-infantil de Santa Maria. UFN / PPGSMI em parceria com o NEPeS — Prefeitura de Santa Maria.">
+<meta name="description" content="Educação permanente, protocolos no acervo e acervo da rede materno-infantil de Santa Maria. UFN / PPGSMI em parceria com o NEPeS — Prefeitura de Santa Maria.">
 <link rel="icon" href="logo_maternar_icon.png">
 <style>
   /* Fonte do sistema: a VM roda em rede privada, sem acesso a CDN de fontes. */
   :root{
     --azul:#153A62; --azul-medio:#1E4A7A; --rosa:#D42E5B; --rosa-claro:#F0A8BE;
     --fundo:#F1F5FA; --branco:#fff; --borda:#D8E3EE; --texto:#153A62;
-    --texto-suave:#5A7286; --texto-fraco:#93A9B9;
+    --texto-suave:#5A7286; --texto-fraco:#526B7B;
     --sombra:0 8px 26px rgba(21,58,98,.12);
   }
   *{box-sizing:border-box}
@@ -68,7 +68,7 @@
   .titulo-secao{max-width:60ch;margin-bottom:34px}
   .titulo-secao h2{font-size:clamp(24px,3vw,33px);font-weight:600;margin:10px 0 12px}
   .titulo-secao p{margin:0;color:var(--texto-suave);font-size:15.5px}
-  .grade{display:grid;gap:18px;grid-template-columns:repeat(auto-fit,minmax(268px,1fr))}
+  .grade{display:grid;gap:18px;grid-template-columns:repeat(auto-fit,minmax(min(268px,100%),1fr))}
   .cartao{background:var(--branco);border:1px solid var(--borda);border-radius:16px;
     padding:24px;box-shadow:var(--sombra)}
   section.claro .cartao{background:#FAFCFE}
@@ -82,7 +82,7 @@
   .ficha b{font-weight:600;color:var(--texto-fraco);margin-left:6px;font-size:12px}
 
   /* --------------------------------------------------------------- acesso */
-  .acesso{display:grid;gap:22px;grid-template-columns:repeat(auto-fit,minmax(310px,1fr));align-items:start}
+  .acesso{display:grid;gap:22px;grid-template-columns:repeat(auto-fit,minmax(min(310px,100%),1fr));align-items:start}
   label{display:block;font-size:12px;font-weight:600;color:#41576D;margin:14px 0 6px}
   input,select{width:100%;padding:11px 13px;border:1px solid #CFDDEA;border-radius:10px;
     font-size:14px;font-family:inherit;color:var(--texto);background:#fff}
@@ -99,6 +99,7 @@
   .rodape{display:flex;flex-wrap:wrap;gap:20px;align-items:center;justify-content:space-between}
   .logos{display:flex;align-items:center;gap:18px;flex-wrap:wrap}
   .logos img{display:block}
+  .logos .logo-gestar{width:196px;max-width:100%;height:auto}
   .divisor{width:1px;height:30px;background:#DFE9F2}
   .rodape small{color:var(--texto-fraco);font-size:12px}
 
@@ -107,6 +108,9 @@
     nav.menu a{display:none}
     section{padding:48px 0}
   }
+  @media(max-width:400px){.container{padding-left:18px;padding-right:18px}.barra{padding-top:12px;padding-bottom:12px}.marca{gap:9px}.marca .mono{font-size:9px}.cartao{padding:18px}}
+  .cartao{min-width:0;overflow-wrap:anywhere}input,select{min-width:0;max-width:100%}
+  :focus-visible{outline:3px solid #ba2851;outline-offset:3px}
 </style>
 </head>
 <body>
@@ -136,17 +140,16 @@
     <div>
       <div class="mono" style="color:var(--rosa-claro)">Plataforma de saúde materno-infantil</div>
       <h1>Cuidar de quem cuida das primeiras horas de vida.</h1>
-      <p class="chamada">Educação permanente, protocolos vigentes, acervo técnico e comunicação
-        entre as equipes da rede materno-infantil de Santa Maria — em um só lugar,
-        dentro da rede da Prefeitura.</p>
+      <p class="chamada">Educação permanente, protocolos no acervo, acervo técnico e comunicação
+        entre as equipes da rede materno-infantil de Santa Maria — em um só lugar.</p>
       <div class="acoes">
         <a class="btn btn-primario" href="#acesso">Entrar na plataforma</a>
         <a class="btn btn-linha" href="#solicitar">Solicitar acesso</a>
       </div>
       <div class="numeros">
         <div><span data-numero="profissionais">—</span><small>profissionais</small></div>
-        <div><span data-numero="protocolos">—</span><small>protocolos vigentes</small></div>
-        <div><span data-numero="capacitacoes">—</span><small>capacitações</small></div>
+        <div><span data-numero="protocolos">—</span><small>protocolos no acervo</small></div>
+        <div><span data-numero="capacitacoes">—</span><small>cursos publicados</small></div>
         <div><span data-numero="materiais">—</span><small>materiais no acervo</small></div>
       </div>
     </div>
@@ -176,19 +179,19 @@
     <div class="grade">
       <div class="cartao"><div class="selo">📚</div><h3>Acervo por política pública</h3>
         <p>Protocolos, cadernos e fluxogramas do Ministério da Saúde e da rede municipal,
-          separados por área e sempre na versão vigente.</p></div>
+          separados por área para consulta pela equipe.</p></div>
       <div class="cartao"><div class="selo">🎓</div><h3>Qualifica Profissional</h3>
-        <p>Capacitações online, presenciais e livres, com trilhas por função e
-          registro de horas para a educação permanente.</p></div>
+        <p>Materiais de estudo organizados por tema, além de cursos publicados pela
+          coordenação com aulas e carga horária definida.</p></div>
       <div class="cartao"><div class="selo">🏅</div><h3>Certificados verificáveis</h3>
-        <p>Cada conclusão gera certificado com código de verificação pública —
-          válido para progressão e comprovação junto à gestão.</p></div>
-      <div class="cartao"><div class="selo">🔬</div><h3>Produtos do PPGSMI</h3>
-        <p>E-books, cartilhas e produtos técnicos do Programa de Pós-Graduação em
-          Saúde Materno-Infantil da UFN, com download aberto à rede.</p></div>
-      <div class="cartao"><div class="selo">🗂️</div><h3>Pesquisas autorizadas</h3>
-        <p>Repositório dos projetos de pesquisa autorizados pelo NEPeS na rede
-          municipal, com responsável e vigência.</p></div>
+        <p>A conclusão de todas as aulas de um curso publicado permite emitir
+          certificado com código de verificação pública.</p></div>
+      <div class="cartao"><div class="selo">🔬</div><h3>Produtos e ferramentas</h3>
+        <p>Aplicativos da UFN, portais e publicações de referência, com acesso
+          aos respectivos materiais e serviços.</p></div>
+      <div class="cartao"><div class="selo">🗂️</div><h3>Projetos de pesquisa</h3>
+        <p>Registros atuais e históricos do NEPeS, com busca por ano e instituição
+          e as situações informadas na fonte.</p></div>
       <div class="cartao"><div class="selo">💬</div><h3>Comunicação da rede</h3>
         <p>Canais por serviço, avisos da coordenação e agenda de eventos —
           para a informação chegar a todos os turnos.</p></div>
@@ -224,15 +227,15 @@
       <div class="cartao">
         <h3 style="margin-top:0">Já tenho conta</h3>
         <form id="form-login" autocomplete="on">
-          <label for="login-email">E-mail institucional</label>
-          <input id="login-email" name="email" type="email" required placeholder="nome@maternarsm.com.br" autocomplete="username">
+          <label for="login-email">E-mail de acesso</label>
+          <input id="login-email" name="email" type="email" required placeholder="seu@email.com" autocomplete="username">
           <label for="login-senha">Senha</label>
           <input id="login-senha" name="senha" type="password" required minlength="8" placeholder="••••••••" autocomplete="current-password">
           <button class="btn btn-escuro" type="submit">Entrar</button>
-        </form>
+        <button type="button" class="btn" id="recuperar-senha">Esqueci minha senha</button>
+</form>
         <div class="aviso" id="aviso-login" role="status"></div>
-        <p class="dica">Esqueceu a senha? A coordenação redefine e repassa uma nova —
-          <a href="#solicitar">fale com o NEPeS</a>.</p>
+        <p class="dica">Informe seu e-mail e use “Esqueci minha senha” para receber um link de redefinição válido por 1 hora.</p>
       </div>
 
       <div class="cartao" id="solicitar">
@@ -240,8 +243,8 @@
         <form id="form-registro">
           <label for="reg-nome">Nome completo</label>
           <input id="reg-nome" name="nome" required placeholder="Como consta no seu registro profissional">
-          <label for="reg-email">E-mail institucional</label>
-          <input id="reg-email" name="email" type="email" required placeholder="nome@maternarsm.com.br">
+          <label for="reg-email">E-mail de acesso</label>
+          <input id="reg-email" name="email" type="email" required placeholder="seu@email.com">
           <label for="reg-unidade">Unidade / serviço</label>
           <input id="reg-unidade" name="unidade" placeholder="UBS, hospital, maternidade…">
           <label for="reg-cargo">Cargo ou função</label>
@@ -284,12 +287,12 @@
       <div class="cartao"><h3 style="margin-top:0">Educação permanente</h3>
         <p>Formação continuada desenhada com quem está na ponta, respeitando os turnos
           e a rotina dos serviços.</p></div>
-      <div class="cartao"><h3 style="margin-top:0">Protocolo único e vigente</h3>
-        <p>Uma só fonte de verdade: a versão publicada aqui é a que vale na rede,
-          com data de revisão à vista.</p></div>
-      <div class="cartao"><h3 style="margin-top:0">Dados na rede da Prefeitura</h3>
-        <p>A plataforma roda em servidor próprio, acessível pela rede institucional —
-          sem serviços externos.</p></div>
+      <div class="cartao"><h3 style="margin-top:0">Acervo para consulta</h3>
+        <p>Protocolos e materiais organizados por área, com a situação de revisão
+          e as informações de versão registradas pela coordenação.</p></div>
+      <div class="cartao"><h3 style="margin-top:0">Infraestrutura institucional</h3>
+        <p>A plataforma está hospedada na UFN, com conexão HTTPS e acesso autenticado
+          para as equipes autorizadas.</p></div>
     </div>
   </div>
 </section>
@@ -300,6 +303,7 @@
       <img src="logo_materno.png" alt="Saúde Materno-Infantil — PPGSMI" style="height:42px">
       <div class="divisor"></div>
       <img src="logo_ufn.png" alt="Universidade Franciscana" style="height:32px">
+      <img class="logo-gestar" src="logo_gestar.png" width="4945" height="1741" alt="GESTAR — Núcleo de Estudos, Pesquisa e Extensão em Saúde Materno Infantil da Universidade Franciscana" loading="lazy" decoding="async">
       <img src="logo_ninmahub.png" alt="NinMaHub — Núcleo de Inovação Materno Infantil UFN" style="height:34px;border-radius:8px;background:#fff;padding:3px 6px">
       <img src="logo_nepes.jpg" alt="NEPeS — Núcleo de Educação Permanente em Saúde" style="height:34px;border-radius:8px">
       <img src="logo_prefeitura.png" alt="Prefeitura Municipal de Santa Maria" style="height:40px">
@@ -307,7 +311,7 @@
     <div style="display:flex;align-items:center;gap:14px;flex-wrap:wrap">
       <a class="btn btn-linha" href="app.html">Plataforma</a>
       <a class="btn btn-linha" href="painel.html">Painel de gestão</a>
-      <small>UFN · PPGSMI · NEPeS — Prefeitura de Santa Maria</small>
+      <small>UFN · GESTAR · PPGSMI · NEPeS — Prefeitura de Santa Maria</small>
     </div>
   </div>
 </footer>
@@ -324,6 +328,7 @@ let apiViva = true;
 async function chamar(caminho, opcoes = {}) {
   const resposta = await fetch(API + caminho, {
     headers: { 'Content-Type': 'application/json' },
+    signal: AbortSignal.timeout(15000),
     ...opcoes,
   });
   let corpo = null;
@@ -348,7 +353,7 @@ function ocupado(form, ligado, rotulo) {
 const semApi = 'Plataforma indisponível nesta página. Acesse pela rede da Prefeitura ou fale com o NEPeS.';
 
 /* ------------------------------------------------- números e áreas do acervo */
-const PADRAO = { profissionais: '1.284', protocolos: '37', capacitacoes: '12', materiais: '96' };
+const PADRAO = { profissionais: '—', protocolos: '—', capacitacoes: '—', materiais: '—' };
 
 function preencherNumeros(valores) {
   for (const [chave, valor] of Object.entries(valores)) {
@@ -360,13 +365,14 @@ function preencherNumeros(valores) {
 async function carregarVitrine() {
   preencherNumeros(PADRAO);
   try {
-    const [politicas, protocolos, qualifica, produtos] = await Promise.all([
-      chamar('/politicas'), chamar('/protocolos'), chamar('/qualifica'), chamar('/produtos'),
+    const [politicas, protocolos, cursos, produtos, resumo] = await Promise.all([
+      chamar('/politicas'), chamar('/protocolos'), chamar('/cursos'), chamar('/produtos'), chamar('/resumo'),
     ]);
     const materiais = politicas.reduce((soma, p) => soma + p.materiais.length, 0);
     preencherNumeros({
+      profissionais: resumo.profissionais,
       protocolos: protocolos.length,
-      capacitacoes: qualifica.modulos.length,
+      capacitacoes: cursos.length,
       materiais,
     });
 
@@ -391,11 +397,11 @@ async function carregarVitrine() {
       const tipo = document.createElement('div');
       tipo.className = 'mono';
       tipo.style.color = 'var(--texto-fraco)';
-      tipo.textContent = `${produto.tipo} · ${produto.ano}`;
+      tipo.textContent = produto.tipo + (produto.ano ? ` · ${produto.ano}` : '');
       const titulo = document.createElement('h3');
       titulo.textContent = produto.titulo;
       const desc = document.createElement('p');
-      desc.textContent = produto.descricao || 'Produto técnico do PPGSMI.';
+      desc.textContent = produto.descricao || '';
       cartao.append(tipo, titulo, desc);
       vitrine.appendChild(cartao);
     }
@@ -424,14 +430,14 @@ document.getElementById('form-login').addEventListener('submit', async evento =>
       body: JSON.stringify({ email: form.email.value.trim(), senha: form.senha.value }),
     });
     localStorage.setItem('maternar.token', dados.token);
-    localStorage.setItem('maternar.usuario', JSON.stringify(dados.usuario));
+    localStorage.setItem('maternar.usuario', JSON.stringify({ nome: dados.usuario.nome, perfil: dados.usuario.perfil }));
     const gestao = dados.usuario.perfil === 'Gestor' || dados.usuario.perfil === 'Administrador';
     if (dados.usuario.senha_temporaria) {
       mostrar('aviso-login', 'info', 'Senha provisória: troque a senha no seu perfil após entrar.');
     } else {
       mostrar('aviso-login', 'ok', `Bem-vinda(o), ${dados.usuario.nome.split(' ')[0]}! Redirecionando…`);
     }
-    setTimeout(() => { window.location.href = gestao ? 'painel.html' : 'app.html'; }, 900);
+    setTimeout(() => { window.location.href = dados.usuario.senha_temporaria ? '/app#perfil' : gestao ? '/painel' : '/app'; }, 900);
   } catch (erro) {
     mostrar('aviso-login', 'erro', apiViva ? erro.message : semApi);
     ocupado(form, false);
@@ -488,11 +494,18 @@ function atalhoDeQuemJaEntrou() {
     const atalho = document.createElement('a');
     atalho.className = 'btn btn-primario';
     atalho.style.marginTop = '12px';
-    atalho.href = gestao ? 'painel.html' : 'app.html';
+    atalho.href = gestao ? '/painel' : '/app';
     atalho.textContent = gestao ? 'Ir para o painel de gestão' : 'Continuar na plataforma';
     document.getElementById('aviso-login').after(atalho);
   } catch { localStorage.removeItem('maternar.usuario'); }
 }
+
+document.getElementById('recuperar-senha')?.addEventListener('click', async () => {
+  const email = document.getElementById('form-login').email.value.trim();
+  if (!email) return mostrar('aviso-login', 'erro', 'Preencha seu e-mail para solicitar a recuperação.');
+  try { const dados = await chamar('/auth/recuperar', { method: 'POST', body: JSON.stringify({ email }) }); mostrar('aviso-login', 'ok', dados.mensagem); }
+  catch (erro) { mostrar('aviso-login', 'erro', erro.message); }
+});
 
 carregarVitrine();
 atalhoDeQuemJaEntrou();

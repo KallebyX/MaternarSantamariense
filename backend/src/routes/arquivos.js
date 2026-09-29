@@ -5,7 +5,7 @@
 import { Router } from 'express';
 import multer from 'multer';
 import { randomBytes } from 'node:crypto';
-import { mkdirSync, unlinkSync, existsSync } from 'node:fs';
+import { mkdirSync, unlinkSync } from 'node:fs';
 import { extname, join, basename } from 'node:path';
 import { db, registrarLog } from '../db/connection.js';
 import { autenticar, exigirPapel } from '../auth/middleware.js';
@@ -19,7 +19,7 @@ export const CATEGORIAS = ['Treinamento', 'Política', 'Material', 'Produto PPGS
 
 // Extensões aceitas — documentos, apresentações, planilhas, imagens e vídeo/áudio de aula
 const EXTENSOES = new Set(['.pdf', '.doc', '.docx', '.odt', '.ppt', '.pptx', '.odp', '.xls', '.xlsx',
-  '.ods', '.csv', '.txt', '.rtf', '.png', '.jpg', '.jpeg', '.webp', '.gif', '.svg',
+  '.ods', '.csv', '.txt', '.rtf', '.png', '.jpg', '.jpeg', '.webp', '.gif',
   '.mp4', '.webm', '.mp3', '.m4a', '.zip']);
 
 mkdirSync(config.uploadDir, { recursive: true });
@@ -64,7 +64,7 @@ const upload = multer({
 function apagarDoDisco(armazenado) {
   // basename() barra qualquer tentativa de sair do diretório de uploads
   const caminho = join(config.uploadDir, basename(String(armazenado)));
-  try { if (existsSync(caminho)) unlinkSync(caminho); } catch { /* já removido */ }
+  try { unlinkSync(caminho); } catch (erro) { if (erro.code !== 'ENOENT') throw erro; }
 }
 
 arquivosRouter.get('/arquivos', (req, res) => {
@@ -101,7 +101,8 @@ arquivosRouter.post('/arquivos', autenticar, exigirPapel('Gestor', 'Administrado
       });
     } catch (e) {
       // O callback do multer roda fora da cadeia do Express: trata aqui em vez de lançar.
-      apagarDoDisco(req.file.filename); // não deixa binário órfão se o insert falhar
+      try { apagarDoDisco(req.file.filename); }
+      catch (falhaLimpeza) { console.error('[arquivos] Falha ao remover upload não registrado:', falhaLimpeza); }
       console.error('[arquivos]', e);
       return erro(res, 500, 'Não foi possível registrar o arquivo enviado.');
     }
@@ -122,19 +123,21 @@ arquivosRouter.put('/arquivos/:id', autenticar, exigirPapel('Gestor', 'Administr
 arquivosRouter.delete('/arquivos/:id', autenticar, exigirPapel('Gestor', 'Administrador'), (req, res) => {
   const arquivo = db.prepare('SELECT * FROM arquivos WHERE id = ?').get(req.params.id);
   if (!arquivo) return erro(res, 404, 'Arquivo não encontrado.');
-  const emUso = db.prepare(`SELECT
-      (SELECT COUNT(*) FROM materiais WHERE url = ?) +
-      (SELECT COUNT(*) FROM documentos WHERE url = ?) +
-      (SELECT COUNT(*) FROM produtos WHERE url = ?) +
-      (SELECT COUNT(*) FROM protocolos WHERE url = ?) +
-      (SELECT COUNT(*) FROM qualifica_recursos WHERE url = ?) +
-      (SELECT COUNT(*) FROM aulas WHERE url = ?) c`)
-    .get(arquivo.url, arquivo.url, arquivo.url, arquivo.url, arquivo.url, arquivo.url).c;
+  const caminho = valor => {
+    try { return decodeURIComponent(new URL(valor, 'https://maternar.local/').pathname); }
+    catch { return null; }
+  };
+  const destino = caminho(arquivo.url);
+  const vinculos = [['materiais', 'url'], ['documentos', 'url'], ['produtos', 'url'],
+    ['protocolos', 'url'], ['qualifica_recursos', 'url'], ['aulas', 'url'],
+    ['cursos', 'capa'], ['produtos', 'capa'], ['qualifica_modulos', 'url'], ['links', 'url']];
+  const emUso = vinculos.reduce((total, [tabela, campo]) => total + db.prepare(`SELECT ${campo} valor FROM ${tabela}`).all()
+    .filter(({ valor }) => valor && caminho(valor) === destino).length, 0);
   if (emUso && req.query.forcar !== 'true') {
     return erro(res, 409, `Arquivo referenciado em ${emUso} registro(s). Remova os vínculos ou use ?forcar=true.`);
   }
-  db.prepare('DELETE FROM arquivos WHERE id = ?').run(arquivo.id);
   apagarDoDisco(arquivo.armazenado);
+  db.prepare('DELETE FROM arquivos WHERE id = ?').run(arquivo.id);
   registrarLog(req.usuario.email, 'remover-arquivo', arquivo.titulo);
   return ok(res, { removido: arquivo.id });
 });

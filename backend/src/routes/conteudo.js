@@ -1,11 +1,15 @@
 // Rotas de conteúdo: políticas/acervo, projetos, protocolos, documentos, links,
 // eventos, produtos (com contadores), qualifica e busca global.
+import { randomUUID } from 'node:crypto';
 import { Router } from 'express';
 import { db, registrarLog } from '../db/connection.js';
 import { autenticar, exigirPapel } from '../auth/middleware.js';
-import { erro, ok, exigir } from '../lib/http.js';
+import { erro, ok, exigir, urlValida, tagsValidas } from '../lib/http.js';
+import { cursosPublicados } from '../lib/cursos.js';
 
 export const conteudoRouter = Router();
+
+conteudoRouter.get('/resumo', (req, res) => ok(res, { profissionais: db.prepare("SELECT COUNT(*) n FROM usuarios WHERE situacao = 'Ativo'").get().n }));
 
 const comTags = m => ({ ...m, tags: JSON.parse(m.tags || '[]') });
 
@@ -29,9 +33,11 @@ conteudoRouter.get('/politicas/:id/materiais', (req, res) => {
 conteudoRouter.post('/politicas/:id/materiais', autenticar, exigirPapel('Gestor', 'Administrador'), (req, res) => {
   const falta = exigir(req.body, ['titulo', 'url']);
   if (falta) return erro(res, 400, falta);
+  if (!urlValida(req.body.url)) return erro(res, 400, 'Endereço inválido.');
+  if (req.body.tags !== undefined && !tagsValidas(req.body.tags)) return erro(res, 400, 'Etiquetas inválidas.');
   if (!db.prepare('SELECT 1 FROM politicas WHERE id = ?').get(req.params.id)) return erro(res, 404, 'Política não encontrada.');
   const info = db.prepare('INSERT INTO materiais (politica_id, titulo, tipo, url, tags) VALUES (?, ?, ?, ?, ?)')
-    .run(req.params.id, req.body.titulo.trim(), String(req.body.tipo || 'Material'), req.body.url.trim(),
+    .run(req.params.id, String(req.body.titulo).trim(), String(req.body.tipo || 'Material'), String(req.body.url).trim(),
       JSON.stringify(Array.isArray(req.body.tags) ? req.body.tags : []));
   registrarLog(req.usuario.email, 'criar-material', req.body.titulo);
   return res.status(201).json({ ok: true, dados: comTags(db.prepare('SELECT * FROM materiais WHERE id = ?').get(info.lastInsertRowid)), erro: null });
@@ -39,30 +45,49 @@ conteudoRouter.post('/politicas/:id/materiais', autenticar, exigirPapel('Gestor'
 
 // ----------------------------------------------------------------- projetos
 conteudoRouter.get('/projetos', (req, res) => {
-  const { q = '', status = '' } = req.query;
-  let projetos = db.prepare('SELECT * FROM projetos ORDER BY criado_em DESC, id DESC').all();
-  if (status && status !== 'Todos') projetos = projetos.filter(p => p.status === status);
-  const busca = String(q).toLowerCase();
-  if (busca) {
-    projetos = projetos.filter(p =>
-      [p.titulo, p.responsavel, p.instituicao, p.local].join(' ').toLowerCase().includes(busca));
-  }
-  return ok(res, projetos, { total: projetos.length });
+  const campos = ['q', 'ano', 'status', 'instituicao', 'escopo', 'situacao_origem', 'pagina', 'limite'];
+  if (campos.some(c => req.query[c] !== undefined && typeof req.query[c] !== 'string')) return erro(res, 400, 'Filtro de projetos inválido.');
+  const { q = '', ano = '', status = '', instituicao = '', escopo = '', situacao_origem = '' } = req.query;
+  if (!['', 'atuais', 'historicos'].includes(escopo)) return erro(res, 400, 'Escolha registros atuais ou históricos.');
+  if (ano && ano !== 'sem-ano' && !/^\d{4}$/.test(ano)) return erro(res, 400, 'Ano de referência inválido.');
+  const paginado = req.query.pagina !== undefined || req.query.limite !== undefined;
+  const paginaSolicitada = Number(req.query.pagina ?? 1), limite = Number(req.query.limite ?? 24);
+  if (!Number.isSafeInteger(paginaSolicitada) || paginaSolicitada < 1 || !Number.isSafeInteger(limite) || limite < 1 || limite > 100) return erro(res, 400, 'Paginação inválida. Use uma página positiva e até 100 registros por página.');
+  const normalizar = valor => String(valor ?? '').normalize('NFD').replace(/[\u0300-\u036f]/g, '').trim().replace(/\s+/g, ' ').toLowerCase();
+  const todos = db.prepare('SELECT * FROM projetos ORDER BY criado_em DESC, id DESC').all()
+    .map(p => ({ ...p, historico: !!p.historico }))
+    .sort((a, b) => Number(a.historico) - Number(b.historico) || (b.ano_referencia || 0) - (a.ano_referencia || 0) || a.titulo.localeCompare(b.titulo, 'pt-BR') || a.id.localeCompare(b.id));
+  const opcoesDe = campo => [...new Map(todos.filter(p => String(p[campo] ?? '').trim()).map(p => [normalizar(p[campo]), String(p[campo]).trim()])).values()].sort((a, b) => a.localeCompare(b, 'pt-BR'));
+  const termos = normalizar(q).split(' ').filter(Boolean);
+  const projetos = todos.filter(p =>
+    (!ano || (ano === 'sem-ano' ? !p.ano_referencia : String(p.ano_referencia) === ano)) &&
+    (!status || status === 'Todos' || p.status === status) &&
+    (!instituicao || normalizar(p.instituicao) === normalizar(instituicao)) &&
+    (!situacao_origem || normalizar(p.situacao_origem) === normalizar(situacao_origem)) &&
+    (!escopo || p.historico === (escopo === 'historicos')) &&
+    termos.every(termo => normalizar([p.titulo, p.responsavel, p.instituicao, p.local].join(' ')).includes(termo)));
+  const total = projetos.length, paginas = Math.max(1, Math.ceil(total / limite));
+  const pagina = Math.min(paginaSolicitada, paginas);
+  return ok(res, paginado ? projetos.slice((pagina - 1) * limite, pagina * limite) : projetos, {
+    total, totalGeral: todos.length, pagina: paginado ? pagina : 1,
+    paginas: paginado ? paginas : 1, limite: paginado ? limite : total,
+    opcoes: { anos: [...new Set(todos.map(p => p.ano_referencia).filter(Boolean))].sort((a, b) => b - a), semAno: todos.some(p => !p.ano_referencia),
+      instituicoes: opcoesDe('instituicao'), situacoes: opcoesDe('status'), situacoesOrigem: opcoesDe('situacao_origem') },
+  });
 });
 
 conteudoRouter.post('/projetos', autenticar, exigirPapel('Gestor', 'Administrador'), (req, res) => {
   const falta = exigir(req.body, ['titulo', 'responsavel']);
   if (falta) return erro(res, 400, falta);
   const ano = new Date().getFullYear();
-  const seq = db.prepare("SELECT COUNT(*) c FROM projetos WHERE id LIKE ?").get(`pq${ano}_%`).c + 1;
-  const id = `pq${ano}_n${seq}`;
+  const id = `pq${ano}_${randomUUID()}`;
   db.prepare(`INSERT INTO projetos (id, titulo, responsavel, instituicao, local, inicio, fim, status, autorizacao)
     VALUES (?, ?, ?, ?, ?, ?, ?, 'Ativo', ?)`)
-    .run(id, req.body.titulo.trim(), req.body.responsavel.trim(),
+    .run(id, String(req.body.titulo).trim(), String(req.body.responsavel).trim(),
       String(req.body.instituicao || 'Instituição não informada').trim(),
       String(req.body.local || 'Rede municipal de saúde').trim(),
       String(req.body.inicio || '—'), String(req.body.fim || '—'),
-      `NEPeS reg. nº ${String(seq).padStart(3, '0')}/${ano}`);
+      String(req.body.autorizacao || ''));
   registrarLog(req.usuario.email, 'criar-projeto', req.body.titulo);
   return res.status(201).json({ ok: true, dados: db.prepare('SELECT * FROM projetos WHERE id = ?').get(id), erro: null });
 });
@@ -88,12 +113,14 @@ conteudoRouter.get('/documentos', (req, res) => {
 conteudoRouter.post('/documentos', autenticar, exigirPapel('Gestor', 'Administrador'), (req, res) => {
   const falta = exigir(req.body, ['titulo']);
   if (falta) return erro(res, 400, falta);
-  const id = 'd' + Date.now().toString(36);
+  if (req.body.url !== undefined && !urlValida(req.body.url)) return erro(res, 400, 'Endereço inválido.');
+  if (req.body.tags !== undefined && !tagsValidas(req.body.tags)) return erro(res, 400, 'Etiquetas inválidas.');
+  const id = 'd' + randomUUID();
   const status = ['Aprovado', 'Em revisão', 'Vencido'].includes(req.body.status) ? req.body.status : 'Em revisão';
   db.prepare(`INSERT INTO documentos
       (id, titulo, tipo, categoria, setor, autor, status, versao, expira, tamanho, tags, descricao, url, atualizado)
     VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`)
-    .run(id, req.body.titulo.trim(), String(req.body.tipo || 'Documento'), String(req.body.categoria || ''),
+    .run(id, String(req.body.titulo).trim(), String(req.body.tipo || 'Documento'), String(req.body.categoria || ''),
       String(req.body.setor || ''), String(req.body.autor || req.usuario.nome), status,
       String(req.body.versao || ''), String(req.body.expira || ''), String(req.body.tamanho || ''),
       JSON.stringify(Array.isArray(req.body.tags) ? req.body.tags : []), String(req.body.descricao || ''),
@@ -106,17 +133,20 @@ conteudoRouter.post('/documentos', autenticar, exigirPapel('Gestor', 'Administra
 conteudoRouter.get('/links', (req, res) => ok(res, db.prepare('SELECT * FROM links ORDER BY categoria, titulo').all()));
 
 // ------------------------------------------------------------------ eventos
-conteudoRouter.get('/eventos', (req, res) => ok(res, db.prepare('SELECT * FROM eventos ORDER BY mes, dia, hora').all()));
+conteudoRouter.get('/eventos', (req, res) => ok(res, db.prepare('SELECT * FROM eventos ORDER BY ano, mes, dia, hora').all()));
 
-conteudoRouter.post('/eventos', autenticar, (req, res) => {
+conteudoRouter.post('/eventos', autenticar, exigirPapel('Gestor', 'Administrador'), (req, res) => {
   const falta = exigir(req.body, ['dia', 'hora', 'titulo']);
   if (falta) return erro(res, 400, falta);
   const dia = Number(req.body.dia), mes = Number(req.body.mes || 8);
   if (!Number.isInteger(dia) || dia < 1 || dia > 31) return erro(res, 400, 'Dia inválido.');
   if (!Number.isInteger(mes) || mes < 1 || mes > 12) return erro(res, 400, 'Mês inválido.');
-  const info = db.prepare('INSERT INTO eventos (dia, mes, hora, titulo, local, cor, criado_por) VALUES (?, ?, ?, ?, ?, ?, ?)')
-    .run(dia, mes, String(req.body.hora), req.body.titulo.trim(),
-      String(req.body.local || ''), String(req.body.cor || '#1E4A7A'), req.usuario.id);
+  const ano = Number(req.body.ano || new Date().getFullYear());
+  if (!Number.isInteger(ano) || ano < 2000 || ano > 2100 || new Date(ano, mes - 1, dia).getMonth() !== mes - 1) return erro(res, 400, 'Data inválida.');
+  if (!/^([01]\d|2[0-3]):[0-5]\d$/.test(String(req.body.hora))) return erro(res, 400, 'Horário inválido.');
+  const info = db.prepare('INSERT INTO eventos (dia, mes, hora, titulo, local, cor, criado_por, ano) VALUES (?, ?, ?, ?, ?, ?, ?, ?)')
+    .run(dia, mes, String(req.body.hora), String(req.body.titulo).trim(),
+      String(req.body.local || ''), String(req.body.cor || '#1E4A7A'), req.usuario.id, ano);
   registrarLog(req.usuario.email, 'criar-evento', req.body.titulo);
   return res.status(201).json({ ok: true, dados: db.prepare('SELECT * FROM eventos WHERE id = ?').get(info.lastInsertRowid), erro: null });
 });
@@ -157,7 +187,7 @@ conteudoRouter.get('/busca', (req, res) => {
       resultados.push({ tipo: 'material', titulo: m.titulo, contexto: m.politica, url: m.url });
     }
   }
-  for (const c of db.prepare('SELECT * FROM cursos').all()) {
+  for (const c of cursosPublicados()) {
     if (c.titulo.toLowerCase().includes(q)) resultados.push({ tipo: 'curso', titulo: c.titulo, contexto: c.area, url: null, id: c.id });
   }
   for (const d of db.prepare('SELECT * FROM documentos').all().map(comTags)) {

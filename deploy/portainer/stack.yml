@@ -1,0 +1,59 @@
+# Docker Standalone: construir a imagem e restaurar o volume antes de implantar.
+# Portainer > Stacks > Add stack > Web editor. Access control: Restricted.
+services:
+  maternar:
+    image: ${MATERNAR_IMAGE:?Informe a imagem construida neste ambiente}
+    pull_policy: never
+    init: true
+    restart: unless-stopped
+    user: "10001:10001"
+    read_only: true
+    # O perfil institucional bloqueia security_opt; execução sem root/capabilities.
+    cap_drop:
+      - ALL
+    ports:
+      - "${MATERNAR_BIND_IP:?Informe o IP interno do servidor}:${MATERNAR_PORT:?Informe a porta reservada}:3000"
+    environment:
+      NODE_ENV: production
+      HOST: 0.0.0.0
+      PORT: "3000"
+      JWT_SECRET: ${JWT_SECRET:?Carregue o arquivo privado de variaveis}
+      JWT_EXPIRA: 12h
+      DB_PATH: /app/backend/data/maternar.db
+      UPLOAD_DIR: /app/backend/data/uploads
+      STATIC_DIR: /app
+      UPLOAD_MAX_MB: "64"
+      TRUST_PROXY: "1"
+      PUBLIC_URL: ${PUBLIC_URL:-https://maternarsantamariense.app.ufn.edu.br}
+      SMTP_ENABLED: ${SMTP_ENABLED:-false}
+      SMTP_HOST: ${SMTP_HOST:-smtp.office365.com}
+      SMTP_PORT: ${SMTP_PORT:-587}
+      SMTP_SECURE: ${SMTP_SECURE:-false}
+      SMTP_USER: ${SMTP_USER:-maternar@ufn.edu.br}
+      SMTP_FROM: ${SMTP_FROM:-maternar@ufn.edu.br}
+      SMTP_PASSWORD: ${SMTP_PASSWORD:-}
+      TZ: America/Sao_Paulo
+    volumes:
+      - dados:/app/backend/data
+    tmpfs:
+      - /tmp:rw,noexec,nosuid,size=64m
+    stop_grace_period: 30s
+    mem_limit: 512m
+    cpus: "1.0"
+    pids_limit: 128
+    logging:
+      driver: json-file
+      options:
+        max-size: 10m
+        max-file: "3"
+    healthcheck:
+      test: ["CMD", "node", "-e", "fetch('http://127.0.0.1:3000/api/saude',{signal:AbortSignal.timeout(3000)}).then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))"]
+      interval: 30s
+      timeout: 5s
+      start_period: 30s
+      retries: 3
+
+volumes:
+  dados:
+    external: true
+    name: ${MATERNAR_VOLUME:?Informe o volume previamente restaurado}

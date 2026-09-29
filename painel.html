@@ -10,7 +10,7 @@
   :root{
     --azul:#153A62; --azul-medio:#1E4A7A; --rosa:#D42E5B; --fundo:#F1F5FA;
     --branco:#fff; --borda:#D8E3EE; --texto:#153A62; --texto-suave:#5A7286;
-    --texto-fraco:#93A9B9; --ok:#1D6A42; --alerta:#A31842;
+    --texto-fraco:#526B7B; --ok:#1D6A42; --alerta:#A31842;
   }
   *{box-sizing:border-box}
   body{margin:0;background:var(--fundo);color:var(--texto);
@@ -30,16 +30,29 @@
     box-shadow:0 12px 34px rgba(21,58,98,.12)}
 
   /* ----------------------------------------------------------- estrutura */
-  #app{display:grid;grid-template-columns:250px 1fr;min-height:100vh}
-  aside{background:var(--azul);color:#DCE6F0;padding:20px 0;display:flex;
-    flex-direction:column;gap:4px;position:sticky;top:0;height:100vh;overflow-y:auto}
-  aside .topo{padding:0 20px 18px;display:flex;align-items:center;gap:12px}
-  aside .grupo{padding:16px 20px 6px;color:#7794B3}
-  aside button{display:flex;width:100%;align-items:center;gap:9px;background:none;
-    border:0;color:#C6D5E4;font:inherit;text-align:left;padding:8px 20px;cursor:pointer}
-  aside button:hover{background:#1D4470;color:#fff}
-  aside button.ativo{background:#245081;color:#fff;box-shadow:inset 3px 0 0 var(--rosa)}
-  aside .rodape{margin-top:auto;padding:16px 20px 0;border-top:1px solid #2C557F;font-size:12px;color:#8FA6BF}
+  #app{display:grid;grid-template-columns:264px 1fr;min-height:100vh}
+  aside{background:var(--azul);color:#DCE6F0;display:flex;flex-direction:column;
+    position:sticky;top:0;height:100vh;height:100dvh;min-height:0;overflow:hidden}
+  aside .topo{padding:24px 22px 20px;display:flex;align-items:center;gap:12px;
+    flex-shrink:0;border-bottom:1px solid #2C557F}
+  #menu{flex:1;min-height:0;overflow-y:auto;padding:8px 12px 16px;
+    overscroll-behavior:contain;scrollbar-width:thin;scrollbar-color:#64809E transparent}
+  aside .grupo{padding:20px 12px 8px;color:#A8BED5;font-size:10px;font-weight:600;letter-spacing:.14em}
+  aside button{display:flex;width:100%;align-items:center;gap:12px;background:none;
+    border:0;border-radius:9px;color:#D1DDEA;font:inherit;font-size:13px;line-height:1.4;
+    text-align:left;padding:11px 12px;min-height:44px;cursor:pointer}
+  #menu button{margin:2px 0}
+  aside button:hover{background:#204870;color:#fff}
+  aside button.ativo{background:#2A527D;color:#fff;box-shadow:inset 3px 0 0 #F47A9B;font-weight:600}
+  aside :focus-visible{outline:2px solid #FFD0DE;outline-offset:2px}
+  .icone-menu{width:20px;height:20px;flex:0 0 20px;fill:none;stroke:currentColor;
+    stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;color:#A8C5DF}
+  button.ativo .icone-menu,button:hover .icone-menu{color:inherit}
+  aside .rodape{flex-shrink:0;padding:16px 22px;border-top:1px solid #2C557F;
+    font-size:12px;color:#B4C7DB;background:#123455}
+  aside .rodape a{display:inline-block;margin:4px 12px 4px 0;color:#D1DDEA}
+  aside .rodape a:hover{color:#fff;text-decoration:underline}
+  aside .rodape button{width:auto;margin-top:8px;padding:7px 14px;min-height:36px;color:var(--azul)}
 
   main{min-width:0;padding:26px 30px 60px}
   .cabecalho{display:flex;gap:16px;align-items:flex-start;flex-wrap:wrap;margin-bottom:22px}
@@ -48,7 +61,7 @@
   .cabecalho .acoes{margin-left:auto;display:flex;gap:9px;flex-wrap:wrap}
 
   /* -------------------------------------------------------------- blocos */
-  .cartao{background:var(--branco);border:1px solid var(--borda);border-radius:14px;padding:18px}
+  .cartao{background:var(--branco);border:1px solid var(--borda);border-radius:14px;padding:18px;min-width:0;overflow-wrap:anywhere}
   .grade{display:grid;gap:14px;grid-template-columns:repeat(auto-fit,minmax(190px,1fr))}
   .indicador span{display:block;font-size:27px;font-weight:600;line-height:1.2}
   .indicador small{color:var(--texto-fraco);font-size:12px}
@@ -70,6 +83,7 @@
   table{width:100%;min-width:max-content;border-collapse:collapse;background:var(--branco);
     border:1px solid var(--borda);border-radius:14px}
   .rolagem{overflow-x:auto;border-radius:14px}
+  .ajuda-tabela{display:none}
   th,td{text-align:left;padding:10px 12px;border-bottom:1px solid #EBF1F7;vertical-align:middle}
   th{background:#F7FAFD;font-size:12px;text-transform:uppercase;letter-spacing:.06em;
     color:var(--texto-suave);font-weight:600;white-space:nowrap}
@@ -97,13 +111,16 @@
   input[type=color]{padding:3px;height:38px}
   input:focus,select:focus,textarea:focus{outline:2px solid #BBD2E8;outline-offset:1px}
   .filtros input,.filtros select{width:auto;min-width:190px}
+  .filtros-projetos{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin:0 0 14px;padding:16px;background:var(--branco,#fff);border:1px solid var(--borda);border-radius:12px;align-items:end}
+  .filtros-projetos label{display:grid;gap:6px;min-width:0}.filtros-projetos select{width:100%;min-width:0;text-overflow:ellipsis}.nota-projetos{font-size:12px;color:var(--texto-fraco);margin-bottom:16px}
+  @media(max-width:600px){.filtros-projetos{grid-template-columns:minmax(0,1fr)}}
 
   dialog{border:0;border-radius:16px;padding:0;max-width:640px;width:calc(100% - 32px);
     box-shadow:0 24px 60px rgba(9,26,45,.32)}
   dialog::backdrop{background:rgba(18,33,46,.5)}
   dialog .corpo{padding:24px}
   dialog h3{font-size:19px;font-weight:600;margin-bottom:4px}
-  dialog .campos{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));margin-top:18px}
+  dialog .campos{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(min(230px,100%),1fr));margin-top:18px}
   dialog .campos .largo{grid-column:1/-1}
   dialog .pe{display:flex;gap:10px;justify-content:flex-end;margin-top:22px;flex-wrap:wrap}
 
@@ -111,7 +128,7 @@
   .aviso.erro{background:#FDECF1;color:var(--alerta);border:1px solid #F6C9D7}
   .aviso.ok{background:#EAF6EF;color:var(--ok);border:1px solid #C3E4D2}
   .aviso.info{background:#EDF3FA;color:var(--azul-medio);border:1px solid #CFDDEA}
-  #recado{position:fixed;right:20px;bottom:20px;z-index:90;max-width:390px}
+  #recado{position:fixed;right:20px;bottom:20px;z-index:90;max-width:min(390px,calc(100vw - 40px));overflow-wrap:anywhere}
   .vazio{padding:26px;text-align:center;color:var(--texto-fraco);background:var(--branco);
     border:1px dashed var(--borda);border-radius:14px}
   .senha-gerada{font-family:'IBM Plex Mono',ui-monospace,monospace;font-size:16px;
@@ -121,10 +138,25 @@
   .anexo select,.anexo input[type=file]{flex:1;min-width:150px;width:auto}
 
   @media (max-width:900px){
-    #app{grid-template-columns:1fr}
-    aside{position:static;height:auto}
+    #app{grid-template-columns:1fr;grid-template-rows:auto 1fr}
+    aside{position:static;height:auto;min-width:0;overflow:visible}
+    aside .topo{padding:16px;border-bottom:0}
+    #menu{display:flex;flex:none;overflow-x:auto;gap:6px;padding:4px 16px 12px}
+    #menu .grupo{display:none}
+    #menu button{width:auto;flex-shrink:0;white-space:nowrap;border-radius:8px;padding:10px 12px;gap:9px}
+    aside .rodape{display:flex;align-items:center;flex-wrap:wrap;gap:8px 12px;padding:12px 16px}
+    aside .rodape a,aside .rodape button{margin:0}
+    aside .rodape button{width:auto;padding:8px}
     main{padding:20px 16px 50px}
+    .filtros input,.filtros select{min-width:0;max-width:100%}
+    td.acoes .btn{min-height:40px}
+    td.acoes,th.acoes{position:static;box-shadow:none}
+    .ajuda-tabela{display:block;color:var(--texto-suave);font-size:12px;margin:0 0 8px}
   }
+  @media(max-width:480px){.anexo select,.anexo input[type=file]{flex-basis:100%;width:100%;min-width:0}}
+  :focus-visible{outline:3px solid #ba2851;outline-offset:3px}
+  #quem-sou{overflow-wrap:anywhere;min-width:0}
+  .campos>div{min-width:0}
 </style>
 </head>
 <body>
@@ -156,16 +188,16 @@
       <img src="logo_maternar_icon.png" alt="" style="height:34px">
       <div>
         <div style="font-weight:600;color:#fff">Maternar</div>
-        <div class="mono" style="color:#7794B3">Painel de gestão</div>
+        <div class="mono" style="color:#A8BED5">Painel de gestão</div>
       </div>
     </div>
-    <nav id="menu"></nav>
+    <nav id="menu" aria-label="Seções do painel de gestão"></nav>
     <div class="rodape">
       <div id="quem-sou" style="color:#DCE6F0;font-weight:600"></div>
-      <div id="perfil-sou" style="margin-bottom:10px"></div>
-      <a href="app.html" style="color:#A9C3DC;display:block">Ir para a plataforma</a>
-      <a href="index.html" style="color:#A9C3DC;display:block">Página inicial</a>
-      <button id="sair" class="btn btn-mini btn-linha" style="margin-top:10px;width:auto">Sair</button>
+      <div id="perfil-sou"></div>
+      <a href="app.html">Ir para a plataforma</a>
+      <a href="index.html">Página inicial</a>
+      <button id="sair" class="btn btn-mini btn-linha">Sair</button>
     </div>
   </aside>
 
