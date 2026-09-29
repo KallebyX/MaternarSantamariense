@@ -63,13 +63,13 @@ export function criarApp() {
     for (const pasta of ['acervo', 'cursos', 'qualifica', 'produtos']) {
       app.use('/' + pasta, express.static(join(config.staticDir, pasta), { dotfiles: 'deny' }));
     }
-    const publicos = ['index.html', 'app.html', 'app.js', 'chat.js', 'app.css', 'mobile-navigation.js', 'mobile-navigation.css', 'painel.html', 'painel.js', 'redefinir.html', 'redefinir.js',
-      'assets/lucide.svg', 'assets/lucide-LICENSE.txt',
+    const publicos = ['index.html', 'app.html', 'app.js', 'chat.js', 'app.css', 'mobile-navigation.js', 'mobile-navigation.css', 'brand.css', 'painel.html', 'painel.js', 'redefinir.html', 'redefinir.js',
+      'assets/lucide.svg', 'assets/maternar-favicon.svg', 'logo_maternar.png', 'assets/lucide-LICENSE.txt',
       'logo_maternar_icon.png', 'logo_materno.png', 'logo_ufn.png', 'logo_nepes.jpg',
       'logo_ninmahub.png', 'logo_prefeitura.png', 'logo_gestar.png'];
     app.get('/', (req, res) => res.sendFile(join(config.staticDir, 'index.html')));
     for (const arquivo of publicos) app.get('/' + arquivo, (req, res) => res.sendFile(join(config.staticDir, arquivo)));
-    app.get('/favicon.ico', (req, res) => res.sendFile(join(config.staticDir, 'logo_maternar_icon.png')));
+    app.get('/favicon.ico', (req, res) => res.type('image/svg+xml').sendFile(join(config.staticDir, 'assets/maternar-favicon.svg')));
   }
 
   app.use((req, res) => erro(res, 404, 'Página não encontrada.'));

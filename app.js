@@ -172,7 +172,7 @@ async function carregar() {
 }
 async function mostrarCertificado(codigo) {
   const c=await api('/certificados/verificar/'+id(codigo));
-  $('#folha-certificado').innerHTML=`<img src="/logo_materno.png" alt="Maternar Santa-mariense"><h2>Certificado de conclusão</h2><p>Certificamos que</p><p class="portador">${esc(c.portador)}</p><p>concluiu o curso <strong>${esc(c.curso)}</strong>, com carga horária de <strong>${c.horas} horas</strong>.</p><p>Emitido em ${data(c.emitido_em)}.</p><p>UFN · PPGSMI · NEPeS — Prefeitura de Santa Maria</p><small>Código de verificação: ${esc(c.codigo)}<br>Consulte a autenticidade em ${esc(location.origin)}/#certificado</small>`;
+  $('#folha-certificado').innerHTML=`<span class="logo-maternar logo-maternar--completa"><img src="/logo_maternar.png" alt="Maternar Santa-mariense" width="2000" height="2000"></span><h2>Certificado de conclusão</h2><p>Certificamos que</p><p class="portador">${esc(c.portador)}</p><p>concluiu o curso <strong>${esc(c.curso)}</strong>, com carga horária de <strong>${c.horas} horas</strong>.</p><p>Emitido em ${data(c.emitido_em)}.</p><p>UFN · PPGSMI · NEPeS — Prefeitura de Santa Maria</p><small>Código de verificação: ${esc(c.codigo)}<br>Consulte a autenticidade em ${esc(location.origin)}/#certificado</small>`;
   $('#certificado').showModal();
 }
 function baixarCalendario(e) {

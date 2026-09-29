@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Maternar Santa-mariense — plataforma da rede materno-infantil</title>
 <meta name="description" content="Educação permanente, protocolos no acervo e acervo da rede materno-infantil de Santa Maria. UFN / PPGSMI em parceria com o NEPeS — Prefeitura de Santa Maria.">
-<link rel="icon" href="logo_maternar_icon.png">
+<link rel="icon" href="/assets/maternar-favicon.svg" type="image/svg+xml">
 <style>
   /* Fonte do sistema: a VM roda em rede privada, sem acesso a CDN de fontes. */
   :root{
@@ -113,7 +113,7 @@
     .barra{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:10px 12px}
     .marca{gap:10px}
     .marca .divisor{display:none}
-    .marca img{height:30px!important;flex-shrink:0}
+    .marca .logo-maternar--simbolo{width:38px}
     .marca .mono{font-size:9px;letter-spacing:.08em;margin-top:3px}
     #menu-alternar{display:inline-flex;padding:10px 12px;font-size:13px}
     nav.menu{grid-column:1/-1;flex-direction:column;align-items:stretch;gap:4px;width:100%;margin:0;padding:4px 0;max-height:min(65dvh,380px);overflow-y:auto;overscroll-behavior:contain}
@@ -127,7 +127,7 @@
     .hero-grade{gap:30px}
     .numeros{display:grid;grid-template-columns:1fr 1fr;gap:20px 18px;margin-top:28px}
     .cartao-marca{padding:20px}
-    .cartao-marca img{width:min(100%,310px);height:auto!important}
+    .cartao-marca .logo-maternar--completa{width:min(100%,235px)}
     section{padding:48px 0}
   }
   @media(max-width:480px){.container{padding-left:max(18px,env(safe-area-inset-left));padding-right:max(18px,env(safe-area-inset-right))}.barra{padding-top:10px;padding-bottom:10px}.marca{gap:8px}.marca>div:last-child>div:first-child{font-size:13px!important}.marca .mono{font-size:8px;letter-spacing:.04em}.cartao{padding:18px}.hero h1{font-size:32px;line-height:1.15}.hero .acoes{display:grid;grid-template-columns:1fr}.hero .mono{font-size:10px;letter-spacing:.09em}.logos{gap:18px 14px}.rodape{gap:24px}.rodape>.logos{width:100%}}
@@ -135,13 +135,14 @@
   .cartao,.hero-grade>div,.titulo-secao,.rodape>div{min-width:0;overflow-wrap:anywhere}input,select{min-width:0;max-width:100%}
   :focus-visible{outline:3px solid #ba2851;outline-offset:3px}
 </style>
+<link rel="stylesheet" href="/brand.css">
 </head>
 <body>
 
 <header>
   <div class="container barra">
     <div class="marca">
-      <img src="logo_maternar_icon.png" alt="" style="height:32px">
+      <span class="logo-maternar logo-maternar--simbolo" aria-hidden="true"><img src="/logo_maternar.png" alt="" width="2000" height="2000"></span>
       <div class="divisor"></div>
       <div>
         <div style="font-weight:600;font-size:15px;line-height:1.2">Maternar Santa-mariense</div>
@@ -183,8 +184,7 @@
     </div>
     <div>
       <div class="cartao-marca">
-        <!-- Só o logo completo: o ícone da gestante já faz parte dele. -->
-        <img src="logo_materno.png" alt="Saúde Materno-Infantil — PPGSMI" style="height:96px">
+        <span class="logo-maternar logo-maternar--completa"><img src="/logo_maternar.png" alt="Maternar Santa-mariense" width="2000" height="2000"></span>
       </div>
       <div class="logos" style="margin-top:26px;justify-content:center">
         <img src="logo_ufn.png" alt="Universidade Franciscana" style="height:40px;background:#fff;border-radius:9px;padding:5px">
