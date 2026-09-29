@@ -6,7 +6,7 @@
 // (o protótipo e a landing consomem sem token); escrita exige Gestor/Admin.
 import { db, registrarLog } from '../db/connection.js';
 import { autenticar, exigirPapel } from '../auth/middleware.js';
-import { erro, ok } from './http.js';
+import { erro, ok, urlValida } from './http.js';
 
 export const GESTAO = ['Gestor', 'Administrador'];
 
@@ -25,7 +25,7 @@ function converter(campo, valor) {
     case 'bool':
       return valor === true || valor === 1 || valor === '1' || valor === 'true' ? 1 : 0;
     case 'json':
-      return JSON.stringify(Array.isArray(valor) ? valor : []);
+      return JSON.stringify(Array.isArray(valor) ? (campo.itens === 'int' ? valor.map(Number) : valor) : []);
     default:
       return String(valor ?? '').trim();
   }
@@ -67,10 +67,16 @@ function lerCorpo(recurso, corpo, parcial) {
     if (campo.obrigatorio && String(bruto ?? '').trim() === '') {
       return { mensagem: `Campo obrigatório: ${nome}` };
     }
+    if (!campo.tipo && typeof bruto !== 'string') return { mensagem: `Campo de texto inválido: ${nome}.` };
+    if (['int', 'int-nulo'].includes(campo.tipo) && bruto !== null && !['number', 'string'].includes(typeof bruto)) return { mensagem: `Valor numérico inválido em ${nome}.` };
     if (campo.valores && !campo.valores.includes(String(bruto))) {
       return { mensagem: `Valor inválido em ${nome}. Use: ${campo.valores.join(', ')}` };
     }
-    if (campo.tipo === 'int' && bruto !== '' && !Number.isFinite(Number(bruto))) {
+    if (campo.tipo === 'json' && (!Array.isArray(bruto) || bruto.some(v => campo.itens === 'int' ? !Number.isInteger(Number(v)) || Number(v) < 1 : typeof v !== 'string'))) return { mensagem: `Lista inválida em ${nome}.` };
+    if (campo.tipo === 'bool' && ![true,false,0,1,'0','1','true','false'].includes(bruto)) return { mensagem: `Valor booleano inválido em ${nome}.` };
+    if (campo.tipo === 'int-nulo' && bruto !== '' && bruto !== null && (!Number.isInteger(Number(bruto)) || Number(bruto) < 1)) return { mensagem: `Identificador inválido em ${nome}.` };
+    if (['url', 'capa'].includes(nome) && !urlValida(bruto)) return { mensagem: `Endereço inválido em ${nome}.` };
+    if (campo.tipo === 'int' && (bruto === null || !Number.isSafeInteger(Number(bruto)) || Number(bruto) < (campo.minimo ?? 0) || (campo.maximo !== undefined && Number(bruto) > campo.maximo))) {
       return { mensagem: `Valor numérico inválido em ${nome}.` };
     }
     dados[nome] = converter(campo, bruto);
@@ -118,7 +124,7 @@ export function registrarCrud(router, recurso) {
   } = recurso;
   const nomes = Object.keys(campos);
   const escrita = [autenticar, exigirPapel(...papeis)];
-  const leitura = leituraAutenticada ? [autenticar] : [];
+  const leitura = recurso.leituraPapeis ? [autenticar, exigirPapel(...recurso.leituraPapeis)] : leituraAutenticada ? [autenticar] : [];
   const tem = m => metodos.includes(m);
   const buscarPorId = id => db.prepare(`SELECT * FROM ${tabela} WHERE ${chave} = ?`).get(id);
 
@@ -174,9 +180,13 @@ export function registrarCrud(router, recurso) {
     }
     let info;
     try {
-      info = db.prepare(
-        `INSERT INTO ${tabela} (${colunas.join(', ')}) VALUES (${colunas.map(() => '?').join(', ')})`,
-      ).run(...valores);
+      info = db.transaction(() => {
+        const resultado = db.prepare(
+          `INSERT INTO ${tabela} (${colunas.join(', ')}) VALUES (${colunas.map(() => '?').join(', ')})`,
+        ).run(...valores);
+        recurso.aposCriar?.(buscarPorId(id ?? resultado.lastInsertRowid));
+        return resultado;
+      })();
     } catch (err) {
       return erro(res, 409, mensagemDeRestricao(err));
     }
@@ -197,8 +207,11 @@ export function registrarCrud(router, recurso) {
       if (problema) return erro(res, 400, problema);
     }
     try {
-      db.prepare(`UPDATE ${tabela} SET ${alterar.map(c => `${c} = ?`).join(', ')} WHERE ${chave} = ?`)
-        .run(...alterar.map(c => dados[c]), req.params.id);
+      db.transaction(() => {
+        db.prepare(`UPDATE ${tabela} SET ${alterar.map(c => `${c} = ?`).join(', ')} WHERE ${chave} = ?`)
+          .run(...alterar.map(c => dados[c]), req.params.id);
+        recurso.aposAtualizar?.(atual, dados);
+      })();
     } catch (err) {
       return erro(res, 409, mensagemDeRestricao(err));
     }
@@ -214,7 +227,11 @@ export function registrarCrud(router, recurso) {
       if (problema) return erro(res, 409, problema);
     }
     try {
-      db.prepare(`DELETE FROM ${tabela} WHERE ${chave} = ?`).run(req.params.id);
+      db.transaction(() => {
+        recurso.antesRemover?.(linha);
+        db.prepare(`DELETE FROM ${tabela} WHERE ${chave} = ?`).run(req.params.id);
+        recurso.aposRemover?.(linha);
+      })();
     } catch (err) {
       return erro(res, 409, mensagemDeRestricao(err));
     }

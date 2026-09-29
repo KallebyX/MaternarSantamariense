@@ -1,0 +1,1645 @@
+{
+  "data": "2026-09-29T18:53:27.919Z",
+  "pasta": "1x93suiPyE8qPAxKfPhQJkY_gciwQ5GZB",
+  "pastasVerificadas": 71,
+  "arquivosVerificados": 104,
+  "erros": [],
+  "contagens": {
+    "adicionado": 13,
+    "presente": 85,
+    "links-ja-representados-no-acervo": 3,
+    "ativo-institucional-adicionado": 1,
+    "anotacao-operacional-nao-catalogada": 1,
+    "planilha-privada-auditada-sem-publicar": 1
+  },
+  "duplicadosPorHash": [
+    [
+      "1fF6QwAmORNKVvD6ZhscCayodpc8pnYMS",
+      "11xvpmr0ujh39l8xwwR63XJbAUUjN9SLh"
+    ],
+    [
+      "1DG8aw2Rw5vTM-7KyjCsrl4KJUz6WtL4l",
+      "1-43Mw3Vtv5L9FLo0Z-MuH19dkSBx2ncl"
+    ],
+    [
+      "12RqU9BgiGFSmdwGE9vq9OkLSkfZv_iyo",
+      "1AVmk9cirzK61WVVd1KWbTnHUvN_2HxfA"
+    ]
+  ],
+  "itens": [
+    {
+      "driveId": "1jRrw43Ym6dEkJqtJxj3k48MQIUlww_6I",
+      "nome": "Material Curso Introdutório.docx",
+      "origem": [
+        "PICS",
+        "Material Curso Introdutório.docx"
+      ],
+      "sha256": "eac9bf84b455e85fde1dc8dd9cac2ca231da4dd1d699e780da826b56e414dcb3",
+      "bytes": 12534,
+      "situacao": "adicionado",
+      "arquivosLocais": [
+        "acervo/pics/material-curso-introdutorio.docx"
+      ]
+    },
+    {
+      "driveId": "1iRTJNu-1MiXv00TlZJKCB4gDDBdDFD0A",
+      "nome": "Caderno - Gestor do PSE.pdf",
+      "origem": [
+        "PSE",
+        "Caderno - Gestor do PSE.pdf"
+      ],
+      "sha256": "cdcf37654ec0c33724b02cd5771fc2ef1eaa91088d59942eaf4b9ca8e14d5836",
+      "bytes": 2299470,
+      "situacao": "presente",
+      "arquivosLocais": [
+        "acervo/pse/caderno-gestor-do-pse.pdf"
+      ]
+    },
+    {
+      "driveId": "1LfZm3yCYmMJSePVpWSsGEfYlEiQt7hpA",
+      "nome": "pse2025-2026_extrato_escolas_equipes_pactuadas (FINAL) .xlsx - Extrato Escolas Equipes.pdf",
+      "origem": [
+        "PSE",
+        "pse2025-2026_extrato_escolas_equipes_pactuadas (FINAL) .xlsx - Extrato Escolas Equipes.pdf"
+      ],
+      "sha256": "1f0948e3f2d7c44d9d450843e2d980959be87db66078f067abf3bea2d8782701",
+      "bytes": 38007,
+      "situacao": "presente",
+      "arquivosLocais": [
+        "acervo/pse/pse2025-2026-extrato-escolas-equipes-pactuadas-final-xlsx-extrato-escolas-equipes.pdf"
+      ]
+    },
+    {
+      "driveId": "1LN7arxNDVFSkLb5T7kl4X47nAARfhITH",
+      "nome": "Fluxo encaminhamento",
+      "origem": [
+        "Comissão Municipal de Aleitamento Humano e Alimentação Complementar Saudável",
+        "Protocolos",
+        "Fluxo encaminhamento"
+      ],
+      "sha256": "fbecd3c1619952ce2f0a7d8253f8c312622608aabb38ee2ffe3542441bb1d0ed",
+      "bytes": 2244726,
+      "situacao": "presente",
+      "arquivosLocais": [
+        "acervo/comissao-municipal-de-aleitamento-humano-e-alimentacao-complementar-saudavel/protocolos/fluxo-encaminhamento.pdf"
+      ]
+    },
+    {
+      "driveId": "1QU8CinLDBEwjxQ-LMmEkTLFyEaA7CneA",
+      "nome": "38 - BRASIL_ MINISTÉRIO DA SAÚDE_ Portaria nº 971, de 03 de maio de 2006_.pdf",
+      "origem": [
+        "PICS",
+        "Notas Técnicas",
+        "38 - BRASIL_ MINISTÉRIO DA SAÚDE_ Portaria nº 971, de 03 de maio de 2006_.pdf"
+      ],
+      "sha256": "4d2e778929b18c930576c5599f92eab7682a29b4bf87f9018183f467709560b2",
+      "bytes": 59236,
+      "situacao": "presente",
+      "arquivosLocais": [
+        "acervo/pics/notas-tecnicas/38-brasil-ministerio-da-saude-portaria-n-971-de-03-de-maio-de-2006.pdf"
+      ]
+    },
+    {
+      "driveId": "1mHbzsakL0ZnpKeAJXWHqaGImJ-Z7Q5Go",
+      "nome": "politica_nacional_praticas_integrativas_3ed (1).pdf",
+      "origem": [
+        "PICS",
+        "Notas Técnicas",
+        "politica_nacional_praticas_integrativas_3ed (1).pdf"
+      ],
+      "sha256": "d627119672d32b4ef629adbdb9e2b2f7e0fa7b16965393c7b2e566e580cf2831",
+      "bytes": 729602,
+      "situacao": "presente",
+      "arquivosLocais": [
+        "acervo/pics/notas-tecnicas/politica-nacional-praticas-integrativas-3ed-1.pdf"
+      ]
+    },
+    {
+      "driveId": "1OxtuNYoFQRd6y4k9YbqTC_91oA47B8aQ",
+      "nome": "11141920-politica-estadual-de-praticas-integrativas-e-complementares-2015.pdf",
+      "origem": [
+        "PICS",
+        "Notas Técnicas",
+        "11141920-politica-estadual-de-praticas-integrativas-e-complementares-2015.pdf"
+      ],
+      "sha256": "2b169e6b80b0983115e6dea38505bed617f3b3f92432afe4aca22fd1a9efdb24",
+      "bytes": 288296,
+      "situacao": "presente",
+      "arquivosLocais": [
+        "acervo/pics/notas-tecnicas/11141920-politica-estadual-de-praticas-integrativas-e-complementares-2015.pdf"
+      ]
+    },
+    {
+      "driveId": "13-MJ1UTSEGuJYfjk8e_RT1ChshraCRZa",
+      "nome": "Protocolo Pediatria 2019 (1).docx",
+      "origem": [
+        "Saúde Bucal",
+        "Protocolos",
+        "Protocolo Pediatria 2019 (1).docx"
+      ],
+      "sha256": "9532e854f14fa7006f4b3e05bbbf476545a1d7abdddb73d33f936be960da585a",
+      "bytes": 41160,
+      "situacao": "presente",
+      "arquivosLocais": [
+        "acervo/saude-bucal/protocolos/protocolo-pediatria-2019-1.docx"
+      ]
+    },
+    {
+      "driveId": "1f-hKkaCyMwqRxeSd42sB1a1gazaObmFU",
+      "nome": "Protocolo Perio 2018 (1).docx",
+      "origem": [
+        "Saúde Bucal",
+        "Protocolos",
+        "Protocolo Perio 2018 (1).docx"
+      ],
+      "sha256": "268d381fe6c70ce3e2d40fc90f1b41677d900bb787c3e0dc38a9120fe2ba0fbe",
+      "bytes": 347182,
+      "situacao": "presente",
+      "arquivosLocais": [
+        "acervo/saude-bucal/protocolos/protocolo-perio-2018-1.docx"
+      ]
+    },
+    {
+      "driveId": "1aMC291_3NcO1uvW1MRpSDOk2VkrhA7Tk",
+      "nome": "Protocolo Endo 2018 (1).docx",
+      "origem": [
+        "Saúde Bucal",
+        "Protocolos",
+        "Protocolo Endo 2018 (1).docx"
+      ],
+      "sha256": "6fd19820735d0b9a70391801039cfb5f2d7bfd764659b5116cf50f0baa529876",
+      "bytes": 318453,
+      "situacao": "presente",
+      "arquivosLocais": [
+        "acervo/saude-bucal/protocolos/protocolo-endo-2018-1.docx"
+      ]
+    },
+    {
+      "driveId": "1zelQuu2uHVVMSpmhuH2LiOcYbtzk082l",
+      "nome": "Protocolo Cirurgia 2018 (1).docx",
+      "origem": [
+        "Saúde Bucal",
+        "Protocolos",
+        "Protocolo Cirurgia 2018 (1).docx"
+      ],
+      "sha256": "c1533baa5e5b78a713febb890c39cf17ffa9990b14c89048d713c63f15e20131",
+      "bytes": 321445,
+      "situacao": "presente",
+      "arquivosLocais": [
+        "acervo/saude-bucal/protocolos/protocolo-cirurgia-2018-1.docx"
+      ]
+    },
+    {
+      "driveId": "1mp7kZAmm2e0QIp4MdP-TDRFMWGYjk0Kg",
+      "nome": "Protocolo PNE 2018 (1).docx",
+      "origem": [
+        "Saúde Bucal",
+        "Protocolos",
+        "Protocolo PNE 2018 (1).docx"
+      ],
+      "sha256": "521d93a58ee66cf990b23b7a35ce9874e235b99ffaffa7ca79e15f4cdcb9b02a",
+      "bytes": 350737,
+      "situacao": "presente",
+      "arquivosLocais": [
+        "acervo/saude-bucal/protocolos/protocolo-pne-2018-1.docx"
+      ]
+    },
+    {
+      "driveId": "1xYAgarlTm2BjFnWJPEs7Q0ZtKqT4CQ_o",
+      "nome": "SUS-e-a-Saude-Bucal-no-Brasil.pdf",
+      "origem": [
+        "Saúde Bucal",
+        "Notas Técnicas",
+        "SUS-e-a-Saude-Bucal-no-Brasil.pdf"
+      ],
+      "sha256": "c0099556dbe5b622f8255a57e8e4bf8dd4e8d7c1ece7886c4878b667990b67e4",
+      "bytes": 16738083,
+      "situacao": "presente",
+      "arquivosLocais": [
+        "acervo/saude-bucal/notas-tecnicas/sus-e-a-saude-bucal-no-brasil.pdf"
+      ]
+    },
+    {
+      "driveId": "1W7mIXa_cokbs6SpaeK4nnNjsUVszzwBg0piiZTmbQ8U",
+      "nome": "links uteis",
+      "origem": [
+        "PSE",
+        "Links úteis",
+        "links uteis"
+      ],
+      "situacao": "links-ja-representados-no-acervo"
+    },
+    {
+      "driveId": "1oejf2ZGz2tTPV1eKsgwdljzbLz5-vNMr",
+      "nome": "Tabela de registro das ações das escolas 2026.pdf",
+      "origem": [
+        "PSE",
+        "Protocolos",
+        "Tabela de registro das ações das escolas 2026.pdf"
+      ],
+      "sha256": "64fcb12f4c4dc5b07010bd9ca50686ad1d2c4edf5c573e4db2abdeb973f61880",
+      "bytes": 215419,
+      "situacao": "presente",
+      "arquivosLocais": [
+        "acervo/pse/protocolos/tabela-de-registro-das-acoes-das-escolas-2026.pdf"
+      ]
+    },
+    {
+      "driveId": "1SZXyZpFNTfdS2nAMPTLbhtPQsQdQ4oVM",
+      "nome": "POP - Monitoramento - Sistema MV (1) (1).pdf",
+      "origem": [
+        "PSE",
+        "Protocolos",
+        "POP - Monitoramento - Sistema MV (1) (1).pdf"
+      ],
+      "sha256": "dfe3d57693ba5d9c8dc12f45852533e18f814ec00e0d3e83117c23e090f8e392",
+      "bytes": 2523697,
+      "situacao": "presente",
+      "arquivosLocais": [
+        "acervo/pse/protocolos/pop-monitoramento-sistema-mv-1-1.pdf"
+      ]
+    },
+    {
+      "driveId": "1QXRICpc9IyI-LdXFf3Lp3CVuwSs-MbQM",
+      "nome": "POP - MV - PET Saúde Digital.pdf",
+      "origem": [
+        "PSE",
+        "Protocolos",
+        "POP - MV - PET Saúde Digital.pdf"
+      ],
+      "sha256": "f8932f98d52c639009cd3639cfb99931434623fb722c3fddac0d37af40d89146",
+      "bytes": 797538,
+      "situacao": "presente",
+      "arquivosLocais": [
+        "acervo/pse/protocolos/pop-mv-pet-saude-digital.pdf"
+      ]
+    },
+    {
+      "driveId": "1Ex-ECDoteJyRIjUIPiZaGJFmqmIIdtC5",
+      "nome": "Manual de Registro - Completo.pdf",
+      "origem": [
+        "PSE",
+        "Protocolos",
+        "Manual de Registro - Completo.pdf"
+      ],
+      "sha256": "ba155b5874af25b7ed7d62314727e3f39e3a258ab672d43dfd444d346c4fb7a0",
+      "bytes": 5513959,
+      "situacao": "presente",
+      "arquivosLocais": [
+        "acervo/pse/protocolos/manual-de-registro-completo.pdf"
+      ]
+    },
+    {
+      "driveId": "1r3Fi3rkZDaTgfwtDID_Vm_QmWUBSYjUI",
+      "nome": "NOTA TÉCNICA No 30/2024-CGEDESS/DEPPROS/SAPS/MS",
+      "origem": [
+        "PSE",
+        "Notas Técnicas",
+        "NOTA TÉCNICA No 30/2024-CGEDESS/DEPPROS/SAPS/MS"
+      ],
+      "sha256": "da9d2cf2a1558bd6d762749d8a298cf9d17359ff99235b382784208a5161faa1",
+      "bytes": 129795,
+      "situacao": "presente",
+      "arquivosLocais": [
+        "acervo/pse/notas-tecnicas/nota-tecnica-no-30-2024-cgedess-deppros-saps-ms.pdf"
+      ]
+    },
+    {
+      "driveId": "1Wyzb6GWb1cRMNblFtfz7Zdo94pnyKaVH",
+      "nome": "NOTA TÉCNICA No 5/2026-COAIA/CGESCO/DESF/SAPS/MS",
+      "origem": [
+        "PSE",
+        "Notas Técnicas",
+        "NOTA TÉCNICA No 5/2026-COAIA/CGESCO/DESF/SAPS/MS"
+      ],
+      "sha256": "e21b1a92a4e7f30e827696f79aff9af5c60ec769818ed67e09ab51b6dc58a70c",
+      "bytes": 74005,
+      "situacao": "presente",
+      "arquivosLocais": [
+        "acervo/pse/notas-tecnicas/nota-tecnica-no-5-2026-coaia-cgesco-desf-saps-ms.pdf"
+      ]
+    },
+    {
+      "driveId": "1AIygAnh5ZtJSce7xgxEJneH709o_07nE",
+      "nome": "Material Instrutivo PAN.pdf",
+      "origem": [
+        "Alimentação e Nutrição",
+        "Protocolos ",
+        "Material Instrutivo PAN.pdf"
+      ],
+      "sha256": "d802be80525b1340c5d2dcbe119382afdbfe6cb44a72354f30d2002a7688ca1b",
+      "bytes": 436002,
+      "situacao": "adicionado",
+      "arquivosLocais": [
+        "acervo/alimentacao-e-nutricao/protocolos/material-instrutivo-pan.pdf"
+      ]
+    },
+    {
+      "driveId": "1A4OKfM_W70_LD7NA--YhVF4Kodf55hWW",
+      "nome": "Guia alimentar para a população brasileira.pdf",
+      "origem": [
+        "Alimentação e Nutrição",
+        "Protocolos ",
+        "Guia alimentar para a população brasileira.pdf"
+      ],
+      "sha256": "a693217447e85aba257934b43a90ecf59195bf51c5cebc865f04ba16c3e1c943",
+      "bytes": 44981126,
+      "situacao": "adicionado",
+      "arquivosLocais": [
+        "acervo/alimentacao-e-nutricao/protocolos/guia-alimentar-para-a-populacao-brasileira.pdf"
+      ]
+    },
+    {
+      "driveId": "1H07ubNeRWx9aT42xpuLKwsoxLlBmd9f4",
+      "nome": "Guia alimentar para crianças brasileiras menores de dois anos.pdf",
+      "origem": [
+        "Alimentação e Nutrição",
+        "Protocolos ",
+        "Guia alimentar para crianças brasileiras menores de dois anos.pdf"
+      ],
+      "sha256": "1a4192bd309d45c3bfe9b671ba7ca4509dff552698d471d462bfe2096253ef50",
+      "bytes": 7559617,
+      "situacao": "adicionado",
+      "arquivosLocais": [
+        "acervo/alimentacao-e-nutricao/protocolos/guia-alimentar-para-criancas-brasileiras-menores-de-dois-anos.pdf"
+      ]
+    },
+    {
+      "driveId": "1kl370lCKZUs30E_SOlBkP_EfoLv2zPBL",
+      "nome": "Fasciculo Guia Alimentar - Adolescente.pdf",
+      "origem": [
+        "Alimentação e Nutrição",
+        "Protocolos ",
+        "Fasciculo Guia Alimentar - Adolescente.pdf"
+      ],
+      "sha256": "21f30cdae009cc7df4695378171e6f5b2660e4a27d1d325f6218a8f759f05adf",
+      "bytes": 5154695,
+      "situacao": "adicionado",
+      "arquivosLocais": [
+        "acervo/alimentacao-e-nutricao/protocolos/fasciculo-guia-alimentar-adolescente.pdf"
+      ]
+    },
+    {
+      "driveId": "1L2yx5QGIp35vkUJfJkJm9WOtng9X72mQ",
+      "nome": "Fasciculo Guia Alimentar - Crianças 2 a 10 anos.pdf",
+      "origem": [
+        "Alimentação e Nutrição",
+        "Protocolos ",
+        "Fasciculo Guia Alimentar - Crianças 2 a 10 anos.pdf"
+      ],
+      "sha256": "c2c25d8bc7ab518809e42f3886004cfa0965f25711b89ba9004f6f9972dad1bb",
+      "bytes": 4428809,
+      "situacao": "adicionado",
+      "arquivosLocais": [
+        "acervo/alimentacao-e-nutricao/protocolos/fasciculo-guia-alimentar-criancas-2-a-10-anos.pdf"
+      ]
+    },
+    {
+      "driveId": "15LNy2XGnt7_EJl56d60DmnNsgNjcgPQ6",
+      "nome": "Fasciculo Guia Alimentar - gestante.pdf",
+      "origem": [
+        "Alimentação e Nutrição",
+        "Protocolos ",
+        "Fasciculo Guia Alimentar - gestante.pdf"
+      ],
+      "sha256": "8338a91e1392df81b40072d2b7502d56ebbd83dd79bfb39ce631b2782e7ced9d",
+      "bytes": 3311403,
+      "situacao": "adicionado",
+      "arquivosLocais": [
+        "acervo/alimentacao-e-nutricao/protocolos/fasciculo-guia-alimentar-gestante.pdf"
+      ]
+    },
+    {
+      "driveId": "1tq3x0Gv0g5u_mdU-yMsoysRD1TnuVCC8",
+      "nome": "Fasciculo Guia Alimentar - população idosa.pdf",
+      "origem": [
+        "Alimentação e Nutrição",
+        "Protocolos ",
+        "Fasciculo Guia Alimentar - população idosa.pdf"
+      ],
+      "sha256": "a1627121f95d53fb4708bfeb1ee2ab91f728b81b22f965221e7ca29ca10b6868",
+      "bytes": 4882066,
+      "situacao": "adicionado",
+      "arquivosLocais": [
+        "acervo/alimentacao-e-nutricao/protocolos/fasciculo-guia-alimentar-populacao-idosa.pdf"
+      ]
+    },
+    {
+      "driveId": "1iifH-1XWIyIjQwgBUP5EodJGMAW8NNww",
+      "nome": "Fasciculo Guia Alimentar - população adulta.pdf",
+      "origem": [
+        "Alimentação e Nutrição",
+        "Protocolos ",
+        "Fasciculo Guia Alimentar - população adulta.pdf"
+      ],
+      "sha256": "627765d1bd2ba2b66c415a12c6f733a6974961b4ab38757fb1d8ed4f83a2e033",
+      "bytes": 8125089,
+      "situacao": "adicionado",
+      "arquivosLocais": [
+        "acervo/alimentacao-e-nutricao/protocolos/fasciculo-guia-alimentar-populacao-adulta.pdf"
+      ]
+    },
+    {
+      "driveId": "1LnIfouaN9RIf3FbIi5NItwc5cuPCSrSR",
+      "nome": "Encaminhamento bariátrica.pdf",
+      "origem": [
+        "Alimentação e Nutrição",
+        "Protocolos ",
+        "Encaminhamento bariátrica.pdf"
+      ],
+      "sha256": "a66cc89c8cad50fe259cb26f9a4f983051007456e0b7deba3aa5caacce9e75f6",
+      "bytes": 238581,
+      "situacao": "presente",
+      "arquivosLocais": [
+        "acervo/alimentacao-e-nutricao/protocolos/encaminhamento-bariatrica.pdf"
+      ]
+    },
+    {
+      "driveId": "1g76VNVwTeJS3KOeGWRG1n_4HZJwbsb_j",
+      "nome": "Memorando_Circular_TRIA_assinado.pdf",
+      "origem": [
+        "Alimentação e Nutrição",
+        "Protocolos ",
+        "Memorando_Circular_TRIA_assinado.pdf"
+      ],
+      "sha256": "77ce15cdb9b50cc2ec731bd36490f6d2027448776a35edac836971cff215fb2c",
+      "bytes": 82703,
+      "situacao": "presente",
+      "arquivosLocais": [
+        "acervo/alimentacao-e-nutricao/protocolos/memorando-circular-tria-assinado.pdf"
+      ]
+    },
+    {
+      "driveId": "1fF6QwAmORNKVvD6ZhscCayodpc8pnYMS",
+      "nome": "Fluxograma Idoso DANT Regional (1).pdf",
+      "origem": [
+        "Dants",
+        "Fluxograma",
+        "Fluxograma Idoso DANT Regional (1).pdf"
+      ],
+      "sha256": "727bec787d4adb70d3720ad83a084bce1f5969c7610287f51c8e552e696fba32",
+      "bytes": 89010,
+      "situacao": "presente",
+      "arquivosLocais": [
+        "acervo/dants/fluxograma/fluxograma-idoso-dant-regional-1.pdf",
+        "acervo/saude-da-pessoa-idosa/fluxogramas/fluxograma-idoso-dant-regional.pdf"
+      ]
+    },
+    {
+      "driveId": "1gsqtms0jvTH_uQXNqkY00DxsBgGUPDVAxq_pNICuYOg",
+      "nome": "LINKs Diabetes",
+      "origem": [
+        "Dants",
+        "Links úteis",
+        "LINKs Diabetes"
+      ],
+      "situacao": "links-ja-representados-no-acervo"
+    },
+    {
+      "driveId": "1WH_dE8WkrOP_eqyfdZhQLtAXxzmbCc1q",
+      "nome": "ProtocoloEnfermagemHipertensaoDiabetes.pdf",
+      "origem": [
+        "Dants",
+        "Protocolos",
+        "ProtocoloEnfermagemHipertensaoDiabetes.pdf"
+      ],
+      "sha256": "6f696a90ddb52c919ef3b55b01326aa1ae4461da4665186cb710db729f47ac56",
+      "bytes": 4008443,
+      "situacao": "presente",
+      "arquivosLocais": [
+        "acervo/dants/protocolos/protocoloenfermagemhipertensaodiabetes.pdf"
+      ]
+    },
+    {
+      "driveId": "1DG8aw2Rw5vTM-7KyjCsrl4KJUz6WtL4l",
+      "nome": "PLANO REGIONAL - DCNT E IDOSO - 2025.pdf",
+      "origem": [
+        "Dants",
+        "Protocolos",
+        "PLANO REGIONAL - DCNT E IDOSO - 2025.pdf"
+      ],
+      "sha256": "88e5c4650e1485bb6898434c854c905c56f9f32c28cac0f27da64393dbe02262",
+      "bytes": 10513328,
+      "situacao": "presente",
+      "arquivosLocais": [
+        "acervo/dants/protocolos/plano-regional-dcnt-e-idoso-2025.pdf",
+        "acervo/saude-da-pessoa-idosa/protocolos/plano-regional-dcnt-e-idoso-2025.pdf"
+      ]
+    },
+    {
+      "driveId": "1rKePmOtjv4pIfEt-ingGOwx3O4DYn2LU",
+      "nome": "plano-de-dant-2022_2030.pdf",
+      "origem": [
+        "Dants",
+        "Protocolos",
+        "plano-de-dant-2022_2030.pdf"
+      ],
+      "sha256": "beab32f6ec2d18b0e3bde6c90bf7382d3aba233abf4639623b60a2086dcfc351",
+      "bytes": 7386596,
+      "situacao": "presente",
+      "arquivosLocais": [
+        "acervo/dants/protocolos/plano-de-dant-2022-2030.pdf"
+      ]
+    },
+    {
+      "driveId": "12e8s9z3MqznzPmgrdCbCoH9QUa8ac1bU",
+      "nome": "Nota Tecnica Estadual para Acompanhamento de pessoas com  Diabetes Mellitus.pdf",
+      "origem": [
+        "Dants",
+        "Notas Técnicas",
+        "Nota Tecnica Estadual para Acompanhamento de pessoas com  Diabetes Mellitus.pdf"
+      ],
+      "sha256": "dfc098c6b6de666aeda675467e7715d89008c4c88521fd987c6f74bb0211c48a",
+      "bytes": 242967,
+      "situacao": "presente",
+      "arquivosLocais": [
+        "acervo/dants/notas-tecnicas/nota-tecnica-estadual-para-acompanhamento-de-pessoas-com-diabetes-mellitus.pdf"
+      ]
+    },
+    {
+      "driveId": "1TZezlM6F0qDxgseXJoUbO3nxrlr0W-zS",
+      "nome": "Apresentação dos novos indicadores PIAPS (1).pdf",
+      "origem": [
+        "Dants",
+        "Notas Técnicas",
+        "Apresentação dos novos indicadores PIAPS (1).pdf"
+      ],
+      "sha256": "e57ce6e3ebaf4cbf95898611ef2790ad5f1141b1de15e0619088d879dac161b2",
+      "bytes": 12537323,
+      "situacao": "presente",
+      "arquivosLocais": [
+        "acervo/dants/notas-tecnicas/apresentacao-dos-novos-indicadores-piaps-1.pdf"
+      ]
+    },
+    {
+      "driveId": "16aSyUu9U4JJFaiXp7J3DfdiyNlBSbkWi",
+      "nome": "Novas Diretrizes Sociedade Brasileira de Hipertensão (1).pdf",
+      "origem": [
+        "Dants",
+        "Notas Técnicas",
+        "Novas Diretrizes Sociedade Brasileira de Hipertensão (1).pdf"
+      ],
+      "sha256": "e21576c7f365ebe9ef1a2d685ff17e6e8c30991062b889254b618da1d5dcc161",
+      "bytes": 5726647,
+      "situacao": "presente",
+      "arquivosLocais": [
+        "acervo/dants/notas-tecnicas/novas-diretrizes-sociedade-brasileira-de-hipertensao-1.pdf"
+      ]
+    },
+    {
+      "driveId": "1Q1HtiJUPFN4acMDlg7QiBiFw560Ju4gF",
+      "nome": "Nota Técnica Hipertensão (1).pdf",
+      "origem": [
+        "Dants",
+        "Notas Técnicas",
+        "Nota Técnica Hipertensão (1).pdf"
+      ],
+      "sha256": "fccf70dc35cf72ea65652931272caf607dcd0bc4cc7dd9783e5ddd033ada1d73",
+      "bytes": 2751548,
+      "situacao": "presente",
+      "arquivosLocais": [
+        "acervo/dants/notas-tecnicas/nota-tecnica-hipertensao-1.pdf"
+      ]
+    },
+    {
+      "driveId": "1sKNU3T3tAM_YEQPFi2U_6yZWlWlHWDs8",
+      "nome": "Apresentação - Indicadores da APS - Componente Qualidade (1).pdf",
+      "origem": [
+        "Dants",
+        "Notas Técnicas",
+        "Apresentação - Indicadores da APS - Componente Qualidade (1).pdf"
+      ],
+      "sha256": "d1bed41b4076e60bcf9ddb653968e0533ce48aed8bbc1a41f34ff459d3fa18a2",
+      "bytes": 4100037,
+      "situacao": "presente",
+      "arquivosLocais": [
+        "acervo/dants/notas-tecnicas/apresentacao-indicadores-da-aps-componente-qualidade-1.pdf"
+      ]
+    },
+    {
+      "driveId": "18j-Ov7XSHj4YUUY_s0ppgjt4te-MV8oZ",
+      "nome": "Nota Técnica - 30_2025 - Componente Vínculo e Acom_260407_083415 (2).pdf",
+      "origem": [
+        "Dants",
+        "Notas Técnicas",
+        "Nota Técnica - 30_2025 - Componente Vínculo e Acom_260407_083415 (2).pdf"
+      ],
+      "sha256": "aa09c4c71edf1fe0550329304923e4296d45aabfadfa223753f10cef0a172047",
+      "bytes": 150941,
+      "situacao": "presente",
+      "arquivosLocais": [
+        "acervo/dants/notas-tecnicas/nota-tecnica-30-2025-componente-vinculo-e-acom-260407-083415-2.pdf"
+      ]
+    },
+    {
+      "driveId": "12RqU9BgiGFSmdwGE9vq9OkLSkfZv_iyo",
+      "nome": "Nota Metodológica C6 - Cuidado da pessoa idosa (1).pdf",
+      "origem": [
+        "Dants",
+        "Notas Técnicas",
+        "Nota Metodológica C6 - Cuidado da pessoa idosa (1).pdf"
+      ],
+      "sha256": "adf470aa64ac28ee572d46b5a3b3495a9caa4ab4d31c4ae7956274df2bef8bec",
+      "bytes": 291688,
+      "situacao": "presente",
+      "arquivosLocais": [
+        "acervo/dants/notas-tecnicas/nota-metodologica-c6-cuidado-da-pessoa-idosa-1.pdf",
+        "acervo/saude-da-pessoa-idosa/notas-tecnicas/nota-metodologica-c6-cuidado-da-pessoa-idosa.pdf"
+      ]
+    },
+    {
+      "driveId": "1mzEAVe0gm6T4LgupQmIcPv0lM-jSRhS9",
+      "nome": "Nota Metodológica C5 - Cuidado da pessoa com hipertensão (2) (1).pdf",
+      "origem": [
+        "Dants",
+        "Notas Técnicas",
+        "Nota Metodológica C5 - Cuidado da pessoa com hipertensão (2) (1).pdf"
+      ],
+      "sha256": "c766924dea50b8754e52f4b91e356ae5db837062d349ce37bf353f30c0a063c7",
+      "bytes": 278771,
+      "situacao": "presente",
+      "arquivosLocais": [
+        "acervo/dants/notas-tecnicas/nota-metodologica-c5-cuidado-da-pessoa-com-hipertensao-2-1.pdf"
+      ]
+    },
+    {
+      "driveId": "1P9jcjGSixS-sdN0lMRFc5xErgkH3nAt8",
+      "nome": "Nota Metodológica C4 - Cuidado da pessoa com diabetes (2) (1).pdf",
+      "origem": [
+        "Dants",
+        "Notas Técnicas",
+        "Nota Metodológica C4 - Cuidado da pessoa com diabetes (2) (1).pdf"
+      ],
+      "sha256": "d63bee6a4f69907504e828fdac913fa9ee4e26133ad61eb76373987f806e8b34",
+      "bytes": 325860,
+      "situacao": "presente",
+      "arquivosLocais": [
+        "acervo/dants/notas-tecnicas/nota-metodologica-c4-cuidado-da-pessoa-com-diabetes-2-1.pdf"
+      ]
+    },
+    {
+      "driveId": "1HjlDkjbpPtqNCEjqf1D_7zFJ6yV-V8Dm",
+      "nome": "MEMORANDO GESTANTES DIABÉTICAS.pdf",
+      "origem": [
+        "Mulher",
+        "Memorandos",
+        "MEMORANDO GESTANTES DIABÉTICAS.pdf"
+      ],
+      "sha256": "60b9259d534f2330751ea8ecda0a37a494745e8829a6ee5456d52f964b8b5a67",
+      "bytes": 428266,
+      "situacao": "presente",
+      "arquivosLocais": [
+        "acervo/mulher/memorandos/memorando-gestantes-diabeticas.pdf"
+      ]
+    },
+    {
+      "driveId": "1gHtRGKgXh7crX7egm58w9UCAyqjdbs-O",
+      "nome": "Memorando rota envio citopatológico de colo uterino.pdf",
+      "origem": [
+        "Mulher",
+        "Memorandos",
+        "Memorando rota envio citopatológico de colo uterino.pdf"
+      ],
+      "sha256": "6d105d62cafec6719d67a8d16d4274751f0606b9381e9b63311949b02991ec8d",
+      "bytes": 200488,
+      "situacao": "presente",
+      "arquivosLocais": [
+        "acervo/mulher/memorandos/memorando-rota-envio-citopatologico-de-colo-uterino.pdf"
+      ]
+    },
+    {
+      "driveId": "1EtSfvdKYJv5wB3AJBjV4yvtNPYWDvrZW",
+      "nome": "Memorando_LAQUEADURA_E_VASECTOMIA.pdf",
+      "origem": [
+        "Mulher",
+        "Memorandos",
+        "Memorando_LAQUEADURA_E_VASECTOMIA.pdf"
+      ],
+      "sha256": "26d7684aa9fd4e541486a70febc543729487963a680d03b921fd5e30d25db26b",
+      "bytes": 122018,
+      "situacao": "presente",
+      "arquivosLocais": [
+        "acervo/mulher/memorandos/memorando-laqueadura-e-vasectomia.pdf"
+      ]
+    },
+    {
+      "driveId": "1J6aQ9NBvr2Rlg62VdN23GwzYDlfav3aa",
+      "nome": "MEMORANDO DIGNIDADE MESNTRUAL.pdf",
+      "origem": [
+        "Mulher",
+        "Memorandos",
+        "MEMORANDO DIGNIDADE MESNTRUAL.pdf"
+      ],
+      "sha256": "604d76c72b190ff7de3d4932e40f858de55cfe6f1a442f8d87ea62522269559c",
+      "bytes": 398263,
+      "situacao": "presente",
+      "arquivosLocais": [
+        "acervo/mulher/memorandos/memorando-dignidade-mesntrual.pdf"
+      ]
+    },
+    {
+      "driveId": "1vjnfZreuqf2SBBiVaOidsjGyafJmoq_m",
+      "nome": "Memorando HTLV na gestacão.pdf",
+      "origem": [
+        "Mulher",
+        "Memorandos",
+        "Memorando HTLV na gestacão.pdf"
+      ],
+      "sha256": "7ddaf4e6fdaffd49f60be933ff5b8ee0556d153d455877aa05677a0ab28281de",
+      "bytes": 193651,
+      "situacao": "presente",
+      "arquivosLocais": [
+        "acervo/mulher/memorandos/memorando-htlv-na-gestacao.pdf"
+      ]
+    },
+    {
+      "driveId": "1BvoGrtcY1EiDYaETn-Ikjk0U2gNiyF3O",
+      "nome": "telessaúde encaminhamentos pré-natal alto risco.pdf",
+      "origem": [
+        "Mulher",
+        "Protocolos",
+        "telessaúde encaminhamentos pré-natal alto risco.pdf"
+      ],
+      "sha256": "6a65ba784b54d05f155fc9fdb47b094e829c5600faaebe900c1f8bc8efa4a5da",
+      "bytes": 1957444,
+      "situacao": "presente",
+      "arquivosLocais": [
+        "acervo/mulher/protocolos/telessaude-encaminhamentos-pre-natal-alto-risco.pdf"
+      ]
+    },
+    {
+      "driveId": "1jW86kg3V6c-D0L9irx_I_9ARHHT_F2fN",
+      "nome": "ORIENTAÇÕES PARA VALIDAÇÃO DE CONSULTAS DE PUERPÉRIO E PUERICULTURA .pdf",
+      "origem": [
+        "Mulher",
+        "Protocolos",
+        "ORIENTAÇÕES PARA VALIDAÇÃO DE CONSULTAS DE PUERPÉRIO E PUERICULTURA .pdf"
+      ],
+      "sha256": "62e50f409254f6239368594c16cd2173d317e1bd6408670aef452590d5e05ddd",
+      "bytes": 635373,
+      "situacao": "presente",
+      "arquivosLocais": [
+        "acervo/mulher/protocolos/orientacoes-para-validacao-de-consultas-de-puerperio-e-puericultura.pdf"
+      ]
+    },
+    {
+      "driveId": "1hTnCEFYqfY9aSWLfsAGt7ea4KwwjlH3M",
+      "nome": "ORIENTAÇÕES PARA REGISTRO - SAÚDE DA MULHER.pdf",
+      "origem": [
+        "Mulher",
+        "Protocolos",
+        "ORIENTAÇÕES PARA REGISTRO - SAÚDE DA MULHER.pdf"
+      ],
+      "sha256": "bea08c0cf8dbeeaf99529eae8f0592746115a31015dc16969b51f8454ec638ec",
+      "bytes": 731724,
+      "situacao": "presente",
+      "arquivosLocais": [
+        "acervo/mulher/protocolos/orientacoes-para-registro-saude-da-mulher.pdf"
+      ]
+    },
+    {
+      "driveId": "1xbG6QmgTA-3c1pp6b5reFy358Ccl-YAq",
+      "nome": "SUPLEMENTAÇÃO DE CÁLCIO PARA GESTANTES.pdf",
+      "origem": [
+        "Mulher",
+        "Protocolos",
+        "SUPLEMENTAÇÃO DE CÁLCIO PARA GESTANTES.pdf"
+      ],
+      "sha256": "a4ca40abdb50c465fa0dd993b0fd1727ab9b47341954847223a86e74757c2e9f",
+      "bytes": 87799,
+      "situacao": "presente",
+      "arquivosLocais": [
+        "acervo/mulher/protocolos/suplementacao-de-calcio-para-gestantes.pdf"
+      ]
+    },
+    {
+      "driveId": "1rs9EjLh4uEEAfYzdfOgFkdh7eLMxEUw_",
+      "nome": "Instruções para coleta de material para cultura de Streptococcus agalactiae (Estreptococo Grupo B ou GBS.pdf",
+      "origem": [
+        "Mulher",
+        "Protocolos",
+        "Instruções para coleta de material para cultura de Streptococcus agalactiae (Estreptococo Grupo B ou GBS.pdf"
+      ],
+      "sha256": "356bb50d84ee56b274787c06ddfa67ae5c4b04e48591ffae09d235518ad860c9",
+      "bytes": 240835,
+      "situacao": "presente",
+      "arquivosLocais": [
+        "acervo/mulher/protocolos/instrucoes-para-coleta-de-material-para-cultura-de-streptococcus-agalactiae-estreptococo-grupo-b-ou-gbs.pdf"
+      ]
+    },
+    {
+      "driveId": "1HuAEtyFCZZa9eeIz1w_lddVokgtArAeh",
+      "nome": "CRITÉRIOS ENCAMINHAMENTO PARA PARTO - MATERNIDADES 2025.pdf",
+      "origem": [
+        "Mulher",
+        "Protocolos",
+        "CRITÉRIOS ENCAMINHAMENTO PARA PARTO - MATERNIDADES 2025.pdf"
+      ],
+      "sha256": "6ce96b78a8397801c670727742716fd6df5d114e44d3b74b238c00046d54dff9",
+      "bytes": 323464,
+      "situacao": "presente",
+      "arquivosLocais": [
+        "acervo/mulher/protocolos/criterios-encaminhamento-para-parto-maternidades-2025.pdf"
+      ]
+    },
+    {
+      "driveId": "1p5meb9T1mR-JTJqO_n77CHtWRHHqQj0W",
+      "nome": "Formulário de Encaminhamento VIO DOMÉSTICA.pdf",
+      "origem": [
+        "Mulher",
+        "Protocolos",
+        "Formulário de Encaminhamento VIO DOMÉSTICA.pdf"
+      ],
+      "sha256": "12fcb5abb2d0524a11d86cb15e723a56081ad9e4d15b6cb1d186cbf26c1ca9c5",
+      "bytes": 133441,
+      "situacao": "presente",
+      "arquivosLocais": [
+        "acervo/mulher/protocolos/formulario-de-encaminhamento-vio-domestica.pdf"
+      ]
+    },
+    {
+      "driveId": "1YOgaHVg_46grJuFs06lOMuHNwbvfT-jJ",
+      "nome": "Ficha de Compartilhamento de Informação.docx",
+      "origem": [
+        "Mulher",
+        "Protocolos",
+        "Ficha de Compartilhamento de Informação.docx"
+      ],
+      "sha256": "d6188964e0158560d7e3fee3f9b55ed71fde1a7acf46b0d07cb688d85fa32d2e",
+      "bytes": 175853,
+      "situacao": "presente",
+      "arquivosLocais": [
+        "acervo/mulher/protocolos/ficha-de-compartilhamento-de-informacao.docx"
+      ]
+    },
+    {
+      "driveId": "1cij0XGyMrRe1vgoqqyyt76fTVH4OU3Qj",
+      "nome": "FLUXOGRAMA VIOLÊNCIA CONTRA A MULHER.jpeg",
+      "origem": [
+        "Mulher",
+        "Protocolos",
+        "FLUXOGRAMA VIOLÊNCIA CONTRA A MULHER.jpeg"
+      ],
+      "sha256": "87e7359024d64471ab6c99118e0b561b594d5b8ace664476a50e6b666fdc7401",
+      "bytes": 376237,
+      "situacao": "presente",
+      "arquivosLocais": [
+        "acervo/mulher/protocolos/fluxograma-violencia-contra-a-mulher.jpeg"
+      ]
+    },
+    {
+      "driveId": "1IBx0LXzg2C9dfaB51GflOq4GIeM5a8ki",
+      "nome": "Telessaúde - Nódulo mamário.pdf",
+      "origem": [
+        "Mulher",
+        "Protocolos",
+        "Telessaúde - Nódulo mamário.pdf"
+      ],
+      "sha256": "59715725167899b89004d6391edd6b03a7892318c03b98b6dbafcc43daa2e164",
+      "bytes": 1909954,
+      "situacao": "presente",
+      "arquivosLocais": [
+        "acervo/mulher/protocolos/telessaude-nodulo-mamario.pdf"
+      ]
+    },
+    {
+      "driveId": "1hWMEJSF_tQe-Brw4FfWOxvWGHFVy8CO6",
+      "nome": "LAQUEADURA E VASECTOMIA TELESSAUDE.pdf",
+      "origem": [
+        "Mulher",
+        "Protocolos",
+        "LAQUEADURA E VASECTOMIA TELESSAUDE.pdf"
+      ],
+      "sha256": "1c6e396ea8d69a1128fd2a6ebbc13d510c8ff1710f588aca162c4c5f1e00f162",
+      "bytes": 6169501,
+      "situacao": "presente",
+      "arquivosLocais": [
+        "acervo/mulher/protocolos/laqueadura-e-vasectomia-telessaude.pdf"
+      ]
+    },
+    {
+      "driveId": "1gRhnYto7rboyPf72ffH8QHvCOHahIBqN",
+      "nome": "PROTOCOLO DE ENFERMAGEM EM SAÚDE DA MULHER",
+      "origem": [
+        "Mulher",
+        "Protocolos",
+        "PROTOCOLO DE ENFERMAGEM EM SAÚDE DA MULHER"
+      ],
+      "sha256": "d0e1f59f5c418093b9dcec134367d7790783a423de336765cdd096cd6bb968a2",
+      "bytes": 13067658,
+      "situacao": "presente",
+      "arquivosLocais": [
+        "acervo/mulher/protocolos/protocolo-de-enfermagem-em-saude-da-mulher.pdf"
+      ]
+    },
+    {
+      "driveId": "1eAH8YYsoZ5_sH_1agzgZNDWgru18KQHZ",
+      "nome": "Protocolo toxoplasmose gestacional de Santa Maria (1).pdf",
+      "origem": [
+        "Mulher",
+        "Protocolos",
+        "Protocolo toxoplasmose gestacional de Santa Maria (1).pdf"
+      ],
+      "sha256": "cc5339112b1f7604115aa8f71b814086bb8d6998f39bda3d301c0d0ad0ca1ee8",
+      "bytes": 1172595,
+      "situacao": "presente",
+      "arquivosLocais": [
+        "acervo/mulher/protocolos/protocolo-toxoplasmose-gestacional-de-santa-maria-1.pdf"
+      ]
+    },
+    {
+      "driveId": "1Yi53g2t8o0g5Zs4YDBt5Vf6G-05mbh94",
+      "nome": "PROTOCOLO DE ENCAMINHAMENTO IMPLANTE SUBDÃ_RMICO DEZ 2025.pdf",
+      "origem": [
+        "Mulher",
+        "Protocolos",
+        "PROTOCOLO DE ENCAMINHAMENTO IMPLANTE SUBDÃ_RMICO DEZ 2025.pdf"
+      ],
+      "sha256": "e21fb19d1240a9e2eeb12fc4fdff9184d4aa7e0df969650f9011f109a3ffd147",
+      "bytes": 554874,
+      "situacao": "presente",
+      "arquivosLocais": [
+        "acervo/mulher/protocolos/protocolo-de-encaminhamento-implante-subda-rmico-dez-2025.pdf"
+      ]
+    },
+    {
+      "driveId": "1NO5eQfPg3SZUzoK6TeQGRy2P8ldu8vcj",
+      "nome": "Nota Técnica Conjunta HTLV EM GESTANTES nº 6-2025 - CGIST.DATHI.SVSA.MS.pdf",
+      "origem": [
+        "Mulher",
+        "Notas Técnicas",
+        "Nota Técnica Conjunta HTLV EM GESTANTES nº 6-2025 - CGIST.DATHI.SVSA.MS.pdf"
+      ],
+      "sha256": "b7443d89d2a15ee4660cd741b9cd28be598e0ecdfed9dd49d2b2019d6ab27fe2",
+      "bytes": 2029539,
+      "situacao": "presente",
+      "arquivosLocais": [
+        "acervo/mulher/notas-tecnicas/nota-tecnica-conjunta-htlv-em-gestantes-n-6-2025-cgist-dathi-svsa-ms.pdf"
+      ]
+    },
+    {
+      "driveId": "1DzklWAwCI1VEkP8FDaJ-7lsw_Rq6xESB",
+      "nome": "CARTILHA-PE-TORTO-CONGENITO.pdf",
+      "origem": [
+        "Criança",
+        "Links úteis",
+        "CARTILHA-PE-TORTO-CONGENITO.pdf"
+      ],
+      "sha256": "151280166d2936d477685ff8d126e604ea8457be0d1b266512abd8013c346186",
+      "bytes": 3099650,
+      "situacao": "adicionado",
+      "arquivosLocais": [
+        "acervo/crianca/links-uteis/cartilha-pe-torto-congenito.pdf"
+      ]
+    },
+    {
+      "driveId": "1avlEYpS6rnPDKvuk5obnHaV-1EchTm5w",
+      "nome": "Guia para encontrar os laudos do EVOYA.docx",
+      "origem": [
+        "Criança",
+        "Links úteis",
+        "Guia para encontrar os laudos do EVOYA.docx"
+      ],
+      "sha256": "f8ed90a72038d7afbcd379dce8428140fbadcca654bb6cdc89a35c138a9af511",
+      "bytes": 795584,
+      "situacao": "adicionado",
+      "arquivosLocais": [
+        "acervo/crianca/links-uteis/guia-para-encontrar-os-laudos-do-evoya.docx"
+      ]
+    },
+    {
+      "driveId": "1RSa7yXHruHOW9MpgBR2wGvGj-zEO2UM_",
+      "nome": "Guia Rápido Política de Saúde da Criança.pdf",
+      "origem": [
+        "Criança",
+        "Links úteis",
+        "Guia Rápido Política de Saúde da Criança.pdf"
+      ],
+      "sha256": "ea53aee714e9d0e3e036e1cfdb127fde7bfbd281a622c47305c801fd17fda445",
+      "bytes": 808437,
+      "situacao": "presente",
+      "arquivosLocais": [
+        "acervo/crianca/links-uteis/guia-rapido-politica-de-saude-da-crianca.pdf"
+      ]
+    },
+    {
+      "driveId": "1fzG7vslBnqacc4eiFy92bTvqZL_eb7O2",
+      "nome": "4 (1).png",
+      "origem": [
+        "Criança",
+        "Links úteis",
+        "4 (1).png"
+      ],
+      "sha256": "bfd9032ef6a3d12800a70ccb2f088497c9e562f78518b967f1e97b4e2350355f",
+      "bytes": 2504714,
+      "situacao": "presente",
+      "arquivosLocais": [
+        "acervo/crianca/links-uteis/4-1.png"
+      ]
+    },
+    {
+      "driveId": "1nD1Ql8E_tk-lCCYD1RKu9q73hNdwY0Fs",
+      "nome": "3 (1).png",
+      "origem": [
+        "Criança",
+        "Links úteis",
+        "3 (1).png"
+      ],
+      "sha256": "3bf487e4a4b6f3cade5a95ef4aa4ef36815af5e5d76d25a4ad193916e40e1b2d",
+      "bytes": 2247911,
+      "situacao": "presente",
+      "arquivosLocais": [
+        "acervo/crianca/links-uteis/3-1.png"
+      ]
+    },
+    {
+      "driveId": "1hjwITj_zNNhVxjw23pnM0Np305TM3Ztg",
+      "nome": "VIOLÊNCIA SEXUAL - GESTANTE.png",
+      "origem": [
+        "Criança",
+        "Links úteis",
+        "VIOLÊNCIA SEXUAL - GESTANTE.png"
+      ],
+      "sha256": "6629fa9f57e216a6e95496178e028403ee5a9f2d3e142a152b7290b6840dbcd3",
+      "bytes": 1509997,
+      "situacao": "presente",
+      "arquivosLocais": [
+        "acervo/crianca/links-uteis/violencia-sexual-gestante.png"
+      ]
+    },
+    {
+      "driveId": "1BMrH6kp6fNgjUpu5dTJuFBHpan-SjwZm",
+      "nome": "Investigação Óbito Infantil - Ambulatorial.pdf",
+      "origem": [
+        "Criança",
+        "Links úteis",
+        "Investigação Óbito Infantil - Ambulatorial.pdf"
+      ],
+      "sha256": "be85286375742384f3258fe2f7888d3beb5f98994474b9ab9576d26a35e212f8",
+      "bytes": 210357,
+      "situacao": "presente",
+      "arquivosLocais": [
+        "acervo/crianca/links-uteis/investigacao-obito-infantil-ambulatorial.pdf"
+      ]
+    },
+    {
+      "driveId": "1r02Xgnc3DRcTntyahDbFQ0COsKKx9RWU",
+      "nome": "Investigação Óbito Infantil - Domiciliar.pdf",
+      "origem": [
+        "Criança",
+        "Links úteis",
+        "Investigação Óbito Infantil - Domiciliar.pdf"
+      ],
+      "sha256": "299c41987762bf1e306c143518b58e0439bfaf3f92bd2d222eae6d65f7d9037a",
+      "bytes": 201705,
+      "situacao": "presente",
+      "arquivosLocais": [
+        "acervo/crianca/links-uteis/investigacao-obito-infantil-domiciliar.pdf"
+      ]
+    },
+    {
+      "driveId": "1plS7xRx55-yiEJ0aOGo99CYN0SmbJabZ",
+      "nome": "F3-ficha-investigacao-obito-fetal-entrevista-domiciliar.pdf",
+      "origem": [
+        "Criança",
+        "Links úteis",
+        "F3-ficha-investigacao-obito-fetal-entrevista-domiciliar.pdf"
+      ],
+      "sha256": "a9efd865be12dbf7fde3c0823017a64af66d77ca1faf92d82b20cf03d0b9137b",
+      "bytes": 580037,
+      "situacao": "presente",
+      "arquivosLocais": [
+        "acervo/crianca/links-uteis/f3-ficha-investigacao-obito-fetal-entrevista-domiciliar.pdf"
+      ]
+    },
+    {
+      "driveId": "1BcFxVORimUf-9_PBbL0NAp0BjrXWijsa",
+      "nome": "F1-ficha-investigacao-obito-fetal-servico-saude-ambulatorial.pdf",
+      "origem": [
+        "Criança",
+        "Links úteis",
+        "F1-ficha-investigacao-obito-fetal-servico-saude-ambulatorial.pdf"
+      ],
+      "sha256": "d18288e9b465500e103e5c15f61fc8607d6f63e2fd4a44501dba36e9c9e3415b",
+      "bytes": 170277,
+      "situacao": "presente",
+      "arquivosLocais": [
+        "acervo/crianca/links-uteis/f1-ficha-investigacao-obito-fetal-servico-saude-ambulatorial.pdf"
+      ]
+    },
+    {
+      "driveId": "1cBrhGrpxBNAP4bn3P3qncUHXcfkQcq09",
+      "nome": "PROTOCOLO TESTES DO PEZINHO - POLÍTICA CÇA.pdf",
+      "origem": [
+        "Criança",
+        "Protocolos",
+        "PROTOCOLO TESTES DO PEZINHO - POLÍTICA CÇA.pdf"
+      ],
+      "sha256": "dcfaaef3680048f52db07cab316ae938f03217f49c8327797a1f8c73932cc227",
+      "bytes": 338082,
+      "situacao": "adicionado",
+      "arquivosLocais": [
+        "acervo/crianca/protocolos/protocolo-testes-do-pezinho-politica-cca.pdf"
+      ]
+    },
+    {
+      "driveId": "1kpMYVq993G-TKzQ_PztKIxXICMWSwLbK",
+      "nome": "06113912-protocolo-toxoplasmose-congenita.pdf",
+      "origem": [
+        "Criança",
+        "Protocolos",
+        "06113912-protocolo-toxoplasmose-congenita.pdf"
+      ],
+      "sha256": "f38e6caec9676dbff2a15d0ec324107d3b53436b90a829c5a27116a16f85e5ea",
+      "bytes": 652428,
+      "situacao": "adicionado",
+      "arquivosLocais": [
+        "acervo/crianca/protocolos/06113912-protocolo-toxoplasmose-congenita.pdf"
+      ]
+    },
+    {
+      "driveId": "1_yrT3NNFgcPj_HyVnEgSLAfH56vphL_5",
+      "nome": "ProtocoloEnfermagemSaudeCriancaAdolescente(1).pdf",
+      "origem": [
+        "Criança",
+        "Protocolos",
+        "ProtocoloEnfermagemSaudeCriancaAdolescente(1).pdf"
+      ],
+      "sha256": "7d28b841170b888afc746e69c9907ebef64a7e4bfb70985650874f82da518a19",
+      "bytes": 89757731,
+      "situacao": "presente",
+      "arquivosLocais": [
+        "acervo/crianca/protocolos/protocoloenfermagemsaudecriancaadolescente-1.pdf"
+      ]
+    },
+    {
+      "driveId": "1v4a075__wOq0cmhs0BXfYOwDJ3vSXi2R",
+      "nome": "Fluxo Encaminhamento para Pediatra.docx.pdf",
+      "origem": [
+        "Criança",
+        "Protocolos",
+        "Fluxo Encaminhamento para Pediatra.docx.pdf"
+      ],
+      "sha256": "852cf1227e0d50a01ebb7f582fceb3aaf436d9da345eb029cd4347f526966840",
+      "bytes": 134959,
+      "situacao": "presente",
+      "arquivosLocais": [
+        "acervo/crianca/protocolos/fluxo-encaminhamento-para-pediatra-docx.pdf"
+      ]
+    },
+    {
+      "driveId": "11ZugvwhuyGwI3rm6xJlJK65EclzJWq2j",
+      "nome": "Fluxograma TAN (1) (1).pdf",
+      "origem": [
+        "Criança",
+        "Protocolos",
+        "Fluxograma TAN (1) (1).pdf"
+      ],
+      "sha256": "a644dbdae1efc2813ddc1d22c266eaf47fbe8dbd82472b3d98473985c13f6baf",
+      "bytes": 701160,
+      "situacao": "presente",
+      "arquivosLocais": [
+        "acervo/crianca/protocolos/fluxograma-tan-1-1.pdf"
+      ]
+    },
+    {
+      "driveId": "17hE04GL5sCkJk5oOvXeEBc-KvNQyxB-R",
+      "nome": "manual_obito_infantil_fetal_2ed.pdf",
+      "origem": [
+        "Criança",
+        "Protocolos",
+        "manual_obito_infantil_fetal_2ed.pdf"
+      ],
+      "sha256": "9e066b2a2fa2a84da1c2a2d1426d2b152050240a15e6684028344ad9aa23dfa7",
+      "bytes": 1636580,
+      "situacao": "presente",
+      "arquivosLocais": [
+        "acervo/crianca/protocolos/manual-obito-infantil-fetal-2ed.pdf"
+      ]
+    },
+    {
+      "driveId": "1GjFfkycRsRYZA1Nnd3Cqjo9ZtcZIX39i",
+      "nome": "12123420-assistencia-a-saude-da-crianca-de-0-a-2-anos-na-atencao-primaria-a-saude-saude-da-crianca-rs.pdf",
+      "origem": [
+        "Criança",
+        "Notas Técnicas ",
+        "12123420-assistencia-a-saude-da-crianca-de-0-a-2-anos-na-atencao-primaria-a-saude-saude-da-crianca-rs.pdf"
+      ],
+      "sha256": "dd1064f903932494edf30bc297b9153f86f35c7360485f9c78031c2004acbe21",
+      "bytes": 692528,
+      "situacao": "presente",
+      "arquivosLocais": [
+        "acervo/crianca/notas-tecnicas/12123420-assistencia-a-saude-da-crianca-de-0-a-2-anos-na-atencao-primaria-a-saude-saude-da-crianca-rs.pdf"
+      ]
+    },
+    {
+      "driveId": "1KzVdXcqS1aQ0wqMHC_0AgPTNtZ-9e_XC",
+      "nome": "NOTA TÉCNICA TRIAGEM NEONATAL- RS.pdf",
+      "origem": [
+        "Criança",
+        "Notas Técnicas ",
+        "NOTA TÉCNICA TRIAGEM NEONATAL- RS.pdf"
+      ],
+      "sha256": "8ac17dbdc27ffd79afc45dd23b292068d75c2fe41d7e27598648549f5c47b524",
+      "bytes": 561388,
+      "situacao": "presente",
+      "arquivosLocais": [
+        "acervo/crianca/notas-tecnicas/nota-tecnica-triagem-neonatal-rs.pdf"
+      ]
+    },
+    {
+      "driveId": "1-Cxs_TGd7SiKrlSzClc5VawE_cfon5QK",
+      "nome": "Ficha de Compartilhamento de informações - MODELO atualizado em 25_05_25 (1) (1).pdf",
+      "origem": [
+        "Criança",
+        "Notas Técnicas ",
+        "Ficha de Compartilhamento de informações - MODELO atualizado em 25_05_25 (1) (1).pdf"
+      ],
+      "sha256": "d6457569d2a0f179181517c53dd44113e393a7d6454833ebf5ac14ef26a24e18",
+      "bytes": 262129,
+      "situacao": "presente",
+      "arquivosLocais": [
+        "acervo/crianca/notas-tecnicas/ficha-de-compartilhamento-de-informacoes-modelo-atualizado-em-25-05-25-1-1.pdf"
+      ]
+    },
+    {
+      "driveId": "129MKcP5wKhGPVtqJO5jv7CuV4Ap8Nvsi",
+      "nome": "PCDT PrEP versão eletrônica 22_09_2022.pdf",
+      "origem": [
+        "HIV, ISTs e Hepatites Virais",
+        "Protocolos",
+        "PCDT PrEP versão eletrônica 22_09_2022.pdf"
+      ],
+      "sha256": "5c169b6a391a7dbda7fd31217149f71f0010424e0b2dedd30bc6dca428a146bd",
+      "bytes": 1440646,
+      "situacao": "presente",
+      "arquivosLocais": [
+        "acervo/hiv-ists-e-hepatites-virais/protocolos/pcdt-prep-versao-eletronica-22-09-2022.pdf"
+      ]
+    },
+    {
+      "driveId": "1wNnMz9VrA9AmM_WlzRiftnWAPzFmQks1",
+      "nome": "pcdt-ist-2022_isbn.pdf",
+      "origem": [
+        "HIV, ISTs e Hepatites Virais",
+        "Protocolos",
+        "pcdt-ist-2022_isbn.pdf"
+      ],
+      "sha256": "48c509fd21b4c65c4bccb4b04f6185ffe96b72a88dd9b09d0c2d029ad881c7c0",
+      "bytes": 2712734,
+      "situacao": "presente",
+      "arquivosLocais": [
+        "acervo/hiv-ists-e-hepatites-virais/protocolos/pcdt-ist-2022-isbn.pdf"
+      ]
+    },
+    {
+      "driveId": "11xvpmr0ujh39l8xwwR63XJbAUUjN9SLh",
+      "nome": "Fluxograma Idoso DANT Regional.pdf",
+      "origem": [
+        "Saúde da Pessoa Idosa",
+        "Fluxogramas",
+        "Fluxograma Idoso DANT Regional.pdf"
+      ],
+      "sha256": "727bec787d4adb70d3720ad83a084bce1f5969c7610287f51c8e552e696fba32",
+      "bytes": 89010,
+      "situacao": "presente",
+      "arquivosLocais": [
+        "acervo/dants/fluxograma/fluxograma-idoso-dant-regional-1.pdf",
+        "acervo/saude-da-pessoa-idosa/fluxogramas/fluxograma-idoso-dant-regional.pdf"
+      ]
+    },
+    {
+      "driveId": "1-43Mw3Vtv5L9FLo0Z-MuH19dkSBx2ncl",
+      "nome": "PLANO REGIONAL - DCNT E IDOSO - 2025.pdf",
+      "origem": [
+        "Saúde da Pessoa Idosa",
+        "Protocolos",
+        "PLANO REGIONAL - DCNT E IDOSO - 2025.pdf"
+      ],
+      "sha256": "88e5c4650e1485bb6898434c854c905c56f9f32c28cac0f27da64393dbe02262",
+      "bytes": 10513328,
+      "situacao": "presente",
+      "arquivosLocais": [
+        "acervo/dants/protocolos/plano-regional-dcnt-e-idoso-2025.pdf",
+        "acervo/saude-da-pessoa-idosa/protocolos/plano-regional-dcnt-e-idoso-2025.pdf"
+      ]
+    },
+    {
+      "driveId": "1PKL64M1A53-YavTUkO4J62c0hCfUiDSs",
+      "nome": "Caderno-de-indicadores-RS - 2024-27 AMD.pdf",
+      "origem": [
+        "Saúde da Pessoa Idosa",
+        "Notas Técnicas",
+        "Caderno-de-indicadores-RS - 2024-27 AMD.pdf"
+      ],
+      "sha256": "dd61d624f168598b64dc9b9ca93250d5f3a805b416c1f1a8cd94120bda2ad565",
+      "bytes": 426981,
+      "situacao": "presente",
+      "arquivosLocais": [
+        "acervo/saude-da-pessoa-idosa/notas-tecnicas/caderno-de-indicadores-rs-2024-27-amd.pdf"
+      ]
+    },
+    {
+      "driveId": "1_i7ARoUZs88W0vey8TvhMOcBVIaQp6WQ",
+      "nome": "Década-do-Envelhecimento-Saudável-2020-2030.pdf",
+      "origem": [
+        "Saúde da Pessoa Idosa",
+        "Notas Técnicas",
+        "Década-do-Envelhecimento-Saudável-2020-2030.pdf"
+      ],
+      "sha256": "5430c9d5a166c4a77d68b30d423773aefe72cedeaf8d6049018068ccb427eea1",
+      "bytes": 533383,
+      "situacao": "presente",
+      "arquivosLocais": [
+        "acervo/saude-da-pessoa-idosa/notas-tecnicas/decada-do-envelhecimento-saudavel-2020-2030.pdf"
+      ]
+    },
+    {
+      "driveId": "1YjoDqT_7WFxYLJAfypNUK_nD0FvoV2K4",
+      "nome": "manual-ivcf-20.pdf",
+      "origem": [
+        "Saúde da Pessoa Idosa",
+        "Notas Técnicas",
+        "manual-ivcf-20.pdf"
+      ],
+      "sha256": "0c9c2c491849d887781c65bda4c1bd732f27e65d3fad1155ea7d6e832f2923ca",
+      "bytes": 3646128,
+      "situacao": "presente",
+      "arquivosLocais": [
+        "acervo/saude-da-pessoa-idosa/notas-tecnicas/manual-ivcf-20.pdf"
+      ]
+    },
+    {
+      "driveId": "1iYB7EDmKk-YztHNVOShlNLBpLJFQh0Ro",
+      "nome": "IVCF20.pdf",
+      "origem": [
+        "Saúde da Pessoa Idosa",
+        "Notas Técnicas",
+        "IVCF20.pdf"
+      ],
+      "sha256": "7f6b49c87fcb636b9a8649b8868460bc990d4ce81b90f58fb556b70dc736e2c8",
+      "bytes": 126113,
+      "situacao": "presente",
+      "arquivosLocais": [
+        "acervo/saude-da-pessoa-idosa/notas-tecnicas/ivcf20.pdf"
+      ]
+    },
+    {
+      "driveId": "1AVmk9cirzK61WVVd1KWbTnHUvN_2HxfA",
+      "nome": "Nota Metodológica C6 - Cuidado da pessoa idosa.pdf",
+      "origem": [
+        "Saúde da Pessoa Idosa",
+        "Notas Técnicas",
+        "Nota Metodológica C6 - Cuidado da pessoa idosa.pdf"
+      ],
+      "sha256": "adf470aa64ac28ee572d46b5a3b3495a9caa4ab4d31c4ae7956274df2bef8bec",
+      "bytes": 291688,
+      "situacao": "presente",
+      "arquivosLocais": [
+        "acervo/dants/notas-tecnicas/nota-metodologica-c6-cuidado-da-pessoa-idosa-1.pdf",
+        "acervo/saude-da-pessoa-idosa/notas-tecnicas/nota-metodologica-c6-cuidado-da-pessoa-idosa.pdf"
+      ]
+    },
+    {
+      "driveId": "1zLfalvuRim8vURZ4nwM7J1Mpc5gnXNfH",
+      "nome": "Manual-de-Avaliacao-Multidimensional-da-Pessoa-Idosa-para-a-Atencao-Primaria-a-Saude.-Aplicacoes-do-IVCF-20-e-do-ICOPE-1.pdf",
+      "origem": [
+        "Saúde da Pessoa Idosa",
+        "Notas Técnicas",
+        "Manual-de-Avaliacao-Multidimensional-da-Pessoa-Idosa-para-a-Atencao-Primaria-a-Saude.-Aplicacoes-do-IVCF-20-e-do-ICOPE-1.pdf"
+      ],
+      "sha256": "44f4794b3781e696d6309dbc4ad09554c1907e54d91fc6f1ce29762a8a9701ef",
+      "bytes": 10850022,
+      "situacao": "presente",
+      "arquivosLocais": [
+        "acervo/saude-da-pessoa-idosa/notas-tecnicas/manual-de-avaliacao-multidimensional-da-pessoa-idosa-para-a-atencao-primaria-a-saude-aplicacoes-do-ivcf-20-e-do-icope-1.pdf"
+      ]
+    },
+    {
+      "driveId": "1edLKAzJ1ALkTmzYP3fmjy3xd_8MotlxB",
+      "nome": "NT saude-do-idoso-CONASS.pdf",
+      "origem": [
+        "Saúde da Pessoa Idosa",
+        "Notas Técnicas",
+        "NT saude-do-idoso-CONASS.pdf"
+      ],
+      "sha256": "8d9469d5ca520850f4e3326e56f9416f07de5e18b678177154cd91f379f5e3a2",
+      "bytes": 3846907,
+      "situacao": "presente",
+      "arquivosLocais": [
+        "acervo/saude-da-pessoa-idosa/notas-tecnicas/nt-saude-do-idoso-conass.pdf"
+      ]
+    },
+    {
+      "driveId": "1W0NpTXHkCEe9FCGagzAl7lVpYu5JDOmn",
+      "nome": "NT-atencao-a-pessoa-idosa-na-aps-1.pdf",
+      "origem": [
+        "Saúde da Pessoa Idosa",
+        "Notas Técnicas",
+        "NT-atencao-a-pessoa-idosa-na-aps-1.pdf"
+      ],
+      "sha256": "bd373f7d04fc996549558c10e17ca26bd91fe1a229e440528c1f1a8461331aff",
+      "bytes": 842189,
+      "situacao": "presente",
+      "arquivosLocais": [
+        "acervo/saude-da-pessoa-idosa/notas-tecnicas/nt-atencao-a-pessoa-idosa-na-aps-1.pdf"
+      ]
+    },
+    {
+      "driveId": "1LXFhcbZe0GXnxYm7GjiMYiq2dG29Bnq8",
+      "nome": "3BA86137-01AD-476D-B7F1-1A3F6B034101_L0_001-21_08_2025, 15_09_06 (1).jpg",
+      "origem": [
+        "Nepes",
+        "Logos",
+        "3BA86137-01AD-476D-B7F1-1A3F6B034101_L0_001-21_08_2025, 15_09_06 (1).jpg"
+      ],
+      "sha256": "98eeb7a4263149799870fbf2f1eacd036a751211d841edaf8d37b106e8ff7047",
+      "bytes": 67223,
+      "situacao": "presente",
+      "arquivosLocais": [
+        "logo_nepes.jpg"
+      ]
+    },
+    {
+      "driveId": "1lCRvhqS77tCCfpWp6R9veXNz3YgNFNMy",
+      "nome": "png",
+      "origem": [
+        "Nepes",
+        "Logos",
+        "png"
+      ],
+      "sha256": "62fd312ddba8c01e501ec266dec5045df2f66d8f7ae0ac7a3c8da62eb4c7b4c3",
+      "bytes": 23738,
+      "situacao": "presente",
+      "arquivosLocais": [
+        "logo_prefeitura.png"
+      ]
+    },
+    {
+      "driveId": "1EIE5F9AakwDkcs6EpaL2JxbTOHzeRf8I",
+      "nome": "image (2).png",
+      "origem": [
+        "Nepes",
+        "Logos",
+        "image (2).png"
+      ],
+      "sha256": "0b204b442905aa6ac064c6515d9c288ee799b1246c56591ec42fa42743fa7606",
+      "bytes": 26641,
+      "situacao": "ativo-institucional-adicionado",
+      "arquivosLocais": [
+        "acervo/nepes/logos/logo-prefeitura-alternativa.png"
+      ]
+    },
+    {
+      "driveId": "1ifCSfp3L_96Jq7R-e5oGmqg6hu0KwdUuhX7psm2z5s0",
+      "nome": "Projetos",
+      "origem": [
+        "Nepes",
+        "Projetos",
+        "Projetos"
+      ],
+      "situacao": "anotacao-operacional-nao-catalogada"
+    },
+    {
+      "driveId": "1z__RtsxU5gFhgBMe_BGGbTs8aYBaDXhO",
+      "nome": "REGISTRO DE PROJETOS DE PESQUISA E EXTENSÃO.xlsx",
+      "origem": [
+        "Nepes",
+        "Projetos",
+        "REGISTRO DE PROJETOS DE PESQUISA E EXTENSÃO.xlsx"
+      ],
+      "sha256": "784d3b12bf0e0f849be47ea5f0dddb1178a032769320e3b12c41dbb604fee534",
+      "bytes": 395876,
+      "situacao": "planilha-privada-auditada-sem-publicar"
+    },
+    {
+      "driveId": "1cHyubT6zhM0f7ce9nePePZga8PtMpCw0",
+      "nome": "Política Nacional de Educação Permanente em Saúde",
+      "origem": [
+        "Nepes",
+        "Notas Técnicas / Portarias",
+        "Política Nacional de Educação Permanente em Saúde"
+      ],
+      "sha256": "dfa0b90d97b5202139ee918cb8be4d560c3142fe3a6d591a2f7e6c76478ab6f4",
+      "bytes": 294191,
+      "situacao": "presente",
+      "arquivosLocais": [
+        "acervo/nepes/notas-tecnicas-portarias/politica-nacional-de-educacao-permanente-em-saude.pdf"
+      ]
+    },
+    {
+      "driveId": "1WyyQ_FYZdOl7Uzydo4zoeZuv6US-6JuV",
+      "nome": "Portaria Municipal NEPeS",
+      "origem": [
+        "Nepes",
+        "Notas Técnicas / Portarias",
+        "Portaria Municipal NEPeS"
+      ],
+      "sha256": "ff60e1461802712d337e7890c7bf144c62981e0487a7afbc89f7d6d7f1555d43",
+      "bytes": 145827,
+      "situacao": "presente",
+      "arquivosLocais": [
+        "acervo/nepes/notas-tecnicas-portarias/portaria-municipal-nepes.pdf"
+      ]
+    },
+    {
+      "driveId": "1MeRXYhJH0ZIz0WoCTkZkDSxx2Y_MKc3n",
+      "nome": "Política Estadual de Educação Permanente em Saúde Coletiva",
+      "origem": [
+        "Nepes",
+        "Notas Técnicas / Portarias",
+        "Política Estadual de Educação Permanente em Saúde Coletiva"
+      ],
+      "sha256": "5780ba5d908191478c7a614a84ffaf7b143a819eff2b20548a29f0e2a1ea3d84",
+      "bytes": 141757,
+      "situacao": "presente",
+      "arquivosLocais": [
+        "acervo/nepes/notas-tecnicas-portarias/politica-estadual-de-educacao-permanente-em-saude-coletiva.pdf"
+      ]
+    },
+    {
+      "driveId": "1FGG-S5NSYuQu2Jjov8a2MAgvHEytiWmP41BNpQfvBKE",
+      "nome": "Links úteis",
+      "origem": [
+        "Nepes",
+        "Links úteis",
+        "Links úteis"
+      ],
+      "situacao": "links-ja-representados-no-acervo"
+    }
+  ],
+  "projetosPorAno": [
+    {
+      "year": "2018",
+      "rows": 78,
+      "already_present": 0,
+      "not_present": 78
+    },
+    {
+      "year": "2019",
+      "rows": 96,
+      "already_present": 0,
+      "not_present": 96
+    },
+    {
+      "year": "2020",
+      "rows": 82,
+      "already_present": 0,
+      "not_present": 82
+    },
+    {
+      "year": "2021",
+      "rows": 66,
+      "already_present": 0,
+      "not_present": 66
+    },
+    {
+      "year": "2022",
+      "rows": 64,
+      "already_present": 0,
+      "not_present": 64
+    },
+    {
+      "year": "2023",
+      "rows": 73,
+      "already_present": 0,
+      "not_present": 73
+    },
+    {
+      "year": "2024",
+      "rows": 88,
+      "already_present": 0,
+      "not_present": 88
+    },
+    {
+      "year": "2025",
+      "rows": 102,
+      "already_present": 102,
+      "not_present": 0
+    },
+    {
+      "year": "2026",
+      "rows": 55,
+      "already_present": 55,
+      "not_present": 0
+    },
+    {
+      "year": "2027",
+      "rows": 0,
+      "already_present": 0,
+      "not_present": 0
+    },
+    {
+      "year": "2028",
+      "rows": 0,
+      "already_present": 0,
+      "not_present": 0
+    },
+    {
+      "year": "2029",
+      "rows": 0,
+      "already_present": 0,
+      "not_present": 0
+    }
+  ]
+}

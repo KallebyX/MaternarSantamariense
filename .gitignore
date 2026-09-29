@@ -1,0 +1,17 @@
+backend/node_modules/
+backend/data/
+backend/.env
+.env
+.env.*
+!.env.example
+*.db
+*.db-wal
+*.db-shm
+test-results/
+playwright-report/
+dist/
+__pycache__/
+.DS_Store
+*.eml
+backend/.env.*
+!backend/.env.example

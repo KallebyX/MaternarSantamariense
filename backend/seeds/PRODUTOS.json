@@ -1,50 +1,50 @@
 [
- {
-  "tipo": "Cartilha",
-  "ano": 2026,
-  "titulo": "Amamentar: um guia para os primeiros 30 dias",
-  "desc": "Material ilustrado para entrega na alta hospitalar, validado com 40 puérperas da rede.",
-  "url": "https://amamos.lapinf.ufn.edu.br/",
-  "capa": "produtos/capa-1.svg"
- },
- {
-  "tipo": "Guia",
-  "ano": 2026,
-  "titulo": "Linha de cuidado da gestante de alto risco",
-  "desc": "Fluxo completo de encaminhamento entre APS, ambulatório e maternidade de referência.",
-  "url": "https://bvsms.saude.gov.br/bvs/publicacoes/manual_tecnico_gestacao_alto_risco.pdf",
-  "capa": "produtos/capa-2.svg"
- },
- {
-  "tipo": "Podcast",
-  "ano": 2026,
-  "titulo": "Maternar em Rede — temporada 2",
-  "desc": "Oito episódios com profissionais da rede sobre humanização do parto e puerpério.",
-  "url": "https://www.apoiare.lapinf.ufn.edu.br/",
-  "capa": "produtos/capa-3.svg"
- },
- {
-  "tipo": "Manual",
-  "ano": 2025,
-  "titulo": "Manual de simulação em emergências obstétricas",
-  "desc": "Roteiros de cenário, checklists de debriefing e escalas de avaliação de equipe.",
-  "url": "https://www.portalcoren-rs.gov.br/docs/ProtocolosEnfermagem/",
-  "capa": "produtos/capa-4.svg"
- },
- {
-  "tipo": "Vídeo",
-  "ano": 2025,
-  "titulo": "Série: os 60 primeiros segundos do RN",
-  "desc": "Cinco vídeos curtos gravados em sala de parto para treinamento em serviço.",
-  "url": "https://www.youtube.com/results?search_query=reanima%C3%A7%C3%A3o+neonatal+minuto+de+ouro",
-  "capa": "produtos/capa-5.svg"
- },
- {
-  "tipo": "Relatório",
-  "ano": 2025,
-  "titulo": "Panorama materno-infantil de Santa Maria",
-  "desc": "Indicadores municipais de mortalidade, pré-natal e prematuridade com série histórica.",
-  "url": "https://datasus.saude.gov.br/",
-  "capa": "produtos/capa-6.svg"
- }
+  {
+    "tipo": "Aplicativo",
+    "ano": 0,
+    "titulo": "AMAMOS — Amamentação, medicamentos e outras substâncias",
+    "desc": "Ferramenta da UFN para consulta de informações sobre medicamentos e outras substâncias durante a amamentação.",
+    "url": "https://amamos.lapinf.ufn.edu.br/",
+    "capa": ""
+  },
+  {
+    "tipo": "Manual",
+    "ano": 2012,
+    "titulo": "Gestação de Alto Risco — Manual Técnico",
+    "desc": "Manual técnico do Ministério da Saúde, 5ª edição, 2012. Documento de referência disponível na Biblioteca Virtual em Saúde.",
+    "url": "https://bvsms.saude.gov.br/bvs/publicacoes/manual_tecnico_gestacao_alto_risco.pdf",
+    "capa": ""
+  },
+  {
+    "tipo": "Portal",
+    "ano": 0,
+    "titulo": "APOIARE Puerpério — UFN",
+    "desc": "Portal de apoio à mulher e à família durante o puerpério, com publicações educativas.",
+    "url": "https://www.apoiare.lapinf.ufn.edu.br/",
+    "capa": ""
+  },
+  {
+    "tipo": "Coleção",
+    "ano": 0,
+    "titulo": "Protocolos Municipais de Enfermagem — COREN-RS",
+    "desc": "Coleção de protocolos municipais disponibilizada no portal oficial do COREN-RS.",
+    "url": "https://www.portalcoren-rs.gov.br/index.php?categoria=publicacoes&pagina=protocolos-enfermagem-municipais",
+    "capa": ""
+  },
+  {
+    "tipo": "Busca de vídeos",
+    "ano": 0,
+    "titulo": "Reanimação neonatal — busca de vídeos",
+    "desc": "Busca no YouTube por vídeos sobre reanimação neonatal e minuto de ouro.",
+    "url": "https://www.youtube.com/results?search_query=reanima%C3%A7%C3%A3o+neonatal+minuto+de+ouro",
+    "capa": ""
+  },
+  {
+    "tipo": "Portal",
+    "ano": 0,
+    "titulo": "DATASUS — Ministério da Saúde",
+    "desc": "Portal do Departamento de Informática do SUS para acesso a sistemas e informações de saúde.",
+    "url": "https://datasus.saude.gov.br/",
+    "capa": ""
+  }
 ]

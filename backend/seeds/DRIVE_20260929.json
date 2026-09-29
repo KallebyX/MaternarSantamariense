@@ -1,0 +1,189 @@
+{
+  "versao": 1,
+  "chave": "drive-acervo-20260929",
+  "pasta": "1x93suiPyE8qPAxKfPhQJkY_gciwQ5GZB",
+  "materiais": [
+    {
+      "driveId": "1jRrw43Ym6dEkJqtJxj3k48MQIUlww_6I",
+      "titulo": "PICS — Material do Curso Introdutório",
+      "tipo": "Material de apoio",
+      "politica": "PICS",
+      "url": "acervo/pics/material-curso-introdutorio.docx",
+      "sha256": "eac9bf84b455e85fde1dc8dd9cac2ca231da4dd1d699e780da826b56e414dcb3",
+      "bytes": 12534,
+      "paginas": 0,
+      "tags": [
+        "PICS",
+        "práticas integrativas"
+      ]
+    },
+    {
+      "driveId": "1AIygAnh5ZtJSce7xgxEJneH709o_07nE",
+      "titulo": "Material Instrutivo — Política de Alimentação e Nutrição",
+      "tipo": "Material de apoio",
+      "politica": "Alimentação e Nutrição",
+      "url": "acervo/alimentacao-e-nutricao/protocolos/material-instrutivo-pan.pdf",
+      "sha256": "d802be80525b1340c5d2dcbe119382afdbfe6cb44a72354f30d2002a7688ca1b",
+      "bytes": 436002,
+      "paginas": 2,
+      "tags": [
+        "alimentação",
+        "nutrição"
+      ]
+    },
+    {
+      "driveId": "1A4OKfM_W70_LD7NA--YhVF4Kodf55hWW",
+      "titulo": "Guia Alimentar para a População Brasileira",
+      "tipo": "Guia",
+      "politica": "Alimentação e Nutrição",
+      "url": "acervo/alimentacao-e-nutricao/protocolos/guia-alimentar-para-a-populacao-brasileira.pdf",
+      "sha256": "a693217447e85aba257934b43a90ecf59195bf51c5cebc865f04ba16c3e1c943",
+      "bytes": 44981126,
+      "paginas": 152,
+      "tags": [
+        "alimentação",
+        "nutrição"
+      ]
+    },
+    {
+      "driveId": "1H07ubNeRWx9aT42xpuLKwsoxLlBmd9f4",
+      "titulo": "Guia Alimentar para Crianças Brasileiras Menores de 2 Anos",
+      "tipo": "Guia",
+      "politica": "Alimentação e Nutrição",
+      "url": "acervo/alimentacao-e-nutricao/protocolos/guia-alimentar-para-criancas-brasileiras-menores-de-dois-anos.pdf",
+      "sha256": "1a4192bd309d45c3bfe9b671ba7ca4509dff552698d471d462bfe2096253ef50",
+      "bytes": 7559617,
+      "paginas": 265,
+      "tags": [
+        "alimentação",
+        "criança"
+      ]
+    },
+    {
+      "driveId": "1kl370lCKZUs30E_SOlBkP_EfoLv2zPBL",
+      "titulo": "Fascículo 5 — Orientação Alimentar da Pessoa na Adolescência",
+      "tipo": "Protocolo",
+      "politica": "Alimentação e Nutrição",
+      "url": "acervo/alimentacao-e-nutricao/protocolos/fasciculo-guia-alimentar-adolescente.pdf",
+      "sha256": "21f30cdae009cc7df4695378171e6f5b2660e4a27d1d325f6218a8f759f05adf",
+      "bytes": 5154695,
+      "paginas": 28,
+      "tags": [
+        "alimentação",
+        "adolescência"
+      ]
+    },
+    {
+      "driveId": "1L2yx5QGIp35vkUJfJkJm9WOtng9X72mQ",
+      "titulo": "Fascículo 4 — Orientação Alimentar de Crianças de 2 a 10 Anos",
+      "tipo": "Protocolo",
+      "politica": "Alimentação e Nutrição",
+      "url": "acervo/alimentacao-e-nutricao/protocolos/fasciculo-guia-alimentar-criancas-2-a-10-anos.pdf",
+      "sha256": "c2c25d8bc7ab518809e42f3886004cfa0965f25711b89ba9004f6f9972dad1bb",
+      "bytes": 4428809,
+      "paginas": 25,
+      "tags": [
+        "alimentação",
+        "criança"
+      ]
+    },
+    {
+      "driveId": "15LNy2XGnt7_EJl56d60DmnNsgNjcgPQ6",
+      "titulo": "Fascículo 3 — Orientação Alimentar da Gestante",
+      "tipo": "Protocolo",
+      "politica": "Alimentação e Nutrição",
+      "url": "acervo/alimentacao-e-nutricao/protocolos/fasciculo-guia-alimentar-gestante.pdf",
+      "sha256": "8338a91e1392df81b40072d2b7502d56ebbd83dd79bfb39ce631b2782e7ced9d",
+      "bytes": 3311403,
+      "paginas": 18,
+      "tags": [
+        "alimentação",
+        "gestação"
+      ]
+    },
+    {
+      "driveId": "1tq3x0Gv0g5u_mdU-yMsoysRD1TnuVCC8",
+      "titulo": "Fascículo 2 — Orientação Alimentar da Pessoa Idosa",
+      "tipo": "Protocolo",
+      "politica": "Alimentação e Nutrição",
+      "url": "acervo/alimentacao-e-nutricao/protocolos/fasciculo-guia-alimentar-populacao-idosa.pdf",
+      "sha256": "a1627121f95d53fb4708bfeb1ee2ab91f728b81b22f965221e7ca29ca10b6868",
+      "bytes": 4882066,
+      "paginas": 18,
+      "tags": [
+        "alimentação",
+        "pessoa idosa"
+      ]
+    },
+    {
+      "driveId": "1iifH-1XWIyIjQwgBUP5EodJGMAW8NNww",
+      "titulo": "Fascículo 1 — Orientação Alimentar da População Adulta",
+      "tipo": "Protocolo",
+      "politica": "Alimentação e Nutrição",
+      "url": "acervo/alimentacao-e-nutricao/protocolos/fasciculo-guia-alimentar-populacao-adulta.pdf",
+      "sha256": "627765d1bd2ba2b66c415a12c6f733a6974961b4ab38757fb1d8ed4f83a2e033",
+      "bytes": 8125089,
+      "paginas": 28,
+      "tags": [
+        "alimentação",
+        "adulto"
+      ]
+    },
+    {
+      "driveId": "1DzklWAwCI1VEkP8FDaJ-7lsw_Rq6xESB",
+      "titulo": "Pé Torto Congênito — Cartilha aos Profissionais da Saúde",
+      "tipo": "Cartilha",
+      "politica": "Saúde da Criança",
+      "url": "acervo/crianca/links-uteis/cartilha-pe-torto-congenito.pdf",
+      "sha256": "151280166d2936d477685ff8d126e604ea8457be0d1b266512abd8013c346186",
+      "bytes": 3099650,
+      "paginas": 14,
+      "tags": [
+        "criança",
+        "pé torto congênito"
+      ]
+    },
+    {
+      "driveId": "1avlEYpS6rnPDKvuk5obnHaV-1EchTm5w",
+      "titulo": "EVOYA — Guia para Encontrar Laudos do Teste do Pezinho",
+      "tipo": "Guia",
+      "politica": "Saúde da Criança",
+      "url": "acervo/crianca/links-uteis/guia-para-encontrar-os-laudos-do-evoya.docx",
+      "sha256": "f8ed90a72038d7afbcd379dce8428140fbadcca654bb6cdc89a35c138a9af511",
+      "bytes": 795584,
+      "paginas": 0,
+      "tags": [
+        "triagem neonatal",
+        "teste do pezinho"
+      ]
+    },
+    {
+      "driveId": "1cBrhGrpxBNAP4bn3P3qncUHXcfkQcq09",
+      "titulo": "Protocolo de Envio de Amostras — Teste do Pezinho",
+      "tipo": "Protocolo",
+      "politica": "Saúde da Criança",
+      "url": "acervo/crianca/protocolos/protocolo-testes-do-pezinho-politica-cca.pdf",
+      "sha256": "dcfaaef3680048f52db07cab316ae938f03217f49c8327797a1f8c73932cc227",
+      "bytes": 338082,
+      "paginas": 2,
+      "tags": [
+        "triagem neonatal",
+        "teste do pezinho"
+      ]
+    },
+    {
+      "driveId": "1kpMYVq993G-TKzQ_PztKIxXICMWSwLbK",
+      "titulo": "Protocolo de Toxoplasmose Congênita — SES/RS",
+      "tipo": "Protocolo",
+      "politica": "Saúde da Criança",
+      "url": "acervo/crianca/protocolos/06113912-protocolo-toxoplasmose-congenita.pdf",
+      "sha256": "f38e6caec9676dbff2a15d0ec324107d3b53436b90a829c5a27116a16f85e5ea",
+      "bytes": 652428,
+      "paginas": 22,
+      "tags": [
+        "criança",
+        "toxoplasmose"
+      ]
+    }
+  ]
+}

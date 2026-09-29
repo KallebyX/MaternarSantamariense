@@ -4,7 +4,7 @@ import { test, before } from 'node:test';
 import assert from 'node:assert/strict';
 import request from 'supertest';
 import { criarApp } from '../src/app.js';
-import { seed } from '../src/db/seed.js';
+import { seed } from './fixtures/seed.js';
 
 let app;
 let tokenProfissional;
@@ -84,13 +84,13 @@ test('gestor redefine senha da equipe, mas não a de um administrador', async ()
     .send({ senha: 'redefinida9', trocarSenha: false });
   assert.equal(nova.status, 200);
   assert.equal(nova.body.dados.trocaObrigatoria, false);
-  await login('ana.ferraz@maternarsm.com.br', 'redefinida9');
+  tokenProfissional = await login('ana.ferraz@maternarsm.com.br', 'redefinida9');
 
   const negado = await comGestor(request(app).post(`/api/usuarios/${admin.id}/senha`)).send({ senha: 'tentativa1' });
   assert.equal(negado.status, 403);
 
   // o administrador consegue
-  const permitido = await comAdmin(request(app).post(`/api/usuarios/${admin.id}/senha`)).send({ senha: 'adminnovo1' });
+  const permitido = await comAdmin(request(app).post(`/api/usuarios/${admin.id}/senha`)).send({ senha: 'adminnovo1', trocarSenha: false });
   assert.equal(permitido.status, 200);
   tokenAdmin = await login('kalleby@maternarsm.com.br', 'adminnovo1');
 });
@@ -238,7 +238,7 @@ test('curso e aulas: CRUD encadeado com o Qualifica', async () => {
   const aula = await comGestor(request(app).post('/api/aulas'))
     .send({ curso_id: curso.id, ordem: 0, titulo: 'Primeira escuta', duracao: '18 min', url: 'uploads/aula1.mp4' });
   assert.equal(aula.status, 201);
-  assert.equal((await request(app).get(`/api/aulas?curso_id=${curso.id}`)).body.dados.length, 1);
+  assert.equal((await comGestor(request(app).get(`/api/aulas?curso_id=${curso.id}`))).body.dados.length, 1);
 
   // a chave (curso, ordem) é única
   const repetida = await comGestor(request(app).post('/api/aulas'))
@@ -246,7 +246,7 @@ test('curso e aulas: CRUD encadeado com o Qualifica', async () => {
   assert.equal(repetida.status, 409);
 
   // o curso montado com as aulas continua vindo da rota de aprendizagem
-  const comAulas = await request(app).get(`/api/cursos/${curso.id}`);
+  const comAulas = await comGestor(request(app).get(`/api/cursos/${curso.id}?gestao=1`));
   assert.equal(comAulas.body.dados.aulas.length, 1);
   assert.equal(comAulas.body.dados.aulas[0].url, 'uploads/aula1.mp4');
 
@@ -263,7 +263,7 @@ test('curso e aulas: CRUD encadeado com o Qualifica', async () => {
 
   // remover o curso leva as aulas (ON DELETE CASCADE)
   assert.equal((await comGestor(request(app).delete(`/api/cursos/${curso.id}`))).status, 200);
-  assert.equal((await request(app).get(`/api/aulas?curso_id=${curso.id}`)).body.dados.length, 0);
+  assert.equal((await comGestor(request(app).get(`/api/aulas?curso_id=${curso.id}`))).body.dados.length, 0);
   assert.equal((await comGestor(request(app).delete(`/api/qualifica-modulos/${modulo.id}`))).status, 200);
 });
 

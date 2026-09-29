@@ -3,11 +3,19 @@ import { Router } from 'express';
 import { statSync } from 'node:fs';
 import { db, registrarLog } from '../db/connection.js';
 import { autenticar, exigirPapel } from '../auth/middleware.js';
-import { ok } from '../lib/http.js';
+import { ok, erro } from '../lib/http.js';
 import { config } from '../config.js';
+import { emailConfigurado, verificarEmail } from '../lib/email.js';
 
 export const adminRouter = Router();
 adminRouter.use(autenticar, exigirPapel('Administrador'));
+
+adminRouter.get('/email', (req, res) => ok(res, {
+  configurado: emailConfigurado(), remetente: config.smtp.from, enderecoPlataforma: config.publicUrl,
+}));
+adminRouter.post('/email/verificar', async (req, res, next) => {
+  try { return ok(res, await verificarEmail()); } catch (error) { next(error); }
+});
 
 const TABELAS = ['usuarios', 'cursos', 'aulas', 'progresso', 'qualifica_modulos', 'qualifica_recursos',
   'trilhas', 'politicas', 'materiais', 'projetos', 'protocolos', 'documentos', 'links', 'eventos',
@@ -15,7 +23,9 @@ const TABELAS = ['usuarios', 'cursos', 'aulas', 'progresso', 'qualifica_modulos'
   'conquistas', 'tarefas', 'arquivos', 'logs'];
 
 adminRouter.get('/logs', (req, res) => {
-  const limite = Math.min(Number(req.query.limite) || 200, 1000);
+  const solicitado = req.query.limite === undefined ? 200 : Number(req.query.limite);
+  if (!Number.isSafeInteger(solicitado) || solicitado < 1) return erro(res, 400, 'Limite inválido. Use um número inteiro positivo.');
+  const limite = Math.min(solicitado, 1000);
   return ok(res, db.prepare('SELECT * FROM logs ORDER BY id DESC LIMIT ?').all(limite));
 });
 

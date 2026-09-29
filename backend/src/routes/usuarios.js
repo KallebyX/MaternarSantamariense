@@ -2,8 +2,9 @@ import { Router } from 'express';
 import bcrypt from 'bcryptjs';
 import { randomBytes } from 'node:crypto';
 import { db, registrarLog } from '../db/connection.js';
-import { autenticar, exigirPapel, usuarioPublico } from '../auth/middleware.js';
-import { erro, ok, exigir, emailValido, senhaFraca } from '../lib/http.js';
+import { autenticar, exigirPapel, usuarioPublico, assinarToken } from '../auth/middleware.js';
+import { erro, ok, exigir, emailValido, senhaFraca, validarTextos } from '../lib/http.js';
+import { enviarAcesso } from '../lib/email.js';
 
 export const usuariosRouter = Router();
 usuariosRouter.use(autenticar);
@@ -37,11 +38,13 @@ function podeGerenciar(autor, alvo) {
 
 // ------------------------------------------------------------- perfil próprio
 usuariosRouter.put('/eu', (req, res) => {
-  const { nome, cargo, unidade, telefone } = req.body || {};
+  const invalido = validarTextos(req.body, ['nome', 'cargo', 'unidade', 'telefone', 'formacao']);
+  if (invalido) return erro(res, 400, invalido);
+  const { nome, cargo, unidade, telefone, formacao } = req.body || {};
   db.prepare(`UPDATE usuarios SET nome = COALESCE(?, nome), cargo = COALESCE(?, cargo),
-    unidade = COALESCE(?, unidade), telefone = COALESCE(?, telefone) WHERE id = ?`)
-    .run(nome?.trim() || null, cargo?.trim() ?? null, unidade?.trim() ?? null,
-      telefone?.trim() ?? null, req.usuario.id);
+    unidade = COALESCE(?, unidade), telefone = COALESCE(?, telefone), formacao = COALESCE(?, formacao), iniciais = COALESCE(?, iniciais) WHERE id = ?`)
+    .run(nome === undefined ? null : String(nome).trim() || null, cargo === undefined ? null : String(cargo).trim(), unidade === undefined ? null : String(unidade).trim(),
+      telefone === undefined ? null : String(telefone).trim(), formacao === undefined ? null : String(formacao).trim(), nome === undefined ? null : iniciaisDe(nome), req.usuario.id);
   registrarLog(req.usuario.email, 'atualizar-perfil');
   return ok(res, usuarioPublico(buscar(req.usuario.id)));
 });
@@ -49,16 +52,17 @@ usuariosRouter.put('/eu', (req, res) => {
 usuariosRouter.put('/eu/senha', (req, res) => {
   const falta = exigir(req.body, ['senhaAtual', 'senhaNova']);
   if (falta) return erro(res, 400, falta);
-  if (!bcrypt.compareSync(req.body.senhaAtual, req.usuario.senha_hash)) {
-    return erro(res, 401, 'Senha atual incorreta.');
+  if (!bcrypt.compareSync(String(req.body.senhaAtual), req.usuario.senha_hash)) {
+    return erro(res, 400, 'Senha atual incorreta.');
   }
   const fraca = senhaFraca(req.body.senhaNova);
   if (fraca) return erro(res, 400, fraca);
   // Trocou a provisória: a conta deixa de ser marcada como senha temporária.
-  db.prepare('UPDATE usuarios SET senha_hash = ?, senha_temporaria = 0 WHERE id = ?')
+  db.prepare('UPDATE usuarios SET senha_hash = ?, senha_temporaria = 0, token_version = token_version + 1 WHERE id = ?')
     .run(bcrypt.hashSync(String(req.body.senhaNova), 10), req.usuario.id);
   registrarLog(req.usuario.email, 'trocar-senha');
-  return ok(res, { mensagem: 'Senha atualizada.' });
+  const usuario = buscar(req.usuario.id);
+  return ok(res, { mensagem: 'Senha atualizada.', token: assinarToken(usuario), usuario: usuarioPublico(usuario) });
 });
 
 // ------------------------------------------------- gestão da equipe (Gestor+)
@@ -80,10 +84,11 @@ usuariosRouter.get('/:id', exigirPapel('Gestor', 'Administrador'), (req, res) =>
 
 /**
  * Convite da equipe: o Gestor/Admin cadastra o convidado já com a senha que vai
- * repassar (não há SMTP na VM). Sem `senha` no corpo, a API sugere uma e devolve
+ * repassar. Sem `senha` no corpo, a API sugere uma e devolve
  * em texto claro uma única vez, aqui na resposta.
  */
-usuariosRouter.post('/convite', exigirPapel('Gestor', 'Administrador'), (req, res) => {
+usuariosRouter.post('/convite', exigirPapel('Gestor', 'Administrador'), async (req, res, next) => {
+  try {
   const falta = exigir(req.body, ['nome', 'email']);
   if (falta) return erro(res, 400, falta);
   const email = String(req.body.email).toLowerCase().trim();
@@ -106,12 +111,14 @@ usuariosRouter.post('/convite', exigirPapel('Gestor', 'Administrador'), (req, re
   const nome = String(req.body.nome).trim();
 
   const info = db.prepare(`INSERT INTO usuarios
-    (nome, email, senha_hash, cargo, unidade, telefone, perfil, iniciais, coren, situacao, senha_temporaria)
-    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, 'Ativo', ?)`)
+    (nome, email, senha_hash, cargo, unidade, telefone, perfil, iniciais, coren, situacao, senha_temporaria, formacao)
+    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, 'Ativo', ?, ?)`)
     .run(nome, email, bcrypt.hashSync(senha, 10), String(req.body.cargo || '').trim(),
       String(req.body.unidade || '').trim(), String(req.body.telefone || '').trim(),
-      perfil, iniciaisDe(nome), String(req.body.coren || '').trim(), temporaria);
+      perfil, iniciaisDe(nome), String(req.body.coren || '').trim(), temporaria, String(req.body.formacao || '').trim());
   registrarLog(req.usuario.email, 'convidar-usuario', `${email} (${perfil})`);
+  const usuario = buscar(info.lastInsertRowid);
+  const emailEnvio = req.body.enviarEmail === true ? await enviarAcesso(usuario, req.usuario.email) : null;
   return res.status(201).json({
     ok: true,
     erro: null,
@@ -120,8 +127,21 @@ usuariosRouter.post('/convite', exigirPapel('Gestor', 'Administrador'), (req, re
       senha, // texto claro só nesta resposta, para o gestor repassar ao convidado
       senhaDefinidaPeloGestor: senhaDefinida,
       trocaObrigatoria: !!temporaria,
+      emailEnvio,
     },
   });
+  } catch (error) { next(error); }
+});
+
+usuariosRouter.post('/:id/enviar-acesso', exigirPapel('Gestor', 'Administrador'), async (req, res, next) => {
+  try {
+    const alvo = buscar(req.params.id);
+    if (!alvo) return erro(res, 404, 'Usuário não encontrado.');
+    const bloqueio = podeGerenciar(req.usuario, alvo);
+    if (bloqueio) return erro(res, 403, bloqueio);
+    const resultado = await enviarAcesso(alvo, req.usuario.email);
+    return resultado.enviado ? ok(res, resultado) : erro(res, 422, resultado.mensagem);
+  } catch (error) { next(error); }
 });
 
 /** Redefinição de senha pelo Gestor/Admin (esqueceu a senha, conta nova, etc.). */
@@ -138,7 +158,7 @@ usuariosRouter.post('/:id/senha', exigirPapel('Gestor', 'Administrador'), (req, 
     if (fraca) return erro(res, 400, fraca);
   }
   const temporaria = req.body?.trocarSenha === false ? 0 : 1;
-  db.prepare('UPDATE usuarios SET senha_hash = ?, senha_temporaria = ? WHERE id = ?')
+  db.prepare('UPDATE usuarios SET senha_hash = ?, senha_temporaria = ?, token_version = token_version + 1 WHERE id = ?')
     .run(bcrypt.hashSync(senha, 10), temporaria, alvo.id);
   registrarLog(req.usuario.email, 'definir-senha-usuario', alvo.email);
   return ok(res, { usuario: usuarioPublico(buscar(alvo.id)), senha, trocaObrigatoria: !!temporaria });
@@ -150,7 +170,9 @@ usuariosRouter.put('/:id', exigirPapel('Gestor', 'Administrador'), (req, res) =>
   const bloqueio = podeGerenciar(req.usuario, alvo);
   if (bloqueio) return erro(res, 403, bloqueio);
 
-  const campos = { nome: null, cargo: null, unidade: null, telefone: null, coren: null };
+  const campos = { nome: null, cargo: null, unidade: null, telefone: null, coren: null, formacao: null };
+  const invalido = validarTextos(req.body, Object.keys(campos));
+  if (invalido) return erro(res, 400, invalido);
   for (const c of Object.keys(campos)) {
     if (req.body?.[c] !== undefined) campos[c] = String(req.body[c]).trim();
   }
@@ -169,18 +191,23 @@ usuariosRouter.put('/:id', exigirPapel('Gestor', 'Administrador'), (req, res) =>
   }
 
   db.prepare(`UPDATE usuarios SET nome = COALESCE(?, nome), cargo = COALESCE(?, cargo),
-      unidade = COALESCE(?, unidade), telefone = COALESCE(?, telefone), coren = COALESCE(?, coren),
+      unidade = COALESCE(?, unidade), telefone = COALESCE(?, telefone), coren = COALESCE(?, coren), formacao = COALESCE(?, formacao),
       iniciais = CASE WHEN ? IS NULL THEN iniciais ELSE ? END,
-      perfil = COALESCE(?, perfil), situacao = COALESCE(?, situacao)
+      perfil = COALESCE(?, perfil), situacao = COALESCE(?, situacao), token_version = token_version + ?
     WHERE id = ?`)
-    .run(campos.nome, campos.cargo, campos.unidade, campos.telefone, campos.coren,
+    .run(campos.nome, campos.cargo, campos.unidade, campos.telefone, campos.coren, campos.formacao,
       campos.nome, campos.nome ? iniciaisDe(campos.nome) : null,
-      req.body?.perfil ?? null, req.body?.situacao ?? null, alvo.id);
+      req.body?.perfil ?? null, req.body?.situacao ?? null,
+      req.body?.situacao !== undefined && req.body.situacao !== alvo.situacao ? 1 : 0, alvo.id);
   registrarLog(req.usuario.email, 'atualizar-usuario', alvo.email);
   return ok(res, usuarioPublico(buscar(alvo.id)));
 });
 
 usuariosRouter.post('/:id/aprovar', exigirPapel('Gestor', 'Administrador'), (req, res) => {
+  const alvo = buscar(req.params.id);
+  if (!alvo) return erro(res, 404, 'Usuário pendente não encontrado.');
+  const bloqueio = podeGerenciar(req.usuario, alvo);
+  if (bloqueio) return erro(res, 403, bloqueio);
   const r = db.prepare("UPDATE usuarios SET situacao = 'Ativo' WHERE id = ? AND situacao = 'Pendente'").run(req.params.id);
   if (!r.changes) return erro(res, 404, 'Usuário pendente não encontrado.');
   registrarLog(req.usuario.email, 'aprovar-usuario', req.params.id);
@@ -193,7 +220,7 @@ usuariosRouter.post('/:id/desativar', exigirPapel('Gestor', 'Administrador'), (r
   if (!alvo) return erro(res, 404, 'Usuário não encontrado.');
   const bloqueio = podeGerenciar(req.usuario, alvo);
   if (bloqueio) return erro(res, 403, bloqueio);
-  db.prepare("UPDATE usuarios SET situacao = 'Desativado' WHERE id = ?").run(alvo.id);
+  db.prepare("UPDATE usuarios SET situacao = 'Desativado', token_version = token_version + 1 WHERE id = ?").run(alvo.id);
   registrarLog(req.usuario.email, 'desativar-usuario', alvo.email);
   return ok(res, { mensagem: 'Usuário desativado.' });
 });

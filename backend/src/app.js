@@ -14,7 +14,7 @@ import { erro, ok } from './lib/http.js';
 export function criarApp() {
   const app = express();
   app.disable('x-powered-by');
-  app.set('trust proxy', true); // atrás do nginx na VM
+  app.set('trust proxy', process.env.TRUST_PROXY === '1' ? 1 : false);
   app.use(express.json({ limit: '1mb' }));
 
   // Cabeçalhos de segurança
@@ -31,6 +31,7 @@ export function criarApp() {
     next();
   });
 
+  app.use('/api', (req, res, next) => { res.setHeader('Cache-Control', 'no-store'); next(); });
   app.get('/api/saude', (req, res) => ok(res, { status: 'ok', horario: new Date().toISOString() }));
   app.use('/api/auth', authRouter);
   app.use('/api/usuarios', usuariosRouter);
@@ -58,14 +59,27 @@ export function criarApp() {
       const arquivo = join(config.staticDir, 'painel.html');
       return existsSync(arquivo) ? res.sendFile(arquivo) : next();
     });
-    app.use(express.static(config.staticDir, { index: 'index.html', dotfiles: 'ignore' }));
+    // Publicação explícita: nunca servir código, seeds, backups ou o banco.
+    for (const pasta of ['acervo', 'cursos', 'qualifica', 'produtos']) {
+      app.use('/' + pasta, express.static(join(config.staticDir, pasta), { dotfiles: 'deny' }));
+    }
+    const publicos = ['index.html', 'app.html', 'app.js', 'chat.js', 'app.css', 'painel.html', 'painel.js', 'redefinir.html', 'redefinir.js',
+      'assets/lucide.svg', 'assets/lucide-LICENSE.txt',
+      'logo_maternar_icon.png', 'logo_materno.png', 'logo_ufn.png', 'logo_nepes.jpg',
+      'logo_ninmahub.png', 'logo_prefeitura.png', 'logo_gestar.png'];
+    app.get('/', (req, res) => res.sendFile(join(config.staticDir, 'index.html')));
+    for (const arquivo of publicos) app.get('/' + arquivo, (req, res) => res.sendFile(join(config.staticDir, arquivo)));
+    app.get('/favicon.ico', (req, res) => res.sendFile(join(config.staticDir, 'logo_maternar_icon.png')));
   }
+
+  app.use((req, res) => erro(res, 404, 'Página não encontrada.'));
 
   // Tratador de erros: loga no servidor, resposta genérica ao cliente
   // eslint-disable-next-line no-unused-vars
   app.use((err, req, res, next) => {
     if (err?.type === 'entity.parse.failed') return erro(res, 400, 'JSON inválido no corpo da requisição.');
-    console.error('[api]', err);
+    if (err?.type === 'entity.too.large') return erro(res, 413, 'Requisição acima do limite permitido.');
+    console.error('[api]', err.message);
     return erro(res, 500, 'Erro interno. Tente novamente ou contate a administração.');
   });
 
