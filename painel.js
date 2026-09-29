@@ -742,17 +742,17 @@ function celula(coluna, registro, referencias) {
  */
 function montarTabela({ colunas, registros, referencias = {}, acoes, vazio = 'Nenhum registro ainda.' }) {
   if (!registros.length) return el('div', { classe: 'vazio', texto: vazio });
-  const cabecalho = el('tr', {}, colunas.map(c => el('th', { texto: c.rotulo })));
-  if (acoes) cabecalho.append(el('th', { classe: 'acoes', texto: 'Ações' }));
-  const corpo = el('tbody');
+  const cabecalho = el('tr', { role: 'row' }, colunas.map(c => el('th', { texto: c.rotulo, scope: 'col', role: 'columnheader' })));
+  if (acoes) cabecalho.append(el('th', { classe: 'acoes', texto: 'Ações', scope: 'col', role: 'columnheader' }));
+  const corpo = el('tbody', { role: 'rowgroup' });
   for (const registro of registros) {
-    const linha = el('tr', {}, colunas.map(c => celula(c, registro, referencias)));
-    if (acoes) linha.append(el('td', { classe: 'acoes' }, acoes(registro)));
+    const linha = el('tr', { role: 'row' }, colunas.map(c => { const td = celula(c, registro, referencias); td.dataset.rotulo = c.rotulo; td.setAttribute('role', 'cell'); return td; }));
+    if (acoes) linha.append(el('td', { classe: 'acoes', 'data-rotulo': 'Ações', role: 'cell' }, acoes(registro)));
     corpo.append(linha);
   }
   return el('div', {}, [
     el('p', { classe: 'ajuda-tabela', texto: 'Deslize a tabela para ver todas as colunas e ações.' }),
-    el('div', { classe: 'rolagem', tabindex: '0', role: 'region', 'aria-label': 'Tabela com rolagem horizontal' }, [el('table', {}, [el('thead', {}, [cabecalho]), corpo])]),
+    el('div', { classe: 'rolagem', tabindex: '0', role: 'region', 'aria-label': 'Registros cadastrados' }, [el('table', { role: 'table' }, [el('thead', { role: 'rowgroup' }, [cabecalho]), corpo])]),
   ]);
 }
 
@@ -1648,3 +1648,13 @@ async function iniciar() {
 }
 
 iniciar();
+
+// A área útil acompanha o teclado virtual, mantendo as ações do formulário acessíveis.
+function ajustarAlturaUtil() {
+  document.documentElement.style.setProperty('--painel-altura-util', `${window.visualViewport?.height || window.innerHeight}px`);
+  document.documentElement.style.setProperty('--painel-topo-util', `${window.visualViewport?.offsetTop || 0}px`);
+}
+window.visualViewport?.addEventListener('resize', ajustarAlturaUtil);
+window.visualViewport?.addEventListener('scroll', ajustarAlturaUtil);
+window.addEventListener('resize', ajustarAlturaUtil);
+ajustarAlturaUtil();

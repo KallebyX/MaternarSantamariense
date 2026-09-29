@@ -2,10 +2,11 @@
 <html lang="pt-BR">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Painel de gestão — Maternar Santa-mariense</title>
 <meta name="robots" content="noindex">
 <link rel="icon" href="logo_maternar_icon.png">
+<link rel="stylesheet" href="mobile-navigation.css">
 <style>
   :root{
     --azul:#153A62; --azul-medio:#1E4A7A; --rosa:#D42E5B; --fundo:#F1F5FA;
@@ -115,14 +116,17 @@
   .filtros-projetos label{display:grid;gap:6px;min-width:0}.filtros-projetos select{width:100%;min-width:0;text-overflow:ellipsis}.nota-projetos{font-size:12px;color:var(--texto-fraco);margin-bottom:16px}
   @media(max-width:600px){.filtros-projetos{grid-template-columns:minmax(0,1fr)}}
 
-  dialog{border:0;border-radius:16px;padding:0;max-width:640px;width:calc(100% - 32px);
+  #modal{border:0;border-radius:16px;padding:0;max-width:640px;width:calc(100% - 32px);overflow:hidden;
+    max-height:calc(var(--painel-altura-util,100dvh) - 32px);
     box-shadow:0 24px 60px rgba(9,26,45,.32)}
-  dialog::backdrop{background:rgba(18,33,46,.5)}
-  dialog .corpo{padding:24px}
-  dialog h3{font-size:19px;font-weight:600;margin-bottom:4px}
-  dialog .campos{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(min(230px,100%),1fr));margin-top:18px}
-  dialog .campos .largo{grid-column:1/-1}
-  dialog .pe{display:flex;gap:10px;justify-content:flex-end;margin-top:22px;flex-wrap:wrap}
+  #modal::backdrop{background:rgba(18,33,46,.5)}
+  #modal .corpo{display:flex;flex-direction:column;max-height:calc(var(--painel-altura-util,100dvh) - 32px);min-height:0;margin:0}
+  #modal .modal-rolagem{min-height:0;overflow-y:auto;overscroll-behavior:contain;padding:24px;-webkit-overflow-scrolling:touch}
+  #modal h3{font-size:19px;font-weight:600;margin-bottom:4px}
+  #modal .campos{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(min(230px,100%),1fr));margin-top:18px}
+  #modal .campos .largo{grid-column:1/-1}
+  #modal .pe{flex-shrink:0;display:flex;gap:10px;justify-content:flex-end;padding:16px 24px;
+    border-top:1px solid var(--borda);background:#fff;flex-wrap:wrap}
 
   .aviso{margin:12px 0;padding:10px 13px;border-radius:10px;font-size:13.5px}
   .aviso.erro{background:#FDECF1;color:var(--alerta);border:1px solid #F6C9D7}
@@ -139,19 +143,54 @@
 
   @media (max-width:900px){
     #app{grid-template-columns:1fr;grid-template-rows:auto 1fr}
-    aside{position:static;height:auto;min-width:0;overflow:visible}
-    aside .topo{padding:16px;border-bottom:0}
-    #menu{display:flex;flex:none;overflow-x:auto;gap:6px;padding:4px 16px 12px}
-    #menu .grupo{display:none}
-    #menu button{width:auto;flex-shrink:0;white-space:nowrap;border-radius:8px;padding:10px 12px;gap:9px}
-    aside .rodape{display:flex;align-items:center;flex-wrap:wrap;gap:8px 12px;padding:12px 16px}
-    aside .rodape a,aside .rodape button{margin:0}
-    aside .rodape button{width:auto;padding:8px}
     main{padding:20px 16px 50px}
+    .btn{min-height:44px}
+    input,select,textarea{font-size:16px;min-height:44px;max-width:100%;min-width:0}
+    select{height:44px}
+    input[type=checkbox]{min-height:24px;min-width:24px}
+    input[type=color]{min-height:44px}
+    .cabecalho .acoes{margin-left:0;width:100%}
+    .cabecalho .acoes .btn{flex:1 1 180px}
     .filtros input,.filtros select{min-width:0;max-width:100%}
-    td.acoes .btn{min-height:40px}
+    .filtros input{flex:1 1 240px}
+    .filtros select{flex:1 1 160px}
+    td.acoes .btn{min-height:44px}
     td.acoes,th.acoes{position:static;box-shadow:none}
     .ajuda-tabela{display:block;color:var(--texto-suave);font-size:12px;margin:0 0 8px}
+    #modal{position:fixed;top:var(--painel-topo-util,0px);bottom:auto;margin:12px auto;width:calc(100% - 24px);max-height:calc(var(--painel-altura-util,100dvh) - 24px)}
+    #modal .corpo{max-height:calc(var(--painel-altura-util,100dvh) - 24px)}
+    #modal .modal-rolagem{padding:18px}
+    #modal .pe{padding:12px 18px max(12px,env(safe-area-inset-bottom))}
+    #modal .pe .btn{flex:1;min-width:0}
+    #tela-login{padding:16px}#tela-login .caixa{padding:24px}
+  }
+  @media(max-width:600px){
+    main{padding:20px 12px 36px}
+    .cabecalho h2{font-size:24px;line-height:1.25}
+    .cabecalho p{font-size:14px;overflow-wrap:anywhere}
+    .cabecalho .acoes{gap:8px}.cabecalho .acoes .btn{flex-basis:100%}
+    .grade{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+    .indicador.cartao{padding:14px 12px}.indicador span{font-size:28px}.indicador small{font-size:12px}
+    .filtros{gap:10px}.filtros input,.filtros select{width:100%;flex-basis:100%}
+    .filtros .mono{letter-spacing:.04em;overflow-wrap:anywhere}
+    .ajuda-tabela{display:none}
+    .rolagem{overflow:visible;border-radius:0}
+    table{display:block;min-width:0;border:0;background:transparent;border-radius:0}
+    thead{position:absolute;width:1px;height:1px;padding:0;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
+    tbody{display:grid;gap:14px}
+    tbody tr{display:block;min-width:0;padding:4px 14px;background:#fff;border:1px solid var(--borda);border-radius:13px}
+    tbody td{display:grid;grid-template-columns:minmax(80px,.8fr) minmax(0,1.3fr);gap:10px;align-items:start;padding:11px 0;
+      overflow-wrap:anywhere;white-space:normal;border-bottom:1px solid #EBF1F7;font-size:14px}
+    tbody tr:last-child td{border-bottom:1px solid #EBF1F7}tbody tr td:last-child{border-bottom:0}
+    tbody td::before{content:attr(data-rotulo);font-size:11px;line-height:1.5;font-weight:600;color:var(--texto-suave);letter-spacing:.02em}
+    td .celula{max-width:none;overflow:visible;text-overflow:clip;white-space:normal}
+    td .etiqueta{white-space:normal;justify-self:start;overflow-wrap:anywhere}
+    td a{display:inline-flex;align-items:center;min-height:44px;min-width:44px;overflow-wrap:anywhere}
+    tbody td.acoes{display:flex;flex-wrap:wrap;gap:8px;text-align:left;background:transparent;padding:12px 0}
+    tbody td.acoes::before{flex-basis:100%}
+    td.acoes .btn{flex:1 1 100px;margin:0!important;min-width:0;white-space:normal}
+    #modal .campos{grid-template-columns:minmax(0,1fr)}
+    #recado{right:12px;bottom:max(12px,env(safe-area-inset-bottom));max-width:calc(100vw - 24px)}
   }
   @media(max-width:480px){.anexo select,.anexo input[type=file]{flex-basis:100%;width:100%;min-width:0}}
   :focus-visible{outline:3px solid #ba2851;outline-offset:3px}
@@ -183,13 +222,23 @@
 
 <!-- ------------------------------------------------------------------ painel -->
 <div id="app" class="oculto">
-  <aside>
+  <div class="mobile-toolbar">
+    <button type="button" id="abrir-menu" aria-label="Abrir menu" aria-expanded="false">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
+      <span>Menu</span>
+    </button>
+    <div class="mobile-toolbar-brand"><img src="logo_maternar_icon.png" alt="" width="30" height="36"><span>Maternar<small>Painel de gestão</small></span></div>
+  </div>
+  <aside id="navegacao-lateral">
     <div class="topo">
       <img src="logo_maternar_icon.png" alt="" style="height:34px">
       <div>
         <div style="font-weight:600;color:#fff">Maternar</div>
         <div class="mono" style="color:#A8BED5">Painel de gestão</div>
       </div>
+      <button type="button" class="mobile-close" id="fechar-menu" aria-label="Fechar menu">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="m6 6 12 12M18 6 6 18"/></svg>
+      </button>
     </div>
     <nav id="menu" aria-label="Seções do painel de gestão"></nav>
     <div class="rodape">
@@ -220,13 +269,15 @@
 
 <div id="recado"></div>
 
-<dialog id="modal">
+<dialog id="modal" aria-labelledby="modal-titulo" aria-describedby="modal-descricao">
   <form class="corpo" id="form-modal">
+    <div class="modal-rolagem">
     <div class="mono" id="modal-grupo" style="color:var(--rosa)"></div>
     <h3 id="modal-titulo">Registro</h3>
     <p id="modal-descricao" style="color:var(--texto-suave);margin:4px 0 0"></p>
     <div class="campos" id="modal-campos"></div>
     <div id="modal-aviso"></div>
+    </div>
     <div class="pe">
       <button type="button" class="btn btn-linha" id="modal-cancelar">Cancelar</button>
       <button type="submit" class="btn btn-primario" id="modal-salvar">Salvar</button>
@@ -235,5 +286,9 @@
 </dialog>
 
 <script src="painel.js"></script>
+<script type="module">
+import { iniciarNavegacaoMobile } from './mobile-navigation.js';
+iniciarNavegacaoMobile({root:'#app',sidebar:'#navegacao-lateral',open:'#abrir-menu',close:'#fechar-menu',label:'Seções do painel de gestão'});
+</script>
 </body>
 </html>

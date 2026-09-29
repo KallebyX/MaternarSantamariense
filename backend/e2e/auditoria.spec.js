@@ -154,6 +154,7 @@ test('admin exporta JSON legível sem hashes de senha e usa formulário no celul
   expect(dados.tabelas.usuarios.length).toBeGreaterThan(0);
   expect(dados.tabelas.usuarios.every(u => !('senha_hash' in u))).toBe(true);
   await page.setViewportSize({ width: 390, height: 844 });
+  await page.locator('#abrir-menu').click();
   await page.locator('#menu [data-secao=links]').click();
   await page.getByRole('button', { name: 'Novo link' }).click();
   await page.locator('#campo-titulo').fill('Celular');
