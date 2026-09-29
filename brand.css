@@ -1,0 +1,14 @@
+/* Viewports da imagem original de 2000 × 2000. Somente a margem branca externa
+   fica fora da apresentação; desenho, cores e proporções permanecem intactos. */
+.logo-maternar{position:relative;display:block;flex-shrink:0;overflow:hidden;background:#fff;isolation:isolate}
+.logo-maternar>img{position:absolute;display:block;max-width:none!important;height:auto!important;border-radius:0;object-fit:initial;margin:0;padding:0}
+.logo-maternar--completa{width:250px;max-width:100%;aspect-ratio:860/1070;margin-inline:auto}
+.logo-maternar--completa>img{width:232.55814%!important;left:-66.860465%;top:-45.327103%}
+.logo-maternar--simbolo{width:44px;aspect-ratio:1;border-radius:10px}
+.logo-maternar--simbolo>img{width:250%!important;left:-71.875%;top:-58.75%}
+.mobile-toolbar-brand .logo-maternar--simbolo{width:36px;border-radius:8px}
+#navegacao-lateral .topo>.logo-maternar--simbolo{width:40px}
+#tela-login .logo-maternar--completa{width:116px;margin-bottom:20px}
+body>main>.logo-maternar--completa{width:110px;margin:0 0 20px}
+#folha-certificado .logo-maternar--completa{width:100px;margin-inline:auto}
+@media(max-width:480px){.marca .logo-maternar--simbolo{width:38px}}

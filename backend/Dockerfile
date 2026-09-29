@@ -10,12 +10,12 @@ FROM node:22-bookworm-slim
 ENV NODE_ENV=production
 WORKDIR /app
 # frontend estático (index.html, acervo/, logos) na raiz; backend em /app/backend
-COPY index.html app.html app.js chat.js app.css mobile-navigation.js mobile-navigation.css painel.html painel.js redefinir.html redefinir.js logo_*.png logo_nepes.jpg ./
+COPY index.html app.html app.js chat.js app.css mobile-navigation.js mobile-navigation.css brand.css painel.html painel.js redefinir.html redefinir.js logo_*.png logo_nepes.jpg ./
 COPY cursos ./cursos
 COPY qualifica ./qualifica
 COPY produtos ./produtos
 COPY acervo ./acervo
-COPY assets/lucide.svg assets/lucide-LICENSE.txt ./assets/
+COPY assets/lucide.svg assets/lucide-LICENSE.txt assets/maternar-favicon.svg ./assets/
 COPY backend/package.json backend/package-lock.json ./backend/
 COPY backend/src ./backend/src
 COPY backend/seeds ./backend/seeds

@@ -29,7 +29,7 @@ h1{font-size:28px}.cabecalho{padding:4px 0 20px}.cabecalho .rotulo{margin-top:20
 @media(max-width:480px){.logos-institucionais img:last-child{grid-column:1/-1;width:160px}}
 .estatisticas{grid-template-columns:repeat(3,minmax(0,1fr))}
 @media(max-width:400px){.estatisticas .cartao{padding:10px}.estatisticas{gap:6px}.filtros label{min-width:0;flex-basis:100%}#folha-certificado{padding:24px 12px}#folha-certificado img{max-width:100%;height:auto}#folha-certificado h2{font-size:25px}}
-@media print{body>*:not(#certificado){display:none!important}#certificado{display:block!important;position:static;border:0;width:100%;max-width:none}#certificado>button{display:none!important}#folha-certificado{margin:0;padding:50px 30px}body{background:white}}
+@media print{body>*:not(#certificado){display:none!important}#certificado{display:block!important;position:static;border:0;border-radius:0;width:100%;max-width:none;max-height:none;margin:0;padding:0;overflow:visible}#certificado::backdrop{background:transparent}#certificado>button{display:none!important}#folha-certificado{margin:0;padding:50px 30px}body{background:white}}
 
 /* Consulta do acervo atual e histórico de projetos. */
 .filtros-projetos{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;padding:20px;background:#fff;border:1px solid var(--borda);border-radius:13px}

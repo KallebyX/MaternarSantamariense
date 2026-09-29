@@ -49,9 +49,17 @@ test('concluir curso, recarregar, emitir e verificar certificado público',async
   await page.getByRole('button',{name:'Emitir certificado'}).click();await page.getByRole('button',{name:'Ver certificado'}).click();
   await expect(page.locator('#certificado')).toBeVisible();await expect(page.locator('#folha-certificado')).toContainText('Ana Beatriz Ferraz');
   if(browserName==='chromium') {
+    await page.emulateMedia({media:'print'});
+    const printStyle=await page.locator('#certificado').evaluate(dialog=>({
+      backdrop:getComputedStyle(dialog,'::backdrop').backgroundColor,
+      maxHeight:getComputedStyle(dialog).maxHeight,
+      margin:getComputedStyle(dialog).margin,
+    }));
+    expect(printStyle).toEqual({backdrop:'rgba(0, 0, 0, 0)',maxHeight:'none',margin:'0px'});
     const pdf=await page.pdf({path:'test-results/certificado-operacional.pdf',format:'A4',printBackground:true});
     expect(pdf.subarray(0,4).toString()).toBe('%PDF');
     expect(pdf.length).toBeGreaterThan(1000);
+    await page.emulateMedia({media:'screen'});
   }
   const codigo=(await page.locator('#folha-certificado').innerText()).match(/MSM-\d{4}-[A-F0-9]+/)[0];
   await page.screenshot({path:'test-results/certificado.png'});
