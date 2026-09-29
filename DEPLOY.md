@@ -4,7 +4,7 @@
 
 O destino informado nesta tarefa usa Portainer + Nginx Proxy Manager. Siga o
 [roteiro específico](deploy/portainer/README.md), com `deploy/portainer/stack.yml`
-e o pacote sem segredos em `dist/portainer-ufn-20260929-acervo1/`. Ele usa a imagem construída no
+e o pacote sem segredos em `dist/portainer-ufn-20260929-mobile2/`. Ele usa a imagem construída no
 ambiente `dockerapps`, volume persistente externo e porta interna 8035. O domínio
 escolhido é `maternarsantamariense.app.ufn.edu.br`.
 

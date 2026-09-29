@@ -14,7 +14,7 @@ from datetime import datetime, timezone
 
 ROOT = Path(__file__).resolve().parents[2]
 SOURCE = [
-    '.dockerignore', 'index.html', 'app.html', 'app.js', 'chat.js', 'app.css',
+    '.dockerignore', 'index.html', 'app.html', 'app.js', 'chat.js', 'app.css', 'mobile-navigation.js', 'mobile-navigation.css',
     'painel.html', 'painel.js', 'redefinir.html', 'redefinir.js', 'acervo', 'cursos', 'qualifica', 'produtos',
     'assets/lucide.svg', 'assets/lucide-LICENSE.txt',
     'backend/Dockerfile', 'backend/package.json', 'backend/package-lock.json',

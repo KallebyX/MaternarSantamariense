@@ -58,6 +58,7 @@ test('falha na API de Links úteis exibe erro recuperável, sem tela vazia', asy
 for (const largura of [320, 390, 768, 1024, 1440]) test(`sidebar Lucide e Links úteis sem cortes a ${largura}px`, async ({ page, request }) => {
   await page.setViewportSize({ width: largura, height: 900 });
   await entrarNosLinks(page);
+  if(largura<=900)await page.locator('#abrir-menu').click();
   const sprite = await request.get('/assets/lucide.svg');
   expect(sprite.ok()).toBe(true);
   expect(sprite.headers()['content-type']).toContain('image/svg+xml');
@@ -75,14 +76,15 @@ for (const largura of [320, 390, 768, 1024, 1440]) test(`sidebar Lucide e Links 
     expect(icone.desenho).toBeGreaterThan(0);
   }
   await expect(page.locator('#menu [aria-current=page]')).toBeInViewport();
+  if(largura<=900)await page.locator('#fechar-menu').click();
   await expect(page.locator('#secao-titulo')).toBeInViewport();
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
   await page.screenshot({ path: `test-results/links-sidebar-${largura}.png` });
   if (largura <= 900) {
     await page.getByRole('searchbox', { name: 'Buscar em links úteis' }).fill('Sem resultado nesta busca QA');
     await expect(page.locator('#conteudo')).toContainText('Nenhum registro corresponde');
-    const espaco = await page.evaluate(() => document.querySelector('aside').getBoundingClientRect().bottom - document.querySelector('aside .rodape').getBoundingClientRect().bottom);
-    expect(espaco, 'A sidebar não deve crescer para preencher o espaço de uma listagem curta').toBeLessThanOrEqual(1);
+    await expect(page.locator('#menu-mobile-dialog')).not.toBeVisible();
+    expect(await page.locator('main').evaluate(el=>el.getBoundingClientRect().top)).toBeLessThan(100);
     await page.screenshot({ path: `test-results/links-sidebar-vazio-${largura}.png` });
   }
 });

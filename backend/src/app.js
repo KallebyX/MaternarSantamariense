@@ -63,7 +63,7 @@ export function criarApp() {
     for (const pasta of ['acervo', 'cursos', 'qualifica', 'produtos']) {
       app.use('/' + pasta, express.static(join(config.staticDir, pasta), { dotfiles: 'deny' }));
     }
-    const publicos = ['index.html', 'app.html', 'app.js', 'chat.js', 'app.css', 'painel.html', 'painel.js', 'redefinir.html', 'redefinir.js',
+    const publicos = ['index.html', 'app.html', 'app.js', 'chat.js', 'app.css', 'mobile-navigation.js', 'mobile-navigation.css', 'painel.html', 'painel.js', 'redefinir.html', 'redefinir.js',
       'assets/lucide.svg', 'assets/lucide-LICENSE.txt',
       'logo_maternar_icon.png', 'logo_materno.png', 'logo_ufn.png', 'logo_nepes.jpg',
       'logo_ninmahub.png', 'logo_prefeitura.png', 'logo_gestar.png'];

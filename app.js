@@ -1,3 +1,4 @@
+import { iniciarNavegacaoMobile } from './mobile-navigation.js';
 import { criarComunicacao } from './chat.js';
 // A API é a fonte de verdade; o navegador guarda somente a sessão.
 const $ = s => document.querySelector(s);
@@ -230,10 +231,11 @@ $('#fechar-certificado').addEventListener('click',()=>$('#certificado').close())
 $('#imprimir-certificado').addEventListener('click',()=>window.print());
 function atualizarIdentidade(){$('#nome-usuario').textContent=usuario.nome;$('#unidade-usuario').textContent=usuario.unidade||usuario.perfil;}
 function montarMenu(){const itens=usuario.senha_temporaria?menu.filter(m=>m[0]==='perfil'):menu;$('#menu').innerHTML=itens.map(m=>`<a href="#${m[0]}">${m[1]}</a>`).join('')+(!usuario.senha_temporaria&&['Gestor','Administrador'].includes(usuario.perfil)?'<a href="/painel">Painel de gestão ↗</a>':'');}
-window.addEventListener('hashchange',()=>{carregar();$('#titulo').focus({preventScroll:true});});
+window.addEventListener('hashchange',()=>{carregar();window.scrollTo({top:0,behavior:'instant'});$('#titulo').focus({preventScroll:true});});
 async function iniciar(){
   if(!token)return limparSessao();
   try{usuario=await api('/auth/eu');salvarSessao({usuario});atualizarIdentidade();montarMenu();$('#estado-inicial').hidden=true;$('#plataforma').hidden=false;await carregar();}
   catch(error){if(token){$('#estado-inicial').replaceChildren();const p=document.createElement('p');p.textContent=error.message;const b=document.createElement('button');b.textContent='Tentar novamente';b.onclick=iniciar;$('#estado-inicial').append(p,b);}}
 }
+iniciarNavegacaoMobile({root:'#plataforma',sidebar:'#navegacao-lateral',open:'#abrir-menu',close:'#fechar-menu',label:'Navegação principal'});
 iniciar();

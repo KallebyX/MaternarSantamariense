@@ -5,7 +5,7 @@ Domínio publicado pelo Nginx Proxy Manager, com HTTPS válido e envio SMTP veri
 Este roteiro usa a aplicação completa: frontend, API Express, acervo e SQLite.
 
 **Estado atual em 29/09/2026:** stack definitiva **maternar**, ID **254**, ativa e
-saudável com a imagem **maternar:20260929-acervo1** no ambiente `dockerapps`, usando o volume real `maternar-dados` com sete
+saudável com a imagem **maternar:20260929-mobile2** no ambiente `dockerapps`, usando o volume real `maternar-dados` com sete
 cadastros (cinco profissionais e dois administradores). A aplicação responde em
 `10.21.19.45:8035` dentro da rede institucional. Não repita a criação da stack,
 o build ou a restauração da mesma tag/volume. Host Nginx 25, certificado 42.
@@ -13,6 +13,7 @@ O domínio e a entrega de e-mail foram validados em produção; veja
 [publicação e SMTP](../../PUBLICACAO-EMAIL-2026-09-29.md).
 A [entrega final do acervo e perfil](../../ENTREGA-ACERVO-PERFIL-2026-09-29.md) documenta
 os 704 projetos, filtros, importação e verificações atuais.
+A [revisão mobile e logos](../../ENTREGA-MOBILE-2026-09-29.md) documenta a atualização mais recente e a verificação visual no domínio público.
 O restante do roteiro inclui o histórico da preparação inicial.
 
 ## Ambiente consultado em 29/09/2026
@@ -27,8 +28,8 @@ O restante do roteiro inclui o histórico da preparação inicial.
 | Proxy Manager | `https://proxy.app.ufn.edu.br` |
 | Domínio escolhido | `maternarsantamariense.app.ufn.edu.br` |
 | Nome da stack | `maternar` |
-| Imagem ativa | `maternar:20260929-acervo1` |
-| Imagem anterior preservada | `maternar:20260929-sidebar2` |
+| Imagem ativa | `maternar:20260929-mobile2` |
+| Imagem anterior preservada | `maternar:20260929-acervo1` |
 | Volume persistente | `maternar-dados` |
 
 A porta 3000 já é usada por outro projeto. A porta 8035 deve permanecer exclusiva
@@ -42,7 +43,7 @@ O perfil institucional recusa o campo `security_opt`. A stack usa usuário
 
 ## Arquivos da entrega
 
-**Atualização atual, já aplicada:** `dist/portainer-ufn-20260929-acervo1/`.
+**Atualização atual, já aplicada:** `dist/portainer-ufn-20260929-mobile2/`.
 Contém `maternar-build.tar.gz`, `stack.yml`, `stack.env.example`, `release.json` e
 `SHA256SUMS`. O arquivo de variáveis é somente um modelo, **sem segredos**. A
 atualização já aplicada manteve as variáveis vigentes diretamente no Portainer;
@@ -50,10 +51,9 @@ elas não foram exportadas para este novo pacote. Não substitua o segredo JWT
 vigente pelo campo vazio do modelo. Esse pacote **não restaura o banco**;
 reutiliza o volume `maternar-dados`. Diretório privado (0700).
 
-A imagem ativa tem ID
-`sha256:6b1bca073eae9a23ffe374e29a07fff2ac927ef0ecfc73ee577106f5f05f6691`.
-Antes da atualização foi criado o snapshot privado
-`/app/backend/data/backups/pre-acervo1-1790709377338.db` no volume institucional.
+A identificação exata da imagem e do snapshot privado anterior à atualização
+está no relatório operacional local, fora do Git. A versão anterior permanece
+disponível para reversão.
 Os sete usuários, seus hashes e as variáveis da stack foram comparados antes e
 depois: permaneceram iguais. Banco íntegro, sem violações de chave estrangeira.
 Os cursos e aulas de demonstração foram zerados por determinação do usuário;

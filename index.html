@@ -2,7 +2,7 @@
 <html lang="pt-BR">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Maternar Santa-mariense — plataforma da rede materno-infantil</title>
 <meta name="description" content="Educação permanente, protocolos no acervo e acervo da rede materno-infantil de Santa Maria. UFN / PPGSMI em parceria com o NEPeS — Prefeitura de Santa Maria.">
 <link rel="icon" href="logo_maternar_icon.png">
@@ -15,7 +15,7 @@
     --sombra:0 8px 26px rgba(21,58,98,.12);
   }
   *{box-sizing:border-box}
-  html{scroll-behavior:smooth}
+  html{scroll-behavior:smooth;scroll-padding-top:var(--altura-cabecalho,100px)}
   body{margin:0;background:var(--fundo);color:var(--texto);
     font-family:Inter,-apple-system,BlinkMacSystemFont,'Segoe UI',system-ui,sans-serif;
     -webkit-font-smoothing:antialiased;line-height:1.55}
@@ -23,23 +23,23 @@
   a:hover{color:var(--rosa)}
   h1,h2,h3{letter-spacing:-.025em;text-wrap:pretty;margin:0}
   img{max-width:100%}
-  .container{max-width:1160px;margin:0 auto;padding:0 24px}
+  .container{max-width:1160px;margin:0 auto;padding-left:max(24px,env(safe-area-inset-left));padding-right:max(24px,env(safe-area-inset-right))}
   .mono{font-family:'IBM Plex Mono',ui-monospace,SFMono-Regular,Menlo,monospace;
     font-size:11px;letter-spacing:.14em;text-transform:uppercase}
 
   /* ------------------------------------------------------------- cabeçalho */
   header{position:sticky;top:0;z-index:40;background:rgba(255,255,255,.94);
-    backdrop-filter:blur(8px);border-bottom:1px solid var(--borda)}
+    backdrop-filter:blur(8px);border-bottom:1px solid var(--borda);padding-top:env(safe-area-inset-top)}
   .barra{display:flex;align-items:center;gap:18px;padding:12px 0}
   .marca{display:flex;align-items:center;gap:14px;min-width:0}
   .marca img{display:block}
   nav.menu{margin-left:auto;display:flex;align-items:center;gap:22px;flex-wrap:wrap}
-  nav.menu a{font-size:14px;font-weight:500;color:var(--texto-suave)}
+  nav.menu a{display:inline-flex;align-items:center;min-height:44px;font-size:14px;font-weight:500;color:var(--texto-suave)}
   nav.menu a:hover{color:var(--azul)}
   nav.menu a.btn-primario,nav.menu a.btn-primario:hover{color:#fff} /* vence a cor do menu */
   .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;
     border:0;border-radius:10px;padding:11px 18px;font-size:14px;font-weight:600;
-    cursor:pointer;font-family:inherit;transition:filter .15s,background .15s}
+    cursor:pointer;font-family:inherit;min-height:44px;line-height:1.4;transition:filter .15s,background .15s}
   .btn-primario{background:var(--rosa);color:#fff}
   .btn-primario:hover{filter:brightness(1.07);color:#fff}
   .btn-escuro{background:var(--azul);color:#fff}
@@ -47,6 +47,12 @@
   .btn-linha{background:#F7FAFD;color:var(--azul-medio);border:1px solid #CFDDEA}
   .btn-linha:hover{border-color:var(--azul-medio)}
   .btn[disabled]{opacity:.6;cursor:progress}
+  #menu-alternar{display:none;flex-shrink:0}
+  #menu-alternar svg{width:20px;height:20px;flex-shrink:0}
+  #menu-alternar .icone-fechar{display:none}
+  #menu-alternar[aria-expanded=true] .icone-abrir{display:none}
+  #menu-alternar[aria-expanded=true] .icone-fechar{display:block}
+  [hidden]{display:none!important}
 
   /* ------------------------------------------------------------------ hero */
   .hero{background:var(--azul);color:#F1F5FA;padding:64px 0 72px}
@@ -85,7 +91,7 @@
   .acesso{display:grid;gap:22px;grid-template-columns:repeat(auto-fit,minmax(min(310px,100%),1fr));align-items:start}
   label{display:block;font-size:12px;font-weight:600;color:#41576D;margin:14px 0 6px}
   input,select{width:100%;padding:11px 13px;border:1px solid #CFDDEA;border-radius:10px;
-    font-size:14px;font-family:inherit;color:var(--texto);background:#fff}
+    font-size:16px;font-family:inherit;color:var(--texto);background:#fff;min-height:44px;scroll-margin-block:100px 24px}
   input:focus,select:focus{outline:2px solid #BBD2E8;outline-offset:1px;border-color:var(--azul-medio)}
   form .btn{width:100%;margin-top:20px}
   .aviso{margin-top:14px;padding:11px 13px;border-radius:10px;font-size:13.5px;display:none}
@@ -95,7 +101,7 @@
   .dica{font-size:12.5px;color:var(--texto-fraco);margin:12px 0 0}
 
   /* --------------------------------------------------------------- rodapé */
-  footer{background:var(--branco);border-top:1px solid var(--borda);padding:30px 0}
+  footer{background:var(--branco);border-top:1px solid var(--borda);padding:30px 0 max(30px,env(safe-area-inset-bottom))}
   .rodape{display:flex;flex-wrap:wrap;gap:20px;align-items:center;justify-content:space-between}
   .logos{display:flex;align-items:center;gap:18px;flex-wrap:wrap}
   .logos img{display:block}
@@ -104,12 +110,29 @@
   .rodape small{color:var(--texto-fraco);font-size:12px}
 
   @media (max-width:880px){
+    .barra{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:10px 12px}
+    .marca{gap:10px}
+    .marca .divisor{display:none}
+    .marca img{height:30px!important;flex-shrink:0}
+    .marca .mono{font-size:9px;letter-spacing:.08em;margin-top:3px}
+    #menu-alternar{display:inline-flex;padding:10px 12px;font-size:13px}
+    nav.menu{grid-column:1/-1;flex-direction:column;align-items:stretch;gap:4px;width:100%;margin:0;padding:4px 0;max-height:min(65dvh,380px);overflow-y:auto;overscroll-behavior:contain}
+    nav.menu a{padding:10px 12px;border-radius:8px}
+    nav.menu a:hover{background:#edf3fa}
+    nav.menu a.btn-primario:hover{background:var(--rosa)}
+    header.menu-pronto nav.menu{display:none}
+    header.menu-pronto.menu-aberto nav.menu{display:flex}
     .hero-grade{grid-template-columns:1fr}
-    nav.menu a{display:none}
+    .hero{padding:40px 0 48px}
+    .hero-grade{gap:30px}
+    .numeros{display:grid;grid-template-columns:1fr 1fr;gap:20px 18px;margin-top:28px}
+    .cartao-marca{padding:20px}
+    .cartao-marca img{width:min(100%,310px);height:auto!important}
     section{padding:48px 0}
   }
-  @media(max-width:400px){.container{padding-left:18px;padding-right:18px}.barra{padding-top:12px;padding-bottom:12px}.marca{gap:9px}.marca .mono{font-size:9px}.cartao{padding:18px}}
-  .cartao{min-width:0;overflow-wrap:anywhere}input,select{min-width:0;max-width:100%}
+  @media(max-width:480px){.container{padding-left:max(18px,env(safe-area-inset-left));padding-right:max(18px,env(safe-area-inset-right))}.barra{padding-top:10px;padding-bottom:10px}.marca{gap:8px}.marca>div:last-child>div:first-child{font-size:13px!important}.marca .mono{font-size:8px;letter-spacing:.04em}.cartao{padding:18px}.hero h1{font-size:32px;line-height:1.15}.hero .acoes{display:grid;grid-template-columns:1fr}.hero .mono{font-size:10px;letter-spacing:.09em}.logos{gap:18px 14px}.rodape{gap:24px}.rodape>.logos{width:100%}}
+  @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.btn{transition:none}}
+  .cartao,.hero-grade>div,.titulo-secao,.rodape>div{min-width:0;overflow-wrap:anywhere}input,select{min-width:0;max-width:100%}
   :focus-visible{outline:3px solid #ba2851;outline-offset:3px}
 </style>
 </head>
@@ -125,7 +148,12 @@
         <div class="mono" style="color:var(--texto-fraco)">Rede materno-infantil</div>
       </div>
     </div>
-    <nav class="menu">
+    <button id="menu-alternar" class="btn btn-linha" type="button" aria-label="Abrir menu" aria-controls="menu-principal" aria-expanded="false" hidden>
+      <svg class="icone-abrir" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
+      <svg class="icone-fechar" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="m6 6 12 12M6 18 18 6"/></svg>
+      <span>Menu</span>
+    </button>
+    <nav class="menu" id="menu-principal" aria-label="Navegação principal">
       <a href="#plataforma">A plataforma</a>
       <a href="#areas">Áreas</a>
       <a href="#certificado">Certificados</a>
@@ -242,15 +270,15 @@
         <h3 style="margin-top:0">Solicitar acesso</h3>
         <form id="form-registro">
           <label for="reg-nome">Nome completo</label>
-          <input id="reg-nome" name="nome" required placeholder="Como consta no seu registro profissional">
+          <input id="reg-nome" name="nome" required placeholder="Como consta no seu registro profissional" autocomplete="name">
           <label for="reg-email">E-mail de acesso</label>
-          <input id="reg-email" name="email" type="email" required placeholder="seu@email.com">
+          <input id="reg-email" name="email" type="email" required placeholder="seu@email.com" autocomplete="email">
           <label for="reg-unidade">Unidade / serviço</label>
-          <input id="reg-unidade" name="unidade" placeholder="UBS, hospital, maternidade…">
+          <input id="reg-unidade" name="unidade" placeholder="UBS, hospital, maternidade…" autocomplete="organization">
           <label for="reg-cargo">Cargo ou função</label>
-          <input id="reg-cargo" name="cargo" placeholder="Enfermeira obstétrica, ACS, médico…">
+          <input id="reg-cargo" name="cargo" placeholder="Enfermeira obstétrica, ACS, médico…" autocomplete="organization-title">
           <label for="reg-senha">Crie uma senha</label>
-          <input id="reg-senha" name="senha" type="password" required minlength="8" placeholder="Mínimo 8 caracteres, com letras e números">
+          <input id="reg-senha" name="senha" type="password" required minlength="8" placeholder="Mínimo 8 caracteres, com letras e números" autocomplete="new-password">
           <button class="btn btn-primario" type="submit">Enviar solicitação</button>
         </form>
         <div class="aviso" id="aviso-registro" role="status"></div>
@@ -263,7 +291,7 @@
           a autenticidade, o curso e a carga horária.</p>
         <form id="form-certificado">
           <label for="cert-codigo">Código de verificação</label>
-          <input id="cert-codigo" name="codigo" required placeholder="MSM-2026-XXXXXXXX" style="text-transform:uppercase">
+          <input id="cert-codigo" name="codigo" required placeholder="MSM-2026-XXXXXXXX" style="text-transform:uppercase" autocapitalize="characters" spellcheck="false">
           <button class="btn btn-linha" type="submit">Verificar</button>
         </form>
         <div class="aviso" id="aviso-certificado" role="status"></div>
@@ -317,6 +345,34 @@
 </footer>
 
 <script>
+/* Menu compacto mantém as seções disponíveis também no celular. */
+const cabecalho = document.querySelector('header');
+const botaoMenu = document.getElementById('menu-alternar');
+const menuPrincipal = document.getElementById('menu-principal');
+function atualizarAlturaCabecalho() {
+  if (!cabecalho.classList.contains('menu-aberto')) {
+    document.documentElement.style.setProperty('--altura-cabecalho', (cabecalho.offsetHeight + 16) + 'px');
+  }
+}
+function abrirMenu(aberto) {
+  cabecalho.classList.toggle('menu-aberto', aberto);
+  botaoMenu.setAttribute('aria-expanded', String(aberto));
+  botaoMenu.setAttribute('aria-label', aberto ? 'Fechar menu' : 'Abrir menu');
+  atualizarAlturaCabecalho();
+}
+cabecalho.classList.add('menu-pronto');
+botaoMenu.hidden = false;
+botaoMenu.addEventListener('click', () => abrirMenu(botaoMenu.getAttribute('aria-expanded') !== 'true'));
+menuPrincipal.addEventListener('click', evento => { if (evento.target.closest('a')) abrirMenu(false); });
+document.addEventListener('keydown', evento => {
+  if (evento.key === 'Escape' && botaoMenu.getAttribute('aria-expanded') === 'true') {
+    abrirMenu(false); botaoMenu.focus();
+  }
+});
+window.matchMedia('(max-width: 880px)').addEventListener('change', () => abrirMenu(false));
+new ResizeObserver(atualizarAlturaCabecalho).observe(cabecalho);
+atualizarAlturaCabecalho();
+
 /* ------------------------------------------------------------------ API ---
  * A landing também é publicada em hospedagem estática (sem backend). Toda
  * chamada é opcional: se a API não responder, a página mantém os números de

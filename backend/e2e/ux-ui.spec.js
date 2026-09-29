@@ -167,6 +167,7 @@ for(const largura of [320,390,768,1440])test(`layouts: todas as seções profiss
   await login(page,'kalleby@maternarsm.com.br');
   const secoes=await page.locator('#menu button').evaluateAll(bs=>bs.map(b=>b.dataset.secao));
   for(const secao of secoes){
+    if(largura<=900)await page.locator('#abrir-menu').click();
     await page.locator(`#menu [data-secao="${secao}"]`).click();await pronto(page);await larguraCorreta('Gestão '+secao);
     const novo=page.locator('#secao-acoes button').filter({hasText:/^Novo /});
     if(await novo.count()){

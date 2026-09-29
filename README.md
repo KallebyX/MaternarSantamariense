@@ -30,7 +30,8 @@ para a stack, construção da imagem, transferência privada do banco, testes e
 configuração do Nginx Proxy Manager. O relatório em [PROGRESS.md](PROGRESS.md)
 registra as etapas; a [publicação HTTPS e entrega de e-mail](PUBLICACAO-EMAIL-2026-09-29.md) estão verificadas.
 
-A versão `maternar:20260929-acervo1` está ativa e saudável na stack institucional.
+A versão `maternar:20260929-mobile2` está ativa e saudável na stack institucional.
+A [revisão de mobile, posicionamento e logos](ENTREGA-MOBILE-2026-09-29.md) registra as correções e a conferência no domínio público.
 A [entrega do acervo, histórico, GESTAR e persistência](ENTREGA-ACERVO-PERFIL-2026-09-29.md)
 registra os 704 projetos, filtros e a validação final em produção.
 O [relatório de Links úteis e sidebar](REVISAO-LINKS-SIDEBAR-2026-09-29.md) documenta
