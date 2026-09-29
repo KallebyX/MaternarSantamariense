@@ -16,7 +16,7 @@ As páginas curtas da área profissional eram centralizadas verticalmente por `m
 
 - API: 107/107 testes aprovados.
 - Chromium: 67 cenários validados. A suíte completa passou 65 inicialmente; duas asserções de rolagem antecipavam o evento de navegação. Após aguardar título e posição final, os nove testes móveis passaram, incluindo os dois casos. Nenhuma asserção funcional foi retirada.
-- WebKit: 30/30 E2E aprovados, incluindo todas as seções profissionais e administrativas nas larguras 320, 390, 768 e 1440 px; menu também em 844 × 390.
+- WebKit: 30/30 E2E aprovados e 9/9 na conferência final dos ajustes móveis, incluindo todas as seções profissionais e administrativas nas larguras 320, 390, 768 e 1440 px; menu também em 844 × 390.
 - Testes de sessão revogam um token real da base isolada e confirmam o retorno à tela de login.
 - Revisões independentes geral e JavaScript aprovadas após corrigir o fechamento do menu ao encerrar a sessão.
 
@@ -24,4 +24,12 @@ Os testes usam bases isoladas, sem inserir registros de demonstração na produ�
 
 ## Publicação
 
-Validação final da imagem, publicação e sincronização GitHub em andamento.
+- Atualização de mobile ativa e saudável no domínio institucional da UFN.
+- Backup privado criado antes da atualização; versão anterior preservada para reversão. Identificadores e caminhos operacionais permanecem somente no relatório local, fora do Git.
+- Os sete usuários e hashes de senha permaneceram iguais; variáveis da stack preservadas em memória, sem exportação de segredos. Banco íntegro, sem violações de chave estrangeira.
+- Imagem final testada em contêiner isolado na UFN: 17 recursos com CRUD/permissões, 99 arquivos locais, perfil, upload, curso, certificado e chat; dados persistiram após reinício. Contêiner e volume de teste removidos.
+- Verificação HTTPS: 16 arquivos públicos idênticos ao código e às imagens locais por SHA-256. Os 704 projetos e 547 históricos permanecem disponíveis; os 13 novos materiais também foram conferidos dentro do contêiner.
+- Conferência visual no domínio real: Meus cursos, Agenda, Avisos, Meus certificados e Sobre começam em `y=0` no desktop e exibem os seis logos. No celular de 390 px, Links úteis abre sem largura excedente, fecha o menu e retorna ao topo.
+- GitHub: [PR #11](https://github.com/KallebyX/MaternarSantamariense/pull/11).
+
+Evidências locais em `backend/test-results/mobile-*.json`; relatórios e capturas com dados de sessão permanecem fora do Git. Pacote público em `dist/portainer-ufn-20260929-mobile2/`, sem banco ou credenciais.

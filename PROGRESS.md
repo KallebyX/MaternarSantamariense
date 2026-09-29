@@ -1,13 +1,8 @@
 # Maternar — integração e validação
 
-Atualizado em 29/09/2026. Pasta de trabalho: `/Users/kalleby/Downloads/MaternarSantamariense-main` (exportação sem repositório Git próprio).
+Atualizado em 29/09/2026. Pasta de trabalho: `/Users/kalleby/Downloads/MaternarSantamariense-main` (repositório Git próprio, sincronizado com GitHub).
 
-**Estado mais recente:** imagem `maternar:20260929-acervo1` ativa e saudável na
-stack 254 da UFN. HTTPS público verificado, sete usuários preservados e perfil
-reconciliado nos três campos autorizados. São 704 projetos, 109 materiais,
-97 documentos e 32 protocolos. **107 testes de API, 59 E2E Chromium e 13 E2E
-WebKit aprovados**, sem falhas ou repetição automática. Cursos operacionais
-permanecem zerados. Consulte a [entrega final do acervo e perfil](ENTREGA-ACERVO-PERFIL-2026-09-29.md).
+**Estado mais recente:** atualização de mobile ativa e saudável na UFN. Corrigidos o alinhamento de todas as abas e a navegação móvel; os seis logos institucionais aparecem no rodapé. Sete usuários e hashes preservados, banco íntegro, cursos operacionais sem demonstrações. Validados 107 testes de API, 67 cenários Chromium e 30 cenários WebKit, com conferência final dos nove cenários móveis em ambos os navegadores. A verificação no domínio real confirmou as cinco abas relatadas em `y=0`, todos os logos carregados e Links úteis sem excesso de largura em 390 px. Consulte a [entrega mobile](ENTREGA-MOBILE-2026-09-29.md) e a [entrega do acervo e perfil](ENTREGA-ACERVO-PERFIL-2026-09-29.md).
 As etapas abaixo registram estados anteriores, inclusive bloqueios já resolvidos.
 
 ## Entrega local
