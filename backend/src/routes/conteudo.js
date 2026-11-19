@@ -136,12 +136,13 @@ conteudoRouter.get('/links', (req, res) => ok(res, db.prepare('SELECT * FROM lin
 conteudoRouter.get('/eventos', (req, res) => ok(res, db.prepare('SELECT * FROM eventos ORDER BY ano, mes, dia, hora').all()));
 
 conteudoRouter.post('/eventos', autenticar, exigirPapel('Gestor', 'Administrador'), (req, res) => {
-  const falta = exigir(req.body, ['dia', 'hora', 'titulo']);
+  const camposDataInformados = ['mes', 'ano'].filter(campo => req.body?.[campo] !== undefined);
+  const falta = exigir(req.body, ['dia', 'hora', 'titulo', ...camposDataInformados]);
   if (falta) return erro(res, 400, falta);
-  const dia = Number(req.body.dia), mes = Number(req.body.mes || 8);
+  const dia = Number(req.body.dia), mes = req.body.mes === undefined ? 8 : Number(req.body.mes);
   if (!Number.isInteger(dia) || dia < 1 || dia > 31) return erro(res, 400, 'Dia inválido.');
   if (!Number.isInteger(mes) || mes < 1 || mes > 12) return erro(res, 400, 'Mês inválido.');
-  const ano = Number(req.body.ano || new Date().getFullYear());
+  const ano = req.body.ano === undefined ? new Date().getFullYear() : Number(req.body.ano);
   if (!Number.isInteger(ano) || ano < 2000 || ano > 2100 || new Date(ano, mes - 1, dia).getMonth() !== mes - 1) return erro(res, 400, 'Data inválida.');
   if (!/^([01]\d|2[0-3]):[0-5]\d$/.test(String(req.body.hora))) return erro(res, 400, 'Horário inválido.');
   const info = db.prepare('INSERT INTO eventos (dia, mes, hora, titulo, local, cor, criado_por, ano) VALUES (?, ?, ?, ?, ?, ?, ?, ?)')

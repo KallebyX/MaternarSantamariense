@@ -93,6 +93,31 @@ test('agenda restringe escrita e valida data e horário inclusive nas edições'
   assert.equal((await auth(request(app).put('/api/eventos/'+valido.body.dados.id)).send({dia:31})).status,400);
 });
 
+test('agenda rejeita mês e ano inválidos sem substituir a data informada',async t=>{
+  const evento={titulo:'Data inválida de teste',dia:20,mes:11,ano:2027,hora:'15:00'};
+  const casos=[
+    {mes:0},{ano:0},{mes:null},{ano:null},{mes:false},{ano:false},
+    {mes:''},{ano:''},{mes:[11]},{ano:[2027]},
+  ];
+  for(const dados of casos)await t.test(JSON.stringify(dados),async()=>{
+    const antes=db.prepare('SELECT COUNT(*) n FROM eventos').get().n;
+    const resposta=await auth(request(app).post('/api/eventos')).send({...evento,...dados});
+    assert.equal(resposta.status,400);
+    assert.equal(db.prepare('SELECT COUNT(*) n FROM eventos').get().n,antes);
+  });
+});
+
+test('agenda aceita números do formulário e mantém padrões apenas para campos omitidos',async()=>{
+  const evento={titulo:'Data válida de teste',dia:'20',hora:'15:00'};
+  const completo=await auth(request(app).post('/api/eventos')).send({...evento,mes:'11',ano:'2027'});
+  assert.equal(completo.status,201);
+  assert.deepEqual([completo.body.dados.dia,completo.body.dados.mes,completo.body.dados.ano],[20,11,2027]);
+  const omitido=await auth(request(app).post('/api/eventos')).send(evento);
+  assert.equal(omitido.status,201);
+  assert.equal(omitido.body.dados.mes,8);
+  assert.equal(omitido.body.dados.ano,new Date().getFullYear());
+});
+
 test('upload SVG ativo é recusado',async()=>{
   const r=await auth(request(app).post('/api/arquivos')).attach('arquivo',Buffer.from('<svg onload="alert(1)"></svg>'),'ativo.svg');
   assert.equal(r.status,400);
