@@ -1,5 +1,6 @@
 import { iniciarNavegacaoMobile } from './mobile-navigation.js';
 import { criarComunicacao } from './chat.js';
+import { criarAgenda } from './agenda.js';
 // A API é a fonte de verdade; o navegador guarda somente a sessão.
 const $ = s => document.querySelector(s);
 const esc = v => String(v ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
@@ -122,10 +123,7 @@ async function projetos(params) {
   const cartoes=lista.length?grade(lista.map(p=>`<article class="cartao projeto" data-projeto-id="${esc(p.id)}">${etiqueta(p.historico?'Acervo histórico':'Cadastro atual')} ${etiqueta(p.ano_referencia?'Fonte: '+p.ano_referencia:'Ano não informado')}<h3>${esc(p.titulo)}</h3><dl><dt>Situação do projeto</dt><dd>${esc(p.status)}</dd><dt>Responsável</dt><dd>${esc(p.responsavel||'Não informado')}</dd><dt>Instituição</dt><dd>${esc(p.instituicao||'Não informada')}</dd><dt>Local</dt><dd>${esc(p.local||'Não informado')}</dd><dt>Período cadastrado</dt><dd>${esc([p.inicio,p.fim].filter(v=>v&&v!=='—').join(' — ')||'Não informado')}</dd>${p.historico?`<dt>Período na fonte</dt><dd>${esc(p.periodo_origem||'Não informado')}</dd><dt>Situação na fonte (AUT. CEP)</dt><dd>${esc(p.situacao_origem||'Não informada')}</dd>`:''}<dt>${p.historico?'Registro NEPeS':'Autorização NEPeS'}</dt><dd>${esc(p.autorizacao||'Não informada')}</dd></dl></article>`)):vazio('Nenhum projeto corresponde aos filtros. Altere a busca ou limpe os filtros.');
   return formulario+`<p class="resultado-projetos" role="status">${inicio}–${fim} de ${meta.total} projetos encontrados · ${meta.totalGeral} no acervo</p><p class="nota-projetos">Os registros históricos preservam as informações da fonte. A classificação “Histórico” não confirma andamento, conclusão ou autorização atual.</p>`+cartoes+navegacao;
 }
-async function agenda(params) {
-  const lista=await api('/eventos'), q=params.get('q')||'';
-  return filtros({q,placeholder:'Buscar atividade ou local'})+grade(lista.filter(e=>combina(q,e.titulo,e.local)).map(e=>`<article class="cartao">${etiqueta(`${String(e.dia).padStart(2,'0')}/${String(e.mes).padStart(2,'0')}/${e.ano} · ${e.hora}`)}<h3>${esc(e.titulo)}</h3><p>${esc(e.local||'Local a confirmar')}</p><button data-acao="calendario" data-evento="${e.id}">Adicionar ao calendário</button></article>`));
-}
+const agenda=criarAgenda({api,esc,combina,grade,etiqueta,filtros});
 const comunicacao=criarComunicacao({api,esc,id});
 const mensagens=params=>comunicacao.renderizar(params);
 async function avisos() {
@@ -199,7 +197,7 @@ document.addEventListener('click',async event=>{
 document.addEventListener('submit',async event=>{
   const form=event.target;if(!form.dataset.form)return;
   event.preventDefault();const dados=Object.fromEntries(new FormData(form));
-  if(form.dataset.form==='filtros'){ const {rota,params}=rotaAtual();for(const [k,v]of Object.entries(dados))v?params.set(k,v):params.delete(k);if(rota==='projetos'){params.delete('pagina');params.delete('filtro');}ir(rota+'?'+params.toString());return; }
+  if(form.dataset.form==='filtros'){ const {rota,params}=rotaAtual();for(const [k,v]of Object.entries(dados))v?params.set(k,v):params.delete(k);if(rota==='projetos'){params.delete('pagina');params.delete('filtro');}if(rota==='agenda')params.delete('dia');ir(rota+'?'+params.toString());return; }
   const botao=form.querySelector('button');botao.disabled=true;
   form.querySelector('[role=alert]')?.remove();
   try {

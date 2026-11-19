@@ -48,7 +48,7 @@ O navegador guarda apenas o token e um resumo da sessão. Dados profissionais, p
 
 ## Fonte editável
 
-A plataforma ativa é `app.html`, `app.css`, `app.js` e `chat.js`. A landing é `index.html`. O painel é `painel.html` e `painel.js`. Não há etapa de bundle nem CDN obrigatória.
+A plataforma ativa é `app.html`, `app.css`, `app.js`, `chat.js` e `agenda.js`. A landing é `index.html`. O painel é `painel.html` e `painel.js`. Não há etapa de bundle nem CDN obrigatória.
 
 Os ícones do painel usam Lucide Static 1.48.0, com apenas os 22 SVGs necessários
 reunidos em `assets/lucide.svg`. A licença acompanha o arquivo. Ao mudar o nome
