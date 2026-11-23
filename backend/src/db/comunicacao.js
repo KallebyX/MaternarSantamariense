@@ -1,12 +1,18 @@
+import { createHash } from 'node:crypto';
+
 export const AREAS_PROFISSIONAIS = ['Políticas', 'Enfermagem', 'Técnico de Enfermagem', 'Medicina', 'Odontologia', 'Outros'];
 
 /** Migração aditiva: preserva contas, canais e histórico já existentes. */
 export function migrarComunicacao(banco) {
   banco.transaction(() => {
-    for (const [nome, definicao] of [['area', "TEXT NOT NULL DEFAULT 'Outros'"], ['foto', "TEXT NOT NULL DEFAULT ''"]]) {
+    for (const [nome, definicao] of [['area', "TEXT NOT NULL DEFAULT 'Outros'"], ['foto', "TEXT NOT NULL DEFAULT ''"], ['foto_versao', "TEXT NOT NULL DEFAULT ''"]]) {
       if (!banco.prepare("SELECT 1 FROM pragma_table_info('usuarios') WHERE name=?").get(nome)) {
         banco.exec(`ALTER TABLE usuarios ADD COLUMN ${nome} ${definicao}`);
       }
+    }
+    for (const {id} of banco.prepare("SELECT id FROM usuarios WHERE foto<>'' AND foto_versao=''").all()) {
+      const {foto} = banco.prepare('SELECT foto FROM usuarios WHERE id=?').get(id);
+      banco.prepare('UPDATE usuarios SET foto_versao=? WHERE id=?').run(createHash('sha256').update(foto).digest('hex').slice(0,20),id);
     }
     banco.exec(`
       CREATE TABLE IF NOT EXISTS conversas (

@@ -2,7 +2,7 @@
 export function criarAgenda({api,esc,id,usuario}) {
   const origens=['NEPeS','Maternar','Profissionais'];
   const cores={'NEPeS':'#6b46a5',Maternar:'#17688a',Profissionais:'#357348'};
-  let paramsAtuais=new URLSearchParams(), eventos=[];
+  let paramsAtuais=new URLSearchParams(), eventos=[], geracaoRenderizacao=0;
   const gestao=()=>['Gestor','Administrador'].includes(usuario().perfil);
   const pad=n=>String(n).padStart(2,'0');
   const dataEvento=e=>`${e.ano}-${pad(e.mes)}-${pad(e.dia)}`;
@@ -24,13 +24,16 @@ export function criarAgenda({api,esc,id,usuario}) {
     return `<article class="cartao agenda-atividade" id="agenda-evento-${e.id}" style="--agenda-cor:${cores[e.origem]||cores.Maternar}"><span class="agenda-origem">${esc(e.origem||'Maternar')}</span><h3>${esc(e.titulo)}</h3><p><time datetime="${dataEvento(e)}T${e.hora}">${pad(e.dia)}/${pad(e.mes)}/${e.ano} · ${esc(e.hora)}${e.fim?'–'+esc(e.fim):''}</time></p><p>${esc(e.local||'Local a confirmar')}</p><p class="muted">${e.visibilidade==='equipe'?'Equipe: '+esc(e.equipe):'Toda a rede'}${e.equipe&&e.visibilidade!=='equipe'?' · '+esc(e.equipe):''}</p><div class="acoes"><button type="button" data-agenda-exportar="${e.id}">Adicionar ao meu calendário</button>${e.pode_editar?`<button type="button" data-agenda-remover="${e.id}">Remover atividade</button>`:''}</div>${e.pode_editar?`<details class="agenda-editar"><summary>Editar atividade</summary>${formulario(e)}</details>`:''}</article>`;
   }
   async function renderizar(params=new URLSearchParams()) {
-    paramsAtuais=new URLSearchParams(params);
+    const geracao=++geracaoRenderizacao,consulta=new URLSearchParams(params);
     const hoje=new Date();
     const numeroMes=Number(params.get('mes')),numeroAno=Number(params.get('ano'));
     const mes=Number.isInteger(numeroMes)&&numeroMes>=1&&numeroMes<=12?numeroMes:hoje.getMonth()+1;
     const ano=Number.isInteger(numeroAno)&&numeroAno>=2000&&numeroAno<=2100?numeroAno:hoje.getFullYear();
-    paramsAtuais.set('mes',mes);paramsAtuais.set('ano',ano);
-    eventos=await api(`/eventos?mes=${mes}&ano=${ano}`);
+    consulta.set('mes',mes);consulta.set('ano',ano);
+    const recebidos=await api(`/eventos?mes=${mes}&ano=${ano}`);
+    // O HTML antigo é descartado pelo app; seu estado também deve ser descartado.
+    if(geracao!==geracaoRenderizacao)return '';
+    paramsAtuais=consulta;eventos=recebidos;
     const q=params.get('q')||'',origem=params.get('origem')||'';
     const filtrados=eventos.filter(e=>(!origem||e.origem===origem)&&combina(q,e));
     const inicio=new Date(ano,mes-1,1),dias=new Date(ano,mes,0).getDate(),vazios=(inicio.getDay()+6)%7;
@@ -52,11 +55,10 @@ export function criarAgenda({api,esc,id,usuario}) {
       <h2>Atividades do mês</h2><div class="lista agenda-lista">${filtrados.map(cartao).join('')||'<div class="vazio">Nenhuma atividade para os filtros selecionados.</div>'}</div>
     </section>`;
   }
-  async function atualizar(mensagem) {
-    const raiz=document.querySelector('[data-agenda-root]');
-    if (!raiz) return;
-    const html=await renderizar(paramsAtuais);
-    if (!raiz.isConnected) return;
+  async function atualizar(mensagem,raiz,consulta) {
+    if (!raiz?.isConnected) return;
+    const html=await renderizar(consulta);
+    if (!html || !raiz.isConnected) return;
     raiz.outerHTML=html;ativar();
     const status=document.querySelector('[data-agenda-status]');
     if(status){status.textContent=mensagem+' '+status.textContent;status.setAttribute('tabindex','-1');status.focus({preventScroll:true});}
@@ -69,25 +71,28 @@ export function criarAgenda({api,esc,id,usuario}) {
   }
   function ativar() {
     const raiz=document.querySelector('[data-agenda-root]');if(!raiz)return;
-    raiz.querySelector('[data-agenda-filtro]').addEventListener('submit',e=>{e.preventDefault();const dados=new FormData(e.currentTarget),p=new URLSearchParams(paramsAtuais);for(const k of ['q','origem'])dados.get(k)?p.set(k,dados.get(k)):p.delete(k);location.hash='agenda?'+p;});
+    // As ações pertencem ao mês efetivamente exibido, mesmo com outra requisição em andamento.
+    const eventosDaTela=eventos,paramsDaTela=new URLSearchParams(paramsAtuais);
+    raiz.querySelector('[data-agenda-filtro]').addEventListener('submit',e=>{e.preventDefault();const dados=new FormData(e.currentTarget),p=new URLSearchParams(paramsDaTela);for(const k of ['q','origem'])dados.get(k)?p.set(k,dados.get(k)):p.delete(k);location.hash='agenda?'+p;});
     raiz.querySelectorAll('[data-agenda-form]').forEach(form=>form.addEventListener('submit',async e=>{
       e.preventDefault();const botao=form.querySelector('button'),aviso=form.querySelector('[data-agenda-erro]');botao.disabled=true;aviso.hidden=true;
       try{
         const dados=Object.fromEntries(new FormData(form)),[ano,mes,dia]=dados.data.split('-').map(Number);delete dados.data;
         await api('/eventos'+(form.dataset.agendaForm?'/'+id(form.dataset.agendaForm):''),{method:form.dataset.agendaForm?'PUT':'POST',body:{...dados,ano,mes,dia}});
-        if(paramsAtuais.get('mes')!==String(mes)||paramsAtuais.get('ano')!==String(ano)){paramsAtuais.set('mes',mes);paramsAtuais.set('ano',ano);location.hash='agenda?'+paramsAtuais;}
-        else await atualizar('Atividade salva.');
+        if(!raiz.isConnected)return;
+        if(paramsDaTela.get('mes')!==String(mes)||paramsDaTela.get('ano')!==String(ano)){paramsDaTela.set('mes',mes);paramsDaTela.set('ano',ano);location.hash='agenda?'+paramsDaTela;}
+        else await atualizar('Atividade salva.',raiz,paramsDaTela);
       }catch(erro){aviso.textContent=erro.message;aviso.hidden=false;}finally{botao.disabled=false;}
     }));
     raiz.addEventListener('click',async e=>{
       const ir=e.target.closest('[data-agenda-ir]');
       if(ir){e.preventDefault();const cartao=document.getElementById('agenda-evento-'+ir.dataset.agendaIr);cartao?.scrollIntoView({behavior:'smooth',block:'center'});cartao?.setAttribute('tabindex','-1');cartao?.focus({preventScroll:true});return;}
-      const exp=e.target.closest('[data-agenda-exportar]');if(exp){const evento=eventos.find(x=>String(x.id)===exp.dataset.agendaExportar);if(evento)exportar(evento);return;}
+      const exp=e.target.closest('[data-agenda-exportar]');if(exp){const evento=eventosDaTela.find(x=>String(x.id)===exp.dataset.agendaExportar);if(evento)exportar(evento);return;}
       const remover=e.target.closest('[data-agenda-remover]');if(!remover)return;
-      const evento=eventos.find(x=>String(x.id)===remover.dataset.agendaRemover);if(!evento)return;
+      const evento=eventosDaTela.find(x=>String(x.id)===remover.dataset.agendaRemover);if(!evento)return;
       if(!confirm('Remover a atividade “'+evento.titulo+'”?'))return;
       remover.disabled=true;
-      try{await api('/eventos/'+id(evento.id),{method:'DELETE'});await atualizar('Atividade removida.');}catch(erro){const aviso=document.createElement('p');aviso.setAttribute('role','alert');aviso.textContent=erro.message;remover.parentElement.after(aviso);}finally{remover.disabled=false;}
+      try{await api('/eventos/'+id(evento.id),{method:'DELETE'});await atualizar('Atividade removida.',raiz,paramsDaTela);}catch(erro){const aviso=document.createElement('p');aviso.setAttribute('role','alert');aviso.textContent=erro.message;remover.parentElement.after(aviso);}finally{remover.disabled=false;}
     });
   }
   return {renderizar,ativar};

@@ -6,11 +6,25 @@ import { AREAS_PROFISSIONAIS } from '../db/comunicacao.js';
 
 export const comunicacaoRouter = Router();
 const normalizar = s => String(s || '').normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
-const CAMPOS_COLEGA = 'id, nome, area, cargo, unidade, foto';
-const CAMPOS_MENSAGEM = 'm.id, m.conversa_id, m.autor, m.iniciais, m.texto, m.hora, m.criado_em, u.foto';
+const CAMPOS_COLEGA = "id, nome, area, cargo, unidade, CASE WHEN foto_versao<>'' THEN '/api/colegas/'||id||'/foto?v='||foto_versao ELSE '' END AS foto";
+const CAMPOS_MENSAGEM = "m.id, m.conversa_id, m.autor, m.usuario_id AS autor_id, m.iniciais, m.texto, m.hora, m.criado_em, CASE WHEN u.foto_versao<>'' THEN '/api/colegas/'||u.id||'/foto?v='||u.foto_versao ELSE '' END AS foto";
 const idValido = valor => /^\d+$/.test(String(valor)) && Number.isSafeInteger(Number(valor)) && Number(valor) > 0;
 
 comunicacaoRouter.get('/areas', autenticar, (req, res) => ok(res, AREAS_PROFISSIONAIS));
+
+// Imagem entregue uma vez por autor, mediante sessão: nunca embutir o binário
+// nas páginas do diretório nem repeti-lo em cada mensagem do histórico.
+comunicacaoRouter.get('/colegas/:id/foto', autenticar, (req, res) => {
+  if (!idValido(req.params.id)) return erro(res, 404, 'Foto não encontrada.');
+  const usuario = db.prepare("SELECT foto FROM usuarios WHERE id=? AND situacao='Ativo'").get(Number(req.params.id));
+  const match = /^data:(image\/(?:jpeg|png|webp));base64,([A-Za-z0-9+/=]+)$/.exec(usuario?.foto || '');
+  if (!match) return erro(res, 404, 'Foto não encontrada.');
+  const bytes = Buffer.from(match[2], 'base64');
+  if (!bytes.length || bytes.length > 2 * 1024 * 1024) return erro(res, 404, 'Foto não encontrada.');
+  res.setHeader('Cache-Control', 'private, no-store');
+  res.setHeader('X-Content-Type-Options', 'nosniff');
+  return res.type(match[1]).send(bytes);
+});
 
 // Lista profissional distinta da gestão de contas: nunca inclui CPF, telefone,
 // e-mail, privilégios, senha ou dados de sessão de outra pessoa.

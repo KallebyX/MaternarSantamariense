@@ -69,7 +69,7 @@ test('upgrade do esquema anterior conserva dados e edições de gestão após re
     assert.ok(db.prepare("SELECT 1 FROM produtos WHERE url='https://www.sbp.com.br/especiais/reanimacao-/'").get());
     assert.equal(db.pragma('integrity_check',{simple:true}),'ok');assert.deepEqual(db.pragma('foreign_key_check'),[]);
     if(process.env.UPGRADE_ETAPA==='upgrade'){
-      db.prepare("UPDATE usuarios SET area='Enfermagem',equipe_agenda='Equipe Teste',publicar_avisos=1,orgao='NEPeS',foto='data:image/png;base64,teste' WHERE id=1").run();
+      db.prepare("UPDATE usuarios SET area='Enfermagem',equipe_agenda='Equipe Teste',publicar_avisos=1,orgao='NEPeS',foto='data:image/png;base64,teste',foto_versao='upgrade-foto-v1' WHERE id=1").run();
       db.prepare('INSERT INTO conversas(usuario_menor,usuario_maior) VALUES (1,2)').run();
       db.prepare("INSERT INTO mensagens_diretas(conversa_id,usuario_id,autor,texto,client_id) VALUES (1,1,'Ana','Depois da atualização','upgrade-direto-123456')").run();
       db.prepare("UPDATE eventos SET origem='NEPeS',visibilidade='equipe',equipe='Equipe Teste' WHERE titulo='Evento anterior'").run();

@@ -138,7 +138,7 @@ async function projetos(params) {
 }
 const calendario=criarAgenda({api,esc,id,usuario:()=>usuario});
 const agenda=params=>calendario.renderizar(params);
-const comunicacao=criarComunicacao({api,esc,id});
+const comunicacao=criarComunicacao({api,esc,id,obterToken:()=>token});
 const mensagens=params=>comunicacao.renderizar(params);
 const comunicados=criarAvisos({api,esc,usuario:()=>usuario});
 const avisos=()=>comunicados.renderizar();

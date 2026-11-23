@@ -2,7 +2,7 @@ import { Router } from 'express';
 import multer from 'multer';
 import { AREAS_PROFISSIONAIS } from '../db/comunicacao.js';
 import bcrypt from 'bcryptjs';
-import { randomBytes } from 'node:crypto';
+import { randomBytes, createHash } from 'node:crypto';
 import { db, registrarLog } from '../db/connection.js';
 import { autenticar, exigirPapel, usuarioPublico, assinarToken } from '../auth/middleware.js';
 import { erro, ok, exigir, emailValido, senhaFraca, validarTextos } from '../lib/http.js';
@@ -99,13 +99,14 @@ usuariosRouter.post('/eu/foto', (req, res) => {
     const tipo = tipoFoto(req.file.buffer);
     if (!tipo || tipo !== req.file.mimetype) return erro(res, 400, 'Use uma imagem JPG, PNG ou WebP válida, com até 4096 pixels por lado.');
     const foto = `data:${tipo};base64,${req.file.buffer.toString('base64')}`;
-    db.prepare('UPDATE usuarios SET foto=? WHERE id=?').run(foto, req.usuario.id);
+    const versao = createHash('sha256').update(foto).digest('hex').slice(0,20);
+    db.prepare('UPDATE usuarios SET foto=?,foto_versao=? WHERE id=?').run(foto, versao, req.usuario.id);
     registrarLog(req.usuario.email, 'atualizar-foto-perfil');
     return ok(res, usuarioPublico(buscar(req.usuario.id)));
   });
 });
 usuariosRouter.delete('/eu/foto', (req, res) => {
-  db.prepare("UPDATE usuarios SET foto='' WHERE id=?").run(req.usuario.id);
+  db.prepare("UPDATE usuarios SET foto='',foto_versao='' WHERE id=?").run(req.usuario.id);
   registrarLog(req.usuario.email, 'remover-foto-perfil');
   return ok(res, usuarioPublico(buscar(req.usuario.id)));
 });

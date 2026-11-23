@@ -1,9 +1,48 @@
 // Canais da rede e conversas individuais persistidos. Rascunhos são locais à aba.
-export function criarComunicacao({api, esc, id}) {
+export function criarComunicacao({api, esc, id, obterToken}) {
   const rascunhos = new Map();
-  let atual;
+  let atual, imagensAtivas;
   const novoId = () => Array.from(crypto.getRandomValues(new Uint8Array(16)), n => n.toString(16).padStart(2,'0')).join('');
-  const foto = pessoa => /^data:image\/(?:jpeg|png|webp);base64,[A-Za-z0-9+/=]+$/.test(pessoa?.foto||'') ? `<img class="chat-foto" src="${esc(pessoa.foto)}" alt="" loading="lazy">` : `<span class="chat-foto chat-iniciais" aria-hidden="true">${esc(pessoa?.iniciais||String(pessoa?.nome||pessoa?.autor||'?').trim().split(/\s+/).slice(0,2).map(p=>p[0]).join(''))}</span>`;
+  const referenciaFoto = valor => /^\/api\/colegas\/[1-9]\d*\/foto(?:\?v=[a-zA-Z0-9_-]{1,128})?$/.test(valor||'') ? valor : '';
+  function foto(pessoa) {
+    const referencia=referenciaFoto(pessoa?.foto);
+    const iniciais=pessoa?.iniciais||String(pessoa?.nome||pessoa?.autor||'?').trim().split(/\s+/).slice(0,2).map(p=>p[0]).join('');
+    return `<span class="chat-avatar"${referencia?` data-chat-foto="${esc(referencia)}"`:''}><span class="chat-foto chat-iniciais" aria-hidden="true">${esc(iniciais)}</span>${referencia?'<img class="chat-foto" alt="" hidden>':''}</span>`;
+  }
+  async function carregarFoto(elemento, contexto) {
+    const referencia=elemento.dataset.chatFoto;
+    if(imagensAtivas!==contexto||!elemento.isConnected)return;
+    let promessa=contexto.cache.get(referencia);
+    if(!promessa) {
+      promessa=(async()=>{
+        const resposta=await fetch(referencia,{headers:{Authorization:'Bearer '+obterToken()},signal:AbortSignal.any([contexto.controller.signal,AbortSignal.timeout(15000)])});
+        if(!resposta.ok||!['image/jpeg','image/png','image/webp'].includes((resposta.headers.get('Content-Type')||'').split(';')[0])||Number(resposta.headers.get('Content-Length'))>2*1024*1024)return null;
+        const blob=await resposta.blob();
+        if(imagensAtivas!==contexto||!blob.size||blob.size>2*1024*1024)return null;
+        const url=URL.createObjectURL(blob);contexto.urls.add(url);return url;
+      })().catch(()=>null);
+      contexto.cache.set(referencia,promessa);
+    }
+    const url=await promessa;
+    if(!url||imagensAtivas!==contexto||!elemento.isConnected)return;
+    const imagem=elemento.querySelector('img');
+    imagem.onload=()=>{if(imagensAtivas===contexto&&elemento.isConnected){imagem.hidden=false;elemento.querySelector('.chat-iniciais').hidden=true;}};
+    imagem.src=url;
+  }
+  function observarFotos(raiz=document) {
+    const contexto=imagensAtivas;if(!contexto)return;
+    raiz.querySelectorAll('[data-chat-foto]:not([data-chat-foto-observada])').forEach(elemento=>{
+      elemento.dataset.chatFotoObservada='1';
+      if(contexto.observer)contexto.observer.observe(elemento);else carregarFoto(elemento,contexto);
+    });
+  }
+  function ativarFotos() {
+    const contexto=imagensAtivas={controller:new AbortController(),cache:new Map(),urls:new Set()};
+    if('IntersectionObserver' in window)contexto.observer=new IntersectionObserver(entradas=>{
+      for(const entrada of entradas)if(entrada.isIntersecting){contexto.observer.unobserve(entrada.target);carregarFoto(entrada.target,contexto);}
+    },{rootMargin:'150px'});
+    observarFotos();
+  }
   const pessoa = p => `${foto(p)}<span><strong>${esc(p.nome)}</strong><small>${[p.area,p.cargo,p.unidade].filter(Boolean).map(esc).join(' · ')||'Profissional da rede'}</small></span>`;
   function mensagem(m) {
     const instante = new Date(String(m.criado_em||'').replace(' ','T')+'Z');
@@ -11,9 +50,13 @@ export function criarComunicacao({api, esc, id}) {
     return `<article class="mensagem" data-mensagem="${Number(m.id)}"><div class="chat-autor">${foto(m)}<span><strong>${esc(m.autor)}</strong> <small>${esc(quando)}</small></span></div><p>${esc(m.texto)}</p></article>`;
   }
   function parar() {
-    if (!atual) return;
-    clearTimeout(atual.timer);
-    atual = null;
+    if(atual)clearTimeout(atual.timer);
+    atual=null;
+    if(imagensAtivas) {
+      imagensAtivas.controller.abort();imagensAtivas.observer?.disconnect();
+      for(const url of imagensAtivas.urls)URL.revokeObjectURL(url);
+      imagensAtivas=null;
+    }
   }
   async function renderizar(params) {
     const q=params.get('q')||'', area=params.get('area')||'', pagina=params.get('pagina_colegas')||'1';
@@ -44,6 +87,7 @@ export function criarComunicacao({api, esc, id}) {
       else box.insertAdjacentHTML('beforeend',mensagem(m));
       ctx.ids.add(m.id);adicionadas++;
     }
+    observarFotos(box);
     if (anteriores) box.scrollTop=topo+box.scrollHeight-altura;
     else if (seguir) box.scrollTop=box.scrollHeight;
     else if (adicionadas) ctx.novas.hidden=false;
@@ -69,6 +113,7 @@ export function criarComunicacao({api, esc, id}) {
     }
   }
   function ativar() {
+    ativarFotos();
     document.querySelectorAll('[data-chat-colega]').forEach(botao=>botao.onclick=async()=>{
       botao.disabled=true;
       const estado=document.querySelector('[data-chat-diretorio-status]');

@@ -106,7 +106,7 @@ aprendizagemRouter.get('/canais/:id/mensagens', autenticar, (req, res) => {
   const incremental = depois !== undefined;
   const limite = incremental ? 200 : 50;
   const cursor = incremental ? depois : antes;
-  const campos = "id, canal_id, autor, iniciais, texto, hora, criado_em, COALESCE((SELECT u.foto FROM usuarios u WHERE u.id=mensagens.usuario_id),'') AS foto";
+  const campos = "id, canal_id, autor, usuario_id AS autor_id, iniciais, texto, hora, criado_em, COALESCE((SELECT CASE WHEN u.foto_versao<>'' THEN '/api/colegas/'||u.id||'/foto?v='||u.foto_versao ELSE '' END FROM usuarios u WHERE u.id=mensagens.usuario_id),'') AS foto";
   let linhas = db.prepare(`SELECT ${campos} FROM mensagens WHERE canal_id = ? ${cursor !== undefined ? `AND id ${incremental ? '>' : '<'} ?` : ''} ORDER BY id ${incremental ? 'ASC' : 'DESC'} LIMIT ?`)
     .all(req.params.id, ...(cursor !== undefined ? [Number(cursor)] : []), limite + 1);
   const temMais = linhas.length > limite;
@@ -120,7 +120,7 @@ aprendizagemRouter.post('/canais/:id/mensagens', autenticar, (req, res) => {
   if (typeof texto !== 'string' || !texto.trim() || texto.length > 2000) return erro(res, 400, 'Escreva uma mensagem de até 2.000 caracteres.');
   if (clientId !== undefined && (typeof clientId !== 'string' || !/^[a-zA-Z0-9-]{16,80}$/.test(clientId))) return erro(res, 400, 'Identificador de envio inválido.');
   if (!db.prepare('SELECT 1 FROM canais WHERE id = ?').get(req.params.id)) return erro(res, 404, 'Canal não encontrado.');
-  const campos = "id, canal_id, autor, iniciais, texto, hora, criado_em, COALESCE((SELECT u.foto FROM usuarios u WHERE u.id=mensagens.usuario_id),'') AS foto";
+  const campos = "id, canal_id, autor, usuario_id AS autor_id, iniciais, texto, hora, criado_em, COALESCE((SELECT CASE WHEN u.foto_versao<>'' THEN '/api/colegas/'||u.id||'/foto?v='||u.foto_versao ELSE '' END FROM usuarios u WHERE u.id=mensagens.usuario_id),'') AS foto";
   const anterior = clientId && db.prepare(`SELECT ${campos} FROM mensagens WHERE usuario_id=? AND client_id=?`).get(req.usuario.id, clientId);
   if (anterior) {
     if (anterior.canal_id !== req.params.id || anterior.texto !== texto.trim()) return erro(res, 409, 'Este envio já foi usado para outra mensagem.');

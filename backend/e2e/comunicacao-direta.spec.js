@@ -70,3 +70,35 @@ test('salva área e foto no perfil e permite remover a foto', async ({page,brows
   await page.getByRole('button',{name:'Remover foto',exact:true}).click();
   await expect(page.getByAltText('Sua foto de perfil')).toHaveCount(0);
 });
+
+test('foto das mensagens usa referência autenticada, cache e libera imagens ao sair do chat',async({page,request})=>{
+  const login=await request.post('/api/auth/login',{data:{email:'ana.ferraz@maternarsm.com.br',senha:'demo1234'}});
+  const ana=(await login.json()).dados,headers={Authorization:'Bearer '+ana.token};
+  const png=Buffer.from('iVBORw0KGgoAAAANSUhEUgAAAAIAAAACCAIAAAD91JpzAAAAFklEQVR4nGOU86piYGBgYmBgYGBgAAAKZgDmu70C4wAAAABJRU5ErkJggg==','base64');
+  expect((await request.post('/api/usuarios/eu/foto',{headers,multipart:{foto:{name:'perfil.png',mimeType:'image/png',buffer:png}}})).status()).toBe(200);
+  const prefixo='Foto por referência '+Date.now();
+  try {
+    for(let i=0;i<10;i++)expect((await request.post('/api/canais/obst/mensagens',{headers,data:{texto:prefixo+' '+i}})).status()).toBe(201);
+    const resposta=await request.get('/api/canais/obst/mensagens',{headers}),texto=await resposta.text();
+    expect(texto).not.toContain('data:image');expect(Buffer.byteLength(texto)).toBeLessThan(20000);
+    const fotos=[];
+    await page.addInitScript(()=>{
+      const criar=URL.createObjectURL.bind(URL),revogar=URL.revokeObjectURL.bind(URL);
+      window.__fotosChat={criadas:[],revogadas:[]};
+      URL.createObjectURL=blob=>{const url=criar(blob);window.__fotosChat.criadas.push(url);return url;};
+      URL.revokeObjectURL=url=>{window.__fotosChat.revogadas.push(url);return revogar(url);};
+    });
+    await page.route('**/api/colegas/*/foto?*',async rota=>{fotos.push({url:rota.request().url(),headers:await rota.request().allHeaders()});await rota.continue();});
+    await entrar(page,'kalleby@maternarsm.com.br');await page.goto('/app#mensagens?canal=obst');
+    const mensagem=page.locator('.mensagem').filter({hasText:prefixo}).last();
+    await mensagem.scrollIntoViewIfNeeded();
+    await expect(mensagem.locator('img.chat-foto')).toBeVisible();
+    await expect(mensagem.locator('img.chat-foto')).toHaveJSProperty('naturalWidth',2);
+    expect(await mensagem.locator('img.chat-foto').getAttribute('src')).toMatch(/^blob:/);
+    await expect(page.locator('.mensagem').filter({hasText:prefixo})).toHaveCount(10);
+    expect(fotos).toHaveLength(1);expect(fotos[0].headers.authorization).toMatch(/^Bearer /);
+    expect(new URL(fotos[0].url).searchParams.has('token')).toBe(false);
+    await page.goto('/app#perfil');await expect(page.getByRole('heading',{name:'Dados profissionais',exact:true})).toBeVisible();
+    expect(await page.evaluate(()=>window.__fotosChat.criadas.length>0&&window.__fotosChat.criadas.every(u=>window.__fotosChat.revogadas.includes(u)))).toBe(true);
+  } finally {await request.delete('/api/usuarios/eu/foto',{headers});}
+});
