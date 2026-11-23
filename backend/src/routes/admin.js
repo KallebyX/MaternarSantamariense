@@ -19,7 +19,7 @@ adminRouter.post('/email/verificar', async (req, res, next) => {
 
 const TABELAS = ['usuarios', 'cursos', 'aulas', 'progresso', 'qualifica_modulos', 'qualifica_recursos',
   'trilhas', 'politicas', 'materiais', 'projetos', 'protocolos', 'documentos', 'links', 'eventos',
-  'canais', 'mensagens', 'produtos', 'certificados', 'notificacoes', 'notificacoes_lidas',
+  'canais', 'mensagens', 'conversas', 'mensagens_diretas', 'produtos', 'certificados', 'notificacoes', 'notificacoes_lidas',
   'conquistas', 'tarefas', 'arquivos', 'logs'];
 
 adminRouter.get('/logs', (req, res) => {

@@ -10,7 +10,7 @@ FROM node:22-bookworm-slim
 ENV NODE_ENV=production
 WORKDIR /app
 # frontend estático (index.html, acervo/, logos) na raiz; backend em /app/backend
-COPY index.html app.html app.js chat.js app.css mobile-navigation.js mobile-navigation.css brand.css painel.html painel.js redefinir.html redefinir.js logo_*.png logo_nepes.jpg ./
+COPY index.html app.html app.js chat.js chat.css perfil-comunicacao.js agenda.js agenda.css avisos.js app.css mobile-navigation.js mobile-navigation.css brand.css painel.html painel.js redefinir.html redefinir.js logo_*.png logo_nepes.jpg ./
 COPY cursos ./cursos
 COPY qualifica ./qualifica
 COPY produtos ./produtos
@@ -21,7 +21,8 @@ COPY backend/src ./backend/src
 COPY backend/seeds ./backend/seeds
 COPY backend/scripts/backup.mjs backend/scripts/criar-admin.mjs backend/scripts/importar-equipe.mjs backend/scripts/restaurar-volume.mjs ./backend/scripts/
 COPY --from=build /app/backend/node_modules ./backend/node_modules
-RUN groupadd --gid 10001 maternar \
+RUN chmod -R a+rX /app \
+ && groupadd --gid 10001 maternar \
  && useradd --uid 10001 --gid 10001 --no-create-home --shell /usr/sbin/nologin maternar \
  && mkdir -p /app/backend/data/uploads \
  && chown -R 10001:10001 /app/backend/data \

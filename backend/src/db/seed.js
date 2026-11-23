@@ -8,6 +8,8 @@ import { atualizarCatalogo } from './catalogo.js';
 import { normalizarCatalogo } from './normalizar-catalogo.js';
 import { revisarCatalogoUx } from './revisao-ux.js';
 import { importarAcervoDrive } from './importar-drive.js';
+import { ajustarCatalogo } from './ajustes-catalogo.js';
+import { normalizarVinculosProjetos } from './migrar-projetos.js';
 import { importarProjetosHistoricos } from './importar-projetos-historicos.js';
 
 const here = dirname(fileURLToPath(import.meta.url));
@@ -23,6 +25,8 @@ export function seed({ demo = false } = {}) {
       revisarCatalogoUx();
       importarAcervoDrive();
       importarProjetosHistoricos();
+      normalizarVinculosProjetos(db);
+      ajustarCatalogo(db);
       return;
     }
     // qualifica (módulos, recursos, trilhas)
@@ -95,6 +99,8 @@ export function seed({ demo = false } = {}) {
     revisarCatalogoUx();
     importarAcervoDrive();
     importarProjetosHistoricos();
+    normalizarVinculosProjetos(db);
+    ajustarCatalogo(db);
   });
   tx();
 

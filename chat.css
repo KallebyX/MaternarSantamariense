@@ -1,0 +1,29 @@
+.chat-diretorio { margin-bottom: 1.5rem; }
+.chat-diretorio summary { cursor:pointer; color:#153a62; }
+.chat-diretorio summary h2 { display:inline; font-size:1.2rem; }
+.chat-diretorio[open] summary { margin-bottom:1.25rem; }
+.chat-colegas { display:grid; grid-template-columns:repeat(auto-fit,minmax(min(100%,280px),1fr)); gap:.75rem; max-height:28rem; overflow:auto; padding:.25rem; }
+.chat-colega { display:flex; align-items:center; gap:.75rem; padding:.8rem; border:1px solid var(--borda,#dfe5eb); border-radius:.65rem; min-width:0; background:#fff; }
+.chat-colega > span:not(.chat-foto), .chat-conversa > span:not(.chat-foto) { flex:1; min-width:0; overflow-wrap:anywhere; }
+.chat-colega strong, .chat-colega small, .chat-conversa strong, .chat-conversa small { display:block; }
+.chat-colega small, .chat-conversa small { font-size:.8rem; color:#526174; line-height:1.45; font-weight:400; }
+.chat-colega button { flex-shrink:0; padding:.55rem .7rem; }
+.chat-foto { width:2.75rem; height:2.75rem; flex:0 0 2.75rem; border-radius:50%; object-fit:cover; background:#e9eff5; color:#153a62; }
+.chat-iniciais { display:inline-flex; align-items:center; justify-content:center; font-weight:700; font-size:.9rem; }
+.chat-navegacao { display:grid; grid-template-columns:1fr 1fr; gap:1.5rem; margin:1.5rem 0; }
+.chat-navegacao section { min-width:0; }
+.chat-conversas { display:flex; flex-direction:column; gap:.5rem; max-height:18rem; overflow:auto; }
+.chat-conversa.botao { display:flex; align-items:center; gap:.75rem; text-align:left; background:#fff; border:1px solid #ccd6e0; color:#153a62; }
+.chat-conversa.botao[aria-current=page] { border:2px solid #153a62; background:#eef4fa; }
+.chat-autor { display:flex; align-items:center; gap:.6rem; }
+.chat-autor .chat-foto { width:2rem; height:2rem; flex-basis:2rem; }
+.chat-conteudo { min-width:0; }
+.perfil-foto-preview { width:6rem; height:6rem; object-fit:cover; border-radius:50%; background:#edf1f5; }
+.perfil-foto-card { margin-bottom:1.5rem; }
+.perfil-foto-card input[type=file] { max-width:100%; }
+@media(max-width:600px) {
+  .chat-navegacao { grid-template-columns:1fr; gap:.5rem; }
+  .chat-colega { display:grid; grid-template-columns:2.75rem minmax(0,1fr); }
+  .chat-colega button { grid-column:2; justify-self:start; }
+  .chat-autor > span { min-width:0; overflow-wrap:anywhere; }
+}

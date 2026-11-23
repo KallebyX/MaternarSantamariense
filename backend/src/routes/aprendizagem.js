@@ -106,7 +106,7 @@ aprendizagemRouter.get('/canais/:id/mensagens', autenticar, (req, res) => {
   const incremental = depois !== undefined;
   const limite = incremental ? 200 : 50;
   const cursor = incremental ? depois : antes;
-  const campos = 'id, canal_id, autor, iniciais, texto, hora, criado_em';
+  const campos = "id, canal_id, autor, iniciais, texto, hora, criado_em, COALESCE((SELECT u.foto FROM usuarios u WHERE u.id=mensagens.usuario_id),'') AS foto";
   let linhas = db.prepare(`SELECT ${campos} FROM mensagens WHERE canal_id = ? ${cursor !== undefined ? `AND id ${incremental ? '>' : '<'} ?` : ''} ORDER BY id ${incremental ? 'ASC' : 'DESC'} LIMIT ?`)
     .all(req.params.id, ...(cursor !== undefined ? [Number(cursor)] : []), limite + 1);
   const temMais = linhas.length > limite;
@@ -120,7 +120,7 @@ aprendizagemRouter.post('/canais/:id/mensagens', autenticar, (req, res) => {
   if (typeof texto !== 'string' || !texto.trim() || texto.length > 2000) return erro(res, 400, 'Escreva uma mensagem de até 2.000 caracteres.');
   if (clientId !== undefined && (typeof clientId !== 'string' || !/^[a-zA-Z0-9-]{16,80}$/.test(clientId))) return erro(res, 400, 'Identificador de envio inválido.');
   if (!db.prepare('SELECT 1 FROM canais WHERE id = ?').get(req.params.id)) return erro(res, 404, 'Canal não encontrado.');
-  const campos = 'id, canal_id, autor, iniciais, texto, hora, criado_em';
+  const campos = "id, canal_id, autor, iniciais, texto, hora, criado_em, COALESCE((SELECT u.foto FROM usuarios u WHERE u.id=mensagens.usuario_id),'') AS foto";
   const anterior = clientId && db.prepare(`SELECT ${campos} FROM mensagens WHERE usuario_id=? AND client_id=?`).get(req.usuario.id, clientId);
   if (anterior) {
     if (anterior.canal_id !== req.params.id || anterior.texto !== texto.trim()) return erro(res, 409, 'Este envio já foi usado para outra mensagem.');
@@ -130,29 +130,6 @@ aprendizagemRouter.post('/canais/:id/mensagens', autenticar, (req, res) => {
   const info = db.prepare('INSERT INTO mensagens (canal_id, autor, iniciais, texto, hora, usuario_id, client_id) VALUES (?, ?, ?, ?, ?, ?, ?)')
     .run(req.params.id, req.usuario.nome, req.usuario.iniciais, texto.trim(), hora, req.usuario.id, clientId || null);
   return res.status(201).json({ ok: true, dados: db.prepare(`SELECT ${campos} FROM mensagens WHERE id = ?`).get(info.lastInsertRowid), erro: null });
-});
-
-// -------------------------------------------------------------- notificações
-aprendizagemRouter.get('/notificacoes', autenticar, (req, res) => {
-  const notifs = db.prepare(`SELECT n.*, (nl.notificacao_id IS NOT NULL) lida
-    FROM notificacoes n
-    LEFT JOIN notificacoes_lidas nl ON nl.notificacao_id = n.id AND nl.usuario_id = ?
-    WHERE n.usuario_id IS NULL OR n.usuario_id = ?
-    ORDER BY n.id DESC`).all(req.usuario.id, req.usuario.id);
-  return ok(res, notifs.map(n => ({ ...n, lida: !!n.lida })));
-});
-
-// Painel de gestão: todos os avisos, inclusive os dirigidos a uma pessoa só.
-aprendizagemRouter.get('/notificacoes/todas', autenticar, exigirPapel('Gestor', 'Administrador'), (req, res) =>
-  ok(res, db.prepare(`SELECT n.*, u.nome destinatario
-    FROM notificacoes n LEFT JOIN usuarios u ON u.id = n.usuario_id
-    ORDER BY n.id DESC`).all()));
-
-aprendizagemRouter.post('/notificacoes/:id/lida', autenticar, (req, res) => {
-  if (!db.prepare('SELECT 1 FROM notificacoes WHERE id = ? AND (usuario_id IS NULL OR usuario_id = ?)').get(req.params.id, req.usuario.id)) return erro(res, 404, 'Notificação não encontrada.');
-  db.prepare('INSERT OR IGNORE INTO notificacoes_lidas (usuario_id, notificacao_id) VALUES (?, ?)')
-    .run(req.usuario.id, req.params.id);
-  return ok(res, { mensagem: 'Notificação marcada como lida.' });
 });
 
 // --------------------------------------------------------------- conquistas

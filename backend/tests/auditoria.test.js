@@ -132,8 +132,8 @@ test('tarefas internas da coordenação não são acessíveis ao profissional', 
   }
 });
 
-test('todas as escritas de gestão negam anônimo e profissional', async () => {
-  const rotas = ['cursos', 'aulas', 'qualifica-modulos', 'qualifica-recursos', 'trilhas', 'politicas', 'materiais', 'produtos', 'documentos', 'protocolos', 'links', 'eventos', 'projetos', 'notificacoes', 'conquistas', 'canais', 'tarefas'];
+test('escritas exclusivas da gestão negam anônimo e profissional', async () => {
+  const rotas = ['cursos', 'aulas', 'qualifica-modulos', 'qualifica-recursos', 'trilhas', 'politicas', 'materiais', 'produtos', 'documentos', 'protocolos', 'links', 'projetos', 'notificacoes', 'conquistas', 'canais', 'tarefas'];
   for (const rota of rotas) {
     assert.equal((await request(app).post('/api/' + rota).send({})).status, 401, rota);
     assert.equal((await auth(request(app).post('/api/' + rota), pro).send({})).status, 403, rota);

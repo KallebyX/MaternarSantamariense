@@ -3,6 +3,9 @@ import { readFileSync, mkdirSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { config } from '../config.js';
+import { migrarComunicacao } from './comunicacao.js';
+import { migrarAgenda } from './agenda.js';
+import { migrarPermissoes } from './permissoes.js';
 import { migrarProjetos } from './migrar-projetos.js';
 
 const here = dirname(fileURLToPath(import.meta.url));
@@ -43,6 +46,9 @@ for (const [tabela, coluna, definicao] of COLUNAS_NOVAS) {
 db.exec('CREATE UNIQUE INDEX IF NOT EXISTS mensagens_envio_unico ON mensagens(usuario_id, client_id) WHERE client_id IS NOT NULL');
 db.exec('CREATE INDEX IF NOT EXISTS mensagens_canal_cursor ON mensagens(canal_id, id)');
 migrarProjetos(db);
+migrarComunicacao(db);
+migrarAgenda(db);
+migrarPermissoes(db);
 
 export function registrarLog(usuario, acao, detalhe = '') {
   db.prepare('INSERT INTO logs (usuario, acao, detalhe) VALUES (?, ?, ?)')

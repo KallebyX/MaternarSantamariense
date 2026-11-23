@@ -2,6 +2,26 @@
 
 Plataforma de educação permanente e comunicação da rede materno-infantil de Santa Maria. Frontend em HTML/CSS/JavaScript e API Express com SQLite persistente.
 
+## Ajustes solicitados pelo NEPeS — novembro de 2026
+
+Esta versão inclui diretório profissional por área e foto, conversas individuais
+restritas aos participantes, calendário mensal com origens e agenda de equipe,
+publicação delegada de avisos e filtros separados de instituição e curso.
+As referências antes disponíveis em Qualifica foram reorganizadas em Produtos e
+ferramentas; oito materiais selecionados passam a abrir em PDF. Os originais
+permanecem no acervo. Reanimação neonatal aponta ao programa oficial da SBP.
+
+O [guia de operação do NEPeS](GUIA-NEPES.md) explica cadastro de projetos,
+comunicados, permissões, equipe da agenda e organização dos conteúdos. O
+[relatório de entrega](ENTREGA-AJUSTES-NEPES.md) registra validação e implantação.
+
+A atualização aplica migrações aditivas e uma reorganização transacional do
+catálogo na inicialização. Faça backup do volume antes de atualizar. Vínculos
+institucionais ambíguos ficam para revisão, com a fonte preservada; a migração
+não atribui automaticamente instituição quando não há identificação segura.
+As contas existentes começam sem delegação de avisos e sem equipe privada:
+a gestão atribui esses acessos explicitamente pelo painel.
+
 ## Executar
 
 Requer Node.js 20 ou superior.
@@ -48,7 +68,7 @@ O navegador guarda apenas o token e um resumo da sessão. Dados profissionais, p
 
 ## Fonte editável
 
-A plataforma ativa é `app.html`, `app.css`, `app.js` e `chat.js`. A landing é `index.html`. O painel é `painel.html` e `painel.js`. Não há etapa de bundle nem CDN obrigatória.
+A plataforma ativa é `app.html`, `app.css`, `app.js`, `chat.js`, `chat.css`, `perfil-comunicacao.js`, `agenda.js`, `agenda.css` e `avisos.js`. A landing é `index.html`. O painel é `painel.html` e `painel.js`. Não há etapa de bundle nem CDN obrigatória.
 
 Os ícones do painel usam Lucide Static 1.48.0, com apenas os 22 SVGs necessários
 reunidos em `assets/lucide.svg`. A licença acompanha o arquivo. Ao mudar o nome
@@ -100,7 +120,7 @@ E2E_BROWSER=webkit npm run test:e2e -- --output=test-results/browser-webkit
 
 Os testes de API usam bancos em memória. As jornadas Playwright iniciam um banco temporário separado na porta 3101 e o apagam ao terminar. Os testes nunca usam os sete cadastros reais. Relatórios, screenshots e traces ficam em `backend/test-results/`, fora do versionamento. Use as subpastas de saída acima para preservar os demais relatórios dessa pasta. É possível usar Chromium instalado definindo `PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH`.
 
-Resultado atual: **83 testes de API aprovados e 44 cenários aprovados em cada
+Resultado histórico de setembro de 2026: **83 testes de API aprovados e 44 cenários aprovados em cada
 motor, Chromium e WebKit**. Em Chromium, 42 passaram na suíte completa; uma
 jornada longa atingiu o limite total e passou na repetição após ajustar o tempo.
 O teste adicional de formulário/tabela em 320 pixels passou nos dois motores.

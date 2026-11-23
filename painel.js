@@ -368,7 +368,10 @@ const RECURSOS = {
       { nome: 'mes', rotulo: 'Mês (1–12)', tipo: 'numero', obrigatorio: true, padrao: new Date().getMonth() + 1 },
       { nome: 'hora', rotulo: 'Hora (ex.: 14:00)', obrigatorio: true },
       { nome: 'local', rotulo: 'Local' },
-      { nome: 'cor', rotulo: 'Cor', tipo: 'cor' },
+      { nome: 'origem', rotulo: 'Origem', tipo: 'selecao', opcoes: ['NEPeS', 'Maternar', 'Profissionais'], padrao: 'Maternar' },
+      { nome: 'fim', rotulo: 'Horário de término (opcional)' },
+      { nome: 'visibilidade', rotulo: 'Visibilidade', tipo: 'selecao', opcoes: ['rede', 'equipe'], padrao: 'rede' },
+      { nome: 'equipe', rotulo: 'Equipe (para atividade restrita)' },
     ],
   },
   projetos: {
@@ -382,14 +385,16 @@ const RECURSOS = {
       { campo: 'ano_referencia', rotulo: 'Ano da fonte' },
       { campo: 'historico', rotulo: 'Acervo', calculo: r => r.historico ? 'Histórico' : 'Atual' },
       { campo: 'status', rotulo: 'Situação', tipo: 'etiqueta' },
-      { campo: 'situacao_origem', rotulo: 'Situação na fonte (AUT. CEP)' },
+      { campo: 'curso', rotulo: 'Curso/programa' },
+      { campo: 'instituicao_origem', rotulo: 'Vínculo original (fonte)' },
       { campo: 'periodo_origem', rotulo: 'Período na fonte' },
       { campo: 'autorizacao', rotulo: 'Autorização' },
     ],
     campos: [
       { nome: 'titulo', rotulo: 'Título do projeto', obrigatorio: true, largo: true },
       { nome: 'responsavel', rotulo: 'Responsável', obrigatorio: true },
-      { nome: 'instituicao', rotulo: 'Instituição' },
+      { nome: 'instituicao', rotulo: 'Instituição', dica: 'Somente a instituição: UFN, UFSM, FISMA ou outra.' },
+      { nome: 'curso', rotulo: 'Curso/programa', dica: 'Curso ou programa vinculado à instituição informada.' },
       { nome: 'local', rotulo: 'Local de execução' },
       { nome: 'inicio', rotulo: 'Início' },
       { nome: 'fim', rotulo: 'Término' },
@@ -401,7 +406,7 @@ const RECURSOS = {
     titulo: 'Avisos da coordenação',
     descricao: 'Avisos exibidos na plataforma. Sem destinatário, o aviso vale para toda a rede.',
     rota: 'notificacoes', rotaListagem: 'notificacoes/todas', singular: 'aviso',
-    rotulo: r => r.titulo, semEdicao: true,
+    rotulo: r => r.titulo,
     colunas: [
       { campo: 'titulo', rotulo: 'Aviso' },
       { campo: 'texto', rotulo: 'Texto' },
@@ -798,14 +803,17 @@ async function secaoRecurso(nome) {
     historico: r => r.historico ? 'historicos' : 'atuais',
     status: r => r.status,
     instituicao: r => normalizarBusca(r.instituicao),
-    situacao_origem: r => normalizarBusca(r.situacao_origem),
+    curso: r => normalizarBusca(r.curso),
   };
   if (filtrosProjetos) {
-    filtro.placeholder = 'Título, responsável, instituição ou local';
-    for (const [campo, rotulo] of [['ano_referencia', 'Ano da fonte'], ['historico', 'Acervo'], ['status', 'Situação do projeto'], ['instituicao', 'Instituição'], ['situacao_origem', 'Situação na fonte (AUT. CEP)']]) {
+    filtro.placeholder = 'Título, responsável, instituição, curso ou local';
+    for (const [campo, rotulo] of [['ano_referencia', 'Ano da fonte'], ['historico', 'Acervo'], ['status', 'Situação do projeto'], ['instituicao', 'Instituição'], ['curso', 'Curso/programa']]) {
       const seletor = el('select', { 'aria-label': rotulo });
       seletoresProjetos.set(campo, seletor);
-      seletor.addEventListener('change', () => { limite = LIMITE_INICIAL; desenhar(); });
+      seletor.addEventListener('change', () => {
+        if (campo === 'instituicao') { seletoresProjetos.get('curso').value = ''; atualizarFiltrosProjetos(); }
+        limite = LIMITE_INICIAL; desenhar();
+      });
       filtrosProjetos.append(el('label', {}, [el('span', { texto: rotulo }), seletor]));
     }
     filtrosProjetos.append(el('button', { classe: 'btn btn-linha', type: 'button', texto: 'Limpar filtros', onclick: () => {
@@ -816,7 +824,9 @@ async function secaoRecurso(nome) {
   function atualizarFiltrosProjetos() {
     for (const [campo, seletor] of seletoresProjetos) {
       const atual = seletor.value;
-      const opcoes = new Map(registros.map(r => [valoresProjetos[campo](r), campo === 'historico' ? (r.historico ? 'Registros históricos' : 'Registros atuais') : campo === 'ano_referencia' ? (r.ano_referencia || 'Ano não informado') : String(r[campo] ?? '').trim()]).filter(([valor]) => valor));
+      const instituicao = seletoresProjetos.get('instituicao')?.value;
+      const fonte = campo === 'curso' && instituicao ? registros.filter(r => normalizarBusca(r.instituicao) === instituicao) : registros;
+      const opcoes = new Map(fonte.map(r => [valoresProjetos[campo](r), campo === 'historico' ? (r.historico ? 'Registros históricos' : 'Registros atuais') : campo === 'ano_referencia' ? (r.ano_referencia || 'Ano não informado') : String(r[campo] ?? '').trim()]).filter(([valor]) => valor));
       if (atual && !opcoes.has(atual)) opcoes.set(atual, seletor.selectedOptions[0]?.textContent || atual);
       const ordenadas = [...opcoes].sort((a, b) => campo === 'ano_referencia' ? (Number(b[0]) || 0) - (Number(a[0]) || 0) : String(a[1]).localeCompare(String(b[1]), 'pt-BR'));
       seletor.replaceChildren(el('option', { value: '', texto: 'Todos' }), ...ordenadas.map(([valor, texto]) => el('option', { value: valor, texto: String(texto) })));
@@ -831,7 +841,7 @@ async function secaoRecurso(nome) {
   function desenhar() {
     const termo = filtro.value.trim().toLowerCase();
     const filtrados = filtrosProjetos ? registros.filter(r =>
-      normalizarBusca(termo).split(' ').filter(Boolean).every(t => normalizarBusca([r.titulo, r.responsavel, r.instituicao, r.local].join(' ')).includes(t)) &&
+      normalizarBusca(termo).split(' ').filter(Boolean).every(t => normalizarBusca([r.titulo, r.responsavel, r.instituicao, r.curso, r.local].join(' ')).includes(t)) &&
       [...seletoresProjetos].every(([campo, seletor]) => !seletor.value || valoresProjetos[campo](r) === seletor.value))
       : termo ? registros.filter(r => campoTexto(r).includes(termo)) : registros;
     const visiveis = filtrados.slice(0, limite);
@@ -1126,6 +1136,33 @@ async function secaoEquipe() {
     });
   }
 
+  async function equipeAgenda(usuario) {
+    await abrirFormulario({
+      grupo: 'Equipe', titulo: 'Equipe da agenda', descricao: 'O vínculo permite visualizar as atividades restritas à equipe. Use o mesmo nome para todos os integrantes; deixe vazio para remover o vínculo.',
+      campos: [{ nome: 'equipe', rotulo: 'Nome da equipe', largo: true }], registro: { equipe: usuario.equipe_agenda || '' },
+      salvar: async corpo => {
+        await pedir(`/agenda/equipe/${usuario.id}`, { metodo: 'PUT', corpo });
+        invalidarCache('usuarios'); await recarregar(); recado('Equipe da agenda atualizada.');
+      },
+    });
+  }
+
+  async function acessoComunicados(usuario) {
+    await abrirFormulario({
+      grupo: 'Equipe', titulo: 'Acesso aos comunicados',
+      descricao: 'Autoriza publicar e gerenciar os próprios avisos em Avisos → Gerenciar comunicados, sem acesso à gestão de contas.',
+      campos: [
+        { nome: 'publicar_avisos', rotulo: 'Permitir publicação de avisos', tipo: 'booleano', largo: true },
+        { nome: 'orgao', rotulo: 'Equipe responsável', tipo: 'selecao', permiteVazio: true, opcoes: ['NEPeS', 'Políticas de Saúde', 'Superintendência da APS'] },
+      ],
+      registro: { ...usuario, publicar_avisos: !!usuario.publicar_avisos },
+      salvar: async corpo => {
+        await pedir(`/usuarios/${usuario.id}/comunicacao`, { metodo: 'PUT', corpo });
+        invalidarCache('usuarios'); await recarregar(); recado('Acesso aos comunicados atualizado.');
+      },
+    });
+  }
+
   async function alternarSituacao(usuario) {
     const desativar = usuario.situacao !== 'Desativado';
     const acao = desativar ? 'desativar' : 'reativar';
@@ -1170,6 +1207,8 @@ async function secaoEquipe() {
         ...(usuario.situacao === 'Ativo' ? [el('button', { classe: 'btn btn-mini btn-linha', texto: 'Enviar acesso', onclick: evento => enviarEmail(usuario, evento.currentTarget) })] : []),
         el('button', { classe: 'btn btn-mini btn-linha', texto: 'Senha', onclick: () => definirSenha(usuario) }),
         el('button', { classe: 'btn btn-mini btn-linha', estilo: 'margin-left:6px', texto: 'Editar', onclick: () => editar(usuario) }),
+        ...(sessao.admin ? [el('button', { classe: 'btn btn-mini btn-linha', texto: 'Comunicados', onclick: () => acessoComunicados(usuario) })] : []),
+        el('button', { classe: 'btn btn-mini btn-linha', texto: 'Equipe da agenda', onclick: () => equipeAgenda(usuario) }),
         usuario.situacao === 'Pendente'
           ? el('button', { classe: 'btn btn-mini btn-primario', estilo: 'margin-left:6px', texto: 'Aprovar',
             onclick: async () => {

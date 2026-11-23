@@ -4,7 +4,7 @@ import { readFileSync } from 'node:fs';
 import { createHash } from 'node:crypto';
 import { db } from '../src/db/connection.js';
 import { seed } from '../src/db/seed.js';
-import { catalogoDrive, importarAcervoDrive } from '../src/db/importar-drive.js';
+import { catalogoDrive, importarAcervoDrive, urlPublicaAcervo } from '../src/db/importar-drive.js';
 
 before(() => seed({ demo: false }));
 
@@ -25,40 +25,57 @@ test('importação preenche acervo e documentos com os 7 protocolos, sem criar c
   assert.equal(resumo.protocolos, 7);
   assert.equal(db.prepare('SELECT COUNT(*) n FROM cursos').get().n, 0);
   for (const m of catalogoDrive.materiais) {
-    assert.equal(db.prepare('SELECT COUNT(*) n FROM materiais WHERE url=?').get(m.url).n, 1);
-    assert.equal(db.prepare('SELECT status FROM documentos WHERE url=?').get(m.url).status, 'Em revisão');
-    if (m.tipo === 'Protocolo') assert.equal(db.prepare('SELECT pendente FROM protocolos WHERE url=?').get(m.url).pendente, 1);
+    assert.equal(db.prepare('SELECT COUNT(*) n FROM materiais WHERE url=?').get(urlPublicaAcervo(m)).n, 1);
+    assert.equal(db.prepare('SELECT status FROM documentos WHERE url=?').get(urlPublicaAcervo(m)).status, 'Em revisão');
+    if (m.tipo === 'Protocolo') assert.equal(db.prepare('SELECT pendente FROM protocolos WHERE url=?').get(urlPublicaAcervo(m)).pendente, 1);
   }
 });
 
 test('reinícios conservam edição e remoção administrativa sem duplicar ou recriar material', () => {
   const primeiro = catalogoDrive.materiais[0];
   const segundo = catalogoDrive.materiais[1];
-  db.prepare('UPDATE materiais SET titulo=?, url=? WHERE url=?').run('Título revisado pela equipe', '/arquivo-revisado.pdf', primeiro.url);
-  db.prepare('DELETE FROM materiais WHERE url=?').run(segundo.url);
+  db.prepare('UPDATE materiais SET titulo=?, url=? WHERE url=?').run('Título revisado pela equipe', '/arquivo-revisado.pdf', urlPublicaAcervo(primeiro));
+  db.prepare('DELETE FROM materiais WHERE url=?').run(urlPublicaAcervo(segundo));
   assert.equal(importarAcervoDrive(), null);
   assert.equal(db.prepare('SELECT COUNT(*) n FROM materiais WHERE titulo=?').get('Título revisado pela equipe').n, 1);
-  assert.equal(db.prepare('SELECT COUNT(*) n FROM materiais WHERE url=?').get(segundo.url).n, 0);
+  assert.equal(db.prepare('SELECT COUNT(*) n FROM materiais WHERE url=?').get(urlPublicaAcervo(segundo)).n, 0);
+});
+
+test('reimportação reconhece PDFs derivados sem duplicar materiais nem conflitar com IDs do Drive', () => {
+  // Restabelecer os registros removidos pelo caso anterior antes de conferir a repetição.
+  db.prepare('DELETE FROM app_meta WHERE chave=?').run(catalogoDrive.chave);
+  importarAcervoDrive();
+  const antes = Object.fromEntries(['materiais','documentos','protocolos'].map(t => [t,db.prepare(`SELECT COUNT(*) n FROM ${t}`).get().n]));
+  db.prepare('DELETE FROM app_meta WHERE chave=?').run(catalogoDrive.chave);
+  const resumo = importarAcervoDrive();
+  assert.equal(resumo.materiais,0);
+  assert.equal(resumo.documentos,0);
+  assert.equal(resumo.protocolos,0);
+  for (const tabela of Object.keys(antes)) assert.equal(db.prepare(`SELECT COUNT(*) n FROM ${tabela}`).get().n,antes[tabela]);
+  for (const m of catalogoDrive.materiais.filter(m=>m.url.endsWith('.docx'))) {
+    assert.ok(db.prepare('SELECT 1 FROM documentos WHERE url=?').get(urlPublicaAcervo(m)));
+    assert.equal(db.prepare('SELECT COUNT(*) n FROM documentos WHERE url=?').get(m.url).n,0);
+  }
 });
 
 test('reconhece fonte Drive já cadastrada, mantém associações em áreas distintas e área renomeada', () => {
   db.prepare('DELETE FROM app_meta WHERE chave=?').run(catalogoDrive.chave);
   for (const m of catalogoDrive.materiais) {
-    db.prepare('DELETE FROM materiais WHERE url=? OR titulo=?').run(m.url, 'Título revisado pela equipe');
-    db.prepare('DELETE FROM documentos WHERE url=?').run(m.url);
-    db.prepare('DELETE FROM protocolos WHERE url=?').run(m.url);
+    db.prepare('DELETE FROM materiais WHERE url=? OR titulo=?').run(urlPublicaAcervo(m), 'Título revisado pela equipe');
+    db.prepare('DELETE FROM documentos WHERE url=?').run(urlPublicaAcervo(m));
+    db.prepare('DELETE FROM protocolos WHERE url=?').run(urlPublicaAcervo(m));
   }
   const m = catalogoDrive.materiais[0];
   const politica = db.prepare('SELECT id FROM politicas WHERE nome=?').get(m.politica);
   const outra = db.prepare('SELECT id FROM politicas WHERE nome=?').get('Saúde da Criança');
   const url = `https://drive.google.com/file/d/${m.driveId}/view`;
   db.prepare('INSERT INTO materiais(politica_id,titulo,tipo,url) VALUES (?,?,?,?)').run(politica.id, 'Revisado', 'Guia', url);
-  db.prepare('INSERT INTO materiais(politica_id,titulo,tipo,url) VALUES (?,?,?,?)').run(outra.id, 'Compartilhado', 'Guia', m.url);
+  db.prepare('INSERT INTO materiais(politica_id,titulo,tipo,url) VALUES (?,?,?,?)').run(outra.id, 'Compartilhado', 'Guia', urlPublicaAcervo(m));
   db.prepare('UPDATE politicas SET nome=? WHERE id=?').run('PICS revisada', politica.id);
   const resumo = importarAcervoDrive();
   assert.equal(resumo.materiais, 12);
   assert.equal(db.prepare('SELECT titulo FROM materiais WHERE politica_id=? AND url=?').get(politica.id, url).titulo, 'Revisado');
-  assert.equal(db.prepare('SELECT titulo FROM materiais WHERE politica_id=? AND url=?').get(outra.id, m.url).titulo, 'Compartilhado');
+  assert.equal(db.prepare('SELECT titulo FROM materiais WHERE politica_id=? AND url=?').get(outra.id, urlPublicaAcervo(m)).titulo, 'Compartilhado');
 });
 
 test('falha na identificação de área desfaz a importação inteira e não grava sucesso parcial', () => {

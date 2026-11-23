@@ -80,7 +80,7 @@ test('migração do esquema legado conserva linhas, colunas extras, índices, vi
     migrarProjetos(banco);
     migrarProjetos(banco);
     const linha = banco.prepare('SELECT * FROM projetos').get();
-    assert.deepEqual(linha, { id: 'editado', titulo: 'Edição administrativa', status: 'Encerrado', extra: 'valor extra', ano_referencia: null, historico: 0, situacao_origem: '', periodo_origem: '' });
+    assert.deepEqual(linha, { id: 'editado', titulo: 'Edição administrativa', status: 'Encerrado', extra: 'valor extra', ano_referencia: null, historico: 0, situacao_origem: '', periodo_origem: '', curso: '', instituicao_origem: '', vinculo_normalizado: 0, vinculo_revisar: 0 });
     assert.ok(banco.prepare("SELECT 1 FROM sqlite_master WHERE name='projeto_titulo_extra'").get());
     assert.equal(banco.prepare('SELECT titulo FROM visao_projetos').get().titulo, linha.titulo);
     banco.prepare('UPDATE projetos SET titulo=? WHERE id=?').run('Revisão posterior', linha.id);

@@ -1,3 +1,4 @@
+import { separarVinculo } from './projetos-catalogo.js';
 const identificador = nome => '"' + nome.replaceAll('"', '""') + '"';
 
 /** Acrescenta metadados de origem e a classificação histórica sem reinterpretar registros. */
@@ -8,6 +9,10 @@ export function migrarProjetos(banco) {
       ['historico', 'INTEGER NOT NULL DEFAULT 0 CHECK (historico IN (0,1))'],
       ['situacao_origem', "TEXT NOT NULL DEFAULT ''"],
       ['periodo_origem', "TEXT NOT NULL DEFAULT ''"],
+      ['curso', "TEXT NOT NULL DEFAULT ''"],
+      ['instituicao_origem', "TEXT NOT NULL DEFAULT ''"],
+      ['vinculo_normalizado', 'INTEGER NOT NULL DEFAULT 0'],
+      ['vinculo_revisar', 'INTEGER NOT NULL DEFAULT 0'],
     ];
     for (const [nome, tipo] of colunas) {
       if (!banco.prepare("SELECT 1 FROM pragma_table_info('projetos') WHERE name=?").get(nome)) {
@@ -40,5 +45,18 @@ export function migrarProjetos(banco) {
       if (banco.prepare('SELECT COUNT(*) n FROM projetos').get().n !== antes) throw new Error('Contagem de projetos divergente; migração cancelada.');
     }
     banco.exec('CREATE INDEX IF NOT EXISTS idx_projetos_referencia ON projetos(ano_referencia, historico, status)');
+  })();
+}
+
+/** Normaliza somente registros ainda não tratados, inclusive importados após a migração. */
+export function normalizarVinculosProjetos(banco) {
+  return banco.transaction(() => {
+    const linhas = banco.prepare('SELECT id, instituicao, curso FROM projetos WHERE vinculo_normalizado=0').all();
+    const atualizar = banco.prepare('UPDATE projetos SET instituicao=?, curso=?, instituicao_origem=?, vinculo_normalizado=1, vinculo_revisar=? WHERE id=?');
+    for (const p of linhas) {
+      const v = separarVinculo(p.instituicao);
+      atualizar.run(v.instituicao, p.curso || v.curso, v.original, Number(v.revisar), p.id);
+    }
+    return linhas.length;
   })();
 }
