@@ -37,7 +37,7 @@ assert.equal(fs.existsSync('/app/backend/.env'),false);
 assert.equal(fs.existsSync('/app/backend/tests'),false);
 assert.equal(fs.existsSync('/app/backend/seeds/PERFIS.json'),false);
 for(const table of ['cursos','aulas','mensagens','eventos','conquistas'])assert.equal(db.prepare('SELECT COUNT(*) n FROM '+table).get().n,0,table);
-for(const path of ['/','/app','/painel','/app.js','/chat.js','/app.css','/painel.js','/api/saude','/api/cursos']) assert.equal((await fetch(base+path)).status,200,path);
+for(const path of ['/','/app','/painel','/app.js','/chat.js','/chat.css','/perfil-comunicacao.js','/agenda.js','/agenda.css','/avisos.js','/app.css','/painel.js','/api/saude','/api/cursos']) assert.equal((await fetch(base+path)).status,200,path);
 for(const path of ['/backend/data/maternar.db','/backend/.env','/backend/seeds/PERFIS.json','/dist/portainer-ufn-20260929/stack.env']) assert.equal((await fetch(base+path)).status,404,path);
 const urls=new Set();
 for(const table of ['materiais','documentos','protocolos','produtos','qualifica_recursos','links']) {
@@ -64,11 +64,14 @@ async function call(method,path,data,token=admin){
  const response=await fetch(base+'/api/'+path,{method,headers:token?auth(token):{'Content-Type':'application/json'},body:data===undefined?undefined:JSON.stringify(data)});
  return {status:response.status,body:await response.json()};
 }
-const managed=['cursos','aulas','qualifica-modulos','qualifica-recursos','trilhas','politicas','materiais','produtos','documentos','protocolos','links','eventos','projetos','notificacoes','conquistas','canais','tarefas'];
+const managed=['cursos','aulas','qualifica-modulos','qualifica-recursos','trilhas','politicas','materiais','produtos','documentos','protocolos','links','projetos','notificacoes','conquistas','canais','tarefas'];
 for(const route of managed){
  assert.equal((await call('POST',route,{},pro)).status,403,route);
  assert.equal((await call('POST',route,{},null)).status,401,route);
 }
+assert.equal((await call('POST','eventos',{dia:23,mes:11,ano:2026,hora:'14:00',titulo:'Atividade profissional'},pro)).status,201);
+assert.equal((await call('POST','eventos',{dia:23,mes:11,ano:2026,hora:'14:00',titulo:'Origem indevida',origem:'NEPeS'},pro)).status,403);
+assert.equal((await call('GET','eventos',undefined,null)).status,401);
 assert.equal((await call('GET','tarefas',undefined,pro)).status,403);
 assert.equal((await call('GET','tarefas',undefined,gestor)).status,200);
 assert.equal((await call('POST','usuarios/convite',{nome:'Bloqueado',email:'blocked@example.test',perfil:'Administrador'},gestor)).status,403);
