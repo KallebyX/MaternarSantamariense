@@ -1,5 +1,8 @@
 import { iniciarNavegacaoMobile } from './mobile-navigation.js';
 import { criarComunicacao } from './chat.js';
+import { criarAgenda } from './agenda.js';
+import { criarAvisos } from './avisos.js';
+import { campoArea, criarFotoPerfil } from './perfil-comunicacao.js';
 // A API é a fonte de verdade; o navegador guarda somente a sessão.
 const $ = s => document.querySelector(s);
 const esc = v => String(v ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
@@ -17,7 +20,7 @@ const menu = [
   ['produtos','Produtos e ferramentas','Materiais e ferramentas de apoio à prática profissional.'],
   ['projetos','Projetos de pesquisa','Pesquisas cadastradas no NEPeS.'],
   ['agenda','Agenda','Encontros, capacitações e atividades da rede.'],
-  ['mensagens','Comunicação','Converse com a equipe nos canais da rede.'],
+  ['mensagens','Comunicação','Encontre colegas por área e converse com a equipe.'],
   ['avisos','Avisos','Comunicados da coordenação para você e para a rede.'],
   ['certificados','Meus certificados','Comprovantes dos cursos que você concluiu.'],
   ['links','Links úteis','Serviços e referências da rede.'],
@@ -35,7 +38,7 @@ function limparSessao() {
 }
 async function api(caminho, {method='GET', body, comMeta=false}={}) {
   let resposta;
-  try { resposta=await fetch('/api'+caminho,{method,headers:{Authorization:'Bearer '+token,...(body?{'Content-Type':'application/json'}:{})},body:body?JSON.stringify(body):undefined,signal:AbortSignal.timeout(15000)}); }
+  try { resposta=await fetch('/api'+caminho,{method,headers:{Authorization:'Bearer '+token,...(body && !(body instanceof FormData)?{'Content-Type':'application/json'}:{})},body:body instanceof FormData?body:body?JSON.stringify(body):undefined,signal:AbortSignal.timeout(15000)}); }
   catch { throw new Error('Não foi possível conectar. Verifique sua conexão e tente novamente.'); }
   const dados=await resposta.json().catch(()=>null);
   if (resposta.status===401) { limparSessao(); throw new Error('Sua sessão expirou. Entre novamente.'); }
@@ -109,38 +112,46 @@ async function produtos(params) {
 async function projetos(params) {
   const consulta=new URLSearchParams(params);
   if(!consulta.has('status')&&consulta.has('filtro'))consulta.set('status',consulta.get('filtro'));
-  consulta.delete('filtro');consulta.set('limite','24');
+  consulta.delete('filtro');consulta.delete('situacao_origem');consulta.set('limite','24');
   const {dados:lista,meta}=await api('/projetos?'+consulta.toString(),{comMeta:true});
   const selecionar=(nome,rotulo,opcoes)=>`<label>${esc(rotulo)}<select name="${nome}" aria-label="${esc(rotulo)}"><option value="">Todos</option>${opcoes.map(opcao=>{
     const [valor,texto]=Array.isArray(opcao)?opcao:[String(opcao),String(opcao)];
     return `<option value="${esc(valor)}"${consulta.get(nome)===valor?' selected':''}>${esc(texto)}</option>`;
   }).join('')}</select></label>`;
-  const formulario=`<form class="filtros filtros-projetos" data-form="filtros"><label class="busca-projetos">Busca<input name="q" type="search" placeholder="Título, responsável, instituição ou local" value="${esc(consulta.get('q')||'')}"></label>${selecionar('ano','Ano da fonte',[...meta.opcoes.anos,...(meta.opcoes.semAno?[['sem-ano','Ano não informado']]:[])])}${selecionar('escopo','Acervo',[['atuais','Registros atuais'],['historicos','Registros históricos']])}${selecionar('status','Situação do projeto',meta.opcoes.situacoes)}${selecionar('instituicao','Instituição',meta.opcoes.instituicoes)}${selecionar('situacao_origem','Situação na fonte (AUT. CEP)',meta.opcoes.situacoesOrigem)}<div class="acoes"><button>Aplicar filtros</button><a href="#projetos">Limpar filtros</a></div></form>`;
+  const formulario=`<form class="filtros filtros-projetos" data-form="filtros" data-cursos-instituicoes="${esc(JSON.stringify(meta.opcoes.cursosPorInstituicao))}"><label class="busca-projetos">Busca<input name="q" type="search" placeholder="Título, responsável, instituição, curso ou local" value="${esc(consulta.get('q')||'')}"></label>${selecionar('ano','Ano da fonte',[...meta.opcoes.anos,...(meta.opcoes.semAno?[['sem-ano','Ano não informado']]:[])])}${selecionar('escopo','Acervo',[['atuais','Registros atuais'],['historicos','Registros históricos']])}${selecionar('status','Situação do projeto',meta.opcoes.situacoes)}${selecionar('instituicao','Instituição',meta.opcoes.instituicoes)}${selecionar('curso','Curso/programa',meta.opcoes.cursos)}<div class="acoes"><button>Aplicar filtros</button><a href="#projetos">Limpar filtros</a></div></form>`;
+  if (!projetos.filtrosAtivos) {
+    projetos.filtrosAtivos=true;
+    document.addEventListener('change',event=>{
+      const seletor=event.target;
+      if (!seletor.matches('.filtros-projetos select[name=instituicao]')) return;
+      const form=seletor.form, cursos=form.elements.curso;
+      const mapa=JSON.parse(form.dataset.cursosInstituicoes||'{}');
+      const opcoes=seletor.value?(mapa[seletor.value]||[]):[...new Set(Object.values(mapa).flat())].sort((a,b)=>a.localeCompare(b,'pt-BR'));
+      cursos.innerHTML='<option value="">Todos</option>'+opcoes.map(c=>`<option value="${esc(c)}">${esc(c)}</option>`).join('');
+    });
+  }
   const inicio=meta.total?(meta.pagina-1)*meta.limite+1:0,fim=Math.min(meta.pagina*meta.limite,meta.total);
   const paginaLink=(pagina,texto)=>{const destino=new URLSearchParams(consulta);destino.set('pagina',String(pagina));return `<a class="botao" href="#projetos?${esc(destino.toString())}">${texto}</a>`;};
   const navegacao=meta.paginas>1?`<nav class="paginacao-projetos" aria-label="Páginas dos projetos">${meta.pagina>1?paginaLink(meta.pagina-1,'Página anterior'):''}<span>Página ${meta.pagina} de ${meta.paginas}</span>${meta.pagina<meta.paginas?paginaLink(meta.pagina+1,'Próxima página'):''}</nav>`:'';
-  const cartoes=lista.length?grade(lista.map(p=>`<article class="cartao projeto" data-projeto-id="${esc(p.id)}">${etiqueta(p.historico?'Acervo histórico':'Cadastro atual')} ${etiqueta(p.ano_referencia?'Fonte: '+p.ano_referencia:'Ano não informado')}<h3>${esc(p.titulo)}</h3><dl><dt>Situação do projeto</dt><dd>${esc(p.status)}</dd><dt>Responsável</dt><dd>${esc(p.responsavel||'Não informado')}</dd><dt>Instituição</dt><dd>${esc(p.instituicao||'Não informada')}</dd><dt>Local</dt><dd>${esc(p.local||'Não informado')}</dd><dt>Período cadastrado</dt><dd>${esc([p.inicio,p.fim].filter(v=>v&&v!=='—').join(' — ')||'Não informado')}</dd>${p.historico?`<dt>Período na fonte</dt><dd>${esc(p.periodo_origem||'Não informado')}</dd><dt>Situação na fonte (AUT. CEP)</dt><dd>${esc(p.situacao_origem||'Não informada')}</dd>`:''}<dt>${p.historico?'Registro NEPeS':'Autorização NEPeS'}</dt><dd>${esc(p.autorizacao||'Não informada')}</dd></dl></article>`)):vazio('Nenhum projeto corresponde aos filtros. Altere a busca ou limpe os filtros.');
+  const cartoes=lista.length?grade(lista.map(p=>`<article class="cartao projeto" data-projeto-id="${esc(p.id)}">${etiqueta(p.historico?'Acervo histórico':'Cadastro atual')} ${etiqueta(p.ano_referencia?'Fonte: '+p.ano_referencia:'Ano não informado')}<h3>${esc(p.titulo)}</h3><dl><dt>Situação do projeto</dt><dd>${esc(p.status)}</dd><dt>Responsável</dt><dd>${esc(p.responsavel||'Não informado')}</dd><dt>Instituição</dt><dd>${esc(p.instituicao||'Não informada')}</dd><dt>Curso/programa</dt><dd>${esc(p.curso||'Não informado')}</dd>${p.vinculo_revisar?`<dt>Vínculo da fonte a revisar</dt><dd>${esc(p.instituicao_origem)}</dd>`:''}<dt>Local</dt><dd>${esc(p.local||'Não informado')}</dd><dt>Período cadastrado</dt><dd>${esc([p.inicio,p.fim].filter(v=>v&&v!=='—').join(' — ')||'Não informado')}</dd>${p.historico?`<dt>Período na fonte</dt><dd>${esc(p.periodo_origem||'Não informado')}</dd><dt>Situação na fonte (AUT. CEP)</dt><dd>${esc(p.situacao_origem||'Não informada')}</dd>`:''}<dt>${p.historico?'Registro NEPeS':'Autorização NEPeS'}</dt><dd>${esc(p.autorizacao||'Não informada')}</dd></dl></article>`)):vazio('Nenhum projeto corresponde aos filtros. Altere a busca ou limpe os filtros.');
   return formulario+`<p class="resultado-projetos" role="status">${inicio}–${fim} de ${meta.total} projetos encontrados · ${meta.totalGeral} no acervo</p><p class="nota-projetos">Os registros históricos preservam as informações da fonte. A classificação “Histórico” não confirma andamento, conclusão ou autorização atual.</p>`+cartoes+navegacao;
 }
-async function agenda(params) {
-  const lista=await api('/eventos'), q=params.get('q')||'';
-  return filtros({q,placeholder:'Buscar atividade ou local'})+grade(lista.filter(e=>combina(q,e.titulo,e.local)).map(e=>`<article class="cartao">${etiqueta(`${String(e.dia).padStart(2,'0')}/${String(e.mes).padStart(2,'0')}/${e.ano} · ${e.hora}`)}<h3>${esc(e.titulo)}</h3><p>${esc(e.local||'Local a confirmar')}</p><button data-acao="calendario" data-evento="${e.id}">Adicionar ao calendário</button></article>`));
-}
-const comunicacao=criarComunicacao({api,esc,id});
+const calendario=criarAgenda({api,esc,id,usuario:()=>usuario});
+const agenda=params=>calendario.renderizar(params);
+const comunicacao=criarComunicacao({api,esc,id,obterToken:()=>token});
 const mensagens=params=>comunicacao.renderizar(params);
-async function avisos() {
-  const lista=await api('/notificacoes');
-  return lista.length?`<div class="lista">${lista.map(n=>`<article class="cartao">${etiqueta(n.lida?'Lido':'Novo',!n.lida)}<h2>${esc(n.titulo)}</h2><p>${esc(n.texto)}</p><small>${data(n.criado_em)}</small>${!n.lida?`<div class="acoes"><button data-acao="lida" data-notificacao="${n.id}">Marcar como lido</button></div>`:''}</article>`).join('')}</div>`:vazio('Nenhum comunicado no momento.');
-}
+const comunicados=criarAvisos({api,esc,usuario:()=>usuario});
+const avisos=()=>comunicados.renderizar();
 async function certificados() {
   const lista=await api('/certificados/meus');
   return lista.length?grade(lista.map(c=>`<article class="cartao">${etiqueta(c.area)}<h3>${esc(c.curso)}</h3><p>${c.horas} horas · Emitido em ${data(c.emitido_em)}</p><small>${esc(c.codigo)}</small><div class="acoes"><button data-acao="certificado" data-codigo="${esc(c.codigo)}">Ver certificado</button></div></article>`)):vazio('Conclua todas as aulas de um curso para emitir seu primeiro certificado.');
 }
+const fotoPerfil=criarFotoPerfil({esc,obterToken:()=>token,aoSalvar:async dados=>{usuario=dados;salvarSessao({usuario});await carregar();}});
 async function perfil() {
   usuario=await api('/auth/eu');
   salvarSessao({usuario});atualizarIdentidade();
   const campos=[['nome','Nome completo'],['cargo','Profissão na SMS'],['unidade','Local de atuação'],['telefone','Telefone'],['formacao','Formação profissional']];
-  return `${usuario.senha_temporaria?'<div class="aviso bloco">Você está usando uma senha provisória. Defina sua nova senha para acessar a plataforma.</div>':''}${!usuario.senha_temporaria?`<div class="cartao bloco"><h2>Dados profissionais</h2><form class="formulario" data-form="perfil">${campos.map(([c,n])=>`<label>${n}<input name="${c}" value="${esc(usuario[c])}" ${c==='nome'?'required':''} maxlength="180"></label>`).join('')}<dl><dt>E-mail</dt><dd>${esc(usuario.email)}</dd><dt>Formação</dt><dd data-formacao-salva>${esc(usuario.formacao||'Não informada')}</dd><dt>CPF</dt><dd>${usuario.cpf?esc(usuario.cpf.slice(0,3)+'.***.***-'+usuario.cpf.slice(-2)):'Não informado'}</dd><dt>Perfil</dt><dd>${esc(usuario.perfil)}</dd></dl><button>Salvar perfil</button></form></div>`:''}<div class="cartao"><h2>Alterar senha</h2><form class="formulario" data-form="senha"><label>Senha atual<input name="senhaAtual" type="password" autocomplete="current-password" required></label><label>Nova senha<input name="senhaNova" type="password" autocomplete="new-password" minlength="8" required></label><small>Use pelo menos 8 caracteres, com letras e números.</small><label>Confirme a nova senha<input name="confirmacao" type="password" autocomplete="new-password" minlength="8" required></label><button>Atualizar senha</button></form></div>`;
+  return `${usuario.senha_temporaria?'<div class="aviso bloco">Você está usando uma senha provisória. Defina sua nova senha para acessar a plataforma.</div>':''}${!usuario.senha_temporaria?fotoPerfil.renderizar(usuario):''}${!usuario.senha_temporaria?`<div class="cartao bloco"><h2>Dados profissionais</h2><form class="formulario" data-form="perfil">${campoArea(usuario,esc)}${campos.map(([c,n])=>`<label>${n}<input name="${c}" value="${esc(usuario[c])}" ${c==='nome'?'required':''} maxlength="180"></label>`).join('')}<dl><dt>E-mail</dt><dd>${esc(usuario.email)}</dd><dt>Formação</dt><dd data-formacao-salva>${esc(usuario.formacao||'Não informada')}</dd><dt>CPF</dt><dd>${usuario.cpf?esc(usuario.cpf.slice(0,3)+'.***.***-'+usuario.cpf.slice(-2)):'Não informado'}</dd><dt>Perfil</dt><dd>${esc(usuario.perfil)}</dd></dl><button>Salvar perfil</button></form></div>`:''}<div class="cartao"><h2>Alterar senha</h2><form class="formulario" data-form="senha"><label>Senha atual<input name="senhaAtual" type="password" autocomplete="current-password" required></label><label>Nova senha<input name="senhaNova" type="password" autocomplete="new-password" minlength="8" required></label><small>Use pelo menos 8 caracteres, com letras e números.</small><label>Confirme a nova senha<input name="confirmacao" type="password" autocomplete="new-password" minlength="8" required></label><button>Atualizar senha</button></form></div>`;
 }
 async function busca(params) {
   const q=params.get('q')||'';
@@ -168,6 +179,9 @@ async function carregar() {
     if(seq!==sequencia)return;
     $('#conteudo').innerHTML=html||vazio('Nenhum registro encontrado com esses filtros.');
     if(rota==='mensagens')comunicacao.ativar();
+    if(rota==='agenda')calendario.ativar();
+    if(rota==='avisos')comunicados.ativar();
+    if(rota==='perfil'&&!usuario.senha_temporaria)fotoPerfil.ativar();
   } catch(error) { if(seq===sequencia)$('#conteudo').innerHTML=`<div class="erro" role="alert">${esc(error.message)} <button data-acao="recarregar">Tentar novamente</button></div>`; }
 }
 async function mostrarCertificado(codigo) {
@@ -197,7 +211,7 @@ document.addEventListener('click',async event=>{
   }catch(error){avisar(error.message);}finally{b.disabled=false;}
 });
 document.addEventListener('submit',async event=>{
-  const form=event.target;if(!form.dataset.form)return;
+  const form=event.target;if(!['filtros','perfil','senha','mensagem'].includes(form.dataset.form))return;
   event.preventDefault();const dados=Object.fromEntries(new FormData(form));
   if(form.dataset.form==='filtros'){ const {rota,params}=rotaAtual();for(const [k,v]of Object.entries(dados))v?params.set(k,v):params.delete(k);if(rota==='projetos'){params.delete('pagina');params.delete('filtro');}ir(rota+'?'+params.toString());return; }
   const botao=form.querySelector('button');botao.disabled=true;

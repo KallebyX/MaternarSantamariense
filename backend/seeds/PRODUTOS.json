@@ -32,11 +32,11 @@
     "capa": ""
   },
   {
-    "tipo": "Busca de vídeos",
+    "tipo": "Portal",
     "ano": 0,
-    "titulo": "Reanimação neonatal — busca de vídeos",
-    "desc": "Busca no YouTube por vídeos sobre reanimação neonatal e minuto de ouro.",
-    "url": "https://www.youtube.com/results?search_query=reanima%C3%A7%C3%A3o+neonatal+minuto+de+ouro",
+    "titulo": "Programa Brasileiro de Reanimação Neonatal — SBP",
+    "desc": "Página oficial da Sociedade Brasileira de Pediatria com diretrizes, cursos e vídeos de reanimação neonatal.",
+    "url": "https://www.sbp.com.br/especiais/reanimacao-/",
     "capa": ""
   },
   {
@@ -45,6 +45,142 @@
     "titulo": "DATASUS — Ministério da Saúde",
     "desc": "Portal do Departamento de Informática do SUS para acesso a sistemas e informações de saúde.",
     "url": "https://datasus.saude.gov.br/",
+    "capa": ""
+  },
+  {
+    "tipo": "PDF",
+    "ano": 0,
+    "titulo": "Guia do Pré-Natal RS 2024",
+    "desc": "Recurso de apoio à prática profissional. Fonte: Secretaria Estadual de Saúde do RS.",
+    "url": "https://atencaoprimaria.rs.gov.br/upload/arquivos/202404/25124004-guia-do-pre-natal-2024.pdf",
+    "capa": ""
+  },
+  {
+    "tipo": "PDF",
+    "ano": 0,
+    "titulo": "Guia do Pré-Natal para Profissionais",
+    "desc": "Recurso de apoio à prática profissional. Fonte: Ministério da Saúde.",
+    "url": "https://bvsms.saude.gov.br/bvs/publicacoes/guia_pre_natal_profissionais_saude_1ed.pdf",
+    "capa": ""
+  },
+  {
+    "tipo": "Portal",
+    "ano": 0,
+    "titulo": "Cuidado Materno UNEB",
+    "desc": "Recurso de apoio à prática profissional. Fonte: UNEB.",
+    "url": "https://cuidadomaternouneb.com",
+    "capa": ""
+  },
+  {
+    "tipo": "PDF",
+    "ano": 0,
+    "titulo": "Fluxograma Pré-natal",
+    "desc": "Recurso de apoio à prática profissional. Fonte: Universidade Franciscana.",
+    "url": "https://pergamum.ufn.edu.br/pergamumweb/vinculos/0000c5/0000c5fe.pdf",
+    "capa": ""
+  },
+  {
+    "tipo": "PDF",
+    "ano": 0,
+    "titulo": "Tecnologias em Saúde — Puerpério",
+    "desc": "Recurso de apoio à prática profissional. Fonte: Universidade Franciscana.",
+    "url": "https://www.ufn.edu.br/Arquivos/vue/Portfolio/a53420f0-c96d-46e6-b42c-b62983720685.pdf",
+    "capa": ""
+  },
+  {
+    "tipo": "PDF",
+    "ano": 0,
+    "titulo": "Portfólio de Cuidados no Puerpério",
+    "desc": "Recurso de apoio à prática profissional. Fonte: Universidade Franciscana.",
+    "url": "https://www.ufn.edu.br/Arquivos/vue/Portfolio/a42d5374-983f-4131-b7f0-6d209cbcac6f.pdf",
+    "capa": ""
+  },
+  {
+    "tipo": "PDF",
+    "ano": 0,
+    "titulo": "Guia Dez Passos para Alimentação Saudável",
+    "desc": "Recurso de apoio à prática profissional. Fonte: Ministério da Saúde.",
+    "url": "https://bvsms.saude.gov.br/bvs/publicacoes/guia_dez_passos_alimentacao_saudavel_2ed.pdf",
+    "capa": ""
+  },
+  {
+    "tipo": "Vídeo",
+    "ano": 0,
+    "titulo": "Primeiros Socorros em Bebês",
+    "desc": "Recurso de apoio à prática profissional. Fonte: YouTube Educacional.",
+    "url": "https://www.youtube.com/watch?v=PzqnC0paEA8",
+    "capa": ""
+  },
+  {
+    "tipo": "Vídeo",
+    "ano": 0,
+    "titulo": "Cuidados com Recém-nascidos",
+    "desc": "Recurso de apoio à prática profissional. Fonte: YouTube Educacional.",
+    "url": "https://www.youtube.com/watch?v=Mr48F49Uqso",
+    "capa": ""
+  },
+  {
+    "tipo": "Aplicativo",
+    "ano": 0,
+    "titulo": "App SOS Kids",
+    "desc": "Recurso de apoio à prática profissional. Fonte: UFN.",
+    "url": "https://play.google.com/store/apps/details?id=com.ufn.soskids",
+    "capa": ""
+  },
+  {
+    "tipo": "PDF",
+    "ano": 0,
+    "titulo": "Cartilha Saúde Bucal da Gestante",
+    "desc": "Recurso de apoio à prática profissional. Fonte: Ministério da Saúde.",
+    "url": "https://www.gov.br/saude/pt-br/centrais-de-conteudo/publicacoes/cartilhas/2022/cartilha-a-saude-bucal-da-gestante.pdf",
+    "capa": ""
+  },
+  {
+    "tipo": "PDF",
+    "ano": 0,
+    "titulo": "Material sobre Saúde Bucal",
+    "desc": "Recurso de apoio à prática profissional. Fonte: Universidade Franciscana.",
+    "url": "https://pergamum.ufn.edu.br/pergamumweb/vinculos/0000c6/0000c608.pdf",
+    "capa": ""
+  },
+  {
+    "tipo": "Portal",
+    "ano": 0,
+    "titulo": "Cadernos de Atenção Básica",
+    "desc": "Recurso de apoio à prática profissional. Fonte: Ministério da Saúde.",
+    "url": "https://bvsms.saude.gov.br/bvs/publicacoes/",
+    "capa": ""
+  },
+  {
+    "tipo": "Aplicativo",
+    "ano": 0,
+    "titulo": "App Fortalece",
+    "desc": "Recurso de apoio à prática profissional. Fonte: Acompanhamento da gestação.",
+    "url": "https://play.google.com/store/apps/details?id=io.kodular.miguelmachado0007.fortalece",
+    "capa": ""
+  },
+  {
+    "tipo": "Portal",
+    "ano": 0,
+    "titulo": "Álbum — Maternidade Santa Maria",
+    "desc": "Recurso de apoio à prática profissional. Fonte: Prefeitura de Santa Maria.",
+    "url": "https://www.flickr.com/photos/prefeituradesantamaria/52890420023/in/album-72177720307320784/",
+    "capa": ""
+  },
+  {
+    "tipo": "PDF",
+    "ano": 0,
+    "titulo": "Produção Científica UFN — 1",
+    "desc": "Recurso de apoio à prática profissional. Fonte: Universidade Franciscana.",
+    "url": "https://pergamum.ufn.edu.br/pergamumweb/vinculos/0000c5/0000c57a.pdf",
+    "capa": ""
+  },
+  {
+    "tipo": "PDF",
+    "ano": 0,
+    "titulo": "Produção Científica UFN — 3",
+    "desc": "Recurso de apoio à prática profissional. Fonte: Universidade Franciscana.",
+    "url": "https://pergamum.ufn.edu.br/pergamumweb/vinculos/0000bf/0000bfec.pdf",
     "capa": ""
   }
 ]

@@ -137,7 +137,7 @@ test('gestor cria curso com aula, trilha e agenda que chegam ao profissional',as
   await page.locator('#modal-salvar').click();await expect(page.locator('#modal')).not.toBeVisible();
   await expect(linhaCurso).toContainText('Publicado');
   await page.locator('#menu button[data-secao=trilhas]').click();await page.getByRole('button',{name:'Novo trilha'}).click();
-  await page.getByLabel('Nome da trilha *').fill('Trilha E2E');await page.getByLabel('Códigos dos módulos, separados por vírgula').fill('1, 2');
+  await page.getByLabel('Nome da trilha *').fill('Trilha E2E');await page.getByLabel('Códigos dos módulos, separados por vírgula').fill('8');
   await page.locator('#modal-salvar').click();await expect(page.locator('#modal')).not.toBeVisible();
   await page.locator('#menu button[data-secao=eventos]').click();await page.getByRole('button',{name:'Novo evento'}).click();
   await page.getByLabel('Evento *',{exact:true}).fill('Encontro E2E');await page.getByLabel('Dia (1–31) *').fill('15');
@@ -152,9 +152,9 @@ test('gestor cria curso com aula, trilha e agenda que chegam ao profissional',as
   await expect(pro.locator('#titulo')).toHaveText('Meus certificados');
   await expect(pro.locator('#conteudo article').filter({hasText:'Formação criada pela gestão E2E'})).toBeVisible();
   await pro.goto('/app#qualifica');await pro.locator('article').filter({hasText:'Trilha E2E'}).getByRole('link',{name:'Ver módulos'}).click();
-  await expect(pro.locator('#conteudo article')).toHaveCount(2);
-  await pro.goto('/app#agenda');const evento=pro.locator('article').filter({hasText:'Encontro E2E'});await expect(evento).toBeVisible();
-  const download=pro.waitForEvent('download');await evento.getByRole('button',{name:'Adicionar ao calendário'}).click();expect((await download).suggestedFilename()).toBe('evento-maternar.ics');
+  await expect(pro.locator('#conteudo article')).toHaveCount(1);
+  await pro.goto('/app#agenda?mes=10&ano='+new Date().getFullYear());const evento=pro.locator('article').filter({hasText:'Encontro E2E'});await expect(evento).toBeVisible();
+  const download=pro.waitForEvent('download');await evento.getByRole('button',{name:'Adicionar ao meu calendário'}).click();expect((await download).suggestedFilename()).toMatch(/^maternar-evento-\d+\.ics$/);
   await ctx.close();
 });
 

@@ -8,6 +8,9 @@ import { conteudoRouter } from './routes/conteudo.js';
 import { aprendizagemRouter } from './routes/aprendizagem.js';
 import { arquivosRouter } from './routes/arquivos.js';
 import { recursosRouter } from './routes/recursos.js';
+import { comunicacaoRouter } from './routes/comunicacao.js';
+import { agendaRouter } from './routes/agenda.js';
+import { avisosRouter } from './routes/avisos.js';
 import { adminRouter } from './routes/admin.js';
 import { erro, ok } from './lib/http.js';
 
@@ -36,6 +39,9 @@ export function criarApp() {
   app.use('/api/auth', authRouter);
   app.use('/api/usuarios', usuariosRouter);
   // Rotas com regra própria primeiro; o CRUD genérico completa o que falta.
+  app.use('/api', comunicacaoRouter);
+  app.use('/api', agendaRouter);
+  app.use('/api', avisosRouter);
   app.use('/api', conteudoRouter);
   app.use('/api', aprendizagemRouter);
   app.use('/api', arquivosRouter);
@@ -63,7 +69,7 @@ export function criarApp() {
     for (const pasta of ['acervo', 'cursos', 'qualifica', 'produtos']) {
       app.use('/' + pasta, express.static(join(config.staticDir, pasta), { dotfiles: 'deny' }));
     }
-    const publicos = ['index.html', 'app.html', 'app.js', 'chat.js', 'app.css', 'mobile-navigation.js', 'mobile-navigation.css', 'brand.css', 'painel.html', 'painel.js', 'redefinir.html', 'redefinir.js',
+    const publicos = ['index.html', 'app.html', 'app.js', 'chat.js', 'chat.css', 'perfil-comunicacao.js', 'agenda.js', 'agenda.css', 'avisos.js', 'app.css', 'mobile-navigation.js', 'mobile-navigation.css', 'brand.css', 'painel.html', 'painel.js', 'redefinir.html', 'redefinir.js',
       'assets/lucide.svg', 'assets/maternar-favicon.svg', 'logo_maternar.png', 'assets/lucide-LICENSE.txt',
       'logo_maternar_icon.png', 'logo_materno.png', 'logo_ufn.png', 'logo_nepes.jpg',
       'logo_ninmahub.png', 'logo_prefeitura.png', 'logo_gestar.png'];

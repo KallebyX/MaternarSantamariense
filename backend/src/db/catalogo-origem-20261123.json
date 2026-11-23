@@ -1,0 +1,339 @@
+{
+  "qualifica": [
+    {
+      "id": 1,
+      "t": "Pré-natal e Saúde da Gestante",
+      "d": "Fundamentos do cuidado pré-natal, protocolos de atendimento e acompanhamento integral da gestante.",
+      "aulas": 4,
+      "dur": "",
+      "nivel": "",
+      "cor": "#D42E5B",
+      "rec": [
+        [
+          "Guia do Pré-Natal RS 2024",
+          "PDF",
+          "https://atencaoprimaria.rs.gov.br/upload/arquivos/202404/25124004-guia-do-pre-natal-2024.pdf",
+          "Secretaria Estadual de Saúde do RS"
+        ],
+        [
+          "Guia do Pré-Natal para Profissionais",
+          "PDF",
+          "https://bvsms.saude.gov.br/bvs/publicacoes/guia_pre_natal_profissionais_saude_1ed.pdf",
+          "Ministério da Saúde"
+        ],
+        [
+          "Cuidado Materno UNEB",
+          "Site",
+          "https://cuidadomaternouneb.com",
+          "UNEB"
+        ],
+        [
+          "Fluxograma Pré-natal",
+          "PDF",
+          "https://pergamum.ufn.edu.br/pergamumweb/vinculos/0000c5/0000c5fe.pdf",
+          "Universidade Franciscana"
+        ]
+      ]
+    },
+    {
+      "id": 2,
+      "t": "Puerpério, Saúde Mental e Rede de Apoio",
+      "d": "Cuidado integral no pós-parto, mudanças emocionais e construção de redes de suporte.",
+      "aulas": 3,
+      "dur": "",
+      "nivel": "",
+      "cor": "#1E4A7A",
+      "rec": [
+        [
+          "Plataforma APOIARE",
+          "Plataforma",
+          "https://www.apoiare.lapinf.ufn.edu.br/",
+          "UFN / LAPINF"
+        ],
+        [
+          "Tecnologias em Saúde — Puerpério",
+          "PDF",
+          "https://www.ufn.edu.br/Arquivos/vue/Portfolio/a53420f0-c96d-46e6-b42c-b62983720685.pdf",
+          "Universidade Franciscana"
+        ],
+        [
+          "Portfólio de Cuidados no Puerpério",
+          "PDF",
+          "https://www.ufn.edu.br/Arquivos/vue/Portfolio/a42d5374-983f-4131-b7f0-6d209cbcac6f.pdf",
+          "Universidade Franciscana"
+        ]
+      ]
+    },
+    {
+      "id": 3,
+      "t": "Aleitamento Materno e Alimentação",
+      "d": "Manejo da amamentação, técnicas e introdução alimentar saudável.",
+      "aulas": 2,
+      "dur": "",
+      "nivel": "",
+      "cor": "#7AB844",
+      "rec": [
+        [
+          "Plataforma AMAMOS",
+          "Plataforma",
+          "https://amamos.lapinf.ufn.edu.br/buscar/categoria",
+          "UFN / LAPINF"
+        ],
+        [
+          "Guia Dez Passos para Alimentação Saudável",
+          "PDF",
+          "https://bvsms.saude.gov.br/bvs/publicacoes/guia_dez_passos_alimentacao_saudavel_2ed.pdf",
+          "Ministério da Saúde"
+        ]
+      ]
+    },
+    {
+      "id": 4,
+      "t": "Atenção ao Bebê: Primeiros Cuidados",
+      "d": "Cuidados essenciais, urgências pediátricas e desenvolvimento infantil.",
+      "aulas": 3,
+      "dur": "",
+      "nivel": "",
+      "locked": true,
+      "cor": "#153A62",
+      "rec": [
+        [
+          "Primeiros Socorros em Bebês",
+          "Vídeo",
+          "https://www.youtube.com/watch?v=PzqnC0paEA8",
+          "YouTube Educacional"
+        ],
+        [
+          "Cuidados com Recém-nascidos",
+          "Vídeo",
+          "https://www.youtube.com/watch?v=Mr48F49Uqso",
+          "YouTube Educacional"
+        ],
+        [
+          "App SOS Kids",
+          "App",
+          "https://play.google.com/store/apps/details?id=com.ufn.soskids",
+          "UFN"
+        ]
+      ]
+    },
+    {
+      "id": 5,
+      "t": "Saúde Bucal",
+      "d": "Cuidados odontológicos da gestante e do bebê.",
+      "aulas": 2,
+      "dur": "",
+      "nivel": "",
+      "cor": "#8A5A12",
+      "rec": [
+        [
+          "Cartilha Saúde Bucal da Gestante",
+          "PDF",
+          "https://www.gov.br/saude/pt-br/centrais-de-conteudo/publicacoes/cartilhas/2022/cartilha-a-saude-bucal-da-gestante.pdf",
+          "Ministério da Saúde"
+        ],
+        [
+          "Material sobre Saúde Bucal",
+          "PDF",
+          "https://pergamum.ufn.edu.br/pergamumweb/vinculos/0000c6/0000c608.pdf",
+          "Universidade Franciscana"
+        ]
+      ]
+    },
+    {
+      "id": 6,
+      "t": "Protocolos e Cadernos Técnicos",
+      "d": "Documentos oficiais, diretrizes e protocolos de atendimento atualizados.",
+      "aulas": 2,
+      "dur": "",
+      "nivel": "",
+      "cor": "#1E4A7A",
+      "rec": [
+        [
+          "Protocolos de Enfermagem COREN-RS",
+          "Site",
+          "https://www.portalcoren-rs.gov.br/docs/ProtocolosEnfermagem/",
+          "COREN-RS"
+        ],
+        [
+          "Cadernos de Atenção Básica",
+          "Site",
+          "https://bvsms.saude.gov.br/bvs/publicacoes/",
+          "Ministério da Saúde"
+        ]
+      ]
+    },
+    {
+      "id": 7,
+      "t": "Aplicativos e Plataformas Digitais",
+      "d": "Ferramentas tecnológicas de apoio ao cuidado materno-infantil.",
+      "aulas": 4,
+      "dur": "",
+      "nivel": "",
+      "cor": "#D42E5B",
+      "rec": [
+        [
+          "App Fortalece",
+          "App",
+          "https://play.google.com/store/apps/details?id=io.kodular.miguelmachado0007.fortalece",
+          "Acompanhamento da gestação"
+        ],
+        [
+          "App SOS Kids",
+          "App",
+          "https://play.google.com/store/apps/details?id=com.ufn.soskids",
+          "UFN · urgências pediátricas"
+        ],
+        [
+          "Plataforma AMAMOS",
+          "Plataforma",
+          "https://amamos.lapinf.ufn.edu.br/",
+          "UFN / LAPINF"
+        ],
+        [
+          "Plataforma APOIARE",
+          "Plataforma",
+          "https://www.apoiare.lapinf.ufn.edu.br/",
+          "UFN / LAPINF"
+        ]
+      ]
+    },
+    {
+      "id": 8,
+      "t": "Materiais Audiovisuais Educativos",
+      "d": "Vídeos, podcasts e recursos multimídia para educação em saúde.",
+      "aulas": 2,
+      "dur": "",
+      "nivel": "",
+      "cor": "#7AB844",
+      "rec": [
+        [
+          "Álbum — Maternidade Santa Maria",
+          "Site",
+          "https://www.flickr.com/photos/prefeituradesantamaria/52890420023/in/album-72177720307320784/",
+          "Prefeitura de Santa Maria"
+        ],
+        [
+          "Curso Introdutório Online",
+          "Site",
+          "https://sites.google.com/view/cursointrodutoriosm/",
+          "Secretaria Municipal de Saúde SM"
+        ]
+      ]
+    },
+    {
+      "id": 9,
+      "t": "Publicações Científicas",
+      "d": "Artigos, pesquisas e evidências atualizadas em saúde materno-infantil.",
+      "aulas": 3,
+      "dur": "",
+      "nivel": "",
+      "cor": "#8A5A12",
+      "rec": [
+        [
+          "Produção Científica UFN — 1",
+          "PDF",
+          "https://pergamum.ufn.edu.br/pergamumweb/vinculos/0000c5/0000c57a.pdf",
+          "Universidade Franciscana"
+        ],
+        [
+          "Produção Científica UFN — 2",
+          "PDF",
+          "https://pergamum.ufn.edu.br/pergamumweb/vinculos/0000c5/0000c5fe.pdf",
+          "Universidade Franciscana"
+        ],
+        [
+          "Produção Científica UFN — 3",
+          "PDF",
+          "https://pergamum.ufn.edu.br/pergamumweb/vinculos/0000bf/0000bfec.pdf",
+          "Universidade Franciscana"
+        ]
+      ]
+    }
+  ],
+  "produtos": [
+    {
+      "tipo": "Aplicativo",
+      "ano": 0,
+      "titulo": "AMAMOS — Amamentação, medicamentos e outras substâncias",
+      "desc": "Ferramenta da UFN para consulta de informações sobre medicamentos e outras substâncias durante a amamentação.",
+      "url": "https://amamos.lapinf.ufn.edu.br/",
+      "capa": ""
+    },
+    {
+      "tipo": "Manual",
+      "ano": 2012,
+      "titulo": "Gestação de Alto Risco — Manual Técnico",
+      "desc": "Manual técnico do Ministério da Saúde, 5ª edição, 2012. Documento de referência disponível na Biblioteca Virtual em Saúde.",
+      "url": "https://bvsms.saude.gov.br/bvs/publicacoes/manual_tecnico_gestacao_alto_risco.pdf",
+      "capa": ""
+    },
+    {
+      "tipo": "Portal",
+      "ano": 0,
+      "titulo": "APOIARE Puerpério — UFN",
+      "desc": "Portal de apoio à mulher e à família durante o puerpério, com publicações educativas.",
+      "url": "https://www.apoiare.lapinf.ufn.edu.br/",
+      "capa": ""
+    },
+    {
+      "tipo": "Coleção",
+      "ano": 0,
+      "titulo": "Protocolos Municipais de Enfermagem — COREN-RS",
+      "desc": "Coleção de protocolos municipais disponibilizada no portal oficial do COREN-RS.",
+      "url": "https://www.portalcoren-rs.gov.br/index.php?categoria=publicacoes&pagina=protocolos-enfermagem-municipais",
+      "capa": ""
+    },
+    {
+      "tipo": "Busca de vídeos",
+      "ano": 0,
+      "titulo": "Reanimação neonatal — busca de vídeos",
+      "desc": "Busca no YouTube por vídeos sobre reanimação neonatal e minuto de ouro.",
+      "url": "https://www.youtube.com/results?search_query=reanima%C3%A7%C3%A3o+neonatal+minuto+de+ouro",
+      "capa": ""
+    },
+    {
+      "tipo": "Portal",
+      "ano": 0,
+      "titulo": "DATASUS — Ministério da Saúde",
+      "desc": "Portal do Departamento de Informática do SUS para acesso a sistemas e informações de saúde.",
+      "url": "https://datasus.saude.gov.br/",
+      "capa": ""
+    }
+  ],
+  "trilhas": [
+    {
+      "id": 1,
+      "n": "Trilha Gestação",
+      "d": "Fundamentos do cuidado pré-natal",
+      "mods": [
+        1,
+        5
+      ],
+      "h": 40,
+      "cor": "#D42E5B"
+    },
+    {
+      "id": 2,
+      "n": "Trilha Parto-Nascimento",
+      "d": "Assistência ao parto e primeiros cuidados",
+      "mods": [
+        4,
+        3
+      ],
+      "h": 30,
+      "cor": "#1E4A7A"
+    },
+    {
+      "id": 3,
+      "n": "Trilha Pós-Parto",
+      "d": "Cuidado integral no pós-parto",
+      "mods": [
+        2,
+        3
+      ],
+      "h": 35,
+      "cor": "#3F6B21"
+    }
+  ]
+}

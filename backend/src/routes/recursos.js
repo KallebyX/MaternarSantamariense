@@ -7,6 +7,7 @@ import { db } from '../db/connection.js';
 import { registrarCruds } from '../lib/crud.js';
 import { invalidarProgresso } from '../lib/progresso.js';
 import { montarCurso, materialDisponivel } from '../lib/cursos.js';
+import { validarVinculo, prepararVinculo } from '../db/projetos-catalogo.js';
 
 const TIPOS_QUALIFICA = ['Capacitações online', 'Capacitações presenciais', 'Capacitações livres'];
 const anoAtual = () => new Date().getFullYear();
@@ -185,34 +186,19 @@ export const RECURSOS = [
     },
   },
   {
-    rota: 'eventos', tabela: 'eventos', ordem: 'mes, dia, hora',
-    busca: ['titulo', 'local'], filtros: ['mes'],
-    metodos: ['obter', 'atualizar', 'remover'], // GET/POST /eventos vêm de conteudo.js
-    campos: {
-      dia: { tipo: 'int', obrigatorio: true },
-      mes: { tipo: 'int', padrao: 8 },
-      ano: { tipo: 'int', padrao: anoAtual },
-      hora: { obrigatorio: true },
-      titulo: { obrigatorio: true },
-      local: {},
-      cor: { padrao: '#1E4A7A' },
-    },
-    validar: d => {
-      if (d.dia < 1 || d.dia > 31) return 'Dia inválido.';
-      if (d.mes < 1 || d.mes > 12) return 'Mês inválido.';
-      if (d.ano < 2000 || d.ano > 2100 || new Date(d.ano, d.mes - 1, d.dia).getMonth() !== d.mes - 1) return 'Data inválida.';
-      if (!/^([01]\d|2[0-3]):[0-5]\d$/.test(d.hora)) return 'Horário inválido.';
-      return null;
-    },
-  },
-  {
     rota: 'projetos', tabela: 'projetos', ordem: 'criado_em DESC',
     metodos: ['obter', 'atualizar', 'remover'], // GET/POST /projetos vêm de conteudo.js
-    validar: dados => !dados.historico && !dados.responsavel.trim() ? 'Informe o responsável pelo projeto.' : null,
+    validar: dados => !dados.historico && !dados.responsavel.trim() ? 'Informe o responsável pelo projeto.' : validarVinculo(dados.instituicao, dados.curso),
+    aposAtualizar: (antes, dados) => {
+      if (dados.instituicao === undefined && dados.curso === undefined) return;
+      const v = prepararVinculo(dados.instituicao ?? antes.instituicao, dados.curso ?? antes.curso);
+      db.prepare('UPDATE projetos SET instituicao=?, curso=?, vinculo_normalizado=1, vinculo_revisar=? WHERE id=?').run(v.instituicao,v.curso,Number(!!antes.vinculo_revisar && !v.instituicao),antes.id);
+    },
     campos: {
       titulo: { obrigatorio: true },
       responsavel: {},
       instituicao: {},
+      curso: {},
       local: {},
       inicio: {},
       fim: {},
@@ -250,16 +236,6 @@ export const RECURSOS = [
       responsavel: {},
       prazo: {},
       coluna: { tipo: 'int', maximo: 2 },
-    },
-  },
-  {
-    rota: 'notificacoes', tabela: 'notificacoes', ordem: 'id DESC',
-    busca: ['titulo', 'texto'],
-    metodos: ['criar', 'remover'], // GET /notificacoes é por usuário (aprendizagem.js)
-    campos: {
-      usuario_id: { tipo: 'int-nulo' }, // vazio = aviso para toda a rede
-      titulo: { obrigatorio: true },
-      texto: {},
     },
   },
 ];

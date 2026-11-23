@@ -12,15 +12,16 @@ async function exemploHistorico(request) {
   const resposta = await request.get('/api/projetos?escopo=historicos');
   const {dados,meta} = await resposta.json();
   expect(meta.total).toBe(547);
-  const projeto=dados.find(p=>p.instituicao.trim()&&p.situacao_origem.trim()&&p.ano_referencia);
+  const projeto=dados.find(p=>p.instituicao.trim()&&p.curso.trim()&&p.situacao_origem.trim()&&p.ano_referencia);
   expect(projeto).toBeTruthy();
   const instituicao=meta.opcoes.instituicoes.find(v=>normalizar(v)===normalizar(projeto.instituicao));
-  const situacao=meta.opcoes.situacoesOrigem.find(v=>normalizar(v)===normalizar(projeto.situacao_origem));
-  return {projeto,instituicao,situacao};
+  const curso=meta.opcoes.cursosPorInstituicao[instituicao].find(v=>normalizar(v)===normalizar(projeto.curso));
+  expect(curso).toBeTruthy();
+  return {projeto,instituicao,curso};
 }
 
 test('profissional consulta históricos com filtros combinados, paginação real e recarga no celular', async ({page,request}) => {
-  const {projeto,instituicao,situacao}=await exemploHistorico(request);
+  const {projeto,instituicao,curso}=await exemploHistorico(request);
   await entrar(page,'ana.ferraz@maternarsm.com.br');
   await page.goto('/app#projetos');
   await expect(page.locator('.resultado-projetos')).toHaveText('1–24 de 704 projetos encontrados · 704 no acervo');
@@ -33,9 +34,10 @@ test('profissional consulta históricos com filtros combinados, paginação real
   await page.getByLabel('Acervo',{exact:true}).selectOption('historicos');
   await page.getByLabel('Situação do projeto',{exact:true}).selectOption('Histórico');
   await page.getByLabel('Instituição',{exact:true}).selectOption(instituicao);
-  await page.getByLabel('Situação na fonte (AUT. CEP)',{exact:true}).selectOption(situacao);
+  await page.getByLabel('Curso/programa',{exact:true}).selectOption(curso);
+  await expect(page.getByLabel('Situação na fonte (AUT. CEP)',{exact:true})).toHaveCount(0);
   await page.getByRole('button',{name:'Aplicar filtros'}).click();
-  const consulta=new URLSearchParams({q:busca,ano:String(projeto.ano_referencia),escopo:'historicos',status:'Histórico',instituicao,situacao_origem:situacao,pagina:'1',limite:'24'});
+  const consulta=new URLSearchParams({q:busca,ano:String(projeto.ano_referencia),escopo:'historicos',status:'Histórico',instituicao,curso,pagina:'1',limite:'24'});
   const esperado=await (await request.get('/api/projetos?'+consulta)).json();
   await expect(page.locator('.resultado-projetos')).toContainText(`de ${esperado.meta.total} projetos encontrados`);
   await expect(page.locator('.projeto')).toHaveCount(esperado.dados.length);
@@ -60,12 +62,13 @@ test('gestão combina filtros do histórico, informa contagem e permite limpar f
   await page.getByLabel('Acervo',{exact:true}).selectOption('historicos');
   await page.getByLabel('Situação do projeto',{exact:true}).selectOption('Histórico');
   await page.getByLabel('Instituição',{exact:true}).selectOption(normalizar(projeto.instituicao));
-  await page.getByLabel('Situação na fonte (AUT. CEP)',{exact:true}).selectOption(normalizar(projeto.situacao_origem));
+  await page.getByLabel('Curso/programa',{exact:true}).selectOption(normalizar(projeto.curso));
   await page.getByRole('searchbox',{name:'Buscar em projetos de pesquisa'}).fill(projeto.titulo);
   const linhas=page.locator('#conteudo tbody tr');
   await expect(linhas.first()).toContainText(projeto.titulo);
   await expect(linhas.first()).toContainText('Histórico');
-  await expect(linhas.first()).toContainText(projeto.situacao_origem);
+  await expect(linhas.first()).toContainText(projeto.curso);
+  await expect(page.getByLabel('Situação na fonte (AUT. CEP)',{exact:true})).toHaveCount(0);
   await page.getByRole('searchbox',{name:'Buscar em projetos de pesquisa'}).fill('nenhum-resultado-qa-projetos');
   await expect(page.locator('#conteudo')).toContainText('Exibindo 0 de 0 resultados · 704 no acervo');
   await expect(page.locator('#conteudo')).toContainText('Nenhum registro corresponde aos filtros.');

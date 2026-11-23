@@ -84,12 +84,21 @@ test('aviso dirigido não pode ser lido por outra pessoa',async()=>{
   assert.equal((await auth(request(app).post('/api/notificacoes/'+n.id+'/lida'),profissional)).status,404);
 });
 
-test('agenda restringe escrita e valida data e horário inclusive nas edições',async()=>{
+test('agenda permite atividade própria e restringe origem institucional, validando data e horário',async()=>{
   const evento={titulo:'Atividade',dia:31,mes:2,ano:2026,hora:'15:00'};
-  assert.equal((await auth(request(app).post('/api/eventos'),profissional).send(evento)).status,403);
+  assert.equal((await request(app).post('/api/eventos').send({...evento,dia:20})).status,401);
+  assert.equal((await request(app).get('/api/eventos')).status,401);
+  assert.equal((await auth(request(app).post('/api/eventos'),profissional).send({...evento,dia:20,origem:'NEPeS'})).status,403);
+  assert.equal((await auth(request(app).post('/api/eventos'),profissional).send(evento)).status,400);
+  const propria=await auth(request(app).post('/api/eventos'),profissional).send({...evento,dia:20});
+  assert.equal(propria.status,201);assert.equal(propria.body.dados.origem,'Profissionais');
+  assert.equal((await auth(request(app).put('/api/eventos/'+propria.body.dados.id),profissional).send({hora:'16:00'})).status,200);
+  assert.equal((await auth(request(app).delete('/api/eventos/'+propria.body.dados.id),profissional)).status,200);
   assert.equal((await auth(request(app).post('/api/eventos')).send(evento)).status,400);
   assert.equal((await auth(request(app).post('/api/eventos')).send({...evento,dia:20,hora:'99:99'})).status,400);
-  const valido=await auth(request(app).post('/api/eventos')).send({...evento,dia:20});assert.equal(valido.status,201);
+  const valido=await auth(request(app).post('/api/eventos')).send({...evento,dia:20,origem:'Maternar'});assert.equal(valido.status,201);
+  assert.equal((await auth(request(app).put('/api/eventos/'+valido.body.dados.id),profissional).send({titulo:'Indevido'})).status,403);
+  assert.equal((await auth(request(app).delete('/api/eventos/'+valido.body.dados.id),profissional)).status,403);
   assert.equal((await auth(request(app).put('/api/eventos/'+valido.body.dados.id)).send({dia:31})).status,400);
 });
 
@@ -118,11 +127,13 @@ test('senha atual incorreta não encerra a sessão válida',async()=>{
 });
 
 test('trilhas normalizam códigos vindos do formulário e rejeitam valores inválidos',async()=>{
-  const r=await auth(request(app).post('/api/trilhas')).send({nome:'Trilha de teste',modulos:['1','2']});
-  assert.equal(r.status,201);assert.deepEqual(r.body.dados.modulos,[1,2]);
+  const modulos=[];
+  for (const titulo of ['Formação um','Formação dois']) modulos.push((await auth(request(app).post('/api/qualifica-modulos')).send({titulo})).body.dados.id);
+  const r=await auth(request(app).post('/api/trilhas')).send({nome:'Trilha de teste',modulos:modulos.map(String)});
+  assert.equal(r.status,201);assert.deepEqual(r.body.dados.modulos,modulos);
   assert.equal((await auth(request(app).post('/api/trilhas')).send({nome:'Inválida',modulos:['abc']})).status,400);
   const qualifica=(await request(app).get('/api/qualifica')).body.dados;
-  assert.deepEqual(qualifica.trilhas.find(t=>t.id===r.body.dados.id).modulos,[1,2]);
+  assert.deepEqual(qualifica.trilhas.find(t=>t.id===r.body.dados.id).modulos,modulos);
 });
 
 test('certificado mantém retrato da emissão e aula editada exige nova conclusão',async()=>{

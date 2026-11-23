@@ -1,6 +1,8 @@
 import { Router } from 'express';
+import multer from 'multer';
+import { AREAS_PROFISSIONAIS } from '../db/comunicacao.js';
 import bcrypt from 'bcryptjs';
-import { randomBytes } from 'node:crypto';
+import { randomBytes, createHash } from 'node:crypto';
 import { db, registrarLog } from '../db/connection.js';
 import { autenticar, exigirPapel, usuarioPublico, assinarToken } from '../auth/middleware.js';
 import { erro, ok, exigir, emailValido, senhaFraca, validarTextos } from '../lib/http.js';
@@ -40,12 +42,72 @@ function podeGerenciar(autor, alvo) {
 usuariosRouter.put('/eu', (req, res) => {
   const invalido = validarTextos(req.body, ['nome', 'cargo', 'unidade', 'telefone', 'formacao']);
   if (invalido) return erro(res, 400, invalido);
-  const { nome, cargo, unidade, telefone, formacao } = req.body || {};
+  const { nome, cargo, unidade, telefone, formacao, area } = req.body || {};
+  if (area !== undefined && !AREAS_PROFISSIONAIS.includes(area)) return erro(res, 400, 'Área profissional inválida.');
   db.prepare(`UPDATE usuarios SET nome = COALESCE(?, nome), cargo = COALESCE(?, cargo),
-    unidade = COALESCE(?, unidade), telefone = COALESCE(?, telefone), formacao = COALESCE(?, formacao), iniciais = COALESCE(?, iniciais) WHERE id = ?`)
+    unidade = COALESCE(?, unidade), telefone = COALESCE(?, telefone), formacao = COALESCE(?, formacao), area = COALESCE(?, area), iniciais = COALESCE(?, iniciais) WHERE id = ?`)
     .run(nome === undefined ? null : String(nome).trim() || null, cargo === undefined ? null : String(cargo).trim(), unidade === undefined ? null : String(unidade).trim(),
-      telefone === undefined ? null : String(telefone).trim(), formacao === undefined ? null : String(formacao).trim(), nome === undefined ? null : iniciaisDe(nome), req.usuario.id);
+      telefone === undefined ? null : String(telefone).trim(), formacao === undefined ? null : String(formacao).trim(), area ?? null, nome === undefined ? null : iniciaisDe(nome), req.usuario.id);
   registrarLog(req.usuario.email, 'atualizar-perfil');
+  return ok(res, usuarioPublico(buscar(req.usuario.id)));
+});
+
+// Fotos ficam no banco privado; o diretório as entrega apenas a sessões ativas.
+const receberFoto = multer({ storage: multer.memoryStorage(), limits: { fileSize: 2 * 1024 * 1024, files: 1, fields: 0 } }).single('foto');
+function tipoFoto(bytes) {
+  const dimensoesValidas = (largura, altura) => largura > 0 && altura > 0 && largura <= 4096 && altura <= 4096;
+  if (bytes.length >= 33 && bytes.subarray(0,8).equals(Buffer.from([137,80,78,71,13,10,26,10])) && bytes.subarray(12,16).toString() === 'IHDR') {
+    return dimensoesValidas(bytes.readUInt32BE(16),bytes.readUInt32BE(20)) ? 'image/png' : null;
+  }
+  if (bytes.length >= 4 && bytes[0] === 255 && bytes[1] === 216 && bytes[2] === 255 && bytes.at(-2) === 255 && bytes.at(-1) === 217) {
+    let pos = 2;
+    while (pos + 4 <= bytes.length) {
+      if (bytes[pos++] !== 255) return null;
+      while (pos < bytes.length && bytes[pos] === 255) pos++;
+      if (pos + 2 >= bytes.length) return null;
+      const marcador = bytes[pos++];
+      if (marcador === 217 || marcador === 218) break;
+      const tamanho = bytes.readUInt16BE(pos);
+      if (tamanho < 2 || pos + tamanho > bytes.length) return null;
+      if ([192,193,194,195,197,198,199,201,202,203,205,206,207].includes(marcador)) {
+        if (tamanho < 8) return null;
+        return dimensoesValidas(bytes.readUInt16BE(pos+5),bytes.readUInt16BE(pos+3)) ? 'image/jpeg' : null;
+      }
+      pos += tamanho;
+    }
+    return null;
+  }
+  if (bytes.length >= 30 && bytes.subarray(0,4).toString() === 'RIFF' && bytes.subarray(8,12).toString() === 'WEBP' && bytes.readUInt32LE(4) + 8 === bytes.length) {
+    const formato = bytes.subarray(12,16).toString();
+    let largura = 0, altura = 0;
+    if (formato === 'VP8X') {
+      largura = bytes.readUIntLE(24,3)+1; altura = bytes.readUIntLE(27,3)+1;
+    } else if (formato === 'VP8L' && bytes[20] === 47) {
+      largura = 1 + bytes[21] + ((bytes[22]&63)<<8);
+      altura = 1 + ((bytes[22]&192)>>6) + (bytes[23]<<2) + ((bytes[24]&15)<<10);
+    } else if (formato === 'VP8 ' && bytes.subarray(23,26).equals(Buffer.from([157,1,42]))) {
+      largura = bytes.readUInt16LE(26)&16383; altura = bytes.readUInt16LE(28)&16383;
+    }
+    return dimensoesValidas(largura,altura) ? 'image/webp' : null;
+  }
+  return null;
+}
+usuariosRouter.post('/eu/foto', (req, res) => {
+  receberFoto(req, res, error => {
+    if (error) return erro(res, error.code === 'LIMIT_FILE_SIZE' ? 413 : 400, error.code === 'LIMIT_FILE_SIZE' ? 'A foto deve ter até 2 MB.' : 'Envie somente uma foto no campo foto.');
+    if (!req.file) return erro(res, 400, 'Selecione uma foto.');
+    const tipo = tipoFoto(req.file.buffer);
+    if (!tipo || tipo !== req.file.mimetype) return erro(res, 400, 'Use uma imagem JPG, PNG ou WebP válida, com até 4096 pixels por lado.');
+    const foto = `data:${tipo};base64,${req.file.buffer.toString('base64')}`;
+    const versao = createHash('sha256').update(foto).digest('hex').slice(0,20);
+    db.prepare('UPDATE usuarios SET foto=?,foto_versao=? WHERE id=?').run(foto, versao, req.usuario.id);
+    registrarLog(req.usuario.email, 'atualizar-foto-perfil');
+    return ok(res, usuarioPublico(buscar(req.usuario.id)));
+  });
+});
+usuariosRouter.delete('/eu/foto', (req, res) => {
+  db.prepare("UPDATE usuarios SET foto='',foto_versao='' WHERE id=?").run(req.usuario.id);
+  registrarLog(req.usuario.email, 'remover-foto-perfil');
   return ok(res, usuarioPublico(buscar(req.usuario.id)));
 });
 

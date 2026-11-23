@@ -6,6 +6,7 @@ import { db, registrarLog } from '../db/connection.js';
 import { autenticar, exigirPapel } from '../auth/middleware.js';
 import { erro, ok, exigir, urlValida, tagsValidas } from '../lib/http.js';
 import { cursosPublicados } from '../lib/cursos.js';
+import { validarVinculo, prepararVinculo } from '../db/projetos-catalogo.js';
 
 export const conteudoRouter = Router();
 
@@ -45,9 +46,9 @@ conteudoRouter.post('/politicas/:id/materiais', autenticar, exigirPapel('Gestor'
 
 // ----------------------------------------------------------------- projetos
 conteudoRouter.get('/projetos', (req, res) => {
-  const campos = ['q', 'ano', 'status', 'instituicao', 'escopo', 'situacao_origem', 'pagina', 'limite'];
+  const campos = ['q', 'ano', 'status', 'instituicao', 'curso', 'escopo', 'situacao_origem', 'pagina', 'limite'];
   if (campos.some(c => req.query[c] !== undefined && typeof req.query[c] !== 'string')) return erro(res, 400, 'Filtro de projetos inválido.');
-  const { q = '', ano = '', status = '', instituicao = '', escopo = '', situacao_origem = '' } = req.query;
+  const { q = '', ano = '', status = '', instituicao = '', curso = '', escopo = '', situacao_origem = '' } = req.query;
   if (!['', 'atuais', 'historicos'].includes(escopo)) return erro(res, 400, 'Escolha registros atuais ou históricos.');
   if (ano && ano !== 'sem-ano' && !/^\d{4}$/.test(ano)) return erro(res, 400, 'Ano de referência inválido.');
   const paginado = req.query.pagina !== undefined || req.query.limite !== undefined;
@@ -57,34 +58,39 @@ conteudoRouter.get('/projetos', (req, res) => {
   const todos = db.prepare('SELECT * FROM projetos ORDER BY criado_em DESC, id DESC').all()
     .map(p => ({ ...p, historico: !!p.historico }))
     .sort((a, b) => Number(a.historico) - Number(b.historico) || (b.ano_referencia || 0) - (a.ano_referencia || 0) || a.titulo.localeCompare(b.titulo, 'pt-BR') || a.id.localeCompare(b.id));
-  const opcoesDe = campo => [...new Map(todos.filter(p => String(p[campo] ?? '').trim()).map(p => [normalizar(p[campo]), String(p[campo]).trim()])).values()].sort((a, b) => a.localeCompare(b, 'pt-BR'));
+  const opcoesDe = (campo, fonte = todos) => [...new Map(fonte.filter(p => String(p[campo] ?? '').trim()).map(p => [normalizar(p[campo]), String(p[campo]).trim()])).values()].sort((a, b) => a.localeCompare(b, 'pt-BR'));
   const termos = normalizar(q).split(' ').filter(Boolean);
   const projetos = todos.filter(p =>
     (!ano || (ano === 'sem-ano' ? !p.ano_referencia : String(p.ano_referencia) === ano)) &&
     (!status || status === 'Todos' || p.status === status) &&
     (!instituicao || normalizar(p.instituicao) === normalizar(instituicao)) &&
+    (!curso || normalizar(p.curso) === normalizar(curso)) &&
     (!situacao_origem || normalizar(p.situacao_origem) === normalizar(situacao_origem)) &&
     (!escopo || p.historico === (escopo === 'historicos')) &&
-    termos.every(termo => normalizar([p.titulo, p.responsavel, p.instituicao, p.local].join(' ')).includes(termo)));
+    termos.every(termo => normalizar([p.titulo, p.responsavel, p.instituicao, p.curso, p.local].join(' ')).includes(termo)));
   const total = projetos.length, paginas = Math.max(1, Math.ceil(total / limite));
   const pagina = Math.min(paginaSolicitada, paginas);
   return ok(res, paginado ? projetos.slice((pagina - 1) * limite, pagina * limite) : projetos, {
     total, totalGeral: todos.length, pagina: paginado ? pagina : 1,
     paginas: paginado ? paginas : 1, limite: paginado ? limite : total,
     opcoes: { anos: [...new Set(todos.map(p => p.ano_referencia).filter(Boolean))].sort((a, b) => b - a), semAno: todos.some(p => !p.ano_referencia),
-      instituicoes: opcoesDe('instituicao'), situacoes: opcoesDe('status'), situacoesOrigem: opcoesDe('situacao_origem') },
+      instituicoes: opcoesDe('instituicao'), cursos: opcoesDe('curso', todos.filter(p => !instituicao || normalizar(p.instituicao) === normalizar(instituicao))), cursosPorInstituicao: Object.fromEntries(opcoesDe('instituicao').map(i => [i, opcoesDe('curso', todos.filter(p => normalizar(p.instituicao) === normalizar(i)))])), situacoes: opcoesDe('status'), situacoesOrigem: opcoesDe('situacao_origem') },
   });
 });
 
 conteudoRouter.post('/projetos', autenticar, exigirPapel('Gestor', 'Administrador'), (req, res) => {
   const falta = exigir(req.body, ['titulo', 'responsavel']);
   if (falta) return erro(res, 400, falta);
+  const instituicao = req.body.instituicao ?? '', curso = req.body.curso ?? '';
+  const problema = validarVinculo(instituicao, curso);
+  if (problema) return erro(res, 400, problema);
+  const vinculo = prepararVinculo(instituicao, curso);
   const ano = new Date().getFullYear();
   const id = `pq${ano}_${randomUUID()}`;
-  db.prepare(`INSERT INTO projetos (id, titulo, responsavel, instituicao, local, inicio, fim, status, autorizacao)
-    VALUES (?, ?, ?, ?, ?, ?, ?, 'Ativo', ?)`)
+  db.prepare(`INSERT INTO projetos (id, titulo, responsavel, instituicao, curso, local, inicio, fim, status, autorizacao, vinculo_normalizado)
+    VALUES (?, ?, ?, ?, ?, ?, ?, ?, 'Ativo', ?, 1)`)
     .run(id, String(req.body.titulo).trim(), String(req.body.responsavel).trim(),
-      String(req.body.instituicao || 'Instituição não informada').trim(),
+      vinculo.instituicao, vinculo.curso,
       String(req.body.local || 'Rede municipal de saúde').trim(),
       String(req.body.inicio || '—'), String(req.body.fim || '—'),
       String(req.body.autorizacao || ''));
@@ -131,25 +137,6 @@ conteudoRouter.post('/documentos', autenticar, exigirPapel('Gestor', 'Administra
 });
 
 conteudoRouter.get('/links', (req, res) => ok(res, db.prepare('SELECT * FROM links ORDER BY categoria, titulo').all()));
-
-// ------------------------------------------------------------------ eventos
-conteudoRouter.get('/eventos', (req, res) => ok(res, db.prepare('SELECT * FROM eventos ORDER BY ano, mes, dia, hora').all()));
-
-conteudoRouter.post('/eventos', autenticar, exigirPapel('Gestor', 'Administrador'), (req, res) => {
-  const falta = exigir(req.body, ['dia', 'hora', 'titulo']);
-  if (falta) return erro(res, 400, falta);
-  const dia = Number(req.body.dia), mes = Number(req.body.mes || 8);
-  if (!Number.isInteger(dia) || dia < 1 || dia > 31) return erro(res, 400, 'Dia inválido.');
-  if (!Number.isInteger(mes) || mes < 1 || mes > 12) return erro(res, 400, 'Mês inválido.');
-  const ano = Number(req.body.ano || new Date().getFullYear());
-  if (!Number.isInteger(ano) || ano < 2000 || ano > 2100 || new Date(ano, mes - 1, dia).getMonth() !== mes - 1) return erro(res, 400, 'Data inválida.');
-  if (!/^([01]\d|2[0-3]):[0-5]\d$/.test(String(req.body.hora))) return erro(res, 400, 'Horário inválido.');
-  const info = db.prepare('INSERT INTO eventos (dia, mes, hora, titulo, local, cor, criado_por, ano) VALUES (?, ?, ?, ?, ?, ?, ?, ?)')
-    .run(dia, mes, String(req.body.hora), String(req.body.titulo).trim(),
-      String(req.body.local || ''), String(req.body.cor || '#1E4A7A'), req.usuario.id, ano);
-  registrarLog(req.usuario.email, 'criar-evento', req.body.titulo);
-  return res.status(201).json({ ok: true, dados: db.prepare('SELECT * FROM eventos WHERE id = ?').get(info.lastInsertRowid), erro: null });
-});
 
 // -------------------------------------------- produtos PPGSMI e contadores
 conteudoRouter.get('/produtos', (req, res) => {
