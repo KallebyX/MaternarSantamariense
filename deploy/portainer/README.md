@@ -4,19 +4,13 @@ Destino solicitado: **https://maternarsantamariense.app.ufn.edu.br**.
 Domínio publicado pelo Nginx Proxy Manager, com HTTPS válido e envio SMTP verificado.
 Este roteiro usa a aplicação completa: frontend, API Express, acervo e SQLite.
 
-**Estado atual em 29/09/2026:** stack definitiva **maternar**, ID **254**, ativa e
-saudável com a imagem **maternar:20260929-mobile2** no ambiente `dockerapps`, usando o volume real `maternar-dados` com sete
-cadastros (cinco profissionais e dois administradores). A aplicação responde em
-`10.21.19.45:8035` dentro da rede institucional. Não repita a criação da stack,
-o build ou a restauração da mesma tag/volume. Host Nginx 25, certificado 42.
-O domínio e a entrega de e-mail foram validados em produção; veja
-[publicação e SMTP](../../PUBLICACAO-EMAIL-2026-09-29.md).
-A [entrega final do acervo e perfil](../../ENTREGA-ACERVO-PERFIL-2026-09-29.md) documenta
-os 704 projetos, filtros, importação e verificações atuais.
-A [revisão mobile e logos](../../ENTREGA-MOBILE-2026-09-29.md) documenta a atualização mais recente e a verificação visual no domínio público.
+**Estado atual em 23/11/2026:** stack definitiva **maternar**, ID **254**, ativa e saudável com a imagem **maternar:20261123-nepes-be1ec97** no ambiente `dockerapps`, mantendo o volume real `maternar-dados` e as variáveis vigentes. As 25 contas do snapshot final, os 704 projetos, 3 mensagens de canais e 1 upload foram preservados. O catálogo atualizado tem 25 produtos, incluindo conteúdo próprio da gestão. A aplicação continua em `10.21.19.45:8035`, atrás do HTTPS institucional. Backup consistente e volume privado para retorno foram preservados. Não repita restauração nem criação da stack.
+
+A [entrega dos ajustes NEPeS](../../ENTREGA-AJUSTES-NEPES.md) registra os testes, as correções da revisão, a validação em cópia isolada e a conferência no domínio público. O [guia de operação](../../GUIA-NEPES.md) orienta os responsáveis sobre avisos, projetos, equipes e agenda.
+
 O restante do roteiro inclui o histórico da preparação inicial.
 
-## Ambiente consultado em 29/09/2026
+## Ambiente consultado em 29/09/2026 (histórico)
 
 | Configuração | Valor |
 |---|---|

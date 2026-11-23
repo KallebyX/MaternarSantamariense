@@ -1,6 +1,6 @@
 # Entrega dos ajustes solicitados pelo NEPeS — novembro de 2026
 
-Base: e-mail de Leandro de Medeiros de 11/11/2026, encaminhado em 23/11, e anexo “Alterações Maternar.docx”. Implementação sobre o commit `7b7aa3e` da main. A entrega é uma mudança de código para revisão; não afirma atualização do domínio institucional.
+Base: e-mail de Leandro de Medeiros de 11/11/2026, encaminhado em 23/11, e anexo “Alterações Maternar.docx”. Implementação sobre o commit `7b7aa3e` da main. Publicada em 23/11/2026 no domínio institucional após integração do PR #15, testes e conferência em cópia isolada do volume.
 
 ## Funcionalidades
 
@@ -38,7 +38,7 @@ Não foi inventada uma lista de novos cursos, eventos ou produtos do PPGSMI que 
 
 ## Validação
 
-- API: **130/130 testes passaram** (`cd backend && npm test`). Inclui migração a partir do esquema anterior em processo separado, reinício, permissões e preservação dos dados.
+- API: **135/135 testes passaram** (`cd backend && npm test`). Inclui migração a partir do esquema anterior em processo separado, reinício, permissões e preservação dos dados.
 - Navegador Chromium: **72 cenários exercitados** na suíte completa; 71 passaram na primeira execução. O cenário de projetos que falhou por diferença de caixa no valor do seletor foi corrigido para selecionar a opção normalizada e os três cenários do arquivo passaram na repetição. Não houve falha de API nesse caso.
 - Chat: os dois cenários novos e os três cenários legados foram repetidos após o ajuste visual final; **5/5 passaram**, incluindo foto vista por outra sessão, reconexão/reenvio, histórico e celular.
 - Layouts: todas as seções conferidas pela suíte em 320, 390 e 1440 pixels, com imagens de chat e agenda inspecionadas.
@@ -47,4 +47,16 @@ Não foi inventada uma lista de novos cursos, eventos ou produtos do PPGSMI que 
 - WebKit não foi executado: faltam bibliotecas de sistema no ambiente, sem permissão de instalação. A validação móvel reportada acima usa Chromium.
 - `git diff --check` sem erros.
 
-Nenhum teste usou o banco operacional da UFN. A versão institucional não foi substituída nesta entrega.
+Os testes automatizados usam bancos isolados. A validação de atualização usou uma cópia privada do volume real, sem portas publicadas nem envio de e-mail. A conferência final em produção foi somente leitura.
+
+## Publicação aplicada em 23/11/2026
+
+- PR #15 integrado à main (merge `7fac8f1`); imagem institucional `maternar:20261123-nepes-be1ec97`, incluindo as correções da revisão para fotos por referência autenticada e descarte de respostas antigas da agenda.
+- Teste adicional garante que o pacote Portainer inclui todos os módulos e estilos novos. O verificador remoto foi atualizado para permitir atividades próprias de profissionais.
+- Fotos não são repetidas em base64 no histórico; páginas de 50 e 200 mensagens com fotos de 2 MB ficaram abaixo de 100 KB nos testes. Carregamento autenticado, cache por autor e liberação dos blobs foram conferidos no navegador.
+- Os nove cenários finais de navegador passaram após as correções. A regressão da agenda inverte a ordem das respostas e verifica exportação e remoção do evento exibido.
+- Stack 254 atualizada mantendo o volume `maternar-dados` e todas as variáveis, incluindo JWT e SMTP; somente a imagem foi substituída.
+- Snapshot consistente com escritas pausadas e cópia de uploads guardados privadamente; volume de retorno com o estado anterior preservado. A stack de validação e seu volume temporário foram removidos.
+- As 25 contas existentes no snapshot final conservaram os mesmos identificadores, e-mails, hashes de senha, perfis e situações. Permaneceram 704 projetos, 3 mensagens de canais, 1 arquivo enviado e 25 produtos, incluindo conteúdo próprio da gestão. Integridade SQLite `ok`, sem violações de chaves estrangeiras.
+- HTTPS e healthcheck saudáveis. Os hashes dos sete módulos/estilos novos servidos pelo domínio correspondem ao código publicado; oito PDFs abrem corretamente. Endpoints privados exigem autenticação e arquivos internos continuam bloqueados.
+- Oito seções autenticadas conferidas no navegador no domínio público; agenda e chat em 390 pixels sem overflow ou erros JavaScript. Não foram enviadas mensagens nem criados eventos de teste em produção.
