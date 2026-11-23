@@ -107,7 +107,14 @@ test('área de perfil usa catálogo validado e foto aceita só imagem limitada d
 
 test('migração repetida preserva usuários, fotos e mensagens', () => {
   const antes = db.prepare('SELECT COUNT(*) n FROM mensagens_diretas').get().n;
+  // Fotos gravadas pela versão inicial ganham referência sem alterar o conteúdo.
+  const fotoAntiga='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAAB';
+  for(const pessoa of [pessoas.Ana,pessoas.Bia])db.prepare("UPDATE usuarios SET foto=?,foto_versao='' WHERE id=?").run(fotoAntiga,pessoa.id);
   migrarComunicacao(db);migrarComunicacao(db);
+  for(const pessoa of [pessoas.Ana,pessoas.Bia]){
+    const depois=db.prepare('SELECT foto,foto_versao FROM usuarios WHERE id=?').get(pessoa.id);
+    assert.equal(depois.foto,fotoAntiga);assert.match(depois.foto_versao,/^[a-f0-9]{20}$/);
+  }
   assert.equal(db.prepare('SELECT COUNT(*) n FROM mensagens_diretas').get().n,antes);
   assert.equal(db.prepare('SELECT area FROM usuarios WHERE id=?').get(pessoas.Ana.id).area,'Políticas');
 });
